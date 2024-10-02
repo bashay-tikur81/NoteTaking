@@ -1,0 +1,100 @@
+#+TITLE: SQL as thought in CS50
+#+AUTHOR: Ertale81
+
+* Querying
+* Relating
+- Entity Relationship diagram (ER Diagram)
+  + One-to-One
+  + Zero-to-Many
+  + One-to-Many
+  + Many-to-Many
+- Keys
+  + Primary Key
+  + Foreign Key
+
+** Sub query(nested query)
+
+** Joins
++ INNER JOIN
++ FULL JOIN - FULL OUTER JOIN
++ LEFT JOIN - LEFT OUTER JOIN
++ RIGHT JOIN - RIGHT OUTER JOIN
++ NATURAL JOIN
+
+** Sets
++ INTERSECT
++ UNION
++ EXCEPT
+
+** Groups
++ GROUP BY
++ HAVING
++ ORDER BY
+
+* Designing Database
+
+* Writing Data
+** CREATE
+** INSERT
+** UPDATE
+** DELETE
+
+* View
+- View is a virtual table defined by a query.
+  Why view?
+  + Simplifying
+  + Aggregating
+  + Partitioning
+  + Securing
+   ...
+
+* Optimizing
+** Index
+- A structure used to speed up the retrieval of rows from the table.
+- In SQL you use /CREATE INDEX name ON table (column0, ...);/
+*Covering Index* - an index in which queried data can be retrieved from the index itself.
+** B-Tree
+- A balanced tree structure commonly used to create an index.
+** Transaction
+- A unit of work in a database. This means a transaction can't be broken down into smaller pieces, it happens all at once or it doesn't happen at all.
+  *ACID*
+  - Atomicity
+  - Consistency
+  - Isolation
+  - Durability
+** Race conditions
+*** Locks
+- UNLOCKED - no one is using
+- SHARED - For reading
+- EXCLUSIVE - when one tries to update a database
+* Scaling
+- An ability to increase or decrease capacity to meet demand.
+** Stored Procedure
+- *CREATE PROCEDURE name*
+  BEGIN
+  ...
+  END;
+** Vertical Scaling
+- Increasing capacity by increasing a server's computing power.
+** Horizontal Scaling
+- Increasing capacity by distributing loads across multiple servers.
+  *Replication*- keeping copies of database on multiple server. There are some models of replication:
+  + Single-leader replication
+  + Multi-leader replication
+  + Leaderless replication
+** Read Replica
++ A copy of database from which data may only be read.
+There are two types of communications:
+- Synchronous: This means that the leader will wait for the follower to get the data and process it before doing anything else. It synchronizes with that follower.
+- Asynchronous: Means a leader sends that data to the follower and doesn't wait the follower to finish processing. It just keeps going and going hoping the follower is keeping up.
+** Sharding
+- It is great for large datasets. For data that can't fit on a single server or a single computer. Sharding involves taking some big dataset and splitting it up into some logical way across multiple servers.
+  /For example:/ you have a database of names and you decide all of those names begin with
+  A \to I ends up in one server, J \to R ends on the second server and S \to Z on a third server.
+  You could also organize your data based on your primary key.(Splitting based on primary key).
+  /Keep note/:
+  - when sharding not to organize the data in which it puts much requests to the one server.
+  - A single point of failure, when one server downs all of its data are also down \sad.
+** Access control
+*** Prepared Statement
+for sql-injection-attack

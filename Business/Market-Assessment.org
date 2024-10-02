@@ -1,0 +1,15 @@
+#+TITLE: Making Market Assessment for Raya Pharmaceuticals Import & Wholesale
+#+AUTHOR: Bashay Tikur
+
+* Steps
+** 1) Find out who the manufacture of our product are?
+- We can use [[https://www.eris.efda.gov.et][eris System]] and then registered product
+- 
+** 2) Filter the search by the manufacture name or we can use our competitor's name to filter
+** 3) See the detailed information about order and see if the product is being ordered
+** 4) Prepare market assessment document which includes:
+- Date
+- Applicant - Someone who orders the product
+- Manufacture
+- Product list
+- Mode - by Sea or by Air

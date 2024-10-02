@@ -1,0 +1,18 @@
+Active replication: request goes to all replicas and gets response.
+High resource and high time complexity
+
+Passive replication: request goes to the primary replica(main replica)and gets
+response from the main replica.
+Delay time.
+
+consistency ensures that the data remains coherent and correct througout the
+system.
+
+consistency ensures that all users, applications, or services interacting with
+the system see unified and up-to-date view of the data, regardless of which node
+they access.
+
+Some of the reason for consistency:
+Data correctness
+Data coherent - related data items or records stay logically coherent
+Reliable operations

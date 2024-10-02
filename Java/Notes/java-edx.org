@@ -1,0 +1,195 @@
+#+AUTHOR: Ertale81
+#+TITLE: Learning Java as thought in edX by Georgia Tech
+#+STARTDATE: <2024-09-30 Mon>
+
+* Module One
+** Basic Elements of Java program
++ Statements can be grouped using *methods*
++ A program must have at least one or more methods
++ In order to be executable, a program must have a method called *main*
++ Methods are enclosed in *classes*
++ A program must have *one or more classes*
++ Some tips:
+  - File name must match the class name declared in the file
+  - Extension must be ".java"
+  - Use CamelCases when combining two words
+  - // for single line comment
++ Translation
+  - In context of programming language, there are two types of tools that are commonly used for translation:
+    1. *Compiler:*
+       - It takes a program that is written in one-high level language and translates it into a low level version that is either machine code or something else. The two codes are functionally equivalent just expressed differently.
+       - Performs the translation of an entire program in one session and generates a new set of files, /the low level code/
+    2. *Interpreter:*
+       - It translates on the program on the fly, it happens as the same time a program is also running.
+       - There are no intermediate files involved rather statement from the source code is translated to machine code and then executed one by one until the program stops.
+  - Compiled programs are generally faster since you compile once, and run as many times as you want with out having to do additional translation. Interpreters, however, requires translation each time the program runs.
+  - So you might ask why use interpreted languages given the speed advantages of compiled ones?
+    - Once particularly important one, however, comes from the fact that the type of machine code the processor understands, also called its instruction set can be incompatible to another processor.
+    - In fact, it's easy to find different types of processors from the same manufacturer that have incompatible instruction sets. A compiler was therefore be built for a specific kind of processor instruction set. This fact means that if we were to compile even a simple C++ program on one computer we could easily find many other kinds of computers that can run C++ programs, but would not be able to run the generated machine code from the original computer. Since interpreters don't require intermediate files to store a particular kind of machine code, they offer greater platform independence. That is, a programmer can write a program using an interpreted language. And that same code will execute on any computer without requiring any extra work from the programmer. A computer simply need to have an interpreter available to match the processor's instructions set. To achieve the same using a compiled language, the programmer would need to compile every written program to every kind of instruction set that exist. This task would be very cumbersome and never ending since hardware companies are always designing new kinds of processors.
++ Java's Hybrid approach
+  - Java, on the other hand, takes a hybrid approach to offer the benefits of compilation and interpretation. Its source code *is not* compiled directly to machine code like in C and in C++. Instead, a compiler generates what is know as *bytecode* and stores that in one or more files with ".class" extension. *Bytecode* is not fixed to a specific type of processor's instruction set. However, it comes close to the low lever of machine code without making significant assumptions about the kind of processor that will run it.
+    Once the *bytecode* for a Java program is generated, you can then actually run it using an interpreter that can translate the bytecode to the machine language of the particular processor of the target computer. Recall that interpreted languages tend to be much slower than compiled languages because they typically translate from high-level code down to low-level. However, with Java, since bytecode is already at a low-level, the translation costs are not as significant. You’ll often find the Java interpreter being referred to as the Java Virtual Machine (or just JVM).  The “Virtual Machine” part of the name is derived from the fact that compiled Java code is not executed by a real processor. Rather a piece of software, the interpreter, performs the execution.
+    By incorporating both compilers and interpreters, Java can provide the platform independence of interpreted languages while minimizing their inefficiencies. On top of this, it incorporates certain creative optimizations that also improve the speed of interpreting bytecode.  If you’re interested in this area, start by learning about Just-In-Time compilation   
+** Why Object-Oriented Programming
++ Identifier: are names that programmers use to label classes, methods, variables and other elements.
+  Rules for choosing identifiers:
+  - They can contain letters, digits, _ and $
+    e.g: HelloWorld! isn't legal name
+  - A digit can not be a starting characters
+  - Identifiers can't be *reserved words(words that already have meaning in the language)*
+    Here are Java's reserved words
+
+    |----------+----------+------------+-----------+--------------|
+    | abstract | continue | for        | new       | switch       |
+    |----------+----------+------------+-----------+--------------|
+    | assert   | default  | goto       | package   | synchronized |
+    |----------+----------+------------+-----------+--------------|
+    | boolean  | do       | if         | private   | this         |
+    |----------+----------+------------+-----------+--------------|
+    | break    | double   | implements | protected | throw        |
+    |----------+----------+------------+-----------+--------------|
+    | byte     | else     | import     | public    | throws       |
+    |----------+----------+------------+-----------+--------------|
+    | case     | enum     | instanceof | return    | transient    |
+    |----------+----------+------------+-----------+--------------|
+    | catch    | extends  | int        | short     | try          |
+    |----------+----------+------------+-----------+--------------|
+    | char     | final    | interface  | static    | void         |
+    |----------+----------+------------+-----------+--------------|
+    | class    | finally  | long       | strictfp  | volatile     |
+    |----------+----------+------------+-----------+--------------|
+    | const    | float    | native     | super     | while        |
+    |----------+----------+------------+-----------+--------------|
+
+  - Java is case-sensitive, and reserved words are lower case
+  - main is automatically called whenever the program runs while most methods you use and write require you to explicitly call them.
+  - A variable is a stored location used by a program to hold data.Variables have names or identifiers so that you can properly refer to their values and locations in your code.
+  - Java naming convention is to use *camelCase* (The first word starts with a lowercase letter, and each subsequent word starts with a capital letter) for variable names, *PascalCase* (each word starts with a capital letter) for class name and UPPER_ CASE for constants.
+  - Java is statically typed, you will need to declare a variable before you use it.
+  - In Java statements ends with semi-colon(;)
++ Objects
+  - The attributes of an object collectively represents its state, and the actions make its behavior.
+  - How to represent objects?
+    - A class can be a blueprint that defines a state and behavior of a kind of object using variables and methods. Variables can be used to represent state, and methods represent behavior.
+      A car class could contain:
+      1) variables like color, make, model, year, currentSpeed to represent state
+
+      2) methods like startEngine, brake, accelerate, turnLeft, turnRight to represent behavior. The accelerate method, for instance, could contain instructions that
+         would animate a car, and display its motion across the screen at a certain rate.
+* Module Two
+** Back to basics
+- *What is Whitespace*: It represents blanks, tabs and new line characters. Whitespace helps provide separation between individual words and symbols that have meaning to the compilers.
+*** Errors
++ The two concepts of syntax and semantic
+  - *Is the statement actually legal in Java? -- Syntax*
+    Each programming language has certain rules you must follow in combining reserve words, identifiers and other symbols to make a working program. These rules represent its syntax.
+  - *What it in the world is it trying to achieve? -- Semantic*
+    Semantics represents what a statement does or what is it's meaning.
+  - Code that is syntactically correct is not always semantically correct.That is, you can write some code that compiles, but when you run it, it doesn't do what you expected it to do, which now leads us to errors.
+  
++ There are three types of errors that a program can have. These are:
+  1) *Compiler Errors:* Compiler errors typically represent syntax violations found in your code. Recall that it's the compiler's job to translate source code into a low level version, and this process can only complete if the source code is legal.
+  2) *Runtime Errors:* Assuming your program compiles, a different kind of error can occur while executing the program or at runtime. Remember that a compiler checks syntax and not semantics. So a statement like "int x = 5/0;" is syntactically legal, but semantically, it does not make sense since it's an attempt to divide by 0. When a program reaches such a line during execution, the Java virtual machine generates an error. Runtime errors can occur for a variety of reasons. For example, a computer running a Java program may not have enough memory, or other resources to finish execution, and therefore it terminates early.
+  3) *Logical Errors:* Logical errors are caused when there are mistakes in a program's semantics. In this case, a program might fully run without terminating abruptly, but it produces unwanted results. Imagine, for example, if I entered the wrong formula in one of the expressions for converting Fahrenheit values to Celsius.
+*** Comments
+Java has three forms of comments to help document your code:
+1) Line comments: The start of a line comment is marked by two forward slashes(//).
+   Everything after the slashes and up to the end of the line is the comment.
+2) Block (or multi-line) comments: Block comments allow you to write comments that span more than one line. They start with //* (a forward slash and asterisk) and end with *// (an asterisk and forward slash). 
+3) Javadoc comments: The final kind of Java comment is used by a tool called *javadoc,* which automatically comes with your Java installation. javadoc scans your source code for certain comments and automatically creates nicely formatted HTML files that describe your code.  These comments start with //** (a forward slash and two asterisks) and end with *// (an asterisk and forward slash).
+*** Variables and constants
+- A variable scope represents the part of a program the variables identifier can be used to refer to it. In plain words, one method cannot see the variables that are declared inside another method. I could even declare the same variable name in another method, and I could give them completely different values. In this case, the two sets of variables are completely different. With all that said, a simple rule to remember is that a variable scope is within the closest set of braces.
+- Just like we can give variables a name or identifier, we can also give literal (or constant) values their own identifiers.  Suppose for example, that I want to use this  3.14159265359 particular representation of pi to do some math throughout a program.
+  Rather than typing that exact sequence of numbers each time, I could give it a name like PI, which is much easier to remember.  One way to do that is like this:
+  
+  *double  PI = 3.14159265359;*
+
+  While this is legal, PI is just a variable, so its value could later be changed to an unwanted value by accident--perhaps by another assignment statement somewhere after the declaration:
+  like: PI = 3.14;
+  Remember, though, we want to use this particular value: 3.14159265359
+  To prevent such a change, we must add the keyword final before the type name:
+  *final double  PI = 3.14159265359;*
+
+  "Final" has different uses in Java.  One is to prevent a variable from being assigned a value after initialization. Such a variable isn’t a regular variable since it can only be assigned one value, so the term constant is used instead.  With final in front of the declaration, we now can say that PI is no longer a variable identifier.  It’s a constant identifier.
+  While variables and constants differ in how many times their values can change, they do share many similarities.  For example, they share the same scoping rules. So a constant’s scope is within the closest set of curly braces. Also, you can create a constant of the same types as with variables.
+*** Primitive Types
++ Primitive Types are the most basic types of data that are built into the Java language, and each has its own reserve word. There are a total of eight Primitive Types:
+  *byte, short, int, long, float, double, char, and boolean*
+  - byte, short, int, long: Integer based values
+  - float, double: Real number values(Floating point numbers)
+  - char: Individual character. To create a char literal, simply enclose a character in single quotes. What about for single quote itself? use escape sequence, that is proceed with a backslash(\) then the character. like \' for single quote, \\ for backslash itself, \" for double quote, \t, \r, \n .....
+  - boolean: Logic based values true and false.
++ Numeric primitive types
+
+  |--------+---------+------------------------------------|
+  | Type   | Size    | Range                              |
+  |--------+---------+------------------------------------|
+  | byte   | 8 bits  | -128 to 127                        |
+  |--------+---------+------------------------------------|
+  | short  | 16 bits | -32,768 to 32,767                  |
+  |--------+---------+------------------------------------|
+  | int    | 32 bits | -2,147,483,648 to +2,147,483,647   |
+  |--------+---------+------------------------------------|
+  | long   | 64 bits | -9E18 to +9E18 (approximately)     |
+  |--------+---------+------------------------------------|
+  | float  | 32 bits | -3.40282347E+38 to +3.40282347E+38 |
+  |        |         | (or 6-7 digits of precision)       |
+  |--------+---------+------------------------------------|
+  | double | 64 bits | -1.79769313486231570E+308          |
+  |        |         | to +1.79769313486231570E+308       |
+  |        |         | (or 15-16 digits of precision)     |
+  |--------+---------+------------------------------------|
+
+*** Default types
+- Just like the int type is a default type for integer literal, the double type is a default type for floating point numbers. This means, for example, this "8" integer literal is assumed to be an int type. Same for "8.0" to be assumed as double.
+  So, to assign an int to another numeric type(e.g long) we need to append L(upper case or lower case).
+
+  *long bigNumber = 8;*
+   Here the literal "8" is an int type but the variable bigNumber is a long type, so to
+   correctly assign "8" as a *long* type append either L or l
+  Correct way:
+  *long bigNumber = 8L;*
+  But the compiler is smart enough to know an int type can be stored in a long type without explicitly appending L to an int type and may pass without showing an error, but the underline architecture works the above way.
+** Using predefined Classes
+*** Reference Variable
+- Declaring variables of the objects follows the same rule with primitive types.
+  /<type> <identifier>;/
+- However, an object variable does not store the actual object. It holds an address also called a reference that holds that represents the location in memory where the actual object is stored. Since objects are more complex than primitive type values, their data is stored in a separately managed part of memory called the heap. So an objects variable really hold an address to where the actual object is found in the heap. In fact, object variables are officially called *reference variables.*
+- To assign a value to a primitive type variable simply using identifier, the assignment operator, and the value. But to assign the reference variable, you have to actually create an object to get an address.
+- The process of creating an object is called *instantiation*, which makes a lot of sense as a term since an object is really a live instance of a class. To create an instance of some class, use the *new* operator:
+   /new <ClassName(parameters)>/
+ The new operator creates an object of the provided class and then calls a special method of the class called a constructor. The constructor's job is to initialize certain properties of the newly created object using provided parameters.
+*** Invoking methods
+- /<identifier>.<methodName(parameters)>/
+- Java's garbage collection methods
+- In reference variable when assignment occurs it copies the address of the identifier on the right and assign it to the identifier on the left, not the actual content of the identifier on the right. Then both refers to the same content since they both have the same address on the heap
+* Module Three
+** Input and output
+*** Scanner
+- To read in terminal input, we’ll use a class in the API called Scanner. The first step to using a scanner is to create an object.
+  /Scanner <variablename> = new Scanner(System.in);/ //read keyboard input
+  A Scanner object can read data from multiple kinds of sources, and the object passed into the constructor represents a particular source. With System.in as input, the constructor customizes the created object so that it can read the ordered stream of characters entered on the keyboard.
+- nextInt(), next(), nextDouble(), nextFloat(), nextLine() ..... to accept data
+  Check when to use next() and nextLine() since both return string but with different results.
+*** Multiple token per line
+- nextInt() scans for integers then afterward you can next() to scan the next inputs
+- 
+*** Packages
+- Classes can be grouped together based on the functions they provide.  These groups are officially called packages and each has a name. For example, System, String, and a long list of many other classes are in a package called java.lang. They are all grouped together because they are considered fundamental to the language, and for that reason, you do not have to insert any special lines in your code before using them.
+- Other classes that are not in the java.lang package, however, require an import statement to help the compiler match a class’s name with its actual definition.  For example, Scanner, Timer, and Stack are all members of the java.util package and must therefore be imported.
+  Here’s the template to use for import statements:
+  /import packageName.memberName;/
+  For example for Scanner, use:
+  /import java.util.Scanner;/
+- You might wonder why package names have multiple dot-separated terms in them like “java”, “util”, and “lang”.  The reason is that Java allows hierarchies in packages to help with organization, so each term represents a level in a package hierarchy. The first term (e.g. “java”) is the top level package, which can house subpackages. As you read a package name from left to right, you’re going deeper into the hierarchy. The two packages “util” and “lang” branch off the same top level package of “java”. The “java” package is the most common in the Java API.
+- Together, the package and member name (e.g., java.util.Scanner) represent what’s known as the fully-qualified name of a package member. Instead of using that name in the import statement, you could just enter an asterisk in place of the member name. The asterisk represents a wildcard, which means that all members of the java.util package are imported. It is helpful in cases when there are several members of a package that need importing.
+- As a final note, it’s important to also mention that using the wildcard to import all members of a package versus using their fully-qualified names does not mean your programs are going to get bigger or anything of that nature.  There may be some additional overhead during compile time from not being specific, but there’s none when it comes to runtime.  The same bytecode is generated either way.
+*** Formatted printing
+- System.out.printf(formatString, value(s));
+- By learning printf, you’ve also learned how to use the String class’s format method.  It works just like printf except it doesn’t actually print the final formatted String on the terminal. Instead, the method returns the formatted String value, which you could then store in a variable
+- *NumberFormat*
+  - With some thinking, currency formatting could be done with printf, but the NumberFormat did it well with very little work.  All that was needed was to create an object and call a method.
+  - NumberFormat is also quite special with its support for internationalization.  Meaning that its objects’ behaviors can change based on the geographic location of the computer in which they are created.
+- DecimalFormat
+  - Another useful number formatting class in the java.text package is DecimalFormat. It’s quite flexible by giving you the power to specify your own patterns or templates for how formatted numbers should look.
+** Decision-Making Statements

@@ -1,0 +1,9 @@
+#+TITLE: Learning Git
+#+AUTHOR: Bashay Tikur
+#+DESCIPTION: Learning git using org mode note-taking
+
+* Git as a Source Control Management
+** Learning basics of Git
+
+
+

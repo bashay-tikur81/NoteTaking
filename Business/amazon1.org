@@ -1,0 +1,53 @@
+#+AUTHOR: Ertale81
+#+TITLE: Amazon Seller account
+#+DATE: <2024-06-07 Fri>
+
+* SKU
+Stock keep Unit- is a way to track your inventory in Amazon.
+
+
+
+* Brand Registry
+You need to have either your brand is approved or enrolled in amazon brand registry.
+
+* Barcodes
+- UPC: Universal Product Code(for US and Canada)
+- EAN: European Article Number(For Europe)
+How UPC works on Amazon?
+First you need to get UPC barcode from [[https://www.gs1.org][gs1.org]] for your product for creating your listing on amazon and then you need Amazon's FNSKU bar code to display on your actual product. You don't need to display your UPC bar code on your product.
+
+To get UPC code you just need to purchase it from gs1.org.
+
+To get FNSKU??
+Once you get your UPC code and list your products on amazon, to get FNSKU bar code:
+Go to catalog > Inventory > Manage All Inventory > then to the right of your listing select print item label
+Then you can print the FNSKU code on pdf or whatever you want. After that either you can tell your supplier to print it on the package or you can attach to your product by yourself.
+
+What is GTIN?
+GTIN is an abbreviation of *Global Trade Item Number* which uniquely identifies products or services traded in a supply chain.
+*UPC vs GTIN*?
+
+*** UPC:
+- It's a special type of bar code used in North America
+- It consists 12-digits and is commonly found on retail products.
+- The first 6-digit represent manufacturer or company, while the next 5-digit identify the specific product and the last digit is a checksum for error detection.
+- UPC are used for point-of-sale scanning, inventory management, and tracking product within a store.
+
+*** GTIN:
+- It's a broader concept that encompasses various bar code standards world wide.
+- It can be in different formats, including UPC, EAN and other regional formats.
+- GTIN is globally unique and is provided by gs1
+
+
+
+In summary UPCs are specific types of GTIN, mainly used in North America, whereas GTINs encompasses a broader range of barcode standards used globally.
+
+If you looking for your product for sell across retailers and online market places a gs1-issued GTIN is often recommended and could be validated through gs1 database.
+A gs1-issued GTIN is unique to your product and your company, sort of like product finger print. The UPC bar code incorporates your GTIN into a symbol that a machine can read 
+
+* Fee
+There are many fees you need to pay, these are:
+- Selling on amazon platform (15%)
+- Pick and pack fee(Amazon FBA)
+- Sales cost
+- Manufacturing cost

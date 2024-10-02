@@ -1,0 +1,156 @@
+#+TITLE: Introduction to encryption and cryptography
+#+AUTHOR: Ertale81
+#+toc:
+
+
+* History of encryption:
+- *Encryption* is a process that transforms data to its obscure meaning. The data in question could be, an image, a voice recoding, or even the entire content of your phone.
+- The original data can be recovered through the process of *decryption*.
+- The *encryption algorithm* is the set of instructions that you must follow to modify the plain text so that it becomes *encrypted/cipher text*.
+- As well as the plain text the encryption algorithm takes another input: *KEY*. The /key/ determines the output of the encryption algorithm.
+- The process of creating a key - whether by hand or through algorithm - is called /key generation/.
+** Substitution cipher
+- Parts of the message are substituted. This might involve substituting each letter individually, for another letter or symbols. Alternatively a substitution cipher might substitute whole words or syllables.
+*** Caesar cipher
+- Each letter in the plain text is replaced by letter that comes a certain number of positions after it in the alphabet; the /key/ dictates the number of positions.
+- The *key* can be picked from 1 to 25. The value 26 take you 'full circle!'.
+*** Cracking Caesar cipher
+*Brute-force* method: Trying every possible key until you find the correct approach.
+
+** How to measure encryption
+- You can get a feel for how much time and space the cracking process will take by examining
+- some characteristics of the encryption method, such as:
+  + The key length: modern encryption uses keys that that can be *2,048* bits or longer.
+  + The algorithmic complexity to crack the cipher
+  + The number of steps and the time required for successful attack
+
+
+** Vigenere cipher
+- It's a *polyalphabetic cipher* that uses multiple shifts to encrypt a message.
+- To encrypt a message you need to choose a key and use a *vigenere square*.
+- The key is a string of letters. A vigenere square is a grid formed by repeatedly writing the alphabet, starting at different place.a 26X26 square.
+
+*VIGENERE SQUARE*
+|-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| A   | B   | C   | D   | ... | --- | --- | X   | Y   | Z   |
+|-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| B   | C   | D   | E   | ... | --- | --  | Y   | Z   | A   |
+|-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| C   | D   | E   | F   | ... | --- | --- | Z   | A   | B   |
+|-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| ... | ... | ... | ... | ... | --- | --- | ... | ... | ... |
+|-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| ... | ... | ... | ... | ... | --- | --- | ... | ... | ... |
+|-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| X   | Y   | Z   | A   | B   | C   | D   | E   | F   | G   |
+|-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| Y   | Z   | A   | B   | C   | D   | E   | F   | G   | H   |
+|-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+
+- To encrypt a message, you will replace each letter in the message with another letter, chosen by finding the intersection of the correct *row and column*. To choose
+  the *row*, find the letter of your message in the first column.
+  Message = "call" key = "srb" The first letter would be encrypted using the
+  row beginning with the letter 'c'. To choose the correct column, you need your key.
+  For the first letter in your message,choose the *column* that starts with the first
+  letter in the key; for the second letter in your message, choose the column that starts with the second letter of your key, and so on.
+- If your message is longer than your key, simply reuse the letters in your key in order.
+**  Vernam cipher, aka the one-time pad
+- One-time pad(OTP) is the strongest encryption scheme, as implemented by the vernam cipher.
+- A one-time pad refers to a system where the sender and the receiver both have identical copy of a pad of pages. Each page contains a different key, usually in the form of
+  a very long random sequence of numbers or letters. Every time a message is sent,
+  a new page from the pad is used and is then carefully discarded by the sender and
+  receiver as it must never be used again.
+- The key in a one-time pad *must* as long as the plain text.
+- It has been proved that the cipher is perfectly secure as long as the following are also true:
+  + The key must be completely random
+  + The key must be at least as long as the plain text
+  + The key must be kept completely secret
+  + The key must be used only once then destroyed
+However *two* of these conditions are tricky to satisfy:
+- Why does the key stream have to be completely random for the encryption scheme to be secure?
+- How would you generate a random set of characters?
+
+** Stream Ciphers
+- A *stream cipher* is one where the plain text is encrypted one bit a time. Plain text bits are combined with a pseudorandom stream of bits called a /key stream/. Typically the combining operation is the *XOR* operation. The key stream is generated from a
+  random seed value and this seed value is the cryptographic key that the receiving devices
+  needs to recreate the key stream and decrypt the cipher text. The length of the seed
+  value is typically 128 bits.
+- The key stream can be recreated if someone gets hold of the seed value, so stream cipher
+  are not perfectly secure. However, stream cipher are widely used and they are very useful
+  where the length of the plain text is not known in advance, such as in wireless
+  communication system.
+** Block Ciphers
+- In a *block cipher*, the message is broken into blocks containing multiple bits that are
+  then encrypted. If the block length is longer than the message that needs to be
+  encrypted, the message is *padded* with random context to make it longer.
+- Block ciphers can help obscure the length of your message because each block is uniform in length. This means that an attacker can see how many blocks your message is encrypted into, but not the exact length of the message. However, they require more memory to use
+  and are slower to implement than stream cipher.
+- Because block ciphers encrypt data in blocks, you can add additional information to a
+  message to indicate whether it has be decrypted properly. This allows the receiver to
+  verify the authenticity of the message, which is something that they can't do it with
+  stream cipher.
+* Symmetric VS Asymmetric Encryption
+- Each of the ciphers that we have seem so far -- Caesar,Vigerene, and Verman -- have been
+  *symmetric encryption schemas*.
+** Symmetric Encryption
+- In symmetric encryption scheme, the same key is used to encrypt and decrypt the data.
+- This type of encryption is great when the same person intends to do the encryption and decryption, for example, encrypting the files on your hard drive.
+- However, if you want to send a secret message to some one else, they have to have a copy of the key that you used to encrypt the message in order to decrypt the message.
+- Communicating the encryption key can be difficult, especially if you live far part, as it risks the key falling into the wrong hands. This is why another form of encryption has become more widely used to facilitate communication, particularly online.
+** Asymmetric Encryption
+- Commonly known as *public-key cryptography*, uses different key to encrypt and decrypt the data.
+- The key works as a pair. If a message is encrypted with the public key, it can only be decrypted with the private key. This works the other way around as well;
+  only the public key can decrypt message that are encrypted with the private key.
+*** RSA(Riverst, Shamir, and Adleman)
+- Is an example of asymmetric encryption scheme.
+- It was published in 1977 and is still the basis of many encryption schemes today, such
+  as the security protocol HTTPS.
+- The RSA system relies on the type of mathematical function called a *one-way function*. One-way functions are functions that are very simple to perform in one direction but
+  computationally hard to reverse. This means that deriving the input from the output
+  is so resource intensive.
+- E.g: You can solve 17 * 19? Easy,Yea! However, if you were given, for example 851, and
+  ask you for its two prime factors, that is much tricker. The only way that you could manually identify the prime factors of 851 is by repeatedly trying pairs of numbers until you find the correct ones. You might have a system for trying the most likely pairings, but you still have to use a brute-force method to find the solution.
+
+
+The following tables show the summary of symmetric and asymmetric encryption.
+
+|----------------+-----------------------------------+-----------------------------------
+*| Aspect         | Symmetric Encryption              | Asymmetric Encryption*             
+|----------------+-----------------------------------+-----------------------------------
+| Number of keys | Single key                        | Pair of key                         |----------------+-----------------------------------+-----------------------------------
+| Algorithmic    | Simple for computer               | More complex algorithm              | Complexity     | to perform                        | for encryption, decryption,         |                |                                   | key generation                      ||----------------+-----------------------------------+-----------------------------------
+| Speed          | Fast                              | Slow-more complex algorithm require |                |                                   | more time                           |----------------+-----------------------------------+-----------------------------------
+| Usage          | used for large chunks             | Used in smaller transactions to     |                | data that need to be encrypted or | authenticate and set up a secure    |                | transferred                       | connection                          |----------------+-----------------------------------+-----------------------------------
+| Security       | Shared key posses security risk   | considered more secure              |----------------+-----------------------------------+----------------------------------
+
+** Asymmetric and Symmetric working together
+
+- Asymmetric systems are great for establishing a connection between two parties without having to share a single key, but they are really suited to encrypt large chunks of data.
+  But on the other hand symmetric systems are great for encrypting large chunks of data
+  quickly, but can be insecure due to the need for the shared secret key.
+- Modern communication systems want to provide a system where a large chunk of data
+  can be sent both quickly and securely, so they will use both systems and get
+  the best of both worlds.
+- A great use asymmetric encryption would be for sharing a symmetric key.
+
+* How can you make use encryption
+** Encrypting your file
+- When you save files in your local storage, a hard drive, you can encrypt using built in tools or downloaded tools. If you use cloud storage, such as Google drive, you can be
+  assured your data is encrypted.
+** Encrypt your Internet traffic
+- *VPN*: A *VPN* is not really a private connection; it runs over a standard internet
+  connections but it secures those connections by encrypting the data you send and receive.
+- You can use VPN to hide your locations and traffic. You can use them to route your internet traffic through a server located across the world. This means that not only is the information your are sending encrypted, it also makes it appear as though your
+  traffic is coming from a different IP address.
+** Encrypting your communications
+- SMS messages are not encrypted\sad. In contrast many messaging services -- like WhatsApp --
+  offer end-to-end encryption.
+- Most email services don't provide end-to-end encryption but you can you use free and open-source tools.
+- *NB*: /If you loose keys, you may loose access to your data, as modern encryptions are hard to crack/.
+
+* Phishing:
+- Phishing is an attempt to get hold of sensitive information by directing a user to login to
+  a fake website that look like the real thing. Their login details, including the plain
+  text password, would then be sent to unintended person.
+- The principles of /asymmetric encryption/ can be used to protect against phishing and
+  authenticate a user in a way more secure that password.

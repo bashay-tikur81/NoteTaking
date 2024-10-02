@@ -1,0 +1,132 @@
+#+AUTHOR: Ertale81
+#+TITLE: Product registration
+DATE: <2024-06-11 Tue 20:00>
+
+* Brand VS Trademark VS Logo
+  _Summary_
+- A trademark provides legal protection against unauthorized use, imitation, or infringement, and it can be registered with the appropriate authorities.
+- A trademark is a legal term that protects a symbol, word, or design.
+- A brand is the overall identity of a company, encompassing its products, services, values, and personality.
+- A brand is not automatically protected by law, while trademark is legally protected once registered.
+- A brand focuses on perception and differentiation, while a trademark ensures legal rights and prevents confusion among consumers.
+- A logo is a visual representation of a brand, often a symbol, icon, or graphic that represents a company’s identity.
+  
+** Brand:
+- A brand represents the overall reputation, image, and identity of a company or product. It encompasses various elements such as:
+  + Identity: The name, logo, and visual representation of the company or product.
+  + Reputation: The public’s perception of the company or product.
+  + Personality: The tone, values, and attitude associated with the brand.
+  + Emotional connection: The feelings and emotions evoked by the brand.
+
+** Trademark:
+- A trademark is a legally protected symbol, word, phrase, or design that identifies a company or product and distinguishes it from others. It is a specific aspect of a brand that has legal protection. A trademark can be:
+  + A word or phrase (e.g., Nike, Coca-Cola).
+  + A logo or symbol (e.g., the McDonald’s golden arches).
+  + A design or packaging (e.g., the shape of a Coca-Cola bottle).
+** Logo
+- A logo is a visual representation of a brand, often a symbol, icon, or graphic that represents a company’s identity. A logo is a part of a brand’s visual identity and is used to identify a company’s products or services.
+
+* Enrol Brand
+/Brand registry is free/
+To enroll in a brand you need two things:
+- Brand Name or logo that includes your brand name
+- You also need to be the owner of that brand name
+  [[https://www.uspto.gov][Brand Registry]]
+** Listing error 5665
+- This error appeared because you entered a brand name  in the "Brand Name" field that hasn't been approved by amazon.
+- We require all brand names to approved before they can be used to list products. This helps ensures that only authentic products are listed on the Amazon store. It also helps protect intellectual property(IP), or rights of brand and product owner.
+- Two options for resolving this error 5665 and brand name approval.
+  The first way a brand owner can request approval is by enrolling their brand in Amazon Brand Registry. This option in addition to use brand name in amazon listing enrollment unlocks a suite of selling benefits including stores, A+ content, and sponsored brands.
+  It also gives a greater control on the product detail pages and access to additional automated protections, programs, and reporting options.
+
+To enroll your brand, you need to meet a few basic requirements:
++ You need to have a brand name or logo that includes your brand name, permanently affixed to your product or packaging.
++ You need to the owner of active registered trade mark for your brand name or logo, or the owner of a  pending trade mark application or pending trade mark registration.
+
+If you met these requirements visit [[https://brandservices.amazon.com][Brand Services]] and enroll your brand. After enrollment is approved you can return to seller central and list your product using the registered brand name.
+In US trade marks for brand name and logos are issued by the US Patent and trade mark office(uspto).
+If you're using a pending trademark application to enroll in brand registry it also needs to be secured from the designated government office of a country where Amazon has a corresponding store. You can get assistance securing a pending application through Amazon's IP accelerator program, which is a network of Amazon-trusted law firms.
+
+If you are using a pending trademark registration to enroll in Brand Registry, you need to secure it from one of the designated government offices that Amazon accepts pending registration from. To check whether your pending registration can be used for Brand registry enrollment search Seller Central for "Enrollment guidelines for accepted trade mark offices." Then look for information about pending registration and trademark status.
+
+After that create brand registry account using the same credentials you use to sign in to Seller Central. This helps you ensure you have full access for your brand when you sign in to either portal. Then log in to  your brand registry account and fill all the necessary data on that page before listing your product with that brand name.
+
+** Register a trade mark for your brand
+- It's encouraged to trademark your brand name and logos. That means legally registering them with the designated government office in a specific country.
+  By registering a brand name or logo a brand receives verification from that office that they are the owner of the products identified by it. That gives them legal rights and protection for their brand name or logo which is considered intellectual property(IP) in a country where it's trademarked.
+- Trademarking is one of the two basic requirements brand meet in order to enroll and enjoy the benefits of Amazon Brand Registry. The other is a brand name or logo that includes a brand name, permanently affixed to their product or packaging.
+
+- If a brand doesn't want to trademark their brand names or logo, they can submit request to Amazon to list their products using an unregistered brand name. They may also be able to sell products /generically/ in the Amazon store.
+- Brand prove they own the rights to their trademark by submitting a trademark number during brand registry enrollment. That number appears on the trademark certificate they receive from the designated government office.
+* Adding products
+** Item name:
+This is the title of your product on amazon, one of the most crucial  part of creating
+amazon listing.
+You need included a lot of search phrases and keywords.
+When people search on amazon what they see is:
+- Main image- this is the most important thing
+- Title - is close second or third most important thing
+- Rating
+- Price of the product
+** UPC code and branding
+*** TODO First finish with Gs1.org for UPC
+Then get the Universal product code and fill in to the /external product id/ position
+
+Before starting brand registry, ask for a trade mark at [[https://www.uspto.gove][US patent]]
+There are two types of trade marks
+1) Image based - like using a logo for your product, nobody could use this logo
+2) Text based - like CocaCola, no body could use these texts as their brand.
+Generally image based trademark is easy than text based trade mark
+*** TODO Brand registry process
+[[https://brandservices.amazon.com][Brand Services]]
+Why brand services:
+- you will get A+ contents, that holds images and other graphics for your product
+- It will also help add videos.
+- Report violation, checking counterfeit
+- New seller incentive
+- Enroll in vine programs, long review
+- Amazon brand analytics, who bought your product, what terms people use to search...
+- 
+  ...
+  Check on the website
+  Follow the brand registry process before deciding your brand information.
+Once you submit all your trademark info or documents, let amazon know the process.
+** Product description
+It a prefect place to write out a compelling reason why people should buy your product.
+Find out what keywords are people interested. So how to write a *perfect optimized*
+*title and bullet points* for your product?
+- First you need to figure out what people are searching for in Amazon that they will
+  find your product. Figure out what keywords are those and include in our title and
+  bullet points. To check for /key words/ use helium10 website.
+  /key words/ == /search phrase/
+  Use magnet tool from helium website.
+  And try to include those search phrases in your tile, description, and bullet points.
+  Another way to look at what words to target is look at other similar products used terms
+  and search phrases
+** Bullet points
+Try to explain their benefits.
+Try to add at least 5 bullet points
+
+...
+Make your last bullet point as follow:
+- *100% money back guaranteed*
+as a recommendation since every product at Amazon has 100% guaranteed of money back,
+but by explicitly saying that people will feel better to buy it.
+** Image quality
+Capture your customers attention by your high quality image.
+Use premium image quality.
+The only thing people they can rely the image since they can't physically hold the product.
+** SKU(Stock Keeping Unit)
+- You can use anything since it's internal for you to manage your product
+
+
+
+
+* Manage Inventory
+In this tab there are ways to manage your inventory, how to send to amazon...
+Inventory -> Manage inventory -> select the product -> click the drop down, send/replenish
+inventory.
+Make sure your shipping from address is correct. If your are shipping from the manufacturer
+put their address, if from yours put your exact address.
+
+

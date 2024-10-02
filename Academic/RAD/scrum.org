@@ -1,0 +1,62 @@
+Scrum is an agile approach that has an emphasis on teamwork.
+Team success is the primary importance.
+Scrum talks about the iterations planning, release planning and solely lies
+in the real of management pracices
+
+Scrum reams typically work in iterations called sprints, 2-4 week.
+XP teams typically work in iteration that are one or two weeks long.
+
+Scrum product owner prioritizes the product backlong buth the team
+determines the sequence in which they will develop the backlog items.
+But XP teams work in a strict priority order. Features to be developed are
+prioritized by the customer.
+
+Scrum emphsizes the management side of a project.
+
+
+Web 1.0 websites just provide information to users and users are expected
+to retieve and use that information.
+It is mostly company focused and is read only.
+	allow little/no interaction
+	little user interface
+	little software
+Web 2.0 is a jargon for web applications that facilitate
+	interactive information sharing
+	interoperability
+	user-centered design
+	and collaboarion on the WWW
+It is community focused and is encourages content sharing.
+It is a Read/Write web
+	users are both content creators and consumers
+Typically XCS:
+	Rich user experience
+	user participation
+	Dynamic content
+	Meta data
+	Web standard and scalablity
+Uses cient-server technologies
+	Ajax --> Asynchronous JavaScript and XML
+	Adobe Flash and Flex frame works
+	Server side languages: PHP, JSP...
+Typcial features and techniques of web 2.0
+-search, links, authoring, tags, extersnions, syndication
+syndication: is when a web-based content is re-published by a third
+party webiste. This helps the third-party website to get free relevant content.
+
+The line dividing a cousmuer and content published is increasingly getting
+blurred int the Web 2.0 era.
+
+Key Web 2.0 services:
+. Blogs, opinion, information and personal diary, allow users to add comments
+. Wikis, webpage or set of webpages that can be easily edited by allowed access
+. Multimedia sharing, services that facilitate the storage and sharing
+. Social Networing Sites, meeting people, finding like minds, content sharing.
+. RSS (Really Simple syndication) --> Allow users to find out about updates
+to the content of RSS-enabled websites, blogs withou actullay having to
+go and visit the site, information piping between sites.
+
+
+CMS provides tools to manage structral layout, create content, publishing
+content, navigation, and archiving.
+Creates a framework for te content of the web.
+

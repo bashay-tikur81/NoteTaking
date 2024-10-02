@@ -1,0 +1,7 @@
+#+TITLE: Backend Technologies
+#+AUTHOR: Ertale81
+#+option: showeverything
+
+* What is Backend
+
+* 

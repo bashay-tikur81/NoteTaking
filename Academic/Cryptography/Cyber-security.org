@@ -1,0 +1,238 @@
+#+AUTHOR: Ertale81
+#+TITLE: Introduction to Cyber Security as thought in CS50
+
+* Securing Accounts
+** Some key terms:
++ *Authentications*
++ *Authorization*
+
++ *Dictionary-attack*
++ *Brut-force attack*
++ *Pass code, password, pass phrase*
++ *Key logging*
++ *Credential stuffing* - using the same credentials in different sites
++ *Two-factor authentication*
+  - Knowledge
+  - possession
+  - Inherent
++ *Social engineering*
++ *Phishing* - using social engineering in technical way, like using emails.
++ *Single sign-on* - using another's account, like google's, to login to new website
++ *Password Manager* - a piece of software that manages your passwords.
+  - Apple iCloud Keychain
+  - Google password manager
+  - Microsoft Credential manager
++ *Passkeys*
++ *Hashing* - password -> hash function = hash value
++ *Salting* - password + salting -> hash function = hash value
+  
+* Securing Data
+** Cryptography
+Cryptography is the practice and study of securing a data.
+- Secret-key  (Symmetric cryptography) -  one key for encryption and decryption
+- Public-key cryptography (Asymmetric cryptography) - different key for encryption and decryption. Public key for encryption  and private key for decryption.
+- Digital Signatures - First hash the message and give as an input to the signature function along with your private key. Hash + private key -> signature function = signature.
+  In public-key cryptography we use private key to decrypt. So how to verify that the
+  signature is signed by the real one?
+  *Verify*: First hash the document or message you receive the same hash function. Then you
+  take the public-key who signed the document and signature(decrypt the signature with
+  public-key) and that should give output the exact same hash as you calculated.
+** Encryption in transit
+*** WebAuthentication? / Passkeys
+
+*** End-to-End encryption?
+
+** Encryption at Rest
+*** Deletion? Secure Deletion?
+*** Full-disk encryption?
+** Ransomeware?
+Encrypting data and asking money in turn to give the key
+
+* Securing System
+** WiFi-Protected Access
+- Your traffic from your device is some how scrambled between you and that other device.
+** Machine-in-the-Middle Attack
+*** Packet Sniffing
+- Trying to sense on what is on the envelope?
+** Cookies
+/GET / HTTP/3
+Cookie: session=1234abcd/
+- Seamless way to remind the server I am still the one I visited before.
+- Session? remember who you are.
+*** Session Hijacking
+- Hijacking someone's cookies and pretending as you are the real one.
+** HTTPS
+- Secures web traffics between browser and server
+- What inside the envelope/ https is encrypted. How it does done?
+*** TLS- New and improved version of SSL
+- Uses public-key cryptography
+- Digital Certificate(X.509 Type)
+*** SSL Stripping
+
+*** HSTS(Hyper Strict-Transport-Security) Protocol
+
+*** VPN(Virtual Private Network)
+- Secures only web traffics between your browser and server but VPN encrypts all your
+  Internet traffics between you and the VPN server.
+- Every traffic is encrypted using public-key cryptography.
+
+*** SSH
+
+*** Port Scanning
+- Knocking every possible port number on the server to see if there ports that are open,
+  listening, where there shouldn't be.
+
+*** Penetration Testing/ Ethical Hacking
+
+*** Firewall
+- Managing the traffic that goes out or into your network. How? They can defend based
+  on the ip address, port number, or even more sophisticated firewall using
+  *Deep packet inspection*
+  
+**** Proxy
+- A proxy is a device, a server or a piece of software that sits between two points. e.g: Alice<-->Eve<-->Bob
+- Here Bob can be any web server like Gmail.com, amazon.com or related sites
+- Here Eve serves as proxy and can either transfer a traffic coming from Alice to Bob
+  or drops the packet after seeing the packet according to the rule being implemented.
+- What this mean is that all the traffic is passing through this middle point(proxy).
+- This is configurable
+
+*** Malware
+- We're trying to protect our system from malware, a malicious software that someone has
+  written that do malicious things. It may be deleting all file from your system,
+  start sending spams, or mining bitcoins....
+- Some specific type of malware:
+**** Virus
+- A piece of software that attaches to a host. Here you, the human, have to do something
+  to get infected like opening a file infected with virus, clicking an attachment in
+  email that is perhaps infected with virus.
+- Virus generally requires human interventions, human mistakes, exposing yourself
+**** Worm
+- They are piece of software like viruses but worms can travel from computer to
+  computer even without intervention. So how is traveling possible?
+  Once it is installed on one computer, having infected and running, it could do
+  *port scanning* using the computer's internet connection and looks for /ip address/
+  /of other computer's and port other computer's/ and if one of these computer's port
+  is listening and if that computer is vulnerable somehow then theoretically that
+  worm can travel from computer to computer to computer by making connections via
+  these ports at these ip address.
+**** Botnet
+- Adversaries are creating botnets. That is it's more valuable to an adversary not
+  to completely disable your system, because that doesn't serve them long term, but may
+  be to install on your computer that is constantly running and it isn't actually
+  doing anything bad but you're infected, some piece of software is running on your
+  system. But at some time the adversary knows how to attack not only one computer
+  but a lot computers, then at once they orders all the botnets to start attacking
+  some servers, or start sending an emails, or start mining bitcoin. So you can leverage
+  the network of thousands of computers all at once and have much more powerful attack.
+  Then what forms these attacks take:
+***** Denial-of-Service Attack (DoS)
+***** Distributed Denial-of-Service Attack(DDoS)
+- This can be done with botnet when you have control of multiple computers, where you
+  send a command to these whole network of infected computers to visit some sites.
+**** Antivirus
+- In order to work this the antivirus has to know about the viruses, worms...
+***** Automatic Updates
+- This helps not to be vulnerable to problems the world has already solved.
+**** Zero-Day attack
+- Is an example attack where an adversary may be writes their own viruses, their own
+  worms and gets out to some systems or computers where the world doesn't have time
+  to catch up. Even if you have installed antivirus or automatic update enabled it
+  might take a day or even weeks for the company who designs these products for you
+  even then you still vulnerable.\sad
+* Securing Software
+** Code injection
+- An opportunity for an adversary to inject code into your software somehow and often trick
+  your software into executing that code even if you yourself didn't write it.
+  e.g:
+*** Cross-Site Scripting(XSS)
+- A common attack in web in particular in web 2.
+- This refers to a potential opportunity for adversary to trick one website into executing
+  code they themselves didn't write.
+  e.g: if you type /<script>alert("Attack")</script>/ in the search box of google
+  assuming google didn't know this attack, the browser will execute this script which
+  the developer didn't write.
+  *Solution*: Don't treat as HTML code or js scripts that are written on the search box,
+  just treat/display them character by character whatever the user writes.
+**** Reflected Attack
+**** Stored Attack
+- In this attack the adversary's input is just reflected from the server to some
+  unsuspecting user as it might be one you're using the url to contain the code.
+  Suppose that a website is vulnerable to actually storing the user's input even if
+  the user's input includes HTML with some javascript inside, this is stored attack.
+  e.g: Assume google's Gmail server doesn't know about XSS and a user typed
+  /<script>alert("attack")</script>/ on the main body of an email. So the Gmail
+  server will store this input, assuming it doesn't know XSS. But the server
+  sends it to the intended user later, then the browser at other end may execute
+  this code.
+  General way preventing an attack like this:
+  
+  *- Character Escapes*: That is taking any character in user's input that might
+  potentially be miss interpreted at best or at worst they might be dangerous to
+  the users.
+  That is escaping potentially dangerous characters.
+  Here the following are a certain kind of characters that needs escaping:
+  - &lt;   (<) -> this means < needs to be replace with &lt;
+  - &gt;   (>)
+  - &amp;  (&)
+  - &quot; (")
+  - &apos; (')
+Another method for this kind of attack is /Content-Security-Policy/
+
+*** SQL injection
+- This happens when there is a placeholder in an SQL commands that you can inject your
+  command let say you're being asked for username, and you typed an SQL command as
+  your /username/. Then SQL will accidentally execute the command as real SQL command.
+
+- Prepared Statements
+- Don't reinvent the wheel!! Use experts work especially in security.
+- *Solution: Prepared Statements*, similar to character escaping but for SQL.
+e.g: In SQL to escape ' use another '.
+  
+***  Command injection
+*NEVER TRUST USER'S INPUT*. Escape the inputs.
+
+** Developer Tools
+*** Client-Side Validation / Server-Side Validation
+- Don't rely on client-side validation for user's input.
+- It should be checked with server-side validation again.
+  e.g: <input disabled type="checkbox"> -> HTML tag
+  In this tag a user using developer tools may /enable/ the attribute /disable/ inside
+  the tag. And if you're assuming only allowed users can enable it, you will
+  grant accessing the site.
+  e.g: <input required type="text">
+  Here again they can bypass the /required/ value by making:
+  <input type="text"> even it's on their personal computer but they might submit it
+  to the server after configuring on the way they need.
+- If you have to between these validation, select server-side validation.
+*** Cross-Site Requested Forgery(CSRF)
+- Use POST rather GET to change state
+- X-CSRFToken?
+**** GET
+**** POST
+** Open Worldwide Application Security Project(OWASP)
+** Arbitrary Code Execution(ACE)
+- *Buffer Overflow*
+- Stack Overflow.com popular website for programmers to ask and get answers.
+** Cracking
+- This can eliminating the need for activation code, serial number or the like, if you
+  can inject a code into the software and escaping the lines of code
+  that asks these values.
+** Reverse Engineering
+- The ability for someone to figure out how something was engineered? How it was built?
+** Malware Analysis
+** Open-Source Software
+- You and adversaries have access, even though there many experts out there to find
+  the vulnerable, the adversaries can exploit these easily.
+** Closed-Source Software
+- You and adversaries have no access, only the author's or these allowed to access.
+** App Stores(For Android)
+- app stores uses signature and hashing to verify the software
+** Package Managers(In the life Linux)
+** Operating Systems
+** Bug Bounty
+- People who can find bugs in the software not in ransom form but in bounty form.
+** Common Vulnerabilities and Exposures(CVE)
+** Common Vulnerabilities Score System(CVSS)
+** Exploit Prediction Scoring System(EPSS)
+** Known Exploited Vulnerabilities Catalog(KEV)

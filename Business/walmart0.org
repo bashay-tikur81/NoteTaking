@@ -1,0 +1,71 @@
+#+TITLE: Walmart Seller Account
+#+AUTHOR: Ertale81
+
+* Creating Walmart Marketplace Account
+** Minimal Qualification
++ History of e-commerce success
++ Business Tax ID(s) (SSN not accepted) or Business License Number
++ Supporting Documents that verify your business name and address
++ Product catalog must comply with walmart prohibited product policy
++ Product must have GTIN/UPC GS1 Company prefix number
++ 
++ Fulfilment through Walmart Fulfilment Service (WFS) or another B2C US warehouse with
+  returns capability.
+** Completing 3-step setup process
+*** Business Verification
+
+*** Payment
+*** Shipment
+** Adding product variant using bulk method
+5 Required Attributes
+- Variant group ID:
+  Is a unique ID used to identify your variant group. It can be alphanumeric and up to 20 characters
+- Attribute Name:
+  Identifies the attribute type. For example if your product has size variant like small, medium, large. chose /size/ as variant attribute name
+- Swatch Variant Attribute:
+  Displays a visual swatch of your attribute. For example, if you have a t-shirt that comes in multiple colors, chose /color/ as your swatch variant attribute
+- Swatch Image URL:
+  Is the image URL for each variation of your swatch variant attribute - each variant should have its own individual URL
+- Is Primary variant:
+  Identifies the default item that appears first when users search walmart.com or visit the item page- chose one item from your variant group to be the primary variant.
+
+  Make sure you fill the attribute column under the orange heading that corresponds with your attribute name selection
+** Product listing
+Three factors why the quality item page content matters:
+1) Polished item page content and attribution will increase of the chance of your product being discovered by customers through search and filter inclusion. Detailed product description and quality images answers all customer questions upfront and turn browsers into shoppers. For importantly accurate product information makes it easier for your customers to evaluate and purchase your products confidently, resulting in few returns.
+   
+   *Key elements that makes quality product listing:*
+   + Product title:
+     - It should be clean and concise between 50-75 characters. Color, brand and model are good keywords examples to include in the title, but don't attempt to staff the title with non pertinent keywords and marketing messages
+   + Image quality:
+     - 4-5 professional, high resolution images. The item must be in focus and professionally lit.
+     - Shoot against a white background, background color should be white, RGB value of 255,255,255
+     - Contains no watermarks, seller name, or logos
+     - Recommended image size of 2000 x 2000 or a minimum of 1000 x 1000
+     - File size no more than 5MB
+     - Supported file formats: JPEG, JPG, PNG, BMG, but JPG is better
+     - Images must not show accessories that are not part of the product
+     - Images must not violate the prohibited product policy or other walmart policies
+   + Product Description:n
+     - It is the meat of any listing
+     - It should be informative, relevant and clear
+     - Include the product name, brand, and keywords describing the items features and benefits
+     - A minimum 150 words
+     - If the product has variant include them all in the description, so the customer knows what options are available.
+     - Includes a bulleted list of 6-10 key features to summarize the most important features of your product. 80 characters per bullet point.
+     - Make best use of keywords and avoid generic phrases to optimize the best SEO result.
+     - In addition to this you can rich media contents like interactive videos, 360 degree product views, comparison charts and more
+2) Categorization and attribution
+   - Quality backend set up of your listing is equally important for the discoverablility of your products.
+   - First, during the setup stage, make sure you select the correct category for your product. Selection of an accurate category will ensure you can provide information for the right set of attributes. Your items are assigned to a correct product shelf on walmart.com and perform better in search and browse results
+3) Tools to enhance your listing productivities.
+   - There are many tools in walmart to enhance your listing explore them.
+
+
+Checkout the following seller help resources to consider when building out your listings, including:
++ Guidelines & requirements for product title, Description, and features
++ Guidelines & requirements for product listing images
++ Hosting images with walmart
++ Marketplace Content style guides
+
+You can find these articles by going [[https://sellerhelp.walmart.com][sellerhelp.walmart.com]] and typing in the article title in the search box.

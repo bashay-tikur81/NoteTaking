@@ -1,0 +1,31 @@
+#+TITLE: Learning Dired
+#+AUTHOR: Ertale81
+#+DATE: <2024-06-15 Sat>
+
+* Dired
+** Moving around 
+- Dired buffer is normally read-only; however, the Wdired mode allows that. Ordinary printing characters like x and d are redefined for a special commands. Some Dired commands mark or flag the current file, other commands operate on the marked files or flagged files.
+- To invoke Dired, type C-x d (dired). You can also supply a wild card file name pattern as the mini buffer argument, in which case the Dired buffer lists all the files matching that pattern.
+- e.g:
+  C-x d ~/foo/*.org - list all files ending in .org
+- Movement using up(n), down(p), C-f(right), C-b(left).
+- C for copy
+- R for rename
+- To enter to sub folder or open file type RET
+- To go back to the parent folder type '^'
+- For opening file in read only mode type 'v' and to quickly get out that buffer type 'q'
+
+- To mark press 'm' and to unmark press 'u' and to unmark all 'U'.
+- You can also press '(' to enable/disable dired-hide-details-mode
+- For inversion selection you can press 't'; selecting all but not the selected ones.
+- You can also use 't' to select all or de-select all.
+- To create a directory while inside dired you can press "+" and then type the name
+** Archiving
+- Z - for compressing and uncompressing files
+- c(lower case) for compressing
+- file mode, timestamp ...
+- S - create symbolic link
+
+* New Frame
+- To open file in a  new frame(window in other senses) C-x 5 f
+- To open a file in a different window within the same frame C-x 4 f

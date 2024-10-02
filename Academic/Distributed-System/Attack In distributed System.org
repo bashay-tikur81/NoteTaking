@@ -1,0 +1,20 @@
+#+TITLE: Vulnerabilities and Attacks in Distributed System
+
+
+
+A distributed system is characterized by multiple processes that are spatially separated and are
+running independently. As processes run, they change their states by executing events. Processes
+communicate with each other by exchanging messages over a set of communication channels. How-
+ever, message delays are arbitrary and may be unbounded.
+Two inherent limitations of distributed systems are: lack of global clock and lack of shared
+memory. This has two important implications. First, due to the absence of any system-wide clock
+that is equally accessible to all processes, the notion of common time does not exist in a distributed
+system; different processes may have different notions of time. As a result, it is not always possible
+to determine the order in which two events on different processes were executed. Second, since
+processes in a distributed system do not share common memory, it is not possible for an individual
+process to obtain an up-to-date state of the entire system. Further, because of the absence of a
+global clock, obtaining a meaningful state of the system, in which states of different processes are
+consistent with each other, is difficult.
+
+* Time Attack:
+- 

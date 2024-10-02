@@ -1,0 +1,12 @@
+#+TITLE: Emacs basics part 2
+
+* Special symbols in org mode
+You can directly type LaTeX-like symbols using their corresponding names. For example,
+- to insert the Greek letter alpha(\alpha), type back ward slash followed by the word /alpha/.
+  you can easily write \omega, \theta, \gamma, .....
+- to indicate an arrow (\to), type back slash followed by the word /to/
+- To insert date at the current cursor position (C-c .).
+  
+* God-mode
+- This is a global minor mode for entering Emacs commands without modifier keys. All existing key binding will work in God mode.
+- 

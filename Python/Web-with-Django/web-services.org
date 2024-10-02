@@ -1,0 +1,176 @@
+#+TITLE: Learning Web Services
+#+AUTHOR: Ertale81
+#+DATE: <2024-06-26 Wed>
+
+
+* Creating Virtual Environment
+- To work with Django, we will first setup a virtual environment. A virtual environment is a place on your system where you can install packages and isolate them from all other Python packages. Separating one project's libraries from other projects is beneficial and will be necessary when we deploy to a server.
+
+* Web & HTTP/S
+- HyperText Transfer Protocol(HTTP), the web's application layer protocol, is at the heart of the web. HTTP is implemented in two programs: a client program and a server program. The client and the server program, executing on different end systems, talk to each other by exchanging HTTP messages. HTTP defines the structure of these messages and how the client and the server exchange those messages.
+
+** A web page
+- Is a document consists of objects. An object is simply a file -- such as HTML file, a JPEG image,  a JavaScript file, a CCS style sheet file or a video clip(that is addressable by a single URL). Most web pages consist of *a base HTML file* and several referenced objects.
+  For example, if a web page contains HTML text and five JPEG images, then the web page has six objects: the base HTML file plus the five images. The base HTML file references the other objects in the page with the objects' URLs. Each URL has two components: the /hostname of the server that houses the object and the objects path name./
+- HTTP defines how web clients request web pages from the web servers and how servers transfer web pages to clients
+- When a user requests a Web page(for example, clicks a hyperlink), the browser sends HTTP request messages for the objects in the page of the server. The server receives the requests and responds with HTTP response messages that contain the objects.
+- HTTP uses TCP as its underlying transport protocol. The HTTP client first initiates a TCP connection with the server. Once the connection is established, the browser and the server processes access TCP through their socket interfaces. On the client side the socket interface is the door between the client process and TCP connection; on the server side it's is the door between the server process and the TCP connection. The client sends HTTP request messages into its socket interface and receives HTTP response messages from its socket interface. Similarly, the HTTP server receives request message from its socket interface and sends a message into its socket interface. Once a client sends a message into its socket interface, the message is out of the clients hand and is "in the hands of" TCP. TCP provides a reliable data transfer service to HTTP. It is important to note that the server sends requested files to clients without storing any state information about the client. If a particular client asks for the same object twice in a period of few second, the server resends the object, as it has completely forgotten what it did earlier. Because an HTTP server maintains no information about the clients, HTTP is said to be a *stateless protocol*.
+- A *web server* is always on, with a fixed IP address, and it services requests from potentially millions of different browsers. The original version of HTTP is called HTTP/1.0 and dates back in the early 1990's. As of 2020, the majority of HTTP transaction takes place over HTTP/1.1. However the current version is HTTP/2
+** Persistent and non-persistent connection
+- In many Internet applications, the client and server communicates for an extended period of time. When the client-server interaction is taking place over TCP, the application developer needs to make a decision /whether each request/response pair be sent over a/ /separate TCP connection or should all the requests and their corresponding responses/ be sent over the same TCP connection?
+- Communication over the same TCP connection - /persistent connection/
+- Communication over different TCP connection - /non-persistent connection/
+  Although HTTP uses persistent connection in its default mode, HTTP client and server can be configured to use non-persistent connections instead.
+** HTTP Message Format
+/Here is a sample/
+*GET somedir/page.html HTTP/1.1*
+*Host: www.someschool.edu*
+*Connection: close*
+*User-agent: Mozilla/5.0*
+*Accept-language: fr*
+
+- There are two types of HTTP messages, request messages and response messages.
+*** HTTP Request Message-
+  + The first line of an HTTP request message is called the *request line*; the subsequent lines are called *header lines*. The *request line* has three fields:
+    *the method field, the URL field, and the HTTP version field*. The method field can take on several different values including /GET, POST, HEAD, PUT and DELETE/. The great majority of HTTP request message uses /GET/ method. The /GET/ method is used when the browser request an object, with the requested object identified in the URL field. The version and URL are self explanatory.
+    Now let's take a look at *header line*: the header line /Host: someschool.edu/ specifies the host on which the object resides. The information provided by the host header line is required by Web proxy caches.
+    By including /Connection: close/ header line, the browser is telling the server that it doesn't want to bother with persistent connection; it wants the server to close the connection after sending the requested object.
+    The /User-agent/: header specifies the user agent, that is, the browser type that is making a request. This header line is useful because the server can actually send different versions of the same object to different types of user agents. Finally, the /Accept-language:/ header indicates that the user prefers to receive a French version of the object, if such an object exists on the server; otherwise, the server should send its default version.
+
+    General format of an HTTP request message
+
+    |--------+----+-----+----+---------+----+----|
+    | method | sp | URL | sp | Version | cr | lf | -- this request line
+    |--------+----+-----+----+---------+----+----|
+
+    |-------------------+----+-------+----+----|
+    | header file name  | sp | value | cr | lf | 
+        
+    | header file name  | sp | value | cr | lf |  -- this header line
+    |-------------------+----+-------+----+----|
+
+    |----+----|
+    | cr | lf | Blank line
+    |----+----|
+
+    |-------------|
+    | Entity body | Entity body
+    |-------------|
+
+    The entity body is empty with the /GET/ method, but is used with /POST/ method. An HTTP client often uses the /POST/ method the user fills out a form-- for example when a user provides search words to a search engine. With a *POST* message, the user is still requesting a web page from the server, but the specific contents of the web page depend on what the user entered in the form fields.
+
+    The /HEAD/ method is similar to the /GET/ method. When a server receives a request with /HEAD/ method, it responds with an HTTP message but it leaves out the requested object. An application developer often uses the /HEAD/ method for debugging.
+    The /PUT/ method is often used in conjunction with Web publishing tools. It allows a user to upload an object to a specific path(directory) on a specific web server. The /PUT/ method is also used by applications that need to upload objects to Web servers. The /DELETE/ method allows a user, or an application to delete an object on the web server
+*** HTTP Response Message-
+Below we provide a typical HTTP response message.
+
+    *HTP/1.1 200 OK* -- Status line, all of below until entity body are header lines
+    *Connection: close*
+    *Date: Sun, 30 Jun 2024 12:13:27 GMT*
+    *Server: Appache/2.2.3 (CentOS)*
+    *Last-Modified: Sun, 30 Jun 2024 12:03:7 GMT*
+    *Content-Length: 6821*
+    *Content-Type: text/html*
+    *(data data data ...)* -- Entity body
+    
+
+The status line has three fields the protocol version field, a status code and a corresponding a status message.
+The /DATE:/ header line indicates the time and the date the HTTP response was created and sent by the server. Note that this is not the time when the object was created or last modified; it's the time when the server retrieves the object from its file system, inserts the object into the response message and sends the response message.
+/content-Length/: header line indicates the number of bytes in the object being sent.
+/Content-Type:/ header line indicates that the object in the entity body is HTML text.(The object is officially indicated by the /Content-Type/: header not by the file extension).
+
+
+    |---------+----+-------------+----+--------+----+----|
+    | version | sp | status code | sp | phrase | cr | lf | -- Status line
+    |---------+----+-------------+----+--------+----+----|
+
+
+    |-------------------+----+-------+----+----|
+    | header field name | sp | value | cr | lf | -- Header line
+    |-------------------+----+-------+----+----|
+
+    |-------------------+----+-------+----+----|
+    | header field name | sp | value | cr | lf | -- Header line
+    |-------------------+----+-------+----+----|
+
+
+    |----+----|
+    | cr | lf | Blank line
+    |----+----|
+
+    |-------------|
+    | Entity body | Entity body
+    |-------------|
+Some common status code and associated phrases:
++ 200 OK
++ 300 Moved Permanently -- the requested object has permanently moved; the new URL is specified in /Location/: header of the response message. The client software will automatically retrieve the new URL
++ 400 Bad Request -- request could not understand by the server
++ 404 Not Found -- the requested document doesn't exist on this server
++ 505 HTTP Version Not Supported -- the requested HTTP protocol version isn't supported by the server
+
+
+** Cookies
+- It's desirable for a web site to identify users, either because the server wishes to restrict user access or because it wants to serve as a function of the user identity. For this purpose, HTTP uses cookies.(Remember HTTP is stateless protocol)
+  *Cookies* allows sites to keep track of users.
+  *Cookies* technology has 4 components: (1) a cookie header line in the HTTP response message; (2) a cookie header line in the HTTP request message; (3) a cookie file kept on the user's end system and managed by the user's browser; (4) a back-end database at the website.
+  Cookies can be used to identify a user. The first time a user visits a site, the user can provide a user identification(possibly his/her name). During the subsequent sessions, the browser passes a cookie header to the server, thereby identifying the user to the server. Cookies can thus be used to create a session layer on top of stateless HTTP.
+  Although cookies often simplify the Internet shopping experience for the user, they are controversial because they can also be considered as an invasion of privacy(a web site can learn a lot about a user and potentially sell this information to third party)
+
+** Web Caching
+- A web Cache* -- also called *a proxy server*-- is a network entity that satisfies HTTP request on the behalf of an origin web server. The web cache has its own disk storage and keeps copies of recently requested objects in this storage.
+  A user's browser can be configured so that all of the user's HTTP requests are first directed to the web cache. Once a browser is configured, each browser request for an object is first directed to the web cache. If the web cache has a copy of the object requested, it will return an HTTP response message to the client browser.(acting as server). If the web cache doesn't have the object, it will open a TCP connection to origin server. The Web cache then send an HTTP request for the object into the cache-to-server TCP connection.(acting as client) After receiving this request, the origin server sends the object within an HTTP response to the Web cache. When the Web cache receives the object, it stores a copy in its local storage and sends a copy, within an HTTP response message, to the client browser(over the existing TCP connection between the client browser and the Web cache)
+*Note that a cache is both a server and a client at the same time*
+Typically a Web cache is purchased and installed by an ISP. For example, a university might install a cache on its campus network and configure all of the campus browsers to point to the cache. Through the use of *content Distribution Network(CDNs)*, web cache are increasingly playing an important role in the Internet. A CDN company installs many geographically distributed caches throughout the Internet, thereby localizing much of the traffic.
+
+** The Conditional GET
+- Although caching can reduce user-perceived response time, it introduces a new problem -- the copy of an object residing in the cache may be stale. In other words, the object housed in the web server may have modified since the copy was cached at the client. Fortunately, HTTP has a mechanism that allows a cache to verify that its object are up to date. This mechanism is called *Conditional GET*.
+  An HTTP request message is a so-called conditional GET message if (1) the request message uses the GET method and (2) the request message includes an /If-Modified-Since:/ header line
+  
+- To illustrate how the conditional GET operates, let walk through an example.
+  First, on behalf a requesting browser,a proxy cache sends a request message to a web server:
+      *GET /fruit/kiwi.gif HTTP/1.1*
+      *Host: www.fruits.com*
+  Second, the web server sends a request message with the requested object to the cache.
+  
+      *HTTP/1.1 200 OK*
+      *Date: Sun, 30 Jun 2024 14:51:55*
+      *Server: Apache/1.3.0 (Unix)*
+      *Last-Modified: Sat, 20 May 2024 20:04:23*
+      *Content-Type: image/git*
+      *(data data data ...)*
+      
+  The cache forwards the object to the requesting browser but also caches the object locally. Importantly, the cache also stores the last-modified data along with the object.
+  Third, one week later, another browser requests the same object via the cache, and an object is still in the cache. Since the object may have been modified at the Web server int the past week, the cache performs an up-to-date check by issuing a conditional GET. Specifically, the cache sends:
+  
+      *GET fruit/kiwi.git HTTP/1.1*
+      *Host: www.fruits.com*
+      *If-Modified-Since: 20 May 2024 20:04:23*
+      
+ Note that the value of the /If-Modified-Since:/ header line is exactly equal the value of the /Last-Modified:/ header line that was sent by the server one week ago. This conditional GET is telling the server to send the object if the object has been modified since the specified date. Suppose the object has not been modified since 20 May 2024 20:04:23.
+ Then, fourth, the web server sends a response message to the cache:
+ 
+      *HTTP/1.1 304 Not Modified*
+      *Date: Sat, 01 Jun 2024 20:30:44*
+      *Server: Apache/1.3.0 (Unix)*
+      *(empty entity body)*
+      
+We see that in response to the conditional GET, the web server still sends a response message but doesn't include the requested object int the response message. Including the requested object would only waste bandwidth and increase user-perceived response time, particularly if the object is large. Note that this last response message has /304 Not Modified/ in the status line, which tells the cache that it can go ahead and forward its(the proxy cache's) cached copy of the object to the requesting browser.
+
+  
+** HTTP/2
+- Standardized in 2015, was the first new version of HTTP since HTTP/1.1, which was standardized in 1997.
+  The primary goal for HTTP/2 are to reduce perceived latency by enabling request and response multiplexing over a /single/ TCP connection, provide request prioritization and server push, and provide efficient compression of HTTP header fields. HTTP/2 doesn't change HTTP methods, status code, URLs, or header fields. Instead, HTTP/2 changes how the data is formatted and transported between the client and server.
+- One of the primary goals of HTTP/2 is to get rid of(or at least reduce the number of) parallel TCP connections for transporting a single web page. This not only reduces the number of sockets that need to be open and maintained at servers, but also allows TCP congestion control to operate as intended. But with only one TCP connection to transport a web page, HTTP/2 requires carefully designed mechanism to avoid *HOL(Head of line)* blocking.
+
+*** HTTP/2 Framing
+- The HTTP/2 solution for HOL blocking is to break each message into smaller frames, and interleave the request and response messages on the same TCP connection. The ability to break down an HTTP message into independent frames, interleave them, and then reassemble them on the other end is the single most important enhancement of  HTTP/2. When a server wants to send an HTTP response, the response is processed by the framing sub-layer, where it's broken down into frames. The header field of the response becomes one frame, and the body of the message is broken down into one for more additional frames. As the frames arrive at the client, they are first reassembled into the original response messages at the framing sub-layer and then processed by the browser as usual. Similarly a clients HTTP request are broken into frames and interleaved. 
+
+*** Response Message Prioritization  and Server pushing
+- Message prioritization allows developers to customize the relative priority of requests to better optimize application performance. Framing sub-layer organizes messages into parallel streams of data destined to the same requester. When a client sends concurrent requests to a server, it can prioritize the responses it is requesting by assigning a weight between 1 and 256 to each message. The higher number indicates the higher priority. Using these weights, the server can send first the frames of the response with higher priority. In addition to this, the client also states each message's dependency on other message by specifying the ID of the message on which it depends.
+- Another feature of HTTP/2 is the ability for a server to send multiple responses for a single client request. That is, in addition to the response to the original request, the server can /push/ additional objects to the client, with out the client having to request each one. This is possible since the HTML base page indicates the objects that will be needed to fully render the web page. So instead of waiting for the HTTP requests for these objects, the server can analyze the HTML page, identify the objects that are needed, and send them to the client /before receiving explicit request for those objects/. Server push eliminates the extra latency due to waiting for requests.
+  
+** HTTP/3 ????
+- QUIC
+
+
+

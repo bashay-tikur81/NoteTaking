@@ -1,0 +1,16 @@
+#+TITLE: Django for everybody as thought by Charles Severance at edX
+#+AUTHOR: Ertale81
+#+DATE: <2024-06-30 Sun>
+
+* Model-View-Controller(MVC)
+- It is a software design pattern commonly used for user interfaces that divides the related program logic into three interconnected elements. These are:
+    + Model -- internal representations of the information, the persistent data that we keep in the data store. It is the database itself.
+    + View -- the interface that presents information to and accepts its from the user, these are the HTML, CSS etc. which makes the look and feel of the application.
+      The view is all the stuff we see. Usually it's at the end of request-response cycle. We produce a view and we return back a view.
+    + Controller --- the software linking the two, the code that does the thinking and decision making.
+      Controller is sort of an abstract idea of what happens next. What is the sequence of event that happen, and then where do we start from, what do we do when we get a request, and the afterwards, where do we go at the end of that.
+ 
+* Object Relational Mapping(ORM)
+- Allow us to map tables to objects and columns
+- We use these objects to store and retrieve data from the database
+- Improved portability across DBMS dialects(SQLite, MySQL, Oracle, PostgreSQL)

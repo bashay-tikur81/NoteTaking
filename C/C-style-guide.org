@@ -1,0 +1,127 @@
+#+TITLE: C-Style guide
+#+AUTHOR: Ertale81
+
+
+
+* General Rules
+- Don't use tabs, use spaces instead
+- Use 4 spaces per indent level
+- use 1 space between keyword and opening bracket
+  //* OK *//
+  if (conditions)
+  for (init; condition; step)
+  while (condition)
+  
+  //* Wrong *//
+  if(condition)
+  while(condition)
+- Do not use spaces between function name and opening bracket
+  int a = sum(4, 3); //* OK *//
+  int a = sum (4,3); //* Wrong *//
+- Use only lowercase characters for variables/functions/types with optional underscore
+  *-* char
+- Opening curly bracket is always at the same line as keyword(for, while, do, switch, if, ..)
+  for (int i = 0; i < 5; ++i) {         //* OK *//
+  }
+  for (int i = 0; i < 5; ++i){          //* Wrong *//
+  }
+  for (int i = 0; i < 5; ++i)           //* Wrong *//
+  {
+  }
+- Use single space after every comma
+  func(5, 4);   //* OK *//
+  func(5,4);    //* Wrong *//
+- Do not initialize global variables to any default values(or NULL)
+- Declare all local variables of the same type in the same line
+- Declare local variables in order
+  i. Custom structures and enumerations
+  ii. Integer types, wider unsigned type first
+  iii. Single/Double floating point
+  e.g:
+  void myfunc(void){
+      //* 1 *//
+      mystructre my;
+      mypointer* p;
+
+      //* 2 *//
+      int a;
+      char b;
+
+      //* 3 *//
+      double d;
+      float f;
+  }
+- Always declare local variables at the beginning of the block, before first executable statement
+- Avoid variable assignment with function call in declaration, except for single variables.
+- Do not use /stdbool.h/ library. Use 1 or 0 for true or false respectively
+- Never compare against true, eg. if (check_ funct() == 1), use if(check_ func()){...}
+- Always compare pointers against NULL value
+- Always use /pre-increment (and decrement respectively)/ instead of /post-increment (and decrement respectively)/
+  ++a; //* OK *//
+  a++; //* Wrong *//
+- Always compare variables against zero, except if it is tread as boolean type
+- Never compare boolean-treated variables against zero or one. Use NOT(!) instead.
+  int length = 5; //* Normal variable *//
+  int is-ok = 0; //* Boolean-treated variable *//
+  if (length); //* Wrong, length is not treated as boolean *//
+  if (length == 0); //* OK *//
+  if (is-ok);       ///* OK * variable is treated as boolean *//
+  if (!is-ok);      //* OK *//
+  if (is-ok == 1);  //* OK, Never compare boolean against 1 *//
+  if (is-ok == 0);  // Wrong don't compare against 0, use ! instead *//
+- Use /underscore/ variable contains multiple name.
+- Always use < and > for C standard library include file, eg. #include<stdlib.h>
+- Always use "" for custom libraries, eg. #include "mylibrary.h"
+- When casting to pointer type, always align asterisk to type, eg. int* t = (int* )var;
+* Comments
+- Comments starting with //// are not allowed. Always //* comment *//, even for single-line comment.
+- For multi-line comments use /space+asterisk/ for every line.
+  /*
+  * This is multi-line comment
+  * written in 2 line(OK) 
+  */
+   
+  /**
+    * Wrong, use double asterisk only for doxygen documentation
+     */
+    
+    /*
+  * Single line comment with out space before asterisk, (Wrong)
+  */
+
+  /*
+    * Single line comment in multi-line configuration (Wrong)
+    */
+- Use 12 indents (12*4 spaces) offsets when commenting. If statement is larger than 12, make a comment 4-spaces aligned to next available indent.
+
+* Functions
+- Every function which may have access from outside its module, MUST include function /prototype/
+  or /declaration/
+- Function name must be lower case optionally separated with underscore(_).
+- When a function returns a pointer, align the asterisk to the return type.
+* Variable
+- Make all variable names lower case with optional underscore(_).
+- Declare pointer variables with asterisk aligned to type.
+  int* abc; //* OK *//
+  int **abc; //** wrong *//
+- When declaring multiple pointer variables, you may declare them with asterisk aligned to variable name.
+  int *a, *b, *c;
+  
+
+* Structures, enumerations, typedefs
+- Structure and enumeration names MUST be lower case with optional underscore(_).
+  - All structure members MUST be lower case
+  - All enumeration members SHOULD be upper case
+
+* Compound statements
+
+
+* Macros and preprocessor directives
+
+* Documentation
+
+* Header/source files
+
+* Clang format integration
+
+* Artistic style configuration

@@ -1,0 +1,417 @@
+#+TITLE: IT Project Management
+#+AUTHOR: Ertale81
+
+* Project Management
+Ten knowledge areas are:
+1) Scope management
+2) Time management
+3) Budget management
+4) Quality management
+   
+5) Project integration management
+   
+6) Human resource management
+7) Communication management
+8) Risk management
+9) Procurement management
+10) Stakeholder management
+    
+** Project stakeholders
+Project stakeholders are any individuals or group with vested interest in the project outcome.
+Project stakeholders members:
++ Project Manager
++ Team of multidisciplinary specialists: performing work on the project
++ Customers: That will use and receive the result of the project
++ Project Sponsor/Project owner: who pays for the project and makes decisions over the project
+  scope, budget, and schedule.
++ Project Champion: who provides executive level support.
+  
+** Project Management tools and techniques
+*** Super tools
+Are those that had high use and high potential for improving project success, such as:
+- Software for task scheduling
+- Scope statement
+- Requirement analysis
+- Lesson-learned reports
+
+
+*Supper tools*:
++ Project charters, Scope statement, and WBS(Work Breakdown structure) (Scope)
++ Grant charts, Network diagram, Critical path analysis (Time)
++ Cost estimates and earned value management (Cost)
+
+
+Criteria for measuring the success of a project:
+1) The project met scope, time and cost goals
+2) The project satisfies the customer/sponsor
+3) The results(outcome + impact) of the project met its main objective.
+
+*Programs*: A group of related projects, subprograms, and program activities managed in a
+coordinated way to obtain benefits and control not available from managing them individually.
+ - Infrastructure programs
+ - Application development programs
+ - User support programs
+
+*Project portfolio management and project management*
+_Project management_
+- Focus: Managing a single project
+- Objective: Achieving specific goals within the constraint of time, budget and resource.
+- Scope: Temporary endeavor with a defined beginning and end.
+- Outcome: A unique product, service, or result
+  /Questions of project management:/
+  - Are we carrying out projects well?
+  - Are projects on time and budget?
+  - Do project stakeholders know what they should be doing?
+  
+_Project portfolio management_
+- Focus: Managing a collection of projects
+- Objective: Ensuring projects align with the organization's strategic goals and objectives.
+- Scope: Ongoing process with a broader view across multiple projects
+- Outcome: Optimal project mix to achieve long-term organization's success.
+  /Questions of project portfolio management/
+  - Are we working on the right project?
+  - Are we investing on the right areas?
+  - Do we have the right resources to be competitive?
+    
+Basic IT Project portfolio Categories:
+1. Venture: Projects in this category help *transform the business*.
+2. Growth: Projects in this category help the company increases it revenue, *growth the business*
+3. Core: Projects in this category must be accomplished to *run the business*.
+   Venture and Growth are *Discretionary costs* where core is *Non discretionary cost*
+(/Venture- proceed somewhere despite the risk of possible dangers, put forward/)
+(/Discretionary - Having or using the ability to act or decide according to your own judgement/)
+
+*Project Manager*
+97% of successful projects were led by experienced project managers.
+Suggested skills for project managers are:
+- Be comfortable with changes
+- Lead teams to accomplish project goals
+- Project management body knowledge
+- Project environment knowledge
+- Soft skills or human relations skill
+
+
+Ten most important skills and competencies for project managers:
+1) People skill
+2) Leadership
+3) Listening
+4) Integrity, ethical behavior, consistent
+5) Strong at building trust
+6) Verbal communication
+7) Strong at building teams
+8) Conflict resource, conflict management
+9) Critical thinking, problem solving
+10) Understands, balances priorities
+
+*Different skills needed in different situations*
+Large projects:
+   - Leadership, relevant prior experience, planning, people skills, verbal communications,
+     and team-building skills are important.
+High uncertainty Projects:
+   - Risk management, expectation management, leadership, people skill, and planning
+Very novel projects
+   - Leadership, people skills, having vision and goals, self-confidence, expectation
+     management, and listening skills.
+
+* Human Resource Management
+- Project human resource management includes the processes required to make the most effective
+  use of people involved with a project.
+  It includes /stake holders, Sponsors, customers, project team members, support stuff/
+  /suppliers./
+- *HR* Management includes the following four process:
+  1) Planning HR Management
+     + Identifying and documenting project roles, responsibilities, and reporting relationships.
+     + output: human resource plan
+  2) Acquiring the project team
+     + Assigning the needed personnel to the project
+     + output: project staff assignment, resource calendars, and project management plan updates
+  3) Develop the project team
+  4) Managing the project team
+- Psychological issues that affect how people work and how well they work:
+  + Motivation:
+    Intrinsic motivation: People participate in activity for their own enjoyment
+    Extrinsic motivation: Causes people to do something for a reward or avoid penalty.
+  + Influence and power
+  + Effectiveness
+  + Emotional Intelligence
+  + Leadership
+** Maslow's hierarchy of needs
+1) Deficiency needs:
+   + Physiological needs(food, water ...),
+   + Safety needs(physical safety, economic security....)
+   + Social needs(acceptance, love, affection, association,...)
+   + Esteem needs(recognition, prestige, status...)
+2) Growth needs:
+   + The highest-level, self-actualization is considered a growth need.
+   *Self actualized* people are:
+     - problem-focused
+     - have appreciation for life
+     - are concerned about personal growth and are able to have peak experiences
+
+There are five main types of power(according to the bases for social power):
+1) /Coercive power/: involves using punishment, threats, or other negative approaches
+2) /Legitimate power/: based on a position of authority
+3) /Expert power/: using personal knowledge and expertise to get people change their behavior.
+4) /Reward power/: using incentives to induce people to do things.
+   rewards can be money, status, recognition, promotion and special work assignment.
+5) /Referent power/: is based on person's own charisma. People who have referent power are held
+   in a very high regard; other will do what they say based on that target.
+   
+- Improving Effectiveness(By S.covey)
+  Covey's 7 habits to improve effectiveness in projects
+  1) *Be proactive*
+  2) *Begin with the end in mind*: Covey suggests people focus on their values, what they want to
+     accomplish, and how they want to be remembered in their lives. *Mission* statement helps
+     people to focus on the main purpose.
+  3) *Put first thing first*: People need to spend more time doing things that are important, but
+     not urgent.
+  4) *Think Win/Win*
+  5) *Seek first to understand, the to be understood*: Emphatic listening is listening with the
+     intent to understand. It's more powerful than active listening
+  6) *Synergize*
+  7) *Sharpen the saw*
+
+- *Emotional Intelligence* is knowing and managing one's own emotions and understanding the
+  emotions of others for improved performance.
+  + Interpersonal Intelligence:
+    The capacity to understand the motivations, intentions, and desires of others.
+    e.g: Emphatic listening
+  + Intra personal Intelligence:
+    The capacity to understand one self, one's feelings, and motivations
+    e.g: Knowing that you have a high need for achievement
+
+- *Leadership*
+A leader focusses on long-term goals and a big-picture objectives while inspiring people to
+reach these goals.
+
+
+* Developing The project team
+- Even if the project manger has successfully recruited enough skilled people to work on a
+  project, the project manager must ensure that people can work together as a team to achieve
+  project goals.
+- The Tuck man model describes 5 stages of team development.
+  1) Forming: introduction of team members, either at the initiation of the team or as new
+     members are introduced.
+  2) Storming: Occurs when team members have different opinions for how the team should operate.
+     People test each other, often there's a conflict.
+  3) Norming: is achieved when team members have developed common working method, and
+     cooperation and collaboration replace the conflict and mistrust of the previous phase.
+  4) Performing: Emphasize is on the team's goal rather than working on the team process.
+  5) Adjourning: Involves the break-up of the team after it successfully reaches its goal.
+
+
+- To determine your level of assertiveness,
+  - ask if you're more likely to tell people what to do or
+  - ask them what should be done.
+- To determine your responsiveness to tasks,
+  - ask whether you focus on the task itself or
+  - on the people involved performing the task.
+  
+** Managing the Project team
+- Five basic modes or strategies for handling conflicts in their popular managerial grid.
+  Each strategy has high, medium and low importance on two levels: importance of the task or
+  goal (or concern for production), and importance of the relationship of the conflicting
+  parities(concern of people).
+  1) Confrontation: Project managers face a conflict directly using a problem-solving approach
+     that allow affected parties to work through their disagreement.
+     This approach is also called problem-solving mode or win/win mode.
+     when task and relationship are both high importance, this mode usually most effective.
+  2) Compromise: Project manager uses give-and-take approach to solving conflicts.
+     They bargain and search for solutions that brings some degree of satisfaction for both
+     the disputing parties.
+     This approach works best when both relationship and task are medium importance.
+  3) Smoothing: Project managers deemphasize areas of differences and emphasize areas of
+     agreement.
+     This approach is also called /accommodating/.
+     It's best used when the relationship is of high importance and the task is low importance.
+  4) Forcing: This is win/lose approach to conflict resolution. Project manager exerts their
+     viewpoint at the potential expense of the other viewpoint.
+     If the task is of high importance and the relationship is low importance this mode can be
+     effective.
+  5) Withdraw: Project managers retreat or withdraw from the actual or potential disagreement.
+     This approach is also called avoiding, and is the least desirable conflict handling mode,
+     unless the task and the relationship are both of low importance.
+
+The five dysfunction of teams are:
+- Absence of trust
+- Fear of conflict
+- Lack of commitment
+- Avoidance of accountability
+- Inattention to results.
+  
+* Project Risk Management
+It's the art and science of identifying, analyzing, and responding to risk through out
+the life of a project and in the best interests of meeting project objectives.
+Known risks can be managed pro actively. However, unknown risks can't be managed.
+Six major processes are involved in risk management:
+1. Planning risk management - risk management plan
+2. Identifying risks - involving determining which risks are likely to affect a project
+   and documenting the characteristics of each.
+3. Performing qualitative risk analysis
+4. Performing quantitative risk analysis
+5. Planning risk responses
+6. Controlling risks
+
+
+In addition to risk management plan, many project also includes:
+- Contingency plans
+- Fallback plans
+- Contingency reserves or contingency allowances
+- Management reserves
+   
+** Planning Risk responses
+The four basic response strategies for negative risks:
+1) Risk Avoidance
+2) Risk acceptance
+3) Risk transference
+4) Risk mitigation
+
+The four basic response strategies for positive risks:
+1) Risk exploitation
+2) Risk sharing
+3) Risk enhancement
+4) Risk acceptance
+
+   
+* Project Communication Management
+
+- Many experts agree the greatest threat to the /success of any project/, especially IT projects,
+  is *a failure to communicate*.
+- Goal of project communication management is to ensure timely and appropriate generation,
+  collection, dissemination, storage and disposition of project information.
+  
+- There are 3 main processes in project communication managements:
+  1. /Planning communication management/: involves determining the information communications
+      needs of the stakeholders. Who needs what information? When will they need it?
+       How will the information will be given to them.
+  2. /Managing communication/: involves creating, distributing, storing, retrieving and disposing
+     of project communications.
+  3. /Controlling communication/: involves monitoring and controlling project communications to
+     ensure that stakeholder communication needs are met.
+Key to good communication are:
++ Focusing on group and individual communication needs
++ Formal and informal methods for communicating
++ Distributing important information in an effective and timely manner.
++ Setting stage for communicating bad news
++ Determining the number of communication channel to _n(n-1)_ (n = communicating parties)
+                                                       2
+
+*Process in project communication management*
+1. The communication management plan should address the following items:
+   Stakeholder communication requirements?
+   Information to be communicated, including format, content, and level of detail
+   Who will receive the info and who will produce it?
+2. Managing communications
+   Who will receive particular information? best way to create and distribute the info.
+   Is written reports only enough? Is text, audio, visual appropriate?
+   Decide the best way to create and distribute the information?
+   Managing project communications considerations includes:
+   - Using technology to enhance information creation and distribution
+   - Selecting the appropriate communicating methods and media
+   - Reporting performance
+3. Controlling Communication
+   The main goal of controlling communication is to ensure the optimal flow of information
+   throughout the entire project life cycle.
+   The project manager and project team should use their various reporting systems, expert
+   judgement, and meetings to asses how well communication are working?
+
+Suggestions for improving project communications:
+- Developing better communication skills
+- Running effective meetings
+- Using emails, instant messaging, texting, kanban boards and collaborative tools effectively.
+- Using templates.
+   
+* Project Quality Management
+
+- *Quality*, as ISO defined, the ability to satisfy stated or implied needs.
+- Other experts define *Quality* based on /conformance to requirements/ and /fitness for use/.
+  - /Conformance to requirements/ means that the project's processes and products meet written
+    specifications.
+  - /fitness for use/ means that the product can be used as it was intended.
+- The purpose of project quality management is to ensure that the project will satisfy the needs
+  for which it was undertaken.
+- Project quality management involves 3 main processes:
+  1. Planning quality management
+     - This implies the ability to anticipate situations and prepare actions that bring about
+        the desired outcome.
+     - Includes identifying which quality requirements and standards are relevant to the project
+       and how to satisfy them.
+     - Incorporating quality standards into project design is key part of quality planning.
+     - Main outputs of this stages are:
+       + Quality management plan,
+       + Process improvement plan,
+       + Quality metrics and quality checklists,
+       + Project documents update.
+     - /A metric/ is a standard of measurement. Example of common metrics includes
+       failure rates of products, availability of goods and services and customer satisfaction
+       ratings.
+  2. Performing quality assurance
+     - Quality assurance includes all the activities related to satisfying the relevant quality
+       standards for a project
+     - Involves periodically evaluating overall project performance to ensure that the project
+       will satisfy the relevant quality standards.
+     - It's goal is continuous quality *improvement* (change for better, kaizen(Japanese word))
+     - Another popular term, *lean*, involves evaluating process to maximize customer value while
+       minimizing waste. /Kanban/ is a technique often used in lean.
+     - An important tool for quality assurance is a *quality audit*. A quality audit is
+       a structured review of specific quality management activities that help identify lessons
+       learned and that could improve performance on current or future projects.
+     - Output: change requests, project management plan updates, project document updates...
+  3. Controlling quality
+     - Involves monitoring specific project results to ensure that they comply with the
+        relevance quality standard.
+     - This process is often associated with the technical tools and techniques of quality
+       management, such as Pareto charts, quality control charts, and statistical sampling.
+     - One of its goals is quality improvement.
+     - The main outcomes of this process are:
+       - acceptance decisions- is the product or service accepted or rejected. If they are
+	 accepted they are considered as validated deliverables.
+       - rework - is action taken to bring rejected item into compliance with product
+	 requirements, specifications or stakeholder expectations.
+       - process adjustment - correct or prevent further quality problem based on quality
+	 control measurements.
+     - Output: quality control measurement, validate changes, validate deliverables, work
+       performance information, change request...
+
+*Quality control tools and techniques includes*:
++ Seven Basic Tools for quality
++ Statistical Sampling
++ Six sigma
++ Testing
+*Seven Basic Tools for quality*:
+1. Cause-and-effect diagram
+2. Control chart - graphical display of data that illustrate the results of process over time.
+   control char allows you determine whether the process is in control or out of control.
+3. Check sheet, tally sheet or checklist
+4. A scatter diagram - shows if there is a relationship b/n two variables.
+5. A histogram
+6. A Pareto chart
+7. Flow charts
+
+*Statistical Sampling*:
+Involves choosing part of population of interest for inspection.
+*Six Sigma*
+Six sigma is about improving quality by reducing variation. The term /sigma/ means standard
+deviation. Standard deviation measures how much variation exists in distribution of data.
+
+A small standard deviation means that data clusters closely around the middle of the
+distribution and there is little variability among the data.
+A large standard deviation means that data is spread around the middle of the distribution
+and there is greater variability.
+
+/Yield/: number of units handled correctly
+/Defect/: is any instance in which the product or service fails to meet customer requirements.
+
+*Testing*
+- Unit testing: is done to test individual components
+- Integration test: this occurs b/n unit and system testing to test functionally grouped
+  components.
+- System testing: this tests the entire system as one entity.
+- User acceptance:
+- Other types of testing includes:
+  - alpha and beta testing
+  - Performance testing
+  - Scalability testing
+*six sigma* principles are based on the plan-do-check-act model.
+
+

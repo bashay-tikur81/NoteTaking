@@ -1,0 +1,56 @@
+#+TITLE: Emacs for HTML
+#+AUTHOR:Ertale81
+
+* Main commands in Emacs for html
+** using Meta character M-
+To comment M-;
+
+** using Ctrl character C-
+- To view the at the web browser each time you save C-c C-s
+  To Insert headers use C-c n, where n = {1,2,3,4,5,6}
+  To create the following table, type | and then name of field separated by |
+  then type C-c RET
+  To create a new table in the active region C-c |
+  
+  | command        | what to do                                              |
+  |----------------+---------------------------------------------------------|
+  | C-c -          | insert a horizontal line below the current line         |
+  |                | with argument it creates above the current line         |
+  |----------------+---------------------------------------------------------|
+  | C-c RET        | insert a horrizontal line below the current line        |
+  |----------------+---------------------------------------------------------|
+  | C-c TAB        | Toggle tag visibility                                   |
+  |----------------+---------------------------------------------------------|
+  | C-c C-v        | To view content in default webbrowser                   |
+  |----------------+---------------------------------------------------------|
+  | C-c RET        | Insert <p> tag                                          |
+  |----------------+---------------------------------------------------------|
+  | C-c C-c h      | Insert hyper link                                       |
+  |----------------+---------------------------------------------------------|
+  | C-c C-c u      | Create unordered list                                   |
+  |----------------+---------------------------------------------------------|
+  | C-c C-c o      | Create ordered list                                     |
+  |----------------+---------------------------------------------------------|
+  | C-c C-c l      | Create a list item                                      |
+  |----------------+---------------------------------------------------------|
+  | C-c C-c i      | Insert <img src="">                                     |
+  |----------------+---------------------------------------------------------|
+  | C-c C-c j      | Insert line break <br/>                                 |
+  |----------------+---------------------------------------------------------|
+  | C-c C-c -      | Insert a horizontal rule <hr/>                          |
+  |----------------+---------------------------------------------------------|
+  | C-c C-c r      | Create html radio button                                |
+  |----------------+---------------------------------------------------------|
+  | C-c C-c c      | Create html checkbox                                    |
+  |----------------+---------------------------------------------------------|
+  | C-c ?          | Descripe tag, brief verbal description of tag at cursor |
+  |                | position                                                |
+  |----------------+---------------------------------------------------------|
+  | C-c / or C-c ] | To write a closing tag according to the opened tag      |
+  | C-c n(1..6)    | Create a n-level heading                                |
+  | C-c backspace  | Delete a tag but the point must inside the tag          |
+  | C-c C-d        | Delete a tag                                            |
+  | C-x C-;        | Comment a region but M-; creates a new comment           |
+
+  
+

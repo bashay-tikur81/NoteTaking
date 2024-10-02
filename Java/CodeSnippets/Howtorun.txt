@@ -1,0 +1,4 @@
+
+
+First run the .java file with javac
+Then run the output file with java

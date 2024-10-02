@@ -1,0 +1,21 @@
+#+AUTHOR: Ertale81
+#+TITLE: Org-agenda
+
+
+
+* Task list
+** TODO Learning org-agenda
+SCHEDULED: <2024-06-13 Thu>
+DEADLINE: <2024-06-18 Tue>
+To create schedule inside to do list type C-c C-s
+To create deadline inside to do list type C-c C-d
+The above schedule and deadline are inserted using the above commands.
+
+C-c C-x C-a to archive what I have done with. What it does is it takes that item marks as DONE set CLOSED timestamp on it removes from the files it currently in and appends to the end of archive.org file that were created somewhere else.
+** Tasks
+Checkout the following tools for your writing
++ org2blog
++ org-publish
++ bootstrap
++ ox-twbs
++ org-drill

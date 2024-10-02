@@ -1,0 +1,107 @@
+#+begin_src python :results output
+  class Restaurant:
+      def __init__(self, restaurant_name, cuisine_type):
+          self.restaurant_name = restaurant_name
+          self.cuisine_type = cuisine_type
+          self.number_served = 0
+      def describe_restaurant(self):
+          print(f"Restaurant name is {self.restaurant_name} and its type {self.cuisine_type}")
+      def open_restaurant(self):
+          print(f"Restaurant is open")
+      def change_customer(self, num):
+          self.number_served = num;
+          print(f"Number of customers served today {self.number_served}")
+      def update_customer(self, customer):
+          self.number_served += customer
+          print(f"Added customers now it becomes {self.number_served}")
+  class IceCreamStand(Restaurant):
+      def __init__(self, restaurant_name, cuisine_type):
+          super().__init__(restaurant_name, cuisine_type)
+          self.flavors = []
+      def ice_cream_flavor(self):
+          for flav in self.flavors:
+              print(flav)
+  my_cream = IceCreamStand("planet","beverage")
+  my_cream.flavors.append("sweet")
+  my_cream.flavors.append("tasty")
+  my_cream.ice_cream_flavor()
+  rest1 = Restaurant("noble","beverage")
+  rest2 = Restaurant("Milano", "food")
+  rest1.describe_restaurant()
+  rest2.describe_restaurant()
+  rest1.change_customer(50)
+  rest1.update_customer(10)
+  rest2.update_customer(20)
+
+#+end_src
+
+#+RESULTS:
+: sweet
+: tasty
+: Restaurant name is noble and its type beverage
+: Restaurant name is Milano and its type food
+: Number of customers served today 50
+: Added customers now it becomes 60
+: Added customers now it becomes 20
+
+#+begin_src python :results output values
+  class User:
+      def __init__(self,first_name, last_name):
+          self.first_name = first_name
+          self.last_name = last_name
+      def describe_user(self):
+          print(f"{self.first_name} {self.last_name}")
+  class Admin(User):
+      def __init__(self, first_name, last_name):
+          super().__init__(first_name, last_name)
+          self.privis = Privilege()
+
+  class Privilege():
+      def __init__(self):
+          self.privileges = []
+          self.privileges.append("can add post")
+          self.privileges.append("can delete post")
+          self.privileges.append("can ban user")
+      def show_privileges(self):
+          for priv in self.privileges:
+              print(priv)
+
+  user1 = User("Phill", "Foden")
+  user1.describe_user()
+  admin_one = Admin("Bob", "Mike")
+  admin_one.privis.show_privileges()
+#+end_src
+
+#+RESULTS:
+: Phill Foden
+: can add post
+: can delete post
+: can ban user
+
+#+begin_src python :results output
+  import car
+
+  my_new_car = car.Car("Toyota", "Land Cruiser", 2030)
+  print(f"{my_new_car.get_descriptive_name()}")
+  my_mustag = car.ElectricCar("nissan", "leaf", 2034)
+  print(f"{my_mustag.get_descriptive_name()}")
+  my_mustag.describe_battery()
+#+end_src
+
+#+RESULTS:
+: 2030 Toyota Land Cruiser
+: 2034 Nissan Leaf
+: This can has battery 40 kWh
+
+#+begin_src python :results output
+  from pathlib import Path
+  path = Path("pi_digits.txt")
+  contents = path.read_text();
+  print(contents)
+#+end_src
+
+#+RESULTS:
+: 3.1415926535
+: 8979323846
+: 2643383279
+: 

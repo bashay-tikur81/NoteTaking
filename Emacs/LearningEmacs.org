@@ -1,0 +1,94 @@
+#+TITLE: Learning Emacs
+#+AUTHOR: Ertale81
+#+DESCRIPTION: Learning Emacs in org mode
+
+* Learning some commands
+** Basic Commands
+- C-s C-w: save a file but using a different name
+- C-x s: save all files but with prompt
+- C-SPC: Starts marking
+- M-w : copyies the the selected area
+- C-w : Cuts the selected area
+- C-y : brings the either copied or cutted texts
+- M-y: cycle through kill ring, replacing yanked text.
+- M-g : goto line
+- M-C-S : search regex
+- M-% : search and replace
+- M-s o : search and shows all the occurence and "Occur" buffer
+- M-x grep : grep a pattern in a file you specify and shows the result in "Grep" buffer
+- M-x rgrep : will recursivelly grep in all the directries
+- M-x indent-region: indents a selected region
+- C-c C--: for formatting
+- M-$: for ispell check, checking spelling of word before or after 
+- M-d: Kill-word, kill character forward until you encoutering end of word.
+- C-x k: Kill(close) a buffer.
+- C-x 4 C-h: to list all info for working in another window while being at different window
+- C-x 5 C-h: does the same as C-x 4 C-h but for frame not for window management
+- C-x t 2: Creates a new tab
+- C-x t 0: closes the current tab
+- C-x t r: Rename tab
+- C-x t 1: close all other tabs
+- C-x t d: Open dired in othere tab
+- C-x t RET: Select tab by name
+- Some of the above commands works the same for windows and frames by
+   simply replacing "t" by either "4" for windows or "5" for frames
+- C-x t o, C-<tab>: Next tab
+- C-S-<tab>: previous tab
+- M-x tab-list: Shows an interactive tab list
+- M-x tab-undo: Undoes a closed tab for each invocatioin
+- M-x tab-recent: Switch to the last visited tab
+- <left>,....: Arrow keys move by character in all four directions
+- S-<left>,....: Same as above but by word not character
+- M-x subword-mode: treat CamelCase as distnict word
+- M-x superword-mode: treats snake_case as one word
+- C-M-f: Move forward by s-expression
+- C-M-b: Move backward by s-expression
+- C-M-d: Move down to a list, moves to inside next balanced expression
+- C-M-u: Move up to a list, moves to  previous balanced expression
+  s-expressions are characters enclosed either by brackets({[<>]}) or "", balanced expression.
+- M-{: Move forward to the end of paragraph
+- M-}: Move backword to the start of paragraph
+- C-x [: Move forward one page
+- C-x ]: Move backward one page
+- M-<: Move to the begining of the buffer
+- M->: Move to the end of the buffer
+- C-<SPC>: Set the mark and toggles the region
+- C-u C-<SPC>: Jumps to the mark, and repeated calls go
+  further back to the mark ring
+  
+** Transposing(Swaping)
+- Transposing is swapping two syntactic units of texts with oneanother.
+- C-t: Transpose characters
+- M-t: Transpose words
+- C-x C-t: Transpose lines
+- C-M-t: Transpose s-expressions
+- M-x transpose-paragraphs: Transpose paragraphs
+- M-x transpose-sentenses: Transpose
+
+
+** Learning emacs for programming
+- M-h: for selecting whole paragraph
+- M-!: to enter shell commands
+- N.B: In cases where the second letter is written by holding shift-key like !,<,
+  .... you use "Esc-" instead of "M-" then write the letter with shift key
+  In DIRED "m" for selecting or marking or "u" for
+
+** Bookmark
+- Bookmarks are used as a way of jumping to frequently used files and directries
+  bookmarks in Emacs are permanent, they are saved to a bookmark file ~/.emacs.d/bookmarks
+  
+- C-x r m: Set a book mark
+  C-x r l: list bookmarks
+  C-x r b: jump to bookmark
+
+** Emphasis and mono space
+- You can make words '*bold*', '/italic/', '_underlined_', =verbatim=, +strike-through+
+
+** Some other org-mode commands
+- To insert link like this one by C-c C-l [[https://www.google.com][go to google]] and to follow the link use
+  C-c C-o(check the link by hitting backspace and you will be amazed!!)
+- You can also link to your own file by the same procedure but first you need to put the
+  file on the link buffer by hitting C-c l on beginning of the file name.
+  [[file:htmlInEmacs.org::*Main commands in Emacs for html][Link to learning HTML in Emacs]] then follow the link using C-l C-o, ohhhhh...
+
+  

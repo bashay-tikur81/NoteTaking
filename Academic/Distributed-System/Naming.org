@@ -1,0 +1,24 @@
+#+AUTHOR: Ertale81
+#+TITLE: Naming in Distributed System
+
+* Naming
+Name: A string of bits/characters that is used to refer an entity in DS. Anything in DS is
+referred as *entity*. It includes /hosts, printers, disks, files, network connection, processes,/
+/users, mailboxes, graphical windows, address, web pages, messages etc./
+An entity is something one can operate on by accessing it through an access point.
+Access point(Address): A special sort of entity in DS used to access an entity.
+An entity may change its access point over time. Thus an address can't be treated as the name
+of the entity.(Can have more than one address).
+- An Identifier is unambiguous reference to an entity.
+  _Properties of true identifier:_
+  - An identifier refers to at most to one entity
+  - Each entity is referred to by at most one identifier.
+  - An identifier always refers to the same entity.
+Types of naming system:
+1) Flat naming: the identifier is simply a random bit string. It doesn't contain whatsoever
+   on how to locate an access point of its associated entity.
+2) Structured naming: composed of simple human readable names.
+   e.g: file system naming and host naming in Internet
+3) Attribute-based naming: allows an entity to be described by (attribute, value) pairs.
+   This allows a user to search more effectively by constraining some of the attributes.
+   

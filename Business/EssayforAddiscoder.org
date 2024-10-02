@@ -1,0 +1,45 @@
+
+    Around fifty years ago, almost every work from collecting and processing big data, 
+computing complex calculation, designing and engineering, transportation and navigation
+to human communication was done by human labor. But nowadays these tasks which seems
+very cumbersome to accomplish can be achieved within micro seconds, if not within
+time scopes that humans can't realize, by the help of a simple but complex machine
+called Computer.
+
+These general purpose machines, the consumer decides to what purpose to use, are now
+everywhere from space exploration to entertainment,so worth knowing it. I do believe that
+any human being living in  this globe  will be affected by these machines either positively
+or negatively. Therefore it is better to equipped yourself with the necessary knowledge
+about this machine and its governing science.
+
+For the first time I heard the term algorithm was when I was grade 9(Mathematics grade 9),
+an Euclidean algorithm, an algorithm that can be used to compute multiplication of
+two integers. Even though I didn't exactly know what algorithm meant at that time,
+I was amazed by the precise steps that even a novice can multiply two numbers simply by
+following these steps.
+
+Since then I started asking what an algorithm is? what a computer is? How it works?
+Thanks this amazing machine that makes communication very easy, I began surfing the web
+and reading some old books about it that I found at our library, Kallamino Special
+High school library. When I was grade 9, there was a nation wide Mathematics
+competition called MIND PLUS MATHS and I scored a good result, then I went to Addis Abbaba
+for next phase of the competition. When I returned from AA my father bought for me
+a computer. Back then I became curious about computer science and helping my community
+to uplift from the physical labor of working to computer aided working.
+At the time of crisis that happened in the northern Ethiopia, I enrolled basic Java course
+prepared by Mekelle University lecturers and earned my certificate in basics of Java.
+
+A year ago my friend told me about addiscoder. At that time there was poor connection
+at our region, I didn't found much info about it. But when the connection slightly
+improved I tried surfing about addiscoder. I was excited to see many students of my age
+are also enthusiastic for learning Computer Science and I wished to had any connection
+with them to work for of our country. I appreciated your efforts to make this happen.
+
+I am very interested in your programs because I believe that your program will help us
+to collaborate with other scholars, to start our journey with best available way of
+learning, to equipped us with necessary tools and techniques that leads us to solving
+our community problems.
+
+
+It's me Eleni Kahsay, Grade 12 from Mekelle, Kallamino Special High school.
+23-12-2023GC

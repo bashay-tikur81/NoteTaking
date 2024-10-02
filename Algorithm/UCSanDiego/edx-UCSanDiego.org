@@ -1,0 +1,119 @@
+#+TITLE: Data structure and Algorithm
+#+AUTHOR: Ertale81
+#+STARTDATE: <2024-06-22 Sat>
+#+DESCRIPTION: As thought in edx
+
+* Introduction
+*Stress Testing*: The silver bullet for debugging
+Also known as *Endurance Testing or Torture Testing*.
+Is a type of performance testing where we put heavy load on the system to determine how the system performs in extreme condition or unexpected condition. Stress testing used to evaluate the performance and scalability of a system/software under extreme or unfavorable conditions.
+It involves subjecting the application to high level of stress, such as heavy user loads, limited resources, excessive data inputs, to identify its breaking point and potential weakness. The goal of stress testing is to uncover how the software/system behaves under stress and to ensure that it's robust. It helps identify bottlenecks, areas of improvement, fix vulnerabilities early on, preventing unexpected failures and performance degradation.
+
+*When to perform Stress Testing:*
+ should be conducted at specific stages of the software development life cycle to ensure that application can handle real-world scenarios, such as in:
++ *Pre-production*
+  - Stress testing should be performed before the software is deployed into production. By subjecting the system to extreme conditions, potential issues and bottlenecks can identified and resolved early on preventing unexpected failure and performance degradation.
++ *After making major updates*
+  - This helps verify whether the changes have introduced any unforeseen issues that might impact the performance of the system.
++ *When making infrastructure changes*
+  - When migrating to new infrastructure, such as changing servers, databases, or network configuration, stress testing should be conducted to evaluate how the software performs in the new environment and to identify any compatibility issues and performance bottlenecks.
+
+
+Testing Techniques:
+Generally you should test your problems on the following group of test:
+1) A few small manual tests
+2) A test for each possible types of answer(smallest, biggest, and answer that doesn't exist)
+3) Test for time/memory limit: generate a test with the largest possible size of input ("max test"), run your program, measure time and memory consumption
+4) Test for corner cases:
+   - Smallest possible "n": the length of the input sequence or string, the number of queries etc ..
+   - Equal numbers, equal letters in the string, more generally, equal objects in the input.
+     Any two objects that are restricted to be different in the problem statement can be equal.
+   - Largest numbers in the input allowed by the problem statement
+   - Degenerates cases like empty set, three points on one line, a tree which consists of just one chain of node
+     
+A stress test consists of four parts:
+1. The solution you want to test
+2. A different, possibly trivial and very slow, but easy to implement and obviously correct solution to the problem
+3. A test generator
+4. An infinite loop in which a new test is generated, it is fed into both solutions, then the result are compared, and if they differ, the test and both answers are output, and the program stops, otherwise the loop repeats.
+  
+The idea behind /stress testing/ is if you have two correct solutions, and the answer to the problem is unique, then for any possible test case they area guaranteed to give the same answer. If, however, at least one of solution is incorrect, the with a very high probability there exists a test on which their answer differ. The only case when it is not so is when there is  a common mistake on both solutions, but that is very unlikely (unless the mistake is somewhere in the input/output routines which are common to both solutions - check for that separately). Indeed, if one solution is correct and the other is wrong, then there obviously exists a test case on which they differ. If both are wrong, but the bugs are different, the most probably there exists a test on which one solution gives a correct answer and other gives wrong answer, so they differ.
+
+* Algorithms
+** Computing Run times
+- Finding the actual runtime of a program is very difficult. There are many factors like:
+  + Details of memory hierarchy(like caches, RAM ....)
+  + Speed of the computer
+  + The system architecture
+  + The compiler being used
+- Figuring out accurate runtime is a huge mess
+- In practice, you may not know the all details where the program runs\sad.
+
+In general computing runtime:
+1) Depends on fine details of the program
+2) Depends on details of the computer
+** Asymptotic Notation
+*Key idea* - All of the issues can multiply run times by (large) constant. So measure run time in a way that ignore /constant multiples/. But there is a problem with this idea, if you have a run time of 1 sec, 1 hour, 1 year that only differs by constant multiples. A year is just 30M seconds, so if you don't consider these constants you can't differentiate a run time of 1 sec and 1 year.
+*Solution*??
+Consider /asymptotic/ run times. How does run time scale with input size?
+Asymptotic notation:
+- Let's us ignore messy details in analysis
+- Produces clean answers
+- Throws away a lot of practically useful information\sad, so if you want your program to run fast you need to consider more than Big-O description
+
+Approximate run times
+
+|---------+-------+--------+---------+-------------|
+| Input   | n     | nlog n | n^2     | 2^n         |
+|---------+-------+--------+---------+-------------|
+| n = 20  | 1 sec | 1 sec  | 1 sec   | 1 sec       |
+|---------+-------+--------+---------+-------------|
+| n = 50  | 1 sec | 1 sec  | 1 sec   | 13 days     |
+|---------+-------+--------+---------+-------------|
+| n = 10^2 | 1 sec | 1 sec  | 1 sec   | 4.10^13 year |
+|---------+-------+--------+---------+-------------|
+| n = 10^6 | 1 sec | 1 sec  | 17 min  |             |
+|---------+-------+--------+---------+-------------|
+| n = 10^9 | 1 sec | 30 sec | 30 year |             |
+|---------+-------+--------+---------+-------------|
+_____________________________________________________
+max n      10^9     10^7.5     10^4.5        30
+
+
+*log n < square root(n) < n < n log n < n^2 < 2^n*
+** Big-O Notation
+Definition:
+f(n) = O(g(n)) (f is Big-O of g) or f <= g if there exists a constant N and C so that for all n >= N, f(n) <= g(n).
+This has many advantages:
+- It clarifies growth rate
+- Cleans up Notation, O(n^2) vs 3n^2 + 5n + 8
+- Can ignore complicated details, no longer need to worry about memory hierarchy, compiler type, Speed of the computer, architecture of the system
+*Warning*
++ Using Big-O loses important information about constant multiples
++ Big-O is /only asymptotic/ - it tells what can happen when there is really very big input
+
+_Common Rules:_
++ Multiplicative constants can be omitted:
+  7n^3 = O(n^3), n^2/3 = O(n^2)
++ n^a < n^b for 0 < a < b:
+  n = O(n^2), square root(n) = O(n)
++ n^a < b^n (a > 0, b > 1):
+  n^5 = O(square root(2^n)), n^100 = O(1.1^n)
++ (log n)^a < n^b (a, b > 0):
+  (log n)^3 = O(square root(n)), nlog n = O(n^2)
++ Smaller terms can be omitted:
+  n^2 + n = O(n^2), 2^n + n^9 = O(2^n)
+** Other Notations
+f(n) = O(g(n)) /f grows no faster than g/
+f(n) = \omega(g(n)) /f grows no slower than g/
+f(n) = \theta(g(n)) /f grows at the same rate as g/
+For Functions f,g : N \to R^+ we say that:
+f(n) = o(g(n)) or f < g if f(n)/g(n) \to 0 as n \to \infty(backslash with a word infty)
+(f grows slower than g)- this little-o notation.
+
+The main rules working with logarithms are the following:
++ log_a(n^k) = klog_a(n)
++ log_a(nm) = log_a(n) + log_a(m) # these curly-braces () are for readability in org mode
++ n^log_a^b = b^log_a^b
++ log_a(n).log_b(a) = log_b(n)
+/Recall that log_a(n) is the power to which you need to raise a in order to obtain n/

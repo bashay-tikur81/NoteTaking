@@ -1,0 +1,50 @@
+#+TITLE: Amazon Seller account
+#+AUTHOR: Ertale81
+
+* Setup Amazon sellers account
+- Go to [[https://www.sellercentral.amazon.com][Official Amazon seller account]] to sign up and login
+
+* General Guidelines for Amazon Seller's account
+- Don't use duplicate account.
+- Use your professional email account if possible.
+- Don't sign up with a debit card
+- Need a valid Bank account number, a bank account that Amazon can easily send bank to
+  and you easily withdraw from it.
+- Business name registered on Amazon and the account name should match.
+- A bank statement
+- A valid credit card number, don't use a debt card or prepaid visa card
+- Make store name same as your LLC name, but you can change as you want.
+- Universal product code(UPC), you can get it from [[https://www.gs1.org][gs1.org]](C-c C-o to follow the link)
+
+* Products to sell on Amazon
+- Try selling premium products
+- First to Market in your category
+- Evergreen products, products people need all season
+- Passion products, it makes things easy b/ce it is your passion
+
+* Products not to sell on Amazon
+- Products under 15$, since you have to pay for Amazon FBA selling fee 15%,
+  product cost, pick and pack fee and other costs
+- Products over 85$, since people will see another choice.
+- Competitive products
+- Products that doesn't ship well
+
+
+* Putting your product on Amazon
+- Know that amazon is a search engine so take care of title of your product, what adjectives
+  are people using when searching for your product.
+  Make a search trend using google trends to see what people search often.
+
+
+* Fees
+- Amazon PPC(pay per click)
+- Pick and pack fee
+- FBA fee
+
+* Business forms
+- DBA(Doing Business As)
+- LLC(Limited Liability Company)
+- S corp(Small business corporation)
+
+* Steps to register products
+

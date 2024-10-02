@@ -1,0 +1,53 @@
+#+AUTHOR: Ertale81
+#+TITLE: Introduction to CS as though at MIT
+
+* Computers
+Two things computers do:
+- Perform simple *operations*
+- *Remembers* results.
+
+** Primitive constructs
+- numbers, strings, simple operators.
+
+**** Aspects of language
+1) Syntax: The rules and grammars
+   - When things go wrong, Syntax error
+2) Static semantic: The meaning associated with the syntactically correct string of symbols
+   with no static semantic errors.
+   Human languages can have many meanings, but programs have only one meaning. But the meaning
+   may not be the programmer intended.
+   - When things go wrong, Static semantic error
+
+
+What we exactly do when we write a program?
+Answer: We're going to create an object and we're going to manipulate them.
+When we create an object the object have a *type* that defines the kind of things program can do
+to them.
+Types of objects in python:
+1. Scalar objects - primitive objects(can not be subdivided)
+   - numbers: 3, 6,..., truth values: True, False
+     - int, float, bool, NoneType(Special and has one have one value "None") are the scalar
+       objects in python.
+2. Non scalar objects - have internal structure that can be accessed.
+   - lists, dictionaries, sequence of characters: "abc"
+
+
+Operations in int and float in python:
+- i // j -> floor division
+- i % j  -> the remainder when i is divided by j
+- i ** j -> i to the power of j
+
+
+Computer science variables are different that Maths variables. Maths variables can represent
+many values but CS variables are bound to /one single value/ at a given time.
+You can use [[https://www.pythontutor.com][Pythontutor.com]] to debug your code.
+
+- *Strings*
+Slicing a string in python /[start:end:step]/ if string[start:end], default step = 1.
+But the end is not included in the slicing.
+Strings are /immutable/ - can't be modified
+e.g: s = "Car"
+    s[0] = 'b' gives an error.
+- *input*
+input always returns a /string/, must cast if working with numbers.
+e.g: num = int(input("Number: "))

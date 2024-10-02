@@ -1,0 +1,26 @@
+#+TITLE: Writing Essay
+#+AUTHOR: Ertale81
+#+OPTION: content
+
+* General Techniques
+** Writing concisely
+*** Avoid empty phrase
+- Empty phrases are phrases that don't add any meaning to the paragraph, even when we
+  remove them the sentence still holds its meaning. They are going to be assumed you
+  use them in order to reach the word limit. You are just reaching the word limit not
+  writing a good essay.
+*** Avoid repetition
+- Don't use words that have same meaning twice or more in one sentence.
+  
+*** Choose the best grammar structure
+- The subject and verb of a sentence should reflect what is most important in the
+  sentence. Choose the best way to write the idea in grammatical form.
+  e.g: /it is, there is/ are frequently just extra words that weaken you sentence.
+- Information in two or more sentences can often combined into one sentence.
+
+* Introduction
+
+
+* Body
+
+* Conclusion

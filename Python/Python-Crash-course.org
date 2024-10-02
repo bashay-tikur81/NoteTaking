@@ -1,0 +1,358 @@
+#+AUTHOR: Ertale81
+#+TITLE: Python Crash course
+
+
+* Variables and simple data types
+- Variable names only contain letters, numbers, and underscore(_). They can start with a letter
+  or underscore but not numbers.
+- Spaces are not allowed in variable names, but underscore can replace space
+- Avoid using python keywords and python function names.
+  Like /if, print, while, .../
+- Variable names should be short but descriptive.
+
+
+/A traceback/ is a record of where the interpreter ran into trouble when trying to execute
+your code.
+
+** Data Types
+*** *Strings*:
+- A series of characters. Anything inside quote is considered string in python. You can use either single or double quote as you wish but be consistent with what you use.
+- Checkout /f-string/, formatted string.
+  
+*** Lists:
+- /A list/ is a collection of items in particular order. It's a good idea to make name of your
+  list plural, like /letters, digits, names, .../
+- In python, square bracket *([])* indicate a list, and individual elements in a list are
+  separated by commas.
+  e.g: names = ["alice", "bob", "mike"]
+- To access element in the list, write the name of the list followed by the index of the item
+  enclosed in square brackets.
+  e.g: print(names[0])
+- Python has a special syntax for accessing the last element in the list, index = -1. This
+  syntax is quite useful because it will help you access the last element with out knowing
+  exactly how long the list is.
+- *List* is mutable. You can modify or delete the data  at any index.
+  You can modify, append, insert at any place, delete, pop, pop at any position, remove by vale.
+
+*** Tuples:
+- A tuple looks like list, except you use parentheses instead of square brackets. Once you
+  define tuples, you can access individual elements by using each item's index, just as you
+  would use for a list. 
+- Immutable lists are called tuples. A
+  e.g: dimensions = (100, 200)
+  dimensions[0] = 300 will produces an error since tuple is immutable
+
+*** Dictionary
+- /A dictionary/ in python is a collection of /key-value pairs/. Each /key/ is connected to a value
+  and you can use the key to access the value associated with that key. A keys values can be
+  numbers, string, lists, or even another dictionary.
+  e.g: players = {"name": "Micheal", "goal": 20}
+  players["goal"] == 20
+- Every key is connected to its value by colon(:) and individual key-value pair are separted
+  by commas.
+- When you no longer need the values in the dictionary you can use /del/ statement to completely
+  remove the key-value pair.
+- All /del/ needs is the name of dictionary and the key that you want to remove.
+  e.g: del players["name"]
+- Using keys in square bracket to retrieve the value you're interested in from a dictionary
+  might cause one potential problem: if the key you ask for doesn't exist, you will get an
+  error. But for  dictionaries specifically , you can use /get()/ method to set a default
+  value that will be returned if the requested key doesn't exist.
+  The /get()/ method requires a key as first argument. As a second optional argument, you can
+  pass the value to be returned if the key doesn't exist.
+  If you leave out the second argument to call /get()/ and the key doesn't exist, python will
+  return the value *None*. This is not an error: it's /a special value meant to indicate the/
+  /absence of value./
+
+* Functions
+- for writing single line comment you put either "#" before the comment
+  for multi line comment put '''  ''' in between the comment
+- Function definition is as follows:
+  
+- /def function_ name(arguments,...):/
+
+  When passing an argument 2 ways:
+  - Positional arguments, passing arguments are they are define in the function definition
+  - Keyword arguments is a /name-value/ pair that you pass the function
+- When writing a function you can define /default value/ for each parameter. If an argument is
+  provided in the function call python uses that value, if not its uses the parameter's default
+  value.
+- Passing an arbitrary number of arguments to a function
+- Making a function to accept optional arguments(by help of default)
+- Mixing optional and arbitrary arguments
+  If you want a function to accept several different kinds of arguments, the parameter that
+  accepts an arbitrary number of argument must be placed last in the function definition.
+  Python matches positional and keyword arguments first and then collects any remaining
+  arguments in the final parameter.
+  e.g: /def pizza(size, *toppings):/
+  The asterisk in the parameter name /*toppings/ tells python to make a tuple called /toppings/,
+  containing all the values this function receives after the parameter /size/.
+- Using arbitrary keyword arguments????
+  Sometimes you may want to accept an arbitrary number of arguments, but you won't know ahead
+  of time what type of information will be passed to the function. In this case you can write
+  functions that accept as many /key-value/ pairs as the calling statement provides.
+  e.g: /def build_ profile(last, first, **user_ info):/
+  The double asterisk before the parameter **user_ info cause python to create a dictionary
+  called user_ info containing all the extra name-value pairs the function receives. Within the function, you can access the /key-value/ pairs in user_ info just as you would for any
+  dictionary.
+  
+* Class
+When you write a class, you define the general behavior that a whole category of object can have. When you create individual objects from the class, each object is automatically equipped with the general behavior; you can then give each object what ever unique trait you desire.
+Making an object from class is called /instantiation/, and you work with /instance/ of the class.
+By convention capitalized names indicate *classes* in python.
+The __init__ () method is a special method that python runs automatically whenever we create a new instance based class.
+
+Think of class as a set of instructions for how to make an instance.
+#+begin_src python :results output
+  class Dog:
+      def __init__(self,name,age):
+          self.name = name
+          self.age = age
+      def sit(self):
+          print(f"{self.name} is sitting")
+      def rollover(self):
+          print(f"{self.name} is rolling")
+  my_dog = Dog("Walice", 8)
+  print(f"My dog's name is = {my_dog.name} and age = {my_dog.age}")
+  my_dog.sit()
+  my_dog.rollover()
+
+#+end_src
+
+#+RESULTS:
+: My dog's name is = Walice and age = 8
+: Walice is sitting
+: Walice is rolling
+
+Dot notation uses to find attribute's value. Like my_ dog.name
+To call a method, give the name of instance and the method you want to call separated by a dot.
+You can create as many instances as you like from the class.
+
+* Inheritance
+You don't have to start from a scratch when writing a class. If the class you're writing is a specialized version of another class you wrote, you can use /inheritance/. When one class /inherits/ from another, it takes on the attributes and methods of the first class. The original class is called /parent class/ and the new class is /child class/. The child class can inherit any or all of the attributes and methods of its parent class, but it's also free to define new attributes and methods of its own.
+When you create a child class, the parent class must be part of the current file and must appear before the child class in the current file.
+When defining a child class the name of the parent class must included in the parenthesis /() in the definition of the child class.
+
+** Method Overriding
+You can override any method from the parent class that doesn't fit what you're trying to model with the child class. To do this, you define a method in the child class with the same name as the method you want to override in the parent class. Python will disregard the parent class method and only pay attention to the method you define in the child class.
+
+
+** Creating Instances from class
+variable = ClassName(set-of-attributes)
+
+** Importing one or multiple classes
+/from module_ name import class1, class2, .../
+
+** Importing all classes
+/from module_ name import */
+
+** Aliases
+
+** Styling Classes
+Class names should be written in CamelCase. Instances and module name should be written in lower case, with underscore between words.
+Every class should have a docstring immediately following the class definition. The docstring should be a brief description of what the class does, and you should follow the same formatting strings you follow in writing docstrings in functions. Each module should also have a docstring describing what the classes in the module can be used for.
+If you need to import a module from the standard library and a module you wrote, place the import statement for the standard library first. Then a blank line and the import statement for the module you wrote
+
+* Files and exceptions
+When you want to work with the information in a text file, the first step is to read the file into memory. You can then work through all the file's content at once or work through the contents line by line.
+#+begin_src python :results value output
+  from pathlib import Path
+  path = Path("pi_million_digits.txt")
+  contents = path.read_text()
+  lines = contents.splitlines()
+  pi_string = ''
+  for line in lines:
+      pi_string += line.strip()
+  print(f"{pi_string[:50]} ...")
+  print(len(pi_string))
+#+end_src
+
+#+RESULTS:
+: 3.141592653589793238462643383279502884197169399375 ...
+: 1000002
+
+
+
+To work with contents of a file, we need to tell python the path to the file. A /path/ is the exact location of a file or folder on a system.
+There are two ways to give a path:
+1) Relative path - When you pass a simple file name like /pi_ digits.py/ to Path, Python looks in the directory where the file that is currently being executed (that is your /.py/ program file) is stored.
+   - looks for a given location relative to the directory where the current running program is stored.
+     e.g: path = Path("text-file/file.txt")
+2) Absolute path - when the file you want to open is not in the same directory as your program file.
+   Absolute paths are usually longer than relative paths, because they start at your system's root folder
+   e.g: path = Path("/home/admin/datafiles/path1.txt")
+   
+When Python reads from a file, it interprets all the text in the file as a string. If you read in a number and want to work with that value as numerical context, you will have to convert it to an integer using the /int()/ function or float(/float()/) function.
+
+** Writing
+Once you have a path defined, you can write to a file using /write_ text()/ method.
+#+begin_src python :results output
+  from pathlib import Path
+
+  path = Path("programming.txt")
+  path.write_text("I love programming")
+  print(path.read_text())
+#+end_src
+
+Python only writes strings to a text file. If you want to store numerical data in a text file, you have convert the data to string format first using the /str()/ function.
+The write_ text() creates the file if it doesn't exist. Also, after writing the string to the file, it makes sure the file is closed properly. Files that aren't closed properly can lead to missing or corrupted data.
+
+*** Writing Multiple lines
+To write more than one line to a file, you need to build a string containing the entire contents of the file, and the call write_ text() with that string.
+#+begin_src python :results output
+  from pathlib import Path
+  contents = "I love programming \n"
+  contents += "I love creating new games\n"
+  contents += "I also love working with data."
+  path = Path("programming.txt")
+  path.write_text(contents)
+  print(path.read_text())
+#+end_src
+
+#+RESULTS:
+: I love programming 
+: I love creating new games
+: I also love working with data.
+
+** Exceptions
+Python uses special objects called /exceptions/ to manage errors that arise during program's execution. Whenever an error occurs that makes python unsure of what to do next, it creates an exception object. If you write a code that handles the exception, the program will continue running. If you don't handle the exception, the program will halt and show a /traceback/ which includes the report of the exception that war raised.
+Exceptions are handled with /try-except/ block. A /try-except/ block asks python to do something, but it also tells python what to do if an exception is raised.
+When you use /try-except/ block, your program will continue running even if things start to go wrong.
+#+begin_src python :results output
+  try:
+      print(50/0)
+  except ZeroDivisionError:
+      print("Can't divide by zero")
+  print("Program continues after an exception\\smiley")
+
+#+end_src
+
+If the code in the /try/ block works, Python skips over the /except/ block. If the code in the /try/ block causes an error, Python looks for an except block whose error matches the one that was raised and runs the code in that block.
+
+The only code that should go in a /try/ block is code that might cause an exception to be raised. Sometimes you'll have additional code that should run only if the /try/ block was successful; this code goes to the /else/ block.
+The /except/ block tells python what to do in case a certain exception arises 
+
+#+begin_src python :results output
+  from pathlib import Path
+  path = Path("file not found.txt")
+  randtext = "Here is another file with for try except block\n"
+  randtext += "Another line of text\n"
+  #path.write_text(randtext)
+
+  try:
+      contents = path.read_text(encoding='utf-8')
+  except FileNotFoundError:
+      print("File was not found \\sad")
+
+  else:
+      for content in contents.splitlines():
+          print(content)
+#+end_src
+
+#+RESULTS:
+: File was not found \sad
+
+*** Failing Silently
+You don't need to report every exception you catch. Sometimes you will want the program to fail silently when an exception occurs and continue on as if nothing happened. To make a program fail silently, you write a /try/ block, but you explicitly tell python to do nothing in the /except/ block. Python has /pass/ statement that tells it to do nothing in a block.
+The /pass/ statement also acts as a placeholder. It's a reminder that you're choosing to do nothing at a specific point in your program execution and that you might want to do something there later.
+
+*** Deciding which error to report
+Well-written, properly tested is not very prone to internal errors such as syntax or logical errors. But every time your program depends on something external such as user input, the existence of a file, or the availability of network connection there is a possibility of an exception being raised
+
+** Storing Data
+Many of your programs will ask users to input certain kinds of information. You might allow users to store preference in a game or provide data for visualization. Whatever the focus of your program is, you will store the information user provides in data structures such as lists and dictionaries. When users close a program, you will almost always want to save the information they entered. A simple way to do this involves storing your data using /json/ module.
+
+The /json/ module allows you to convert simple python data structure to *JSON*-formatted strings, and then load the data from that file the next time the program runs.
+You can also use /JSON/ to share data between different python programs. Even better the /JSON/ data format is not specific to Python, so you can share data you store in the /JSON/ format with people who work with many other programming languages.
+
+/JSON (JavaScript Object Notation) format was originally developed for JavaScript. However/
+/it has since become a common format used by many languages/.
+
+/JSON/ is a text-based format used for storing and transferring data across different systems.
+/JSON/ maps a key to a value where as an array specifies an ordered collection of things.
+/JSON/ objects don't have numerical order.
+
+*** json.dumps() and json.loads()
+The json.dumps() function takes one argument: a piece of data that should be converted to the JSON format. The function returns a string which we can then write to a data file.
+#+begin_src python :results output
+  from pathlib import Path
+  import json
+  numbers = [0, 1, 1, 2, 3, 5, 8, 13, 21]
+  path = Path("numbers.json")
+  contents = json.dumps(numbers)
+  path.write_text(contents)
+  print(contents)
+#+end_src
+#+begin_src python :results output
+  from pathlib import Path
+  import json
+
+  path = Path("numbers.json")
+  contents = path.read_text()
+  numbers = json.loads(contents)
+  print(numbers)
+#+end_src
+
+#+RESULTS:
+: [0, 1, 1, 2, 3, 5, 8, 13, 21]
+
+The json.loads() function takes /JSON/-formatted string and returns a python object which we can assign to another variables.
+
+*** Saving and Reading user-generated data
+Saving data with json is useful when you're working with user-generated data, because if you don't store your user's information somehow, you will lose it when the program stops running.
+
+*** Refactoring
+Often, you'll come to a point where your code will work, but you will recognize that you could improve the code by breaking it up into a series of functions that have specific jobs. This process is called /refactoring/. *Refactoring* makes your code cleaner, easier to understand, and easier to extend.
+
+* Testing Your code
+When you write a class or a function, you also write tests for that code. Testing proves that your codes works as it's supposed to in response to all the kind of inputs it's designed to receive. When you write your tests, you can be confident that your code will work correctly as more people begin to use your program.
+You will also be able to test new code as you add it, to make sure your changes don't break your program's existing behavior.
+In this chapter you will learn to test your code using /pytest/ library.
+
+*PIP* A python tool that used to install third-party packages. Because /pip/ helps install packages from external resources, it's updated often to address potential security issues.
+To update /pip/:
+*$ python -m pip install --upgrade pip*
+
+Now installing /pytest/:
+*$ python -m pip install --user pytest*
+/--user/ flag tells python to install the package for the current user only.
+You can use the following command to install many third-part packages
+*$ python -m pip install --user packag-name*
+
+** Unit Testing
+- One of the simplest kind of test in software testing. A /unit test/ verifies that one specific aspect of a function's behavior is correct. A /test case/ is a collection of unit test that together prove that a function behaves as it's supposed to, within the full range of situations you expect it to handle.
+- A good test case considers all the possible kind of input a function could receive and includes test to represent each of these situations. It's often good enough to write tests for your code's critical behaviors and then aim for full coverage only if the project starts to see widespread use.
+  
+*** Passing a test
+- Write a test function that will call the function we are testing, and we will make an assertion about the value that's returned. If our assertion is correct, the test will pass; if the assertion is incorrect, the test will fail.
+- When using /pytest/ the name of the file is important; it must start with *test_*. When we ask /pytest/ to run the tests we have written it will look for any file that begins with /test_/ and run all of the tests it finds in that file. Not only file names should start with *test_* but also test functions should start with *test_*. Any function that starts with /test_/ will be discovered by /pytest/, and will be run as part of the testing process.
+  Also test names should be longer and more descriptive than a typical filename. You will never call a function yourself; /pytest/ will find the function and run it for you. Test function names should function names should be long enough that if you see the function name in a test report, you will have a good sense of what behavior was being tested.
+
+*** Running a test
+- Just type /pytest/ in the terminal or related it will run all the tests on that folder
+
+*** A variety of assertion
+- Commonly used Assertion statements in tests are:
+  | Assertion                  | Claim                                   |
+  |----------------------------+-----------------------------------------|
+  | assert a == b              | Assert that two values are equal        |
+  |----------------------------+-----------------------------------------|
+  | assert a != b              | Assert that two values are not equal    |
+  |----------------------------+-----------------------------------------|
+  | assert a                   | Assert that a evaluates to True         |
+  |----------------------------+-----------------------------------------|
+  | assert not a               | Assert that a evaluates to False        |
+  |----------------------------+-----------------------------------------|
+  | assert /element/ in list     | Assert that an element is in a list     |
+  |----------------------------+-----------------------------------------|
+  | assert /element/ not in list | Assert that an element is not in a list |
+  |----------------------------+-----------------------------------------|
+
+*** Testing a class
+- Testing a class is similar to testing a function, because much of the work involves testing the behavior of the methods in the class. However, there are few differences.
+  
+**** Testing using /Fixtures/
+- In testing, a /fixture/ help set up a test environment. Often this means creating a resource that is used by more than one test. We create a fixture in pytest by writing a function with the decorator @pytest.fixture. A *decorator* is a directive placed just before a function definition; python applies this directive to the function before it runs, to alter how the function code behaves.
+
+* Django
+

@@ -1,0 +1,10 @@
+When writing python snippets inside emacs org mode it won't work unless
+you make a link between python and python3.
+
+Linking Python to Python3
+If you’ve already installed Python 3 and still encounter python not fount 
+issue, you can create a symbolic link:
+
+sudo ln -s /usr/bin/python3 /usr/bin/python
+
+This automatically aliases python to python3

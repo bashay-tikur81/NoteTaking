@@ -1,0 +1,8 @@
+#+AUTHOR: Ertale81
+#+TITLE: Learning TODO
+
+
+* TODO
+The most common command to work with TODO is C-c C-t(org-todo)
+
+*** TODO Writing Research Management proposal

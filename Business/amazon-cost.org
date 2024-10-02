@@ -1,0 +1,52 @@
+#+TITLE: Amazon Costs
+#+AUTHOR: Ertale81
+#+DATE: <2024-06-10 Mon>
+
+* How much does it cost to sell on Amazon?
+
+The prices you will be paying to sell on Amazon depend on various factors?
+- *Monthly Subscription Fees:* Amazon’s Professional seller account costs $39.99 each month.
+- *Referral Fee:* Think of this fee as the commission you pay to Amazon each time you sell on their marketplace.
+  Each time you sell on Amazon, you have to pay a referral fee between 6% to 20%. The type of referral fee depends on the type of product you are selling within your Amazon store. Mostly on average it is 15% of your sell.
+- *Customer return fee:* As amazon seller, you will be in charge of covering costs for any item that the customer returns to your warehouse. And you will need to pay an applicable refund administration fee. This is either %5.00 or 20% of the applicable referral fee.
+- *FBA Pick and pack fee & Monthly Storage Fee:* Monthly storage fee is $0.69 per cubic foot from January to September and $2.40 per cubic foot from October to December.
+  Keep in mind that if your product stays in the FBA warehouse for longer than one year, you will have to cover additional charges.
+  The pick and pack fee is the cost you pay for amazon to pick the product from amazon warehouse and pack it to send to the customer.
+  Here is FBA fees:
+
+|----------------+---------------+-----------------+----------------|
+| size tier      | Max dimension | Shipping weight | Fulfilment fee |
+|----------------+---------------+-----------------+----------------|
+| Small Standard | 15"x12"x0.75" | 4 oz or less    | $3.22          |
+|                |               | 4+ to 8 oz      | $3.40          |
+|                |               | 8+ to 12 oz     | $3.58          |
+|                |               | 12+ to 16 oz    | $3.77          |
+|----------------+---------------+-----------------+----------------|
+| Large Standard | 18"x14"x8"    | 4 oz or less    | $3.86          |
+|                |               | 4+ to 8 oz      | $4.08          |
+|                |               | 8+ to 12 oz     | $4.24          |
+|                |               | 12+ to 16 oz    | $4.75          |
+|                |               | 1+ to 1.5 lb    | $5.40          |
+|                |               | 1.5+ to 2 lb    | $5.69          |
+|                |               | 2+ to 2.5 lb    | $6.10          |
+|                |               | 2.5+ to 3 lb    | $6.39          |
+|----------------+---------------+-----------------+----------------|
+
+
+* Amazon Branding?
+ You can sell products on Amazon without having your own brand by engaging in retail arbitrage, wholesaling, or becoming a reseller of existing products. However, owning and developing your brand can provide greater control over your products, potentially higher profit margins, and customer loyalty.
+ However, there are some important considerations to keep in mind when selling products without your own brand on Amazon:
+ - *Competition:* Selling generic products without a brand can lead to increased competition,
+   as other sellers may also be offering the same or similar products. It may be challenging to differentiate your listings and stand out from competitors.
+   
+ - *Profit Margins:* Since you are not selling a unique or branded product, profit margins may be lower compared to selling your own branded products. You may need to compete on price, which can impact your profitability.
+   
+ - *Quality Control:* When selling products without your own brand, you rely on the quality and reputation of the products you are reselling. It's important to ensure that the products you sell meet quality standards and customer expectations to maintain a good reputation as a seller.
+ - *Legal Compliance:* Make sure you comply with Amazon's policies and guidelines for selling products on their platform. You should also ensure that you have the necessary permissions and rights to sell the products you list.
+
+   You sold on amazon without a brand name, instead of entering a brand name while creating a new listing, you can select /Generic/ as brand name value.
+   When adding generic products to amazon store make sure that the product is genuinely new not a copy of an existing amazon listing.
+   Note that: after /Generic/ is used as a brand name value for a product listing it can't be updated. To associate a brand name with the product after it has been listed as /Generic/  you need to delete your listing and create a new one.
+   /Generic/ product owners can't activate the selling benefits and protection tools available to registered brands.
+
+

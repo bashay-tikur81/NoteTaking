@@ -1,0 +1,11 @@
+#+TITLE: Mathematics for computer Science
+#+AUTHOR: Ertale81
+#+STARTDATE: <2024-08-08 Thu>
+
+* What is Proof
+** Propositions
+- A /proposition/ is a statement (communication) that is either *true* or *false*.
+** Predicates
+- A /predicates/ can be understood as a proposition whose *truth* depends on the value one or more variables. So "n is a perfect square" describes a predicate, since you can't say if it's true or false until you know what the value of the variable /n/ happens to be. Once you know the values it becomes either /true proposition/ or /false proposition/.
+  e.g: P(n)::="n is a perfect square", P for predicate and ::= for equal by definition.
+  If P is a predicate, the P(n) is either /true/ or /false/, depending on the value of n.

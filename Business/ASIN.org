@@ -1,0 +1,8 @@
+#+TITLE: Amazon ASIN
+#+AUTHOR: Ertale81
+#+DATE: <2024-06-10 Mon>
+
+* What is ASIN?
+ASIN(Amazon Standard Identification Number) is a unique identifier assigned to each product on the amazon platform. However an ASIN is not always directly tied to a brand name.
+- *ASIN is assigned to a product*: When a seller creates a product listing on amazon, the platform assigns a unique ASIN to that product. This ASIN is used to identify the product tracks its sales, inventory and other metadata.
+- *ASIN can be shared across multiple sellers*: The same ASIN can used by multiple sellers who are offering the same or similar products.

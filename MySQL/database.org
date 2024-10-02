@@ -1,0 +1,69 @@
+#+TITLE: MySQL
+#+AUTHOR: Ertale81
+
+* Database Commands
+** Manipulating data base
+- CREATE DATABASE <database-name>; for creating database
+- SHOW DATABASES; show all databases
+- USE <database-name>; to use the database
+  to see if you are actually using that database check by: SELECT database();
+- DROP DATABASE <database-name>; for dropping databases and all its contents
+
+** Table Creation
+- *to create a table*
+  CREATE TABLE <table-name>(
+      column-name data-type,
+      column-name data-type
+      );
+- *to see the created tables*:
+  First check in which database you are in, then:
+  show tables; will list all the tables
+  You can use DESCRIBE <table-name>; will describe the table or you can use
+  SHOW COLUMNS FROM <table-name>;
+- Deleting tables:
+  DROP TABLE <table-name>; This will not ask you a confirmation
+- Comments in MySQL:
+  two hyphen and space(-- ), to comment or uncomment a selected region in workbench = CTRL+/
+
+** Inserting data
+- INSERT INTO <table-name>(column-names) VALUES(column values);
+  In inserting data *order matters*.
+  To check if it works: SELECT * FROM <table-name>; this is to view all rows from our table.
+- You can insert multiple values at once.
+  INSERT INTO <table-name>(column-name)
+     VALUES(column-value),(column-value),...;
+  If you want some values not to be NULL, you can specify it the column when creating it
+  like the following:
+  CREATE TABLE <table-name>(column-name) VALUES(column-value) NOT NULL;
+  N.B: /when inserting string enclose them in single quote(''), some SQL flavors/
+  /may not accept double quote("")/
+- to create a primary key:
+  CREATE TABLE <table-name>(column-name PRIMARY KEY);
+       OR
+    CREATE TABLE <table-name>(column-name),PRIMARY KEY(column-name);
+  
+
+* CRUD Basics
+** CREATE
+** READ
+*** SELECT
+- To get all columns:
+  *SELECT * FROM table-name;*
+  To get only one column:
+  *SELECT column-name FROM table-name;*
+  To select multiple specific columns:
+  *SELECT column-name1,column-name2,.. FROM table-name;*
+*** WHERE
+- We use WHERE to narrow things down
+  e.g *SELECT * FROM table-name WHERE column-name='value';*
+*** AS
+- This is used for /aliases/, renaming our result temporary in the same we want to see on the output
+  e.g *SELECT column-name AS preferred-name FROM table-name;*
+** UPDATE
+*** UPDATE ... SET ...
+- Like INSERT INTO and VALUES goes in pair, UPDATE and SET also goes in pair.
+  *UPDATE table-name SET column1-name = '' column2-name = ''... WHERE some-condition ;*
+  A good way to update is first to SELECT it and UPDATE. To make sure if it is what you want to update. First check our your WHERE using SELECT.
+** DELETE
+- To delete some rows from table name but take care not delete all rows. so use it WHERE.
+  *DELETE FROM table-name WHERE <some-conditions>*

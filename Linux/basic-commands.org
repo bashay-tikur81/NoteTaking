@@ -1,0 +1,11 @@
+#+TITLE: Basic Linux commands
+#+AUTHOR: Ertale81
+
+
+
+* Find
+To delete file you found using /find/:
+$ find <dir-name> -iname <file-name> -exec rm {} \;
+If you want to prompt for confirmation before deleting each file, use /-i/ option with /rm/:
+$ find <dir-name> -iname <file-name> -exec rm -i {} \;
+

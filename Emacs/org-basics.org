@@ -1,0 +1,22 @@
+MY PROJECT -*- mode: org -*-
+#+STARTUP: s
+#+TITLE: Org Mode Basics in GNU Emacs
+#+AUTHOR: Ertale81
+#+DESCRIPTION: Starting to Use Org mode
+
+
+* What is am gonna do
+** Learning Emacs
+** Programming
+** Learning emacs
+
+* Love
+** Family
+** Where I came from
+** Those who sacrifiy themselves for me
+
+* 
+
+* Gym
+** Everyday at 8:00 pm
+

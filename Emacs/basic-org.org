@@ -1,0 +1,114 @@
+#+TITLE: Emacs org-mode
+#+AUTHOR: Ertale81
+#+DESCRIPTION: Learning Org-mode
+
+* Configuring basic keybindings
++ org-cycle is bound to TAB(it cycles through the outline)
++ S-TAB: hide and show the outline or C-u TAB does the same
+When Emacs first visits an org file, the global state is set to OVERVIEW
+,i.e, only toplevel headlines are visible. But this can be configured through
+the variable org-startup-folded or on a per-file basis by adding a "STARTUP"
+keyword to "content","showall","showeverything", or "show<n>levels(n=2..5)"
+like this one
+      "#+STARTUP: content"
+
+* MOTION
+C-c C-n Next Heading
+C-c C-p Previous heading
+C-c C-f Next heading same level
+C-c C-b Previous heading same level
+C-c C-u Backward to higher level heading
+M-RET Insert new heading with same level as current
+M-S-RET Insert new TODO entry with same level as current
+
+M-LEFT promote current heading by one level
+M-RIGHT demote current heading by one level
+M-UP move subtree up
+M-DOWN move subtree down
+
+* Plain list
+Org knows ordered list, unordered list, and description
+- unordered list item starts with "-", "+" or "*"
+- ordered list item starts with "1." or "1)"
+- descrition list uses "::" to separate the term from description
+Some editing commands:
+M-RET:: insert new item at current level. Withe a prefix argument
+M-S-RET:: Insert a new item with a checkbox
+M-S-UP
+M-S-DOWN:: Move the item including subitem up/down(swap with the previous
+/next item of the same identation). If list is ordered, renumbering is
+is automatic
+M-LEFT
+M-RIGHT::  Decrease/Increase indentation of an item, leaving children alone
+M-S-LEFT
+M-S-RIGHT:: Decrease/Inncrease identation of an item including subitmes
+C-c C-c:: If there is a checkbox, toggle it
+C-c - :: cycle the entire list level through different itemize/enumarate bullets
+("-", "+", "*","1.","1)")
+* TABLES
+Org comes with a fast and intuitive table editor. Org makes it easy to format
+tables in plain ASCII. Any line with "|" as the first non-whitespace character
+is considered part of the table. "|" is also the column separator.
+A table may look like the ff:
+| Name  |  Phone | Age |
+|-------+--------+-----|
+| Abebe | +251-0 |  24 |
+|       |        |     |
+
+A table is re-aligned automatically each time you press TAB or RET or C-C C-c
+inside the table.
+Any line starting with "|-" is considered as a horizontal separator separator
+line and will be expanded  on the next re-align to span the whole table width.
+So, to create the above table, you would only type
+|Name|Phone|age|
+|-
+and then press TAB to align the table and start filling the table. Even faster
+would be to type "|Name|phone|age" followed by C-c RET
+
+** Creation and conversion
+C-c | Convert the active region to table. It separates the filed values using
+either TAB, comma(CSV) or whitespace if none are present
+** Re-aligning and field motion
+S-UP
+S-DOWN
+S-LEFT
+S-RIGHT move a cell up, down, left and right by swaping adjacent cell
+M-LEFT
+M-RIGHT move the current column left/right
+M-S-LEFT Kill the current column
+M-S-RIGHT Insert new column to the left of point position
+M-UP, M-DOWN:: move the current row up/down
+M-S-UP Kill the current row or horizontal line
+M-S-DOWN Insert a new row above the current row
+C-c - Insert horizontal line below current row
+C-c RET Insert a horizontal line below current row, and move the point
+in to the row below that line
+C-c ^ Sort the table lines in the region
+* LINK
+Org recognizes plain URLs, possibly wrapped within angel brackets, and activates
+them as clickable links. The general format:
+   [LINK[Description]]
+or alternatively inside the bracket
+[[]]
+To edit the invisible part use C-c C-l with the point on the link.
+[[https:www.google.com][go to Google.com]]
+Alternatively check /M-x org-insert-link/
+
+C-c C-o open a link at a point
+
+* TODO
+Any headline becomes a TODO item when it starts with the word 'TODO'
+** DONE Learning TODO in Org mode
+CLOSED: [2024-03-05 Tue 23:33]
+To change the state of the TODO according to the defined
+CLOSED: [2024-03-05 Tue 23:32]
+*use C-c C-t to switch between state.* or S-LEFT or S-RIGHT
+
+
+** Checkbox
+- [ ] First item
+- [ ] Second item
+- [ ] To create another check box S-M-RET
+
+
+
