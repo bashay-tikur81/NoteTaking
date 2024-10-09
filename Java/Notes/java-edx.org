@@ -193,3 +193,299 @@ Java has three forms of comments to help document your code:
 - DecimalFormat
   - Another useful number formatting class in the java.text package is DecimalFormat. It’s quite flexible by giving you the power to specify your own patterns or templates for how formatted numbers should look.
 ** Decision-Making Statements
+- *Short-circuit evaluation*
+  These are performed for logical operators of AND(&&) and OR(||). That is the first operand is evaluated and if that can decide the right operand won't be evaluated. For example for && if the first operand is "false", there is no need to go to the second operand since whatever it is the result won't change. And this is very help for Java optimization, since the second operand may require additional resources, networks ...
+- *Dangling else problem*
+- *Ternary conditional operator*
+  Java offers an operator that can serve as a one-line replacement (or shortcut) to if-else statements.  It’s called the ternary conditional operator and it requires three operands as shown in the template below:
+    /condition ? expression1 : expression2/
+  The operator, itself, is represented as the two characters ? and : , which separate the three operands.  Note that the word ternary represents something that is composed of three parts.  Since this operator is the only Java operator that has three operands, its even given the seemingly broad ternary operator label.
+  The first operand is a condition and therefore results in a boolean value. If the condition is true, then the operator returns the result of evaluating the second operand (expression1).  Otherwise, the operator returns the result of the third operand (expression2).
+- *Multi way Branching*
+  - combination of if --- else if --- else
+  - Switch
+** Iteration
+- while loop
+- do-while loop
+- for loop
+* Module Four
+** Arrays
+- An array is an ordered sequence of values in which each element is of the same type.
+- Just like strings array indices starts at zero(0).
+- The first step in creating an array is to declare it, here's a template.
+   /elementType[] identifier;/
+   OR
+   /elmentType identiferi[];/
+   
+- First you provide the name of a type that will represent each element of the array. Then you need a pair of square brackets to denote that it's not just a single value being declared here. Last is an identifier that gives your array a name.
+- To create an array use /new elementType[lenght];/ With arrays however, we don't need to include a call to a constructor, rather *new* followed by the *element type*, and desired *length* of the array within square brackets.
+  For example:
+   /doulbe[] gpa = new double[4];/
+  There are a couple of important rules to remember here.
+  1) Type of created array must match the type used in declaration
+  2) Once we created an array length is fixed.
+- When you create an array, Java initializes each location with a default value. For arrays of numeric types, the default value is *0*, for boolean array default value is *false*, float and double types use the default value of *0.0,* for object array default value is *null*. *null* is a Java keyword and value that can be assigned to a reference variable in order to specify that the variable has no address.
+- To put your own initial values in an array, you can assign the array reference variable a literal array.
+   /double[] gpa = {4.0, 3.8, 3.4, 3.9}/
+  When using a literal array in such initialization statements, the assignment must be paired with the array’s declaration. Code that separates the two, like the below, is not legal:
+   /dobule[] gpa;/ //declaration
+   gpa = {4.0, 3.8, 3.4, 3.9}; //initialization
+- *for-each statement*
+  - Index out of bounds errors, are quite common in programming. Fortunately, Java provides a special kind of for statement that allows us to completely avoid indices when needing to traverse an entire array. It’s called a for-each statement, and here’s its template:
+    for (arrayType element : array) {
+        bodyStatement1;
+        bodyStatement1;
+        ...
+    }
+    e.g:
+    
+    double sumGpa = 0.0;
+    for(double value: gpa){
+        sumGpa += value;
+    }
+    System.out.println(sumGpa);
+    
+  - Notice that there are no counter variables that we need to keep track of in the above. Instead, you declare a variable (see element above) that is of the same type as the array. When the loop runs, it performs an iteration for each element in the array, automatically copying the value of that element into the declared variable. That value is then available for use in the loop body in the form of the variable. Depending on the purpose of the for-each statement, the body may or may not actually use the value of that variable. Also, note that the iterations start copying into the variable from the first element and end at the last. 
+*** 2-D arrays
+- /elementType [] identifier;/ OR /elelementType identifier[];/
+  The template for accessing an element is /identifier[row] [col]/
+- *Ragged Arrays (Nonsymmetric Arrays)*
+  Java allows ragged arrays, which have rows of varying lengths. 
+** Methods
+- Method allows a programmer to group related statements together and give them a name. One of the main reasons to do that is to modularize programs, or in this context, break programs into small and manageable pieces (or methods) that represent specific and meaningful tasks. Another benefit of methods is reusability.
+- The least amount of information that you need for a method header is a *return type*, which represents a type of data the method will return to its caller. And you also need the *method name*, and the list of any *formal parameter* declarations within parentheses. Remember that *formal parameters* represent input that you can actually use within the method definition.
+  In summary, the method header it's the return type, method name, and formal parameters, all in that order. And add /public and static/ modifiers. /public/ is visibility modifier that allows the method to be accessed by other outside classes.
+*** Method overloading
+- Method overloading means having multiple methods with same name but different parameters. This can be achieved by varying number of parameters, type of parameters, or both. Method overloading is a form of compile-time polymorphism, also known as static polymorphism. It enhances the readability of the code and allows the same method to handle different types of data. The return type alone is not sufficient to distinguish overloaded methods; the parameter list must be different.
+* Module Five
+** Classes pt.1
+*** What is class
+- A starting point to writing our own "blueprint classes" is identifying the data and behaviors of their respective objects.
+- Instance data are represented using instance variables. Unlike the other variables we’ve declared so far, an instance variable is not local to a specific method or block statement. It is declared at the class level, which simply means outside of any method.  By that definition, the immediate containing braces of an instance variable are the ones that start and close a class definition.
+   public class Insect {
+    //instance variables here
+    ...
+   }
+- In Java, any variable or method that is declared in this scope is called a /class member/.
+  Consider that a class might have multiple methods that represent different behaviors, and these methods may need to change the state of an object when invoked. Placing the instance variables outside of any method gives all methods of the class the ability to change the variables and therefore update the object's state.
+*** Visibility Modifier
+- *private* - By adding the Java keyword private in front of each declaration of instance variables, we control which classes can access and manipulate the variables.
+  The methods within the class will need access to the instance variables in the class. However, we should not give that same level of access to any other class. The reasoning is based on the concept of *encapsulation*. That is, a class itself should govern how the instance variables of its objects are manipulated so that the objects operate as they are intended. With the *private* keyword, we enforce encapsulation by giving access to an instance variable to just the methods within its class. These methods can be trusted as they, like the instance variables, are members of the same class.
+- *public* - The public visibility modifier, on the other hand, does the opposite of private. When applied to a member of a class, it allows an external class to have untethered access to that member.  Due to encapsulation, instance variables should not be public. But Java can provide external access to data without breaking encapsulation.
+*** Default constructor
+- Any class we write is given a default constructor and it initializes each instance variable with default value. The initialization are the same rules as we saw earlier.
+
+  |------------------------+---------------|
+  | Instance variable type | Default value |
+  |------------------------+---------------|
+  | numeric primitive type | 0             |
+  |------------------------+---------------|
+  | boolean                | false         |
+  |------------------------+---------------|
+  | class(object type)     | null          |
+  |------------------------+---------------|
+*** Writing Constructor
+- To allow custom initial values, we will need to write our own constructor method. It will declare form of parameters that will accept these values from a caller of the constructor and then assign the values to the instance variables accordingly.
+- Constructor is public since we will ultimately want other classes to have the ability to create instance of the class. Constructors have no *return type*. Constructors are the only types of methods that can be declared without return type and they have to be. In fact you will get compiler error if you provide one. Another important rule is the name of the constructor must be the same as the name of the class. The types and name of each formal parameter then follow that name. Each formal parameter has a type and name that matches one of the instance variable. But note that as soon as we create our own constructor the default one is no longer available.
+*** Static modifier
+- The /static/ keyword in Java is mainly used for memory management. The static keyword in Java is used to share the same variables or methods of a given class. The users can apply static keywords with variables, methods, blocks, and nested classes. The static keyword belongs to the class rather than an instance of the class. The static keyword is used for a constant variable or a method that is the same for every instance of a class. The static keyword is a non-access modifier in Java that is applicable for the following:
+  + Blocks
+  + Variables
+  + Methods
+  + Classes
+    
+- Here are some characteristics of the static keyword in Java:
+  
+  + *Shared memory allocation:* Static variables and methods are allocated memory space only once during the execution of the program. This memory space is shared among all instances of the class, which makes static members useful for maintaining global state or shared functionality.
+  + *Accessible without object instantiation:* Static members can be accessed without the need to create an instance of the class. This makes them useful for providing utility functions and constants that can be used across the entire program.
+  + *Associated with class, not objects:* Static members are associated with the class, not with individual objects. This means that changes to a static member are reflected in all instances of the class, and that you can access static members using the class name rather than an object reference.
+  + *Cannot access non-static members:* Static methods and variables cannot access non-static members of a class, as they are not associated with any particular instance of the class.
+  + *Can be overloaded, but not overridden:* Static methods can be overloaded, which means that you can define multiple methods with the same name but different parameters. However, they cannot be overridden, as they are associated with the class rather than with a particular instance of the class.
+    
+- *static block:*
+  + If you need to do the computation in order to initialize your static variables, you can declare a static block that gets executed exactly once, when the class is first loaded.
+- *static variables*
+  + When a variable is declared as static, then a single copy of the variable is created and shared among all objects at the class level. Static variables are, essentially, global variables. All instances of the class share the same static variable.
+  + Important points for static variables:
+    - We can create static variables at the class level only.
+    - static block and static variables are executed in the order they are present in a program.
+- *static methods*
+  + When a method is declared with the static keyword, it is known as the static method. The most common example of a static method is the main( ) method. As discussed above, Any static member can be accessed before any objects of its class are created, and without reference to any object. Methods declared as static have several restrictions:
+    - They can only directly call other static methods.
+    - They can only directly access static data.
+    - They cannot refer to /this/ or /super/ in any way.
+  + In more general words, a static method cannot directly access a non static member like an instance variable,since static methods can be called without any instances being created.
+    
+- *static Classes*
+  + A class can be made static only if it is a /nested class./ We cannot declare a top-level class with a static modifier but can declare nested classes as static. Such types of classes are called /Nested static classes./ Nested static class doesn’t need a reference of Outer class. In this case, a static class cannot access non-static members of the Outer class.
+  + To access a /public static/ member of a class by an external class, simply use a /class name/ and a /dot operator/ followed by the member name, but for within the same class there no need of using /class name/ and /dot operator/
+** Classes pt.2
+*** (Accessor) Getter methods:
+- Purpose: To retrieve the value of a private field.
+- Naming Convention: Typically starts with /get/ followed by the field name with the first letter capitalized.
+- Accessors allows a client to access a variable's value
+- getter header template: They start with the lowercase word get, and are followed by the name of the instance variable in camel case form.
+
+  /public varType getVarName()/
+  
+- Quite often, accessor methods are called getter methods due to the prefix *get*.
+- Some conventions:
+  + getter methods don't have any parameters. Since the goal is not to edit information, they don't accept any information
+  + the /return type/ is always the type of variable they are associated with.
+    For example: for an instance variable declared as /double weight/, /getWeight/ (getter method) will return /double/ since weight is /double/
+  + You should never have a getter method with a void return type, since you can't have variables of type void.
+  + Not every instance variable needs a getter method. Only provide a getter for a variable which you feel like a client might and should be able to read.
+  + We can have /getter methods/ for static variables, but getters for static variables must also be static.
+
+*** Mutator(setter) methods:
+- Purpose: To set or update the value of a private field.
+- Naming Convention: Typically starts with /set/ followed by the field name with the first letter capitalized.
+- By convention, setter methods have a return type of /void/ since their job is to change a variable, not return its value. For the method name, they use a word set as a prefix, which is then followed by the name of the variable that's being changed. Again, in camel case.
+- Setter header template:
+  /public void setVarName(varType, varName)/
+- Setter methods also accept input, which represents a value to assign the variable. A former parameter's type must be the same type as a variable being changed.
+- When writing a setter for an instance variable, think of all the values and ways that an input could break the intended state of an object, and write conditions in the method to prevent that.
+
+*** Overloading constructors
+- It often makes sense to overload constructors in order to provide different ways to initialize an object.
+- Remember, constructor's job is to initialize a new object.
+- The familiar /Scanner/ class has a variety of constructors, with each allowing us initialize a Scanner object to read from a particular kind of data source.
+    /Scanner(InputStream source)/
+    /Scanner(File source)/
+    ...
+*** constructor chaining and this()
+- In constructor chaining, a more specific constructor is always called by a less specific constructor. So use /this/ keyword to call another constructor within the same class. It delegates the initialization rather than instantiating a new object.
+- When you use /this/ within a constructor, it must be the first statement of that constructor.
+- Note that as long as you follow the rule of calling a more specific constructor from a less specific one, you can effectively create multiple levels of chaining
+- But /this/ keyword can also be used as a reference within a constructor or a non-static method. In the context of a constructor, it refers to the current object being initialized by that constructor. Within the method, it refers to the object on which the method is being invoked.
+- *this* reference distinguishes an instance variable from a formal parameter of that same name.
+*** the toString() method
+- To print the content of an object, we may have to make many getter method calls to match the instance variables. Imagine a more complex object with many more instance variables state. Also imagine if we have to print those contents multiple times at different stages within a program. Fortunately, all Java objects have a built-in instance method called toString() that we can use to generate a string representation of the object. The method returns a string(a String representation of the object) we can then pass that value into println() for display.
+- Since toString() is inherit to every object, we should be able to just call it on object without doing anything special to the object. When we pass toString() to println(), the displayed result, it starts of with the name of the class and an odd sequence of characters that follow that. The sequence has actually an important meaning but we can make the toString() method user-friendly. To do that we must override the default toString() in order for it to  print something more user-friendly.
+- One final note about toString(). We don't have to explicitly call the method whenever we want to use print line to display the contents of an object. If non-string object is passed as input to println() or print(), Java will automatically call the object's toString() method and uses the returned String as the actual parameter for that println() or prin() call.
+** Inheritance
+*** Terminologies
+- Inheritance is a concept in OOP which allows one class(the child class or subclass) to inherit the fields and methods of another class(the parent or superclass). This promotes code reusability and establishes a natural hierarchy between classes.
+- Key points of inheritance in Java:
+  1) Code reusability: Child classes can use the code defined in the parent class, reducing redundancy
+  2) Method Overriding: Child classes can provide specific implementations of methods that are already defined in the parent class, enabling runtime polymorphism.
+  3) Abstraction: Inheritance helps in abstracting common features into a parent class, simplifying the design.
+- To implement inheritance, the /extends/ keyword is used
+       /class ChildClass extends ParentClass {/
+           ...
+       }
+- A derived class is called a *subclass or child class*
+- A class through which another class is derived from is called a *superclass or parent class*.
+- A parent class can theoretically have infinite child classes. A child class however can only have one parent, in other words Java doesn't allow *multiple inheritance*
+- At the top of every inheritance hierarchy is a class in the Java standard library called *Object*
+*** Protected Modifier
+- /protected/ is another visibility modifier. protected members are not quite /public/ or /private/ they lie somewhere in between. Let's think about we plan to have subclass of a parent class. So if we make one member, for example, /private/ it won't be part of the subclass since private members aren't inherited. If we made them /public/ that would violate encapsulation. But if the members are protected, they can only be accessed by its subclasses. There's an expected amount of trust between classes that are within same package, as they are typically written by same programmer or team. So giving access to such members falls in line with encapsulation.
+- When a member is declared as /protected/, it can be accessed:
+  1) Within the same class.
+  2) By subclasses (derived classes), even if they are in different packages.
+  3) By classes in the same package.
+     
+- Here is a table summary of the access that each visibility modifier provides.
+  Notice that the default access in which a member has no modifier is also included. It's is slightly stricter than /protected/, as it doesn't allow subclass to access the member.
+
+  |--------------+-------+---------+----------+-------|
+  | Modifier     | Class | Package | Subclass | World |
+  |--------------+-------+---------+----------+-------|
+  | public       | Y     | Y       | Y        | Y     |
+  |--------------+-------+---------+----------+-------|
+  | protected    | Y     | Y       | Y        | N     |
+  |--------------+-------+---------+----------+-------|
+  | none/default | Y     | Y       | N        | N     |
+  |--------------+-------+---------+----------+-------|
+  | private      | Y     | N       | N        | N     |
+  |--------------+-------+---------+----------+-------|
+*** Declaring Subclasses and instance variables
+- To declare class as a subclass of another class, its header needs an /extends/ keyword after the class name. This is simply class name, the keyword extends and followed by the superclass name. Since Java doesn't allow multiple inheritance only one class name can be included after /extends/.
+- *Subclass constructor*
+  + The keyword *super* is used to refer to a member of a superclass.
+  + When it's used in the form of a method,it becomes a call to that superclass constructor.
+  + When you do call in a child class, it must be the first line of the constructor.
+  + So why should we want to call a superclass' constructor within a subclass?
+    - The contents of a super classes constructor aren't automatically inherited by a constructor of a child, so to avoid repeating code that's already in the super classes constructor, we call it with super and provide super with the actual parameters, it's matching constructor needs.
+  + A rule about /super/:
+    *A superclass' constructor is always called by the child constructor's first line, no matter what. If you don't explicitly invoke it with a super call, in a child class' constructor, Java automatically invokes a parameterless super constructor at the very start of the child's constructor.* So the compiler may complain about that.
+*** Inheriting and Overriding Methods
+- To override the inherited version of the parent's method in subclass, you don't need to do anything special beyond writing a method with the same method signature in the child. In method overriding, signatures of parent and child versions must be same.
+- An overridden method can, however, have different kinds of visibility. But a child class' version could not restrict the visibility using the parent's version. Meaning, a parent could have a private method and a child could override it and make it public. The reverse, however, is not allowed.
+- Adding /final/ to a method header prevents that method from being overwritten.
+- A rule of thumb is that when you have a method that warrants data sensitive operations or is highly optimized to do something in a certain way, you might want to make it /final/ to guarantee that that implementation is adhered to as the hierarchy gets more diverse and deeper.
+- *final class* - Following a similar theme of final methods, a final class is one that cannot be subclassed. The convention is to place the /final/ keyword after the visibility modifier, but it can legally be put before.
+      /public final class ClassName{}/
+
+*** Abstract modifier
+- Just like we can apply the /final/ modifier on methods and classes to signify that they are in their terminal definition or form, we can assign the /abstract/ modifier to methods and classes that are not fully defined.
+- An abstract class in Java is a class that cannot be instantiated on its own and is meant to be subclassed. It is declared using the abstract keyword. Abstract classes can contain both abstract methods (methods without a body) and concrete methods (methods with a body).
+- An abstract is a Java modifier applicable for classes and methods in Java but not for Variables. 
+- Here are some key points about abstract classes:
+  1) Cannot be instantiated: You cannot create an object of an abstract class directly.
+     So why do we bring abstract?
+     An abstract class allows us to effectively represent generic concept or thing.    Abstract classes are a key component of OOP in Java, allowing you to define incomplete classes that other classes can extend.
+    
+  2) Abstract methods: Methods that have declaration but not definition.(has a method header but not body). Semicolon simply follows the closing parentheses of the formal parameter list.
+  3) Concrete methods(non-abstract): Abstract classes can also have methods with implementations.
+  4) Constructors: Abstract classes can have constructors, which are called when a subclass is instantiated.
+  5) Fields and methods: They can have fields and methods like any other class.
+  6) If a class has an abstract method, the class must be declared /abstract/.
+  7) There can be a final method in abstract class but any abstract method in class(abstract class) can not be declared as final  or in simpler terms final method can not be abstract itself as it will yield an error: “Illegal combination of modifiers: abstract and final”
+  8) If the Child class is unable to provide implementation to all abstract methods of the Parent class then we should declare that Child class as abstract so that the next level Child class should provide implementation to the remaining abstract method
+
+
+*** The object class
++ Object class is present in java.lang package. Every class in Java is directly or indirectly derived from the Object class. If a class does not extend any other class then it is a direct child class of Object and if extends another class then it is indirectly derived. *Therefore the Object class methods are available to all Java classes.* Hence Object class acts as a root of the inheritance hierarchy in any Java Program.
+  
++ The Object class provides multiple methods which are as follows:
+  #+BEGIN_SRC java
+    public String toString(){}
+    public int hashCode(){}
+    public boolean equals(Object obj){}
+    public final class getClass(){}
+    protected Object clone(){} // throws CloneNotSupportedException
+    public final void notify(){}
+    public final void notifyAll(){}
+    public final void wait(long timeout){} // throws InterruptedExecption
+    public final void wait(long timeout, int nanoseconds){} // throws InterruptedException
+    public final void wait(){} // throws InterruptedException
+    protected void finalize() // throws Throwable
+
+  #+END_SRC
+
++ toString() method
+  - The toString() provides a String representation of an object and is used to convert an object to a String. The default toString() method for class Object returns a string consisting of the name of the class of which the object is an instance, the at-sign character `@’, and the unsigned hexadecimal representation of the hash code of the object. In other words, it is defined as:
+     
+    #+BEGIN_SRC java
+      public String toString()
+      {
+          return getClass().getName() + "@" + Integer.toHexString(hashCode());
+      }
+   #+END_SRC
+
+  - It is always recommended to override the toString() method to get our own String representation of Object.
+  - /Note: Whenever we try to print any Object reference, then internally toString() method is called./
+    #+BEGIN_SRC java
+      Student s = new Student();
+      // below two statements are equal
+      System.out.println(s);
+      System.out.println(s.toString());
+  #+END_SRC
+  
++ hasCode() method
+  - For every object, JVM generates a unique number which is a hashcode. It returns distinct integers for distinct objects. A common misconception about this method is that the hashCode() method returns the address of the object, which is not correct. It converts the internal address of the object to an integer by using an algorithm. The hashCode() method is native because in Java it is impossible to find the address of an object, so it uses native languages like C/C++ to find the address of the object.
++ equals(Object obj) method
+  - It compares the given object to “this” object (the object on which the method is called). It gives a generic way to compare objects for equality. It is recommended to override the equals(Object obj) method to get our own equality condition on Objects.
++ getClass() method
+  - It returns the class object of “this” object and is used to get the actual runtime class of the object. It can also be used to get metadata of this class. The returned Class object is the object that is locked by static synchronized methods of the represented class. As it is final so we don’t override it.
+
++ finalize() method
+  - This method is called just before an object is /garbage collected./ It is called the Garbage Collector on an object when the garbage collector determines that there are no more references to the object. We should override finalize() method to dispose of system resources, perform clean-up activities and minimize memory leaks. For example, before destroying the Servlet objects web container, always called finalize method to perform clean-up activities of the session.
+  - Note: The finalize method is called just once on an object even though that object is eligible for garbage collection multiple times.
++ clone() method
+  - It returns a new object that is exactly the same as this object. For clone() method refer Clone().
++ The remaining three methods wait(), notify() notifyAll() are related to Concurrency.
+* Module Six
+** Interface
+- Interface is an outline for a class.
