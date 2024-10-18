@@ -1,0 +1,31 @@
+#+TITLE: Cyber Security
+#+AUTHOR: Ertale81
+#+STARTDATE: <2024-10-14 Mon>
+
+* Data Classification
+** Data Life cycle
+- Data should be classified as soon as it is created and it has to move through the following stages of life cycle.
+  + Creation:
+  + Role-based use: Role-based security controls are applied to all sensitive data
+  + Storage: After every use, data is stored with access controls and encryption
+  + Sharing:
+  + Archive:
+  + Permanently destroy:
+** Data Classification
+- It is the process of categorizing data into various distinct classes based on the following value of data assessment:
+  + Criticality: How important is data?
+  + Integrity:
+  + retain-ability: How long data must be retained
+  + Availability: Is timely and reliable access to the data important?
+  + Sensitivity: What is the potential impact on the business if the data is compromised?
+- Sensitive data housed within organization can be categorized into two categories.
+  1) Regulated Data:
+     - Personally Identification Information(PII): used to identify, contact, or locate a specific individual.
+       e.g: Social security number, driving license, Address, phone number
+     - Personal Health Information(PHI): A person's health and medical information
+     - Financial Information: A person's financial information(Credit card number, bank account information, and PIN)
+  2) Unregulated data(highly sensitive and critical to protect)
+     - Authentication Information:
+     - Corporate intellectual property:
+     - Government Information
+- 

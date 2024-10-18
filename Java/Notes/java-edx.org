@@ -488,4 +488,611 @@ Java has three forms of comments to help document your code:
 + The remaining three methods wait(), notify() notifyAll() are related to Concurrency.
 * Module Six
 ** Interface
-- Interface is an outline for a class.
+- Interface: Think of it as a contract. It defines a set of methods that a class must implement but doesn't provide any implementation itself. It's like saying, "Here's what you need to do," without telling you how to do it.
+- Abstract Class: It's a bit more flexible. It can provide some method implementations, but still has abstract methods that must be implemented by its subclasses. It's like saying, "Here's a partial solution, now you complete it."
+- Interface allow us to formalize groups of two or more classes that have no meaningful inheritance relationship, but they share similar kind of behaviors. To accomplish such behaviors we can write /interface/. In it, we declare a set of abstract methods that we expect a group of classes to define in their own way.
+- Any concrete or abstract class can then declare itself as an implementor of the interface. In the concrete case, the class must define /all of the interface’s methods./ If not, the class will not compile. On the other hand, an abstract class that does not define all of an interface's methods will compile since it can delegate that task to a concrete subclass.
+- Since an interface is a type, an object of a class that implements the interface is not only an instance of that class (and its superclasses) but also the interface.  There are no restrictions as to how many interfaces a class implements, so interfaces allow us much more flexibility with the types our classes can belong to.  An object, therefore, could be an instance of dozens and dozens of types.
+- An interface provides a way of enforcing that a class defines one or more methods. And if not, the class won't compile.
+- Also, note that Java’s rules on interfaces have evolved over the years. Before Java 8, interfaces could not contain any concrete methods. Now they can, which makes them much like abstract classes.
+- Note that:
+  P+ Abstract methods in interface don't need the abstract modifier - it's implied
+  + All abstract methods are implicitly public in interface
+* Module Seven
+** More about interfaces
+*** Interface Hierarchy
+- Use UML for your software development
+  Programmers use a medium to large software often go through a design stage, in which such diagrams are created. Because it forces them to think about the overall structure of their programs before jumping into code directly. Such a formal design stage can often avoid hours and hours spent on writing flawed code. Perhaps even code that simply doesn't meet its intended requirements.
+- An interface can implement another interface
+- use /extends/ when inheriting within classes or interfaces but use /implements/ when inheriting between classes and interfaces.
+- Unlike /classes,/ /interfaces/ allow classes to inherit from one or more interfaces and interfaces to inherit from one or more  /interfaces/.
+  Simply interfaces can't inherit from another classes while classes can inherit from one or multiple interfaces.
+- Java interface allows multiple inheritance. 
+- An interface can extend another interface and inherit the constants and methods of its parent.
+
+*** Default methods
+- Prior to Java SE 8, interfaces in Java could contain only method declarations and no implementations, and any nonabstract class implementing the interface had to provide the implementation. This limitation made it almost impossible to extend the existing interfaces and APIs. To overcome this limitation, a new concept, called default methods, is introduced in Java SE 8. The default methods are fully implemented methods in an interface, and they are declared by using the keyword default. Because the default methods have some default implementation, they help extend the interfaces without breaking the existing code. And those methods can be overridden by other classes.
+  
+  #+BEGIN_SRC java :output
+    public interface Animal{
+        void run();
+        default void eat(){
+            System.out.println("Eating...");
+        }
+    }
+  #+END_SRC
+
+*** Static methods
+- We can also define static methods in interfaces. Recall that such methods are not associated with specific instances, rather they represent a class-centric behavior.
+- Unlike default methods, static interface methods cannot be overridden in classes.
+*** constants in interface
+- Interfaces can also contain constants, specifically /public static/ ones. In fact, any variable that is declared in an interface is inherently /public, static, and final/ regardless of the modifiers used or omitted.
+- Instance variables are not allowed in interface.
+- why a programmer might want to place constants in an interface?
+  + One occasion is when there is a need for a place to store data that will be used by multiple classes that share abstract behaviors but have an inheritance relationship that is too limited for data sharing.
+- By implementing the interface, each class can directly access its constants using just their names as if they were defined within the class. e.g. /CONSTANTNAME instead of CLASSNAME.CONSTANTNAME/
+- /An anti-pattern is a term for a programming practice that might solve a problem but is discouraged for one or more reasons./
+** Polymorphism
+*** Introduction to polymorphism
+- Up until now the objects that we have created and the reference variable thats we have declared to interact with them have been of same types.
+  For example, recall the Scanner;
+  
+  #+begin_src java
+    Scanner input = new Scanner(System.in);
+  #+end_src
+
+  For both the declaration of the variable /input/ and the /instantiation/ of the object, the type is specifically Scanner.
+  But inheritances and interfaces allow an object to be polymorphic(or exist in different forms). In the context of inheritance an object can have an ability to be referred to by a variable with a type that is a superclass of the actual class from which the object is instantiated. Similarly with interfaces the object can be referred to by an interface-typed variable as long as the object's class(or an ancestor) implements the interface.
+  #+begin_src java :output
+    interface Animal{
+        void run();
+    }
+    class Dog implements Animal {
+        public void run(){
+            System.out.println("Running...");
+        }
+    }
+    public class Cat {
+        public static void main(String[] args){
+            // The following object creation are valid
+            Dog bob = new Dog();
+            Animal bob1 = new Dog();
+            bob.run();
+            bob1.run();
+
+        }
+
+     }
+  #+end_src
+
+- polymorphism allows us to write programs that can flexibly process objects of different classes without having to write separate code for each class that needs to be supported.
+- Java polymorphism is one of its core concepts. It's the ability of an object to take many forms. In simpler terms, it allows methods to do different things based on the object they are acting upon. There are two types:
+  1) Compile-time (or Static) Polymorphism: Achieved through method overloading—having multiple methods with the same name but different parameters.
+  2) Runtime (or Dynamic) Polymorphism: Achieved through method overriding—where a subclass provides a specific implementation of a method that is already defined in its superclass.
+*** Casting
+- Casting in Java is the process of converting one data type to another.
+  There are two main types:
+  1) Upcasting: Converting a subclass type to a superclass type. This is done implicitly.
+     #+begin_src java
+       Animal myAnimal = new Dog(); // implicit upcasting
+     #+end_src
+  2) Downcasting: Converting a superclass type to a subclass type. This requires explicit casting. Downcasting can potentially cause *ClassCastException* if the actual object isn’t an instance of the specified subclass, so it's wise to use the *instanceof* operator to check before casting.
+     #+begin_src java
+       Animal myAnimal = new Dog();
+       Dog myDog = (Dog) myAnimal; // Explicit downcasting
+     #+end_src
+     
+     1) does downcasting an object takes away its previous behaviors?
+        + Downcasting an object doesn’t take away its previous behaviors. When you downcast, you’re essentially telling the compiler to treat the object as a more specific type. The object retains all its original capabilities, but you gain access to the methods and properties specific to the subclass.
+     2) can I loose direct acces to subclass specific method when upcasting?
+        + Yes, you do lose direct access to subclass-specific methods when you upcast. When you upcast, you treat the object as an instance of the superclass, which means you can only call the methods defined in the superclass. The object still retains its subclass-specific behavior, but you can't access those methods directly without downcasting again.
+* Module Eight
+** Exceptions
+*** Introduction to exception
+- The term exception is shorthand for the phrase "exceptional event."
+- An exception is an event, which occurs during the execution of a program, that disrupts the normal flow of the program's instructions.
+- When an error occurs within a method, the method creates an object and hands it off to the runtime system. The object, called an /exception/ object, contains information about the error, including its type and the state of the program when the error occurred. Creating an exception object and handing it to the runtime system is called /throwing an exception./
+- After a method throws an exception, the runtime system attempts to find something to handle it. The set of possible "somethings" to handle the exception is the ordered list of methods that had been called to get to the method where the error occurred. The list of methods is known as the call stack (see the next figure).
+  
+  [[./Java-Call-Stack.jpeg]]
+
+  The call stack showing three method calls, where the first method called has the exception handler.
+  
+- The runtime system searches the call stack for a method that contains a block of code that can handle the exception. This block of code is called an /exception handler/. The search begins with the method in which the error occurred and proceeds through the call stack in the reverse order in which the methods were called. When an appropriate handler is found, the runtime system passes the exception to the handler. An exception handler is considered appropriate if the type of the exception object thrown matches the type that can be handled by the handler.
+- The exception handler chosen is said to catch the exception. If the runtime system exhaustively searches all the methods on the call stack without finding an appropriate exception handler, as shown in the next figure, the runtime system (and, consequently, the program) terminates.
+  
+  [[./Java-Exception-Handler-Stack.jpeg]]
+  
+- *The Catch or specify requirement*
+  + Valid Java programming language code must honor the Catch or Specify Requirement. This means that code that might throw certain exceptions must be enclosed by either of the following:
+    - A /try/ statement that catches the exception. The try must provide a handler for the exception
+    - A method that specifies that it can throw the exception. The method must provide a /throws/ clause that lists the exception.
+  + Code that fails to honor the Catch or Specify Requirement will not compile.
+  + Not all exceptions are subject to the /Catch or Specify Requirement/
+    
+- *Three kinds of exception*
+  1) Checked Exception: These are exceptional conditions that a well-written application should anticipate and recover from. For example, suppose an application prompts a user for an input file name, then opens the file by passing the name to the constructor for java.io.FileReader. Normally, the user provides the name of an existing, readable file, so the construction of the FileReader object succeeds, and the execution of the application proceeds normally. But sometimes the user supplies the name of a nonexistent file, and the constructor throws java.io.FileNotFoundException. A well-written program will catch this exception and notify the user of the mistake, possibly prompting for a corrected file name.
+
+     Checked exceptions are subject to the Catch or Specify Requirement. All exceptions are checked exceptions, except for those indicated by /Error, RuntimeException, and their subclasses./
+
+  2) Error: These are exceptional conditions that are external to the application, and that the application usually cannot anticipate or recover from. For example, suppose that an application successfully opens a file for input, but is unable to read the file because of a hardware or system malfunction. The unsuccessful read will throw java.io.IOError. An application might choose to catch this exception, in order to notify the user of the problem — but it also might make sense for the program to print a stack trace and exit.
+
+     /Errors are not subject to the Catch or Specify Requirement. Errors are those exceptions indicated by Error and its subclasses./
+
+  3) Runtime Exception: These are exceptional conditions that are internal to the application, and that the application usually cannot anticipate or recover from. These usually indicate programming bugs, such as logic errors or improper use of an API. For example, consider the application described previously that passes a file name to the constructor for FileReader. If a logic error causes a null to be passed to the constructor, the constructor will throw NullPointerException. The application can catch this exception, but it probably makes more sense to eliminate the bug that caused the exception to occur.
+
+     /Runtime exceptions are not subject to the Catch or Specify Requirement. Runtime exceptions are those indicated by RuntimeException and its subclasses./
+     *Errors and runtime exceptions are collectively known as unchecked exceptions.*
+
+*** Throwable Hierarchy
+
+- There is a hierarchy of exception types. So, the type choices we make when declaring an exception within a catch block can determine whether the block handles a  very specific kind of exception or much more.
+  #+CAPTION: This is Throwable hierarchy picture. To view use C-c C-x C-v
+  [[./Throwable-Java-Class.jpeg]]
+- The figure only shows a subset of the hierarchy as there are very many classes.  At the top of all exception classes, however, is the Throwable (super) class. Immediately below it on the right is a class called Exception class, and to the left is a sibling called Error with its own set of subclasses.
+- Java distinguishes the kinds of errors that fall under the *Error* class from the ones under the *Exception* class.  A subclass of the Error class represents a kind of error that generally can’t be recovered from -- like when the JVM has no more memory to continue executing your program. Exceptions, on the other hand, are the kind of errors that offer more flexibility in how they are handled.
+- The Throwable class is the superclass of all errors and exceptions in the Java language. Only objects that are instances of this class (or one of its subclasses) are thrown by the Java Virtual Machine or can be thrown by the Java throw statement. Similarly, only this class or one of its subclasses can be the argument type in a catch clause.
+- Instances of two subclasses, Error and Exception, are conventionally used to indicate that exceptional situations have occurred. Typically, these instances are freshly created in the context of the exceptional situation so as to include relevant information (such as stack trace data). There are a lot of methods in this class so check out the official documentation.
+- 
+*** Handling Exceptions
+**** The try Block
+- Java uses the three exception handler components — the /try, catch, and finally blocks/ — to write an exception handler.
+- The first step in constructing an exception handler is to enclose the code that might throw an exception within a try block.
+  As shown below, a try block consists of the reserved word /try/ and then a set of curly braces around a set of statements. But remember the scope of variable is within the curly braces. Code that is dependent on statements that may throw an exception should be in the same try block. We may compile them by putting outside the try block since they will be  executed after try block runs successfully putting them inside the try block is a good way.
+  
+  #+begin_src java
+    try {
+        statement(s)
+    }
+  #+end_src
+  
+**** The catch Block
+- To actually catch a thrown exception, the try block must be immediately followed by a catch block.(No code can be between the end of the try block and the beginning of the first catch block). Once the program reaches the catch block, it doesn't return to the try block. The statements in the catch block determine what to do in response to the exception.
+  As you can see below, a catch block declares a parameter that represents that exception's type:
+  
+  #+begin_src java
+    try {
+        statement(s)
+    }
+    catch(ExceptionType identifier){
+        statement(s)
+    }
+  #+end_src
+  
+  Each catch block is an exception handler that handles the type of exception indicated by its argument. The argument type, ExceptionType, declares the type of exception that the handler can handle and must be the name of a class that inherits from the Throwable class. The handler can refer to the exception with identifier.
+  
+  The catch block contains code that is executed if and when the exception handler is invoked. The runtime system invokes the exception handler when the handler is the first one in the call stack whose ExceptionType matches the type of the exception thrown. The system considers it a match if the thrown object can legally be assigned to the exception handler's argument.
+  
+- Exception handlers can do more than just print error messages or halt the program. They can do error recovery, prompt the user to make a decision, or propagate the error up to a higher-level handler using chained exception
+- When an exception occurs in the try block, a reference to its object is passed into a catch block, only if the declared type matches the object’s type. Within the catch block, we can use the reference to get information about the exception if needed as part of our handler statements.
+- Given the many Exception classes in the Java API,it's possible to follow a try block with more than one catch block. That is,  a try block can throw more than one kind of exception.  Here's the template to use when a try block is capable of throwing more than one kind of exception:
+  
+  #+begin_src java
+    try {
+        statement(s)
+    }
+    catch(ExceptionType1 identifier){
+        statement(s)
+    }
+    catch(ExceptionType2 identifier){
+        statement(s)
+    }
+    catch(ExceptionType3 identifier){
+        statement(s)
+    }
+
+  #+end_src
+  
+  As shown, each catch block handles a different type of exception. If an exception is thrown, the JVM will execute the first catch block with a parameter type that matches the object’s type.
+
+- In Java SE 7 and later, a single /catch/ block can handle more than one type of exception. Combine multiple catch blocks into one, if their handling steps are the same.
+  In the catch clause, specify the types of exceptions that block can handle, and separate each exception type with a vertical bar (|).
+  
+  *Note: If a catch block handles more than one exception type, then the catch parameter is implicitly final. In this example, the catch parameter identifier is final and therefore you cannot assign any values to it within the catch block.*
+
+  #+begin_src java
+    try {
+        statement(s)
+    }
+    catch(ExceptionType1 | ExceptionType2 | ... identifier){
+        statement(s)
+    }
+  #+end_src
+
+- If an exception is thrown, the JVM will execute the first catch block with a parameter type that matches the object's type.
+
+**** The finally Block
+- A /finally/ block, should contain statements that must execute regardless of whether a try block throws an exception or not. In other words, finally block is always executed. A common way it's used is as a place to put cleanup code that needs to occur after a try block no matter what. In fact, you can have a try block that's simply followed by a finally block if you don't really want to handle an exception, but you do know that regardless of whether one happens or not, some set of statements needs to occur.
+- The finally block always executes when the try block exits. This ensures that the finally block is executed even if an unexpected exception occurs. But finally is useful for more than just exception handling — it allows the programmer to avoid having cleanup code accidentally bypassed by a return, continue, or break. Putting cleanup code in a finally block is always a good practice, even when no exceptions are anticipate
+- /Note: The finally block may not execute if the JVM exits while the try or catch code is being executed./
+- The runtime system always executes the statements within the finally block regardless of what happens within the try block. So it's the perfect place to perform cleanup.
+- *Important:* Use a try-with-resources statement instead of a finally block when closing a file or otherwise recovering resources.
+  The try-with-resources statement automatically releases system resources when no longer needed.
+**** The try-with-resource Statement
+- The try-with-resources statement is a try statement that declares one or more resources. A resource is an object that must be closed after the program is finished with it. The try-with-resources statement ensures that each resource is closed at the end of the statement. Any object that implements java.lang.AutoCloseable, which includes all objects which implement java.io.Closeable, can be used as a resource.
+**** Specifying the Exception Thrown by a method
+- Sometimes, it's appropriate for code to catch exceptions that can occur within it. In other cases, however, it's better to let a method further up the call stack handle the exception. For example, if your are providing /YourClassName/ class as part of a package of classes, you probably couldn't anticipate the needs of all the users of your package. In this case, it's better to /not/ catch the exception and to allow a method further up the call stack to handle it.
+- If the /method/ we wrote doesn't catch the checked exception that can occur within it, the /method/ must specify that it can throw those exceptions.
+- To specify the /method/ can throw exceptions, add /throws/ clause to the method declaration for the /method/ method. The /throws/ clause comprises the *throws* keyword followed by a comma-separated list of all the exceptions thrown by that method.
+- The clause goes after the method name and argument list and before the brace that defines the scope of the method; here's an example.
+
+  #+begin_src java
+    public void methoName() throws IOException, IndexOutOfBoundsException {
+        // statement(s);
+
+    }
+#+end_src
+
+Remember that IndexOutOfBoundsException is an unchecked exception; including it in the throws clause is not mandatory. You could just write the following.
+
+#+begin_src java
+  public void writeList() throws IOException {
+      // statement(s);
+  }
+#+end_src
+**** How to Throw Exceptions
+- Before you can catch an exception, some code somewhere must throw one. Any code can throw an exception: your code, code from a package written by someone else such as the packages that come with the Java platform, or the Java runtime environment. Regardless of what throws the exception, it's always thrown with the /throw/ statement.
+- Java platform provides numerous exception classes. All the classes are descendants of the *Throwable* class, and all allow programs to differentiate among the various types of exceptions that can occur during the execution of a program.
+- You can also create your own exception classes to represent problems that can occur within the classes you write. In fact, if you are a package developer, you might have to create your own set of exception classes to allow users to differentiate an error that can occur in your package from errors that occur in the Java platform or other packages.
+- *The throw Statement*
+  All methods use the throw statement to throw an exception. The throw statement requires a single argument: a throwable object. Throwable objects are instances of any subclass of the Throwable class. Here's an example of a throw statement.
+      /throw someThrowableObject;/
+**** Creating Exception Classes
+- When faced with choosing the type of exception to throw, you can either use one written by someone else or you can write one of your own.
+- You should write your own exception classes if you answer yes to any of the following questions; otherwise, you can probably use someone else's.
+  + Do you need an exception type that isn't represented by those in the Java platform?
+  + Would it help users if they could differentiate your exceptions from those thrown by classes written by other vendors?
+  + Does your code throw more than one related exception?
+  + If you use someone else's exceptions, will users have access to those exceptions? A similar question is, should your package be independent and self-contained?
+- When choosing superclass, any Exception subclass can be used as the parent of your exception. However, these subclasses may be either too specialized or completely unrelated to your own exception. Therefor the parent class of your exception should be *Exception*.
+- *Note:* For readable code, it's good practice to append the string Exception to the names of all classes that inherit (directly or indirectly) from the Exception class.
+  
+- We can write our own kind of exception by simply extending the Exception class or any of its descendants that may represent an appropriate parent. Here’s an example called DivideByZeroException which extends the ArithmeticException class:
+  
+  #+begin_src java
+    public class DivideByZeroException extends ArithmeticException {
+        // constructor
+        public DivideByZeroException(){
+            super("Divide by zero.");
+        }
+    }
+  #+end_src
+  
+  As the example illustrates, quite often, the code within a new exception class merely consists of a constructor definition that passes a custom message to the super constructor. This message is the value that’s returned when the getMessage method is invoked on an instance of the exception. In this case, we provide the String "Divide by zero." to super.
+  Since there are multiple kinds of arithmetic errors that could result in an ArithmeticException object being thrown (besides a division by zero), we can use this more specific class to represent only divide by zero errors. Also, remember that the ArithmeticException class is a descendant of the RuntimeException class. Therefore, DivideByZeroException is also a descendant and subsequently a kind of unchecked exception.
+
+*** Exception controlled loops
+- Loops that the number of iteration it performs is controlled by the presence of an exception is called *"Exception Controlled loop"*.
+- Why exceptions when we can handle them with other methods like conditionals?
+  + Exceptions make our codes less confusing to read and write.
+  + Exceptions make no interruption in the statements that define the core logic.
+  + Exceptions not only allow us to separate our core logic and error logic but also allows us to organize the error logic. When there is a code that can throw more than one exception, the list of catch blocks under the try block give some order to our code, since each represents a specific class of exception.
+
+*** Checked Vs. Unchecked Exceptions
+- [[./Throwable-Java-Class.jpeg]]
+- If you see the throwable hierarchy again, you will see Exception has an immediate subclass called /RuntimeException/. Below /RuntimeException/ are a familiar set of exception that are called *unchecked exceptions*. An important reason why we have not had to do anything explicitly for these exceptions is because they can occur in so many places in our code -- so much that doing so would be cumbersome. Imagine having having to catch one each time we use a reference variable—or specify that the method that contains the variable may throw the exception.  Furthermore, imagine having to do the same for the ArithmeticException each time we divide in a program. Our code would get quite unmanageable.
+- Outside of the RuntimeException hierarchy are a set of other subclasses of the Exception class known as *checked exceptions.* These are the exceptions that we must either catch or specify. /IOException/ and its subclass of /FileNotFoundException/ is one example. Though others aren’t shown in the diagram, there are many others.
+
+*** Advantage of Exceptions
+1) Separating Error-Handling Code from "Regular" Code
+   - Exceptions provide the means to separate the details of what to do when something out of the ordinary happens from the main logic of a program. In traditional programming, error detection, reporting, and handling often lead to confusing spaghetti code.
+2) Propagating Errors Up the Call Stack
+   - A second advantage of exceptions is the ability to propagate error reporting up the call stack of methods. Suppose that the readFile method is the fourth method in a series of nested method calls made by the main program: method1 calls method2, which calls method3, which finally calls readFile.
+
+     #+begin_src java 
+       method1 {
+           call method2;
+           }
+       method2 {
+           call method3;
+       }
+       method3 {
+           call readFile;
+       }
+     #+end_src
+     Suppose also that method1 is the only method interested in the errors that might occur within readFile. Traditional error-notification techniques force method2 and method3 to propagate the error codes returned by readFile up the call stack until the error codes finally reach method1—the only method that is interested in them.
+     
+     Recall that the Java runtime environment searches backward through the call stack to find any methods that are interested in handling a particular exception. A method can duck any exceptions thrown within it, thereby allowing a method farther up the call stack to catch it. Hence, only the methods that care about errors have to worry about detecting errors.
+
+     #+begin_src java
+       method1 {
+           try {
+               call method2;
+           } catch (exception e) {
+               doErrorProcessing;
+           }
+       }
+       method2 throws exception {
+           call method3;
+       }
+
+       method3 throws exception {
+           call readFile;
+       }
+     #+end_src
+
+     However, as the pseudocode shows, ducking an exception requires some effort on the part of the middleman methods. Any checked exceptions that can be thrown within a method must be specified in its throws clause.
+
+3) Grouping and Differentiating Error Types
+   - Because all exceptions thrown within a program are objects, the grouping or categorizing of exceptions is a natural outcome of the class hierarchy. An example of a group of related exception classes in the Java platform are those defined in java.io — IOException and its descendants. IOException is the most general and represents any type of error that can occur when performing I/O. Its descendants represent more specific errors. For example, FileNotFoundException means that a file could not be located on disk.
+
+   - A method can write specific handlers that can handle a very specific exception. The FileNotFoundException class has no descendants, so the following handler can handle only one type of exception.
+
+     #+begin_src java
+       catch (FileNotFoundException e) {
+           ...
+       }
+     #+end_src
+
+   - A method can catch an exception based on its group or general type by specifying any of the exception's superclasses in the catch statement. For example, to catch all I/O exceptions, regardless of their specific type, an exception handler specifies an IOException argument.
+
+     #+begin_src java
+       catch (IOException e) {
+           ...
+       }
+     #+end_src
+
+   - This handler will be able to catch all I/O exceptions, including FileNotFoundException, EOFException, and so on. You can find details about what occurred by querying the argument passed to the exception handler. For example, use the following to print the stack trace.
+     
+     #+begin_src java
+       catch (IOException e) {
+           // Output goes to System.err.
+           e.printStackTrace();
+           // Send trace to stdout.
+           e.printStackTrace(System.out);
+       }
+
+       // You could even set up an exception handler that handles any
+       // Exception with the handler here.
+       // A (too) general exception handler
+       catch (Exception e) {
+           ...
+       }
+     #+end_src
+
+   - The Exception class is close to the top of the Throwable class hierarchy. Therefore, this handler will catch many other exceptions in addition to those that the handler is intended to catch. You may want to handle exceptions this way if all you want your program to do, for example, is print out an error message for the user and then exit.
+   - In most situations, however, you want exception handlers to be as specific as possible. The reason is that the first thing a handler must do is determine what type of exception occurred before it can decide on the best recovery strategy. In effect, by not catching specific errors, the handler must accommodate any possibility. Exception handlers that are too general can make code more error-prone by catching and handling exceptions that weren't anticipated by the programmer and for which the handler was not intended.
+   - As noted, you can create groups of exceptions and handle exceptions in a general fashion, or you can use the specific exception type to differentiate exceptions and handle exceptions in an exact fashion.
+
+** Packages
+*** General Package definition
+- A package is a grouping of related types providing access protection and name space management. Note that types refers to classes, interfaces, enumerations, and annotation types. Enumerations and annotation types are special kinds of classes and interfaces, respectively, so types are often referred to in this lesson simply as classes and interfaces.
+- The types that are part of the Java platform are members of various packages that bundle classes by function: fundamental classes are in java.lang, classes for reading and writing (input and output) are in java.io, and so on. You can put your types in packages too.
+- You should bundle related classes and interfaces in a package for several reasons, including the following:
+  + You and other programmers can easily determine that these types are related.
+  + You and other programmers know where to find types that can provide /YourClass/-related functions.
+  + The names of your types won't conflict with the type names in other packages because the package creates a new namespace.
+  + You can allow types within the package to have unrestricted access to one another yet still restrict access for types outside the package.
+- To create a package, you choose a name for the package  and put a package statement with that name at the top of every source file that contains the types (classes, interfaces, enumerations, and annotation types) that you want to include in the package. The package statement (for example, package graphics;) must be the first line in the source file. There can be only one package statement in each source file, and it applies to all types in the file.
+- *Note:* If you put multiple types in a single source file, only one can be public, and it must have the same name as the source file.
+  For example, you can define /public class Circle in the file Circle.java/, define /public interface Draggable in the file Draggable.java/, define /public enum Day in the file Day.java/, and so forth. You can include non-public types in the same file as a public type (this is strongly discouraged, unless the non-public types are small and closely related to the public type), but only the public type will be accessible from outside of the package. All the top-level, non-public types will be package private.
+*** Naming a package
+- Package names are written in all lower case to avoid conflict with the names of classes and interfaces. Companies use their reversed Internet domain name to begin their package names—for example, /com.example.mypackage/ for a package named mypackage created by a programmer at example.com.
+- Name collisions that occur within a single company need to be handled by convention within that company, perhaps by including the region or the project name after the company name (for example, /com.example.region.mypackage/).
+- Packages in the Java language itself begin with java. or javax.
+- In some cases, the internet domain name may not be a valid package name. This can occur if the domain name contains a hyphen or other special character, if the package name begins with a digit or other character that is illegal to use as the beginning of a Java name, or if the package name contains a reserved Java keyword, such as "int". In this event, the suggested convention is to add an underscore.
+  For example:
+  
+  *Legalizing Package names*
+  |-----------------------------+-----------------------------|
+  | Domain name                 | Package name prefix         |
+  |-----------------------------+-----------------------------|
+  | hyphenated-name.example.org | org.example.hyphenated_name |
+  |-----------------------------+-----------------------------|
+  | example.int                 | int_.example                |
+  |-----------------------------+-----------------------------|
+  | 123name.example.com         | com.example._123name        |
+  |-----------------------------+-----------------------------|
+*** Using package members
+- The types that comprise a package are known as the package members.
+- To use a public package member from outside its package, you must do one of the following:
+  
+  + Refer to the member by its fully qualified name:
+    - If you are trying to use a member from a different package and that package has not been imported, you must use the member's fully qualified name, which includes the package name. Here is the fully qualified name for the Rectangle class declared in the graphics package.
+          /graphics.Rectangle/
+    - You could use this qualified name to create an instance of graphics.Rectangle:
+          /graphics.Rectangle myRect = new graphics.Rectangle();/
+    - Qualified names are all right for infrequent use. When a name is used repetitively, however, typing the name repeatedly becomes tedious and the code becomes difficult to read. As an alternative, you can import the member or its package and then use its simple name.
+  + Import a package member
+    - To import a specific member into the current file, put an import statement at the beginning of the file before any type definitions but after the package statement, if there is one.
+      e.g: /import graphics.Rectangle;/
+      Now you can refer to the Rectangle class by its simple name.
+          /Rectangle myRect = new Rectangle();/
+    - This approach works well if you use just a few members from the graphics package. But if you use many types from a package, you should import the entire package.
+  + Import an entire package
+    - To import all the types contained in a particular package, use the import statement with the asterisk (*) wildcard character.
+      e.g: /import graphics.*/
+    - Now you can refer to any class or interface in the graphics package by its simple name.
+      e.g: /Rectangle myRect = new Rectangle();/
+    - The asterisk in the import statement can be used only to specify all the classes within a package, as shown here. It cannot be used to match a subset of the classes in a package. For example, the following does not match all the classes in the graphics package that begin with A.
+          ///doesn't work
+          /import graphics.A*/
+    - Instead, it generates a compiler error. With the import statement, you generally import only a single package member or an entire package.
+    - For convenience, the Java compiler automatically imports two entire packages for each source file: (1) the java.lang package and (2) the current package (the package for the current file).
+*** Apparent Hierarchies of Packages
+- At first, packages appear to be hierarchical, but they are not. For example, the Java API includes a java.awt package, a java.awt.color package, a java.awt.font package, and many others that begin with java.awt. However, the java.awt.color package, the java.awt.font package, and other java.awt.xxxx packages are not included in the java.awt package. The prefix java.awt (the Java Abstract Window Toolkit) is used for a number of related packages to make the relationship evident, but not to show inclusion.
+- Importing java.awt.* imports all of the types in the java.awt package, but it does not import java.awt.color, java.awt.font, or any other java.awt.xxxx packages. If you plan to use the classes and other types in java.awt.color as well as those in java.awt, you must import both packages with all their files:
+
+      /import java.awt.*;/
+      /import java.awt.color.*;/
+*** Name Ambiguities
+- If a member in one package shares its name with a member in another package and both packages are imported, you must refer to each member by its qualified name. For example, the graphics package defined a class named Rectangle. The java.awt package also contains a Rectangle class. If both graphics and java.awt have been imported, the following is ambiguous.
+      /Rectangle rect;/
+- In such a situation, you have to use the member's fully qualified name to indicate exactly which Rectangle class you want. For example,
+      /graphics.Rectangle rect;/
+*** Static Import Statement
+- There are situations where you need frequent access to static final fields (constants) and static methods from one or two classes. Prefixing the name of these classes over and over can result in cluttered code. The static import statement gives you a way to import the constants and static methods that you want to use so that you do not need to prefix the name of their class.
+- You can use the static import statement to import the static members of java.lang.Math so that you don't need to prefix the class name, Math.
+  The static members of Math can be imported either individually:
+      /import static java.lang.Math.PI;/
+   Or as a group:
+      /import static java.lang.Math.*;/
+- Once they have been imported, the static members can be used without qualification.
+- Obviously, you can write your own classes that contain constants and static methods that you use frequently, and then use the static import statement.
+  For example,
+      /import static mypackage.myConstants.*;/
+- *Note:* Use static import very sparingly. Overusing static import can result in code that is difficult to read and maintain, because readers of the code won't know which class defines a particular static object. Used properly, static import makes code more readable by removing class name repetition.
+** Basic I/O
+*** I/O Streams
+- An I/O stream represents an input source or an output destination. A stream can represent many different kinds of sources and destinations, including disk files, devices, other programs and memory arrays.
+- Streams support many different kinds of data, including simple bytes, primitive data types, localized characters and objects. Some streams simply pass on data; others manipulate and transform the data in useful ways.
+- No matter how they work internally, all streams present the same simple model to programs that use them: /A stream is a sequence of data./ A program uses an /input stream/ to read data from a source, one item at a time; A program uses an /output stream/ to write data to a destination, one item at a time. The data source and data destination can be anything that holds, generates, or consumes data. Obviously this includes /disk files/ but source or destination can also be another program, a peripheral device, a network socket, or an array.
+**** Byte Streams
+- Programs use /byte streams/ to perform input and output of 8-bit bytes. All byte stream classes are descended from *InputStream and OutputStream*.
+- Closing a stream when it's no longer needed is very important.
+- Byte streams should only be used for the most primitive I/O.
+**** Character Stream
+- The Java platform stores character values using Unicode conventions. Character stream I/O automatically translates this internal format to and from the local character set. In Western locales, the local character set is usually an 8-bit superset of ASCII.
+- All character stream classes are descended from Reader and Writer. As with byte streams, there are character stream classes that specialize in file I/O: *FileReader and FileWriter.*
+**** Buffered Streams
+- Character stream and Byte stream uses /unbuffered/ I/O. This means that each read and write request is handled by the underlying OS. This can make a program much less efficient, since each such request often triggers disk access, network activity, or some other operation that is relatively expensive.
+- To reduce this kind of overhead, the Java platform implements buffered I/O streams. Buffered input streams read data from a memory area known as a buffer; the native input API is called only when the buffer is empty. Similarly, buffered output streams write data to a buffer, and the native output API is called only when the buffer is full.
+- A program can convert an unbuffered stream into a buffered stream using the wrapping idiom, where the unbuffered stream object is passed to the constructor for a buffered stream class.
+- There are four buffered stream classes used to wrap unbuffered streams: *BufferedInputStream and BufferedOutputStream* create buffered byte streams, while *BufferedReader and BufferedWriter* create buffered character streams.
+- It often makes sense to write out a buffer at critical points, without waiting for it to fill. This is known as /flushing/ the buffer.
+- Some buffered output classes support autoflush, specified by an optional constructor argument. When autoflush is enabled, certain key events cause the buffer to be flushed. For example, an autoflush PrintWriter object flushes the buffer on every invocation of println or format.
+- To flush a stream manually, invoke its flush method. The flush method is valid on any output stream, but has no effect unless the stream is buffered.
+**** Scanning and formatting
+- Programming I/O often involves translating to and from the neatly formatted data humans like to work with. To assist you with those chores, the Java platform provides two APIs.
+  1) *Scanning*
+     - Objects of type Scanner are useful for breaking down formatted input into tokens and translating individual tokens according to their data type.
+     - By default, a scanner uses white space to separate tokens. (White space characters include blanks, tabs, and line terminators...)
+  2) *Formatting*
+     - Stream objects that implement formatting are instances of either /PrintWriter/, a character stream class, or /PrintStream/, a byte stream class.
+     - *Note:* The only PrintStream objects you are likely to need are System.out and System.err. When you need to create a formatted output stream, instantiate PrintWriter, not PrintStream.
+     - Like all byte and character stream objects, instances of PrintStream and PrintWriter implement a standard set of write methods for simple byte and character output. In addition, both PrintStream and PrintWriter implement the same set of methods for converting internal data into formatted output. Two levels of formatting are provided:
+       + /print and println/ format individual values in a standard way.
+       + /format/ formats almost any number of values based on a format string, with many options for precise formatting.
+       check documentation for more.
+**** I/O From Command Line
+- A program is often run from the command line and interacts with the user in the command line environment. The Java platform supports this kind of interaction in two ways: through the Standard Streams and through the Console.
+- *Standard Stream*:
+  + Standard Streams are a feature of many operating systems. By default, they read input from the keyboard and write output to the display. They also support I/O on files and between programs, but that feature is controlled by the command line interpreter, not the program.
+  + The Java platform supports three Standard Streams: /Standard Input, accessed through System.in; Standard Output, accessed through System.out; and Standard Error, accessed through System.err./ These objects are defined automatically and do not need to be opened. Standard Output and Standard Error are both for output; having error output separately allows the user to divert regular output to a file and still be able to read error messages.
+  + You might expect the Standard Streams to be character streams, but, for historical reasons, they are byte streams. System.out and System.err are defined as /PrintStream/ objects. Although it is technically a byte stream, PrintStream utilizes an internal character stream object to emulate many of the features of character streams. By contrast, /System.in/ is a byte stream with no character stream features. To use Standard Input as a character stream, wrap System.in in /InputStreamReader/.
+    
+    #+begin_src java
+      InputStreamReader cin = new InputStreamReader(System.in);
+    #+end_src
+
+    
+- *Console*
+  - A more advanced alternative to the Standard Streams is the *Console*. This is a single, predefined object of type Console that has most of the features provided by the Standard Streams, and others besides. The Console is particularly useful for secure password entry. The Console object also provides input and output streams that are true character streams, through its /reader and writer/ methods.
+  - Before a program can use the Console, it must attempt to retrieve the Console object by invoking /System.console()/. If the Console object is available, this method returns it. If /System.console/ returns *NULL*, then Console operations are not permitted, either because the OS doesn't support them or because the program was launched in a noninteractive environment.
+  - The Console object supports secure password entry through its *readPassword* method. This method helps secure password entry in two ways. First, it suppresses echoing, so the password is not visible on the user's screen. Second, readPassword returns a character array, not a String, so the password can be overwritten, removing it from memory as soon as it is no longer needed.
+**** Data Streams
+- Data streams support binary I/O of primitive data type values (boolean, char, byte, short, int, long, float, and double) as well as String values. All data streams implement either the /DataInput/ interface or /DataOutput/ interface. Let's focus on the most widely-used implementations of these interfaces, /DataInputStream and DataOutputStream/
+**** Object Stream
+- Just as data streams support I/O of primitive data types, object streams support I/O of objects. Most, but not all, standard classes support serialization of their objects. Those that do implement the marker interface Serializable.
+- The object stream classes are /ObjectInputStream and ObjectOutputStream./ These classes implement /ObjectInput/ and /ObjectOutput/, which are subinterfaces of /DataInput and DataOutput./
+*** File I/O
+**** Path Class
+- The *Path* class, introduced in the Java SE 7 release, is one of the primary entrypoints of the /java.nio./ file package.
+- As its name implies, the Path class is a programmatic representation of a path in the file system. A Path object contains the file name and directory list used to construct the path, and is used to examine, locate, and manipulate files.
+- A Path instance reflects the underlying platform, i.e, it may use different syntax for linux and windows.
+- A Path is not system independent. You cannot compare a Path from a Solaris file system and expect it to match a Path from a Windows file system, even if the directory structure is identical and both instances locate the same relative file.
+***** Path Operations
+- The *Path* class includes various methods that can be used to obtain information about the path, access elements of the path, convert the path to other forms, or extract portions of a path. There are also methods for matching the path string and methods for removing redundancies in a path. This lesson addresses these Path methods, sometimes called syntactic operations, because they operate on the path itself and don't access the file system.
+- *Side Note: Difference b/n "\n" and "%n"*
+  + \n is a newline character that works on Unix-based systems like Linux and macOS. On Windows, however, newlines are represented as \r\n. This can sometimes cause issues when running your code on different platforms.
+  + On the other hand, %n is a platform-independent newline character used in formatted strings. It automatically uses the correct newline character(s) for the current system, making your code more portable.
+- *Creating Path*
+  - A /Path/ instance contains the information used to specify the location of a file or directory. A /Path/ might consist of just a single directory or file name.
+  - You can easily create a Path object by using one of the following /get/ methods from the *Paths* (note the plural) helper class:
+
+    #+begin_src java
+      Path p1 = Paths.get("/temp/foo");
+      Path p2 = Paths.get(args[0]);
+      Path p3 = Paths.get(URL.create("fill:///Users/joe/FileTest.java"));
+      
+      // The Paths.get method is shorthand for the following code
+      Path p4 = FileSystems.getDefault().getPath("/users/sally");
+    #+end_src
+  - *Retrieving Information about Path*
+    - You can think of /Path/ as storing those name elements as a sequence. The highest element in the directory structure would be located at index 0. The lowest element in the directory structure would be located at index [n-1], where n is the number of name elements in the /Path/. Methods are available for retrieving individual elements or a sequence of /Path/ using these indexes.
+**** File Operations
+- The Files class is the other primary entrypoint of the java.nio.file package. This class offers a rich set of static methods for reading, writing, and manipulating files and directories. The /Files/ methods work on instances of Path objects. Familiarize yourself with the following common concepts:
+  + *Releasing System resources*
+    - Many of the resources that are used in this API, such as streams or channels, implement or extend the java.io.Closeable interface. A requirement of a Closeable resource is that the close method must be invoked to release the resource when no longer required. Neglecting to close a resource can have a negative implication on an application's performance.
+  + *Catching Exceptions*
+    - With file I/O, unexpected conditions are a fact of life: a file exists (or doesn't exist) when expected, the program doesn't have access to the file system, the default file system implementation does not support a particular function, and so on. Numerous errors can be encountered.
+    - All methods that access the file system can throw an *IOException*. It is best practice to catch these exceptions by embedding these methods into a /try-with-resources statement/, introduced in the Java SE 7 release. The try-with-resources statement has the advantage that the compiler automatically generates the code to close the resource(s) when no longer required.
+    - Alternatively, you can embed the file I/O methods in a try block and then catch any exceptions in a catch block. If your code has opened any streams or channels, you should close them in a finally block.
+  + *Varargs*
+    - Several /Files/ methods accept an arbitrary number of arguments when flags are specified.
+    - You can use a construct called /varargs/ to pass an arbitrary number of values to a method. You use varargs when you don't know how many of a particular type of argument will be passed to the method. *It's a shortcut to creating an array manually.*
+    - To use varargs, you follow the type of the last parameter by an ellipsis (three dots, ...), then a space, and the parameter name. The method can then be called with any enumber of that parameter, including none.
+      The method can be called either with an array or with a sequence of arguments, but the codes in the method treats the parameter as an *array*
+    - You will most commonly see varargs with the printing methods; for example, this printf method:
+          public PrintStream printf(String format, Object... args)
+  + *Atomic Operations*
+    - Several /Files/ methods, such as move, can perform certain operations atomically in some file systems.
+    - An atomic file operation is an operation that cannot be interrupted or "partially" performed. Either the entire operation is performed or the operation fails. This is important when you have multiple processes operating on the same area of the file system, and you need to guarantee that each process accesses a complete file.
+  + *Method Chaining*
+    - Many of the file I/O methods support the concept of method chaining.
+    - You first invoke a method that returns an object. You then immediately invoke a method on that object, which returns yet another object, and so on. Many of the I/O examples use the following technique:
+          String value = Charset.defaultCharset().decode(buf).toString();
+    - This technique produces compact code and enables you to avoid declaring temporary variables that you don't need.
+  + *What is Glob?*
+    - Two methods in the /Files/ class accept a glob argument. You can use glob syntax to specify pattern-matching behavior.
+    - A glob pattern is specified as a string and is matched against other strings, such as directory or file names.
+      Glob syntax follows several simple rules:
+      + An asterisk, *, matches any number of characters (including none)
+      + Two asterisk, **, works like * but cross directory boundaries. This syntax is generally used for matching complete paths.
+      + A question mark, ?, matches exactly one character.
+      + Braces specify a collection of subpatterns. For example:
+        - {sun, moon, stars} matches "sun", "moon", "stars"
+        - {temp*, tmp*} matches any string start either with temp or tmp
+      + Square bracket convey a set of single characters or, when the hyphen(-) is used, a range of characters. For example:
+        - [aeiou] matches any lowercase vowel
+        - [0-9] matches any digit
+        - [a-z] matches any upper case
+        - [a-z, A-Z] matches any lowercase or uppercase
+          *within the square brackets, *, ? and \ match themselves*
+      + All other characters
+      + To match *, ?, or the other special characters, you can escape them by using the backslash character, \. For example: \\ matches a single backslash, and \? matches the question mark.
+- 
+**** Deleting a file or directory
+- You can delete files, directories or links. With symbolic links, the link is deleted and not the target of the link. With directories, the directory must be empty, or the deletion fails.
+- The /Files/ class provides two deletion methods.
+  + The /delete(Path)/ method deletes the file or throws an exception if the deletion fails. For example, if the file does not exist a *NoSuchFileException* is thrown. You can catch the exception to determine why the delete failed.
+  + The /deleteIfExists(Path)/ method also deletes the file, but if the file does not exist, no exception is thrown. Failing silently is useful when you have multiple threads deleting files and you don't want to throw an exception just because one thread did so first.
+**** Copying a file or directory
+- You can copy a file or directory by using the /copy(Path, Path, CopyOption...)/ method. The copy fails if the target file exists, unless the REPLACE_EXISTING option is specified.
+- Directories can be copied. However, files inside the directory are not copied, so the new directory is empty even when the original directory contains files.
+- When copying a symbolic link, the target of the link is copied. If you want to copy the link itself, and not the contents of the link, specify either the NOFOLLOW_LINKS or REPLACE_EXISTING option.
+- This method takes a varargs argument. The following StandardCopyOption and LinkOption enums are supported:
+  + /REPLACE_EXISTING/ – Performs the copy even when the target file already exists. If the target is a symbolic link, the link itself is copied (and not the target of the link). If the target is a non-empty directory, the copy fails with the *DirectoryNotEmptyException exception*.
+  + /COPY_ATTRIBUTES/ – Copies the file attributes associated with the file to the target file. The exact file attributes supported are file system and platform dependent, but last-modified-time is supported across platforms and is copied to the target file.
+  + /NOFOLLOW_LINKS/ – Indicates that symbolic links should not be followed. If the file to be copied is a symbolic link, the link is copied (and not the target of the link).
+- The following shows how to use the copy method:
+  #+begin_src java
+    import static java.nio.file.StandardCopyOption.*;
+    Files.copy(source, target, REPLACE_EXISTING);
+  #+end_src
+**** Moving a file or directory
+- You can move a file or directory by using the /move(Path, Path, CopyOption...)/ method. The move fails if the target file exists, unless the REPLACE_EXISTING option is specified.
+- Empty directories can be moved. If the directory is not empty, the move is allowed when the directory can be moved without moving the contents of that directory. On UNIX systems, moving a directory within the same partition generally consists of renaming the directory. In that situation, this method works even when the directory contains files.
+- This method takes a varargs argument – the following StandardCopyOption enums are supported:
+  + /REPLACE_EXISTING/ – Performs the move even when the target file already exists. If the target is a symbolic link, the symbolic link is replaced but what it points to is not affected.
+  + /ATOMIC_MOVE/ – Performs the move as an atomic file operation. If the file system does not support an atomic move, an exception is thrown. With an ATOMIC_MOVE you can move a file into a directory and be guaranteed that any process watching the directory accesses a complete file.
+
+**** Managing Meta Data
+- The definition of metadata is "data about other data." With a file system, the data is contained in its files and directories, and the metadata tracks information about each of these objects: Is it a regular file, a directory, or a link? What is its size, creation date, last modified date, file owner, group owner, and access permissions?
+- A file system's metadata is typically referred to as its file attributes. The /Files/ class includes methods that can be used to obtain a single attribute of a file, or to set an attribute. Check documentation for more.
+**** Reading, Writing and Creating files
+**** Random Access file
+**** Creating and Reading Directories
+**** Links, Symbolic or otherwise
+**** Walking the File Tree
+**** Finding files
+**** Watching a directory for changes
+** Testing
+- 
+** Annotation
+- 
+* Module Nine
+** Lists (and more Generics)
+*** List Interface pt1
+- 
+

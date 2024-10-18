@@ -1,0 +1,258 @@
+#+TITLE: Learning OOP using Java
+#+AUTHOR: Ertale81
+#+STARTDATE: <2024-10-17 Thu>
+#+BOOK: Schildt H. Complete Java Reference(2022) 12 edtion
+
+* Closer look at Classes and Methods
+** Class Fundamentals
+- Class is the logical construct upon which the entire Java language is built because it defines the shape and nature of an object.
+- The most important thing to understand about a class is that it defines a new /data type/. Once defined, this new type can be used to create objects of that type. Thus, a class is a /template/ for an object, and an object is an /instance/ of a class. Note that, a class declaration only creates a template; it doesn't create an actual object.
+- Each time you create an instance of a class, you are creating an object that contains its own copy of each instance variable and methods defined by the class.
+- Dot operator(.) links the name of the object with the name of an instance variable and methods. Generally dot operator uses to access both the instance variables and methods defined within an object.
+- A /constructor/ initializes an object immediately upon creation. It has same name as the class in which it resides and is syntactically similar to a method. Once defined the constructor is automatically called when the object is created, before the *new* operator completes. Constructors look a little strange because they have no return type, even *void*. This is because the implicit return type of a class' constructor is the class type itself. It's the constructor's job to initialize the internal state of an object so that the code creating an instance will have a fully initialized, usable object immediately.
+- When using a default constructor, all non-initialized instance variables will have their default values, which are zero, *null, false* for numeric types, reference types and boolean respectively.
+- Once you define your own constructor, the default constructor is no longer used.
+- Sometimes a method will need to refer to the object that invoked it. To allow this, Java defines the *this* keyword. *this* can be used inside any method to refer to the /current/ object. That is, *this* is always a reference to the object on which the method was invoked.
+  *this* will always refer to the invoking object.
+*** Garbage collection
+- Since objects are dynamically allocated by using the *new* operator, how such objects are destroyed and their memory released for later reallocation? Java uses a technique called /garbage collection/ that handles deallocation automatically for you. It works like this: /when no reference to an object exists, that object is assumed no longer needed, and the memory occupied by the object can be reclaimed/. There is no need to explicitly destroy objects.
+** Method Overloading
+- In Java, it is possible to define two or more methods within the same class that share same name, as long as their parameter declarations are different. When this is the case the methods are said to be overloaded, and the process is referred to as /method overloading/. Thus overloaded methods must differ in the type and/or number of their parameters. While overloaded may have different return types, the return type alone is insufficient to distinguish two versions of the method. When Java encounters a call to an overloaded method, it simply executes the version of the method whose parameters match the arguments used in the call. When an overloaded method is called, Java looks for a match between the arguments used to call the method and the method's parameters. However, this match need not always be exact. In some cases, Java's automatic type conversion can play a role in overloaded resolution. But Java will employ its automatic type conversions only if no exact match is found. Method overloading supports polymorphism.
+** Using Objects as Parameters
+- It is common and norm to pass objects to methods.
+- One of the most common uses of object parameters involves constructors. Frequently, you will want to construct a new object so that it's initially the same as some existing object.
+** Closer look at Argument Passing
+- In general, there are two ways that a computer language can pass an argument to subroutine.
+  1) /call-by-value/ - copies the /value/ of an argument into the formal parameter of subroutine. Therefore, changes made to the parameter of subroutine has no effect on the argument.
+  2) /call-by-reference/ - a reference to an argument(not the value of the argument) is passed to the parameter. Inside subroutine, this reference is used to access the actual argument specified in the call. This means that changes made to the parameter will affect the argument used to call the subroutine.
+- Although Java uses /call-by-value/ to pass all arguments, the precise effect differs between whether a primitive type or a reference type is passed.
+- When you pass a primitive type to a method, is passed by value. However, when you pass an object to a method, the object argument is passed as /call-by-reference/.
+- /Remember when an object reference is passed to a method, the reference itself is passed by use of call-by-value, since the value being passed refers to an object, the copy of that value will still refer to the same object that its corresponding argument does/.
+** Returning an Object
+- A method can return any type of data, including class types that you create.
+** Access Control
+- Java's access modifier are *public, private, and protected*. Java also defines a default access control. *protected* applies only when inheritance is involved.
+- when a member of a class is modified by *public*, then that member can be accessed by any other code. When a member of class is specified as *private*, then that member can only be accessed by other members of its class.
+- The *main()* method is always preceded by the *public* modifier because it's called by code that is outside the program -- that is, by the Java run-time system. When no access modifier is used, they by default the member of a class is public within its own package, but can not be accessed outside its package. When members are declared using *private*, since you can't access them from another class, you are gonna use /getters and setters/ to get and set the values respectively.
+- An access modifier precedes the rest of a member's type specification. That is it must begin a member's declaration statement.
+** Understanding Static
+- There will be times when you will want to define a class member that will be used independently of any object of that class. Normally, a class member must be accessed only in conjunction with an object of its class. However, it's possible to create a member that an be used by itself, without reference to a specific instance. To create such member, precede its declaration with the keyword *static*. When an member is declared *static*, /it can be accessed before any objects of its class are created, and without reference to any object./ You can declare both methods and variables to be *static*. The most common example of static member is *main()*. *main()* is declared as *static* because it must be called before any object exist. Instance variables declared as *static* are, essentially, global variables. When objects of its class are declared, no copy of a *static* variable is made. Instead all the instances of the class share the same *static* variable.
+- Methods declared as *static* have several restrictions:
+  + They can only directly call other *static* methods of their class
+  + They can only directly access *static* variables of their class
+  + They cannot refer to *this* or *super* in any way.
+- If you need to do computation in order to initialize your *static* variables, you can declare a *static* block that gets executed exactly once, when the class is first loaded. As soon as the /className/ class is loaded, all of the static statements are run.
+- Outside of the class in which they are defined, *static* methods and variables can be used independently of any object. To do so, you need only specify the name of their class followed by the dot operator. For example, if you wish to call a *static* method outside its class, you can do so using the following general form:
+      /ClassName.method()/
+      Here /ClassName/ is the name of the class in which the static method is declared.
+** Introducing Final
+- A field can be declared as final. Doing so prevents its contents from being modified, making it essentially, a constant. This means that you must initialize a *final* field when it's declared. You can do this in one of two ways: First, you can give it a value when its declared. Second, you can assign it a value within a constructor. The first approach is probably the most common.
+  e.g:
+      /final int FILE_OPEN = 1;/
+- It's common coding convention to choose all uppercase identifiers for final fields.
+- Both method parameters and local variables can be declared *final*.
+  Declaring a parameter *final* prevents it from being changed within the method. Declaring a local variable *final* prevents it from being assigned a value more than once.
+- The keyword *final* can also be applied to methods, but its meaning is substantially different than when it is applied to variables.
+** Introducing Nested and Inner Classes
+- It is possible to define a class within another class; such classes are known as /nested classes/. The scope of a nested class is bounded by the scope of its enclosing class. Thus, if class B is defined within class A, then B doesn't exist independently of A. A nested class has access to the members, including private members, of the class in which it is nested. However, the enclosing class does not have access to the member of the nested class. A nested class that is declared directly within its enclosing class scope is a member of its enclosing class. It's also possible to declare a nested class that is local to a block.
+- There are two types of nested classes:
+  1) /static/ nested class- a /static/ nested class is one that has the *static* modifier applied. Because it's *static* it must access the non-static members of its enclosing class through an object. That is, it can not refer to non-static members of its enclosing class directly.
+  2) /inner class/ - it's a non-static nested class. It has access to all of the variables and methods of its outer class and may refer to them directly in the same way that other non-static members of the outer class do.
+- *Note*: An instance of a inner class can be created only in the context of the enclosing class. The Java compiler generates an error otherwise. In general, an inner class instance is often created by code within its enclosing scope.
+- An inner class has access to all of the members of its enclosing class, but the reverse is not true.
+- In addition to declaring an inner class as a members within an outer class scope, we can define inner class within any block scope. For example, you can define a nested class within the block defined by a method or even within a body of *for* loop.
+- Anonymous inner class - inner class that don't have name??
+** String Class
+- *String* is probably the most commonly used class in Java's class library.
+- The first thing to understand about strings is that every string you create is actually an object of type *String*. Even string constants are actually *String* objects. For example:
+  #+begin_src java
+    System.out.println("This is a String, too");
+  #+end_src
+  The string "This is a String, too" is a *String* object.
+- The second thing to understand about strings is that object of type *String* are /immutable/; once a *String* object is created, its content cannot be altered. While this may seem like a serious restriction, it is not, for two reasons:
+  1) If you need to change a string, you can always create a new one that contains the modification
+  2) Java defines peer classes of *String*, called *StringBuffer* and *StringBuilder*, which allow string to be altered, so all of the normal string manipulations are still available in Java.
+- Java defines one operator for *String* objects: *+*. It is used to concatenate two strings.
+- The *String* class contains several methods that you can use. Some are:
+  + /boolean equals(secondStr);/
+  + /int lenght();/
+  + /char charAt(index);/
+- Of course, you can have array of strings, just like you can have arrays of any other type of object.
+** Using Command Line Arguments
+- Sometimes you will want to pass information into a program when you run it. This is accomplished by passing /command-line arguments/ to *main()*. A command-line argument is the information that directly follows the program's name on the command-line  when it is executed. In Java those command-line arguments are stored as strings in a *String* array passed to the args parameter of *main()*.
+  The first is at args[0], second at args[1] ...
+- *Remember*: All command-line arguments are passed as strings. You must convert values to their internal forms manually.
+** Varargs: Variable Length Arguments
+- This allows methods to take variable number of arguments. e.g: printf() method
+- In the early days of Java varargs could be handled in two ways, neither of which are particularly pleasing.
+  1) If the maximum number of arguments was small and known, then you could create overloaded version of the method, one for each way the method could be called. Although this works and is suitable for some cases, it applies to only a narrow class of situations.
+  2) If the maximum number of arguments was larger or unknown, the arguments was put into an array, and then the array was passed to the method. This approach requires that these arguments be manually packaged into an array prior to calling the method. Not only it is tedious to construct an array each time the method is called, it's potentially error prone. The varargs feature offers simpler, better option.
+- varargs is specified by three dots(...)
+  e.g:
+       /static void varargsTest(int... v){}/
+       This syntax tells the compiler that varargsTest() can be called with zero or more arguments. As a result *v* is implicitly declared as an array of type *int[]*. Thus, inside *varargsTest(), v* is accessed using the normal array index.
+       The *...* syntax simply tells the compiler a variable number of arguments will be used, and that these arguments will be stored in the array referred to by *v*.
+- A method can have "normal" parameters along with variable length parameters. However, the variable-length parameter must be the last parameter declared by the method.
+  For example:
+      /int doInt(int a, int b, double c, int ... vals){}/
+      /Remember, the varargs parameter must be last/.
+- There is one more restriction to be aware of: there must be only one varargs parameter.
+  For example, this declaration is invalid.
+      /int doInt(int a, int b, double c, int ... vals, double ... morevals){}/
+- You can overload varargs methods. One way to overload is by differing types of the parameters. The second way to overload a varargs method is to add one or more normal parameters. In this case, Java uses both the number of arguments and type of the arguments to determine which method to call.
+- *Note*: A varargs method can also be overloaded by a non-varargs method. For example, doInt(int x) is a valid overload of doInt() in the above example. This method is invoked only when one *int* argument is present. When two ore more *int* arguments are passed, the varargs version doInt(int a, int b, double c int ... vals) is used.
+- *varargs and ambiguity*
+  - It's perfectly fine to overload varargs with arguments having different data types. But if they all accept zero or more arguments and the caller passes with zero argument the compiler gets confused to choose which method to call since all the varargs accept zero number of argument. Not only this one but even with having normal parameters.
+    e.g:
+        /static void vaTest(int ... v){}/
+        /static void vaTest(int n, int ... v) {}/
+        There is no way the compiler resolve the following call:
+        /vaTest(1);/
+        These situations are ambiguous.
+** Local Variable Type Inference with Reference types.
+- Beginning with JDK 10, Java supports local variable type inference. When using local variable type inference, the type of the variable is specified as *var* and the variable must be initialized. Type inference can be used with primitive types and with reference types. In fact, type inference with reference types constitutes a primary use.
+  For exampe:
+      /var myStr = "This is a string";/
+      Because a quoted string is used as an initializer, the type *String* is infered
+- One of the benefits of local variable type inference is its ability to streamline code, and it's with reference types where such streamlining is most apparent. The reason for this is that many class types in Java have rather long names. For example, let's see the *FileInputStream* class, which is used to open a file for input operation. In the past, you would declare and initialize a *FileInputStream* using a traditional declaration like shown below:
+      /FileInputStream fin = new FileInputStream("test.txt");/
+      with the use of var it can now be writtne:
+      /var fin = new FileInputStream("test.txt");
+      Here, *fin* is inferred to be type *FileInputStream* because that is the type of its initializer. There is no need to explicitly repeat the type name. As a result, this declaration of *fin* is shorter than writing in traditional way. Thus, the use of *var* streamlines the declaration.
+- In general, the streamlining attribute of local variable type inference helps lessen the tedium of entering long type names into your program.
+- The streamlining aspect of local variable type inference must be used carefully to avoid reducing the readability of your program and, thus, obscuring its meaning.
+- You can also use local variable type inference with user-defined classes.
+  e.g:
+      /var udc = new UserDefinedClass();/
+* Inheritance
+** Inheritance Basic
+- In the terminology of Java, a class that is inherited is called a /superclass/ and the class that does the inheriting is called /subclass/. Therefore, a subclass is a specialized version of a superclass. It inherits all of the members defined by the superclass and adds its own, unique elements.
+- To inherit a class, you simply incorporate the definition of one class into another by using the *extends* keyword. You can only specify one superclass for any subclass that you create. Java doesn't support the inheritance of multiple superclasses into a single subclass. You can create a hierarchy  of inheritance in which a subclass becomes a superclass of another subclass. However, no class can be a superclass of itself.
+- Although a subclass includes all of the members of its superclass, it can not access those members of superclass that have been declared as *private*
+- *Remember* A class member that has been declared as private will remain private to its class. It's not accessible by any code outside its class, including subclass.
+- A major advantage of inheritance is that once you have created a superclass that defines the attributes common to set of objects, it can be used to create any number of more specific subclasses.
+** A Superclass Variable Can Reference a Subclass Object
+- A reference variable of a superclass can be assigned a reference to any subclass derived from that superclass. You will find this aspect of inheritance quite useful in a variety of situations.
+- It is important to understand that it is the *type the reference variable* -- not the *type of the object that it refers to* -- that determines what members can be accessed. That is, when a reference to a subclass object is assigned to a superclass reference variable, you will have access only to those parts of the object defined by the superclass.(because the reference is variable is superclass reference variable). This makes sense because the superclass has no knowledge of the subclass.
+** Using Super
+- There will be times when you will want to create a superclass that keeps the details of its implementation to itself(that is, that keeps its data members private). In this case, there will be no way for a subclass to directly access or initialize these variables on its own. Since encapsulation is the primary attribute of OOP, Java also provides a solution to this problem. Whenever a subclass needs to refer to its immediate superclass, it can do so by use of the keyword *super*.
+- *super* has two general forms. The first calls the superclass' constructor. The second is used to access a member of the superclass that has been hidden by a member of subclass.
+*** Using super to call superclass constructor
+- A subclass can call a constructor defined by its superclass by use of the following form of *super*:
+      /super(arg-list);/
+      Here, /arg-list/ specifies any arguments needed by the constructor in the superclass. *super()* must always be the first statement executed inside a subclass' constructor.
+- Since constructors can be overloaded, *super()* can be called using any form defined by the superclass. The constructor executed will be the one that matches the argument.
+- *Remember*: a superclass variable can be used to reference any object derived from that class.
+*** A Second use for super
+- The second form of *super* acts somewhat like *this*, except that it always refers to the superclass of the subclass in which it's used.
+      /super.member;/
+      Here member can be either a method or instance variable.
+- This form of *super* is most applicable to situations in which member names of a subclass hide members by the same name in the superclass.
+  e.g:
+      /int i;/
+      /i = 9;/ this will refer variable in subclass
+      /super.i = 9;/ this will refer variable in superclass.
+      *super* allows access to methods and variables defined in the superclass.
+*** When Constructors are executed in inheritance hierarchy
+- In class hierarchy, constructors complete their execution in order of derivation, from superclass to subclass. Further, since *super()* must be the first element executed in a subclass' constructor, this order is the same whether or not *super()* is used. If *super()* is not used then the default or parameterless constructor of each superclass will be executed.
+*** Method Overriding
+- In class hierarchy, when a method in a subclass has the same name and type signature as the method in superclass, then the method in the subclass is said to /override/ the method in the superclass. When an overridden method is called through its subclass, it will always refer to the version of that method defined by the subclass. The version of the method defined by the superclass will be hidden.
+- If you wish to access the superclass version of an overridden method, you can do so by using *super*.
+- Method overriding occurs /only/ when the names and the type signature of two methods are identical. If they are not the two methods are simply overloaded.
+*** Dynamic Method Dispatch
+- Method overriding forms the basis for one of Java's most powerful concepts: /dynamic method dispatch/. Dynamic method dispatch is the mechanism by which a call to an overridden method is resolved at runtime, rather than compile time. Dynamic method dispatch is important because this is how Java implements /run-time polymorphism/
+- Java uses a principle, a superclass reference variable can refer to a subclass object, to resolve calls to overridden methods at run-time. Here is how. When an overridden method is called through superclass reference, Java determines which version of that method to execute based up on the type of object being referred to at the time the call occurs. Thus, this determination is made at run-time. When different types of objects are referred to, different version of an overridden method will be called. In other words, /it's the type of the object being referred to/ (not the type of reference variable) that determines which version of an overridden method will be executed. Therefore, if a superclass contains a method that is overridden by a subclass, then when different types objects are referred to through a superclass reference variable, different versions of the method are executed.
+*** Why Overridden methods?
+- Overridden methods allow Java to support run-time polymorphism. Polymorphism is essential for one reason: it allows a general class to specify methods that will be common to all of its derivatives, while allowing subclasses to define the specific implementation of some or all of those methods.
+- Overridden methods are another way that Java implements the "one interface, multiple methods" aspect of polymorphism.
+- By combining inheritance with overridden methods, a superclass can define the general form of the methods that will be used by all its subclasses.
+*** Using Abstract Classes
+- Abstract class is a class that declares the structure of a given abstraction without providing a complete implementation of every method. That is, you will create a superclass that only defines a generalized format that will be shared by all of its subclasses, leaving it to each subclass to fill in details.
+- To make sure that the class methods are overridden is to make the method /abstract/.
+- To declare an abstract method, use the general form:
+      /abstract type name(parameter-list);/
+      As you can see no method body is present.
+- Any class that contains one or more abstract method must also be declared abstract. To declare a class abstract, you simply use the *abstract* keyword in front of the *class* keyword at the beginning of the class declaration.
+- There can be no objects of an abstract class. That is, an abstract class can not be directly instantiated with the *new* operator.
+- Concrete methods are still allowed in abstract classes.
+- Although it's not possible to create an object of type *abstract class*, you can create a reference variable of type *abstract class*. And that reference variable can be used to refer to an object of any class derived from the *abstract class*. It's through superclass reference variable that overridden methods are resolved at run-time.
+*** Using final with inheritance
+- To disallow methods from being overridden, specify *final* as a modifier at the start of its declaration. Methods declared as *final* can not be overridden.
+- Methods declared as *final* can sometimes provide a performance enhancement: The compiler is free to /inline/ calls to them because it "knows" they will not be overridden by subclasses. When a small *final* method is called, often the Java compiler can copy the bytecode for the subroutine directly inline with the compiled code of the calling method, thus eliminates the costly overhead associated with the method call. Inlining is an option only with *final* methods. Normally Java resolves calls to methods dynamically, at run time. This is called /late binding/. However, since *final* methods cannot be overridden, a call to one can be resolved at compile time. This is called /early binding./
+- If you want to prevent a class from being inherited, precede the class declaration with *final*. Declaring a class as *final* implicitly declares all of its methods as *final* too.
+- It's illegal to declare a class as both *abstract* and *final* since an abstract class is incomplete by itself and relies upon its subclasses to provide complete implementation.
+
+*** The Object Class
+- There is one special class, *Object*, defined by Java, where all other classes are subclasses of *Object* class. That is *Object* is the superclass of all other classes. This means that a reference variable of type *Object* can refer to all object of any other class. Also since arrays are implemented as classes, a variable type *Object* can also refer to any array.
+- *Object* define the following methods, which means that they are available to every object.
+  |------------------------------|
+  | Object clone()               |
+  |------------------------------|
+  | boolean equals(Object obj)   |
+  |------------------------------|
+  | void finalize()              |
+  |------------------------------|
+  | Class <?>getClass()          |
+  |------------------------------|
+  | int hasCode()                |
+  |------------------------------|
+  | void notify()                |
+  |------------------------------|
+  | void notifyAll()             |
+  |------------------------------|
+  | String toString()            |
+  |------------------------------|
+  | void wait()                  |
+  | void wait(long milliseconds) |
+  | void wait(long milliseconds, |
+  | long nanoseconds)            |
+  |------------------------------|
+- The methods *getClass(), notify(), notifyAll(), and wait()* are declared as *final*. You may override the others. However, notice two methods for now:
+  *equals(Object obj)* and *toString()*. The equals() method compares two objects and the toString() method returns a string that contains a description of the object in which it is called. Also, the method is automatically called when an object is output using println().
+
+* Packages and Interfaces
+** Packages
+- Packages are containers for classes. They are used to keep the class name space compartmentalized. The package is both naming and visibility control mechanism. You can define classes inside a package that are not accessible by code outside the package. You can also define a class members that are exposed only to other members of the same package. This allows your classes to have intimate knowledge of each other, but not expose that knowledge to the rest of the world.
+- The general form of the *package* statement:
+      /package pkg;/
+- Typically, Java uses file system directories to store packages. The *package* statement simply specifies to which package the classes defined in a file belong. It doesn't exclude other classes in other files from being part of that same package.
+- You can create a hierarchy of packages. To do so, simply separate each package name from the one above it by use of period.
+      /package pkg[.pkg1][.pkg2];/
+      /package a.b.c;/
+- 
+** Finding Packages and CLASSPATH
+- How does the Java run-time systems know where to look for packages that you create?
+  The answer has three parts:
+  1) By default, the Java run-time system uses the current working directory as its starting point. Thus, if your package is in a subdirectory of the current directory, it will be found.
+  2) You can specify a directory path or paths by selecting the *CLASSPATH* environment variable.
+  3) You can use the *-classpath* option with the *java* and *javac* to specify the path to your classes.
+- /package mypack;/
+  In order for a program to find *mypack*, the program can be executed from a directory immediately above *mypack,* or the *CLASSPATH* must be set to include the path to *mypack*, or the *-classpath* option must specify the path to *mypack* when the program is run with *java*.
+- Classes and packages are both means of encapsulating and containing the name space and scope of variables and methods. Packages act as containers for classes and other subordinate packages. Classes act as containers for data and code. The class is Java's smallest unit of abstraction.
+- Java's access control mechanism:
+  + public - can be accessed from different classes and different packages
+  + private - cannot be accessed outside of its class
+  + default(no explicit access specification) - it is visible to subclasses as well as other classes in the same package.
+  + protected - can be seen outside your current package, but only to classes that subclass your class directly
+- The above applies only to members of class. A non-nested class has only two possible access levels: *default and public*. When a class is *public*, it's accessible outside its package. If a class has default access, then it can only be accessed by other code within its same package. /When a class is public, it must be the only public class declared in the file, and the file must have same as the class./
+** Importing Packages
+- Java includes the *import* statement to bring certain classes, or entire packages, into visibility. Once imported, a class can be referred to directly, using only its name.
+- In Java source file, *import* statements occur immediately following the package statements(if exists) and before any class definition.
+- General form of the *import* statement:
+      /import pkg1.[.pkg2].(classname |*);/
+      e.g:
+      /import java.util.Date;/ // explicit class name
+      /import java.io.*;/ // import entire package, packages below java.io
+** Interfaces
+- Interface uses to specify what a class must do, but not how it does. Interfaces are syntactically similar to classes, but they lack instance variables, and, as a general rule, their methods are declared without any body. Also, one class can implement any number of interfaces.
+- To implement an interface, a class must provide a complete set of methods required by the interface. However, each class is free to determine the details of its implementation.
+- By providing the *interface* keyword, Java allows you to fully utilize the "one interface, multiple methods" aspect of polymorphism.
+- An interface is defined much like class.
+      /access interface name {}/
+      When no access modifier is used, then default access is used and the interface is only available to other members of the package in which it is declared. When it's is declared as *public*, the interface can be used by code outside its package. In this case, the interface must be the only public interface declared in the file, and the file must have same name as the interface.
+- Beginning JDK 8, it is possible to add /default implementation/ to an interface method and also added /static interface methods/. And beginning JDK 9, an interface can include private methods. Thus, it is now possible for *interface* to specify some behaviors.
+- As a general rule, you will still often create and use interfaces in which no use is made to those new features.
+- Variables that are declared inside interfaces are by implicitly *final* and *static*, meaning they can not be changed by the implementing class. They must also be initialized. All methods and variables are implicitly *public*.
+- To implement an interface, include *implements* clause and the class definition and then create the methods required by the interface. If a class implements more than one interface, the interface are separated with commas(,). If a class two interfaces that declare the same method, then the same method will be used by clients of either interface. The methods that implement an interface must be declared *public*. Also, the type signature of the implementing method must match exactly the type signature specified in the *interface* definition.
+- *Remember* When you implement an interface method, it must be declared as public.
+- It is permissible for classes that implement interface to define additional members of their own.

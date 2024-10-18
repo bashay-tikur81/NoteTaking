@@ -1,0 +1,56 @@
+#+TITLE: Learning OOP using Java
+#+AUTHOR: Ertale81
+#+STARTDATE: <2024-10-17 Thu>
+
+* Closer look at Classes and Methods
+** Class Fundamentals
+- Class is the logical construct upon which the entire Java language is built because it defines the shape and nature of an object.
+- The most important thing to understand about a class is that it defines a new /data type/. Once defined, this new type can be used to create objects of that type. Thus, a class is a /template/ for an object, and an object is an /instance/ of a class. Note that, a class declaration only creates a template; it doesn't create an actual object.
+- Each time you create an instance of a class, you are creating an object that contains its own copy of each instance variable and methods defined by the class.
+- Dot operator(.) links the name of the object with the name of an instance variable and methods. Generally dot operator uses to access both the instance variables and methods defined within an object.
+- A /constructor/ initializes an object immediately upon creation. It has same name as the class in which it resides and is syntactically similar to a method. Once defined the constructor is automatically called when the object is created, before the *new* operator completes. Constructors look a little strange because they have no return type, even *void*. This is because the implicit return type of a class' constructor is the class type itself. It's the constructor's job to initialize the internal state of an object so that the code creating an instance will have a fully initialized, usable object immediately.
+- When using a default constructor, all non-initialized instance variables will have their default values, which are zero, *null, false* for numeric types, reference types and boolean respectively.
+- Once you define your own constructor, the default constructor is no longer used.
+- Sometimes a method will need to refer to the object that invoked it. To allow this, Java defines the *this* keyword. *this* can be used inside any method to refer to the /current/ object. That is, *this* is always a reference to the object on which the method was invoked.
+  *this* will always refer to the invoking object.
+*** Garbage collection
+- Since objects are dynamically allocated by using the *new* operator, how such objects are destroyed and their memory released for later reallocation? Java uses a technique called /garbage collection/ that handles deallocation automatically for you. It works like this: /when no reference to an object exists, that object is assumed no longer needed, and the memory occupied by the object can be reclaimed/. There is no need to explicitly destroy objects.
+** Method Overloading
+- In Java, it is possible to define two or more methods within the same class that share same name, as long as their parameter declarations are different. When this is the case the methods are said to be overloaded, and the process is referred to as /method overloading/. Thus overloaded methods must differ in the type and/or number of their parameters. While overloaded may have different return types, the return type alone is insufficient to distinguish two versions of the method. When Java encounters a call to an overloaded method, it simply executes the version of the method whose parameters match the arguments used in the call. When an overloaded method is called, Java looks for a match between the arguments used to call the method and the method's parameters. However, this match need not always be exact. In some cases, Java's automatic type conversion can play a role in overloaded resolution. But Java will employ its automatic type conversions only if no exact match is found. Method overloading supports polymorphism.
+** Using Objects as Parameters
+- It is common and norm to pass objects to methods.
+- One of the most common uses of object parameters involves constructors. Frequently, you will want to construct a new object so that it's initially the same as some existing object.
+** Closer look at Argument Passing
+- In general, there are two ways that a computer language can pass an argument to subroutine.
+  1) /call-by-value/ - copies the /value/ of an argument into the formal parameter of subroutine. Therefore, changes made to the parameter of subroutine has no effect on the argument.
+  2) /call-by-reference/ - a reference to an argument(not the value of the argument) is passed to the parameter. Inside subroutine, this reference is used to access the actual argument specified in the call. This means that changes made to the parameter will affect the argument used to call the subroutine.
+- Although Java uses /call-by-value/ to pass all arguments, the precise effect differs between whether a primitive type or a reference type is passed.
+- When you pass a primitive type to a method, is passed by value. However, when you pass an object to a method, the object argument is passed as /call-by-reference/.
+- /Remember when an object reference is passed to a method, the reference itself is passed by use of call-by-value, since the value being passed refers to an object, the copy of that value will still refer to the same object that its corresponding argument does/.
+** Returning an Object
+- A method can return any type of data, including class types that you create.
+** Access Control
+- Java's access modifier are *public, private, and protected*. Java also defines a default access control. *protected* applies only when inheritance is involved.
+- when a member of a class is modified by *public*, then that member can be accessed by any other code. When a member of class is specified as *private*, then that member can only be accessed by other members of its class.
+- The *main()* method is always preceded by the *public* modifier because it's called by code that is outside the program -- that is, by the Java run-time system. When no access modifier is used, they by default the member of a class is public within its own package, but can not be accessed outside its package. When members are declared using *private*, since you can't access them from another class, you are gonna use /getters and setters/ to get and set the values respectively.
+- An access modifier precedes the rest of a member's type specification. That is it must begin a member's declaration statement.
+** Understanding Static
+- There will be times when you will want to define a class member that will be used independently of any object of that class. Normally, a class member must be accessed only in conjunction with an object of its class. However, it's possible to create a member that an be used by itself, without reference to a specific instance. To create such member, precede its declaration with the keyword *static*. When an member is declared *static*, /it can be accessed before any objects of its class are created, and without reference to any object./ You can declare both methods and variables to be *static*. The most common example of static member is *main()*. *main()* is declared as *static* because it must be called before any object exist. Instance variables declared as *static* are, essentially, global variables. When objects of its class are declared, no copy of a *static* variable is made. Instead all the instances of the class share the same *static* variable.
+- Methods declared as *static* have several restrictions:
+  + They can only directly call other *static* methods of their class
+  + They can only directly access *static* variables of their class
+  + They cannot refer to *this* or *super* in any way.
+- If you need to do computation in order to initialize your *static* variables, you can declare a *static* block that gets executed exactly once, when the class is first loaded. As soon as the /className/ class is loaded, all of the static statements are run.
+- Outside of the class in which they are defined, *static* methods and variables can be used independently of any object. To do so, you need only specify the name of their class followed by the dot operator. For example, if you wish to call a *static* method outside its class, you can do so using the following general form:
+      /ClassName.method()/
+      Here /ClassName/ is the name of the class in which the static method is declared.
+** Introducing Final
+- A field can be declared as final. Doing so prevents its contents from being modified, making it essentially, a constant. This means that you must initialize a *final* field when it's declared. You can do this in one of two ways: First, you can give it a value when its declared. Second, you can assign it a value within a constructor. The first approach is probably the most common.
+  e.g:
+      /final int FILE_OPEN = 1;/
+- It's common coding convention to choose all uppercase identifiers for final fields.
+- Both method parameters and local variables can be declared *final*.
+  Declaring a parameter *final* prevents it from being changed within the method. Declaring a local variable *final* prevents it from being assigned a value more than once.
+- The keyword *final* can also be applied to methods, but its meaning is substantially different than when it is applied to variables.
+** Introducing Nested and Inner Classes
+- It is possible to define a class within another class; such classes are known as /nested classes/. The scope of a nested class is bounded by the scope of its enclosing class. Thus, if class B is defined within class A, then B doesn't exist independently of A. A nested class has access to the members, including private members, of the class in which it is nested. 
