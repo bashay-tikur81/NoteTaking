@@ -1,0 +1,22 @@
+#+TITLE: Cyber Security, Host Security
+#+AUTHOR: Ertale81
+#+STARTDATE: <2024-10-21 Mon>
+
+* Host Security
+** Common Vulnerabilities
+- Vulnerabilities is a potential weak point in a system that can be exploited by cyber criminals to gain unauthorized access to the system
+- /A vulnerability database/ is a platform that collects, maintains, and shares information about discovered vulnerabilities.
+- Common gateway for system vulnerabilities:
+  + Hardware
+  + Software
+    - Input validation error: (code injection, cross-site scripting(XSS), directory traversal, email injection, SQL injection)
+    - Privilege-confusion bugs: (clickjacking, cross-site request forgery)
+    - Race conditions: (symlink races, time-of-check-to-time-of-use bug)
+    - Side channel attacks, timing attacks and user interface failures
+  + Network
+  + Personnel
+  + Physical location
+  + Organizational design
+- Vulnerability management: It's is a cyclical practice of identifying, classifying, remediating, and mitigating security vulnerabilities
+- Vulnerability management includes the following steps:
+  + 

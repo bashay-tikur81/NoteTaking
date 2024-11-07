@@ -135,6 +135,7 @@
 - A reference variable of a superclass can be assigned a reference to any subclass derived from that superclass. You will find this aspect of inheritance quite useful in a variety of situations.
 - It is important to understand that it is the *type the reference variable* -- not the *type of the object that it refers to* -- that determines what members can be accessed. That is, when a reference to a subclass object is assigned to a superclass reference variable, you will have access only to those parts of the object defined by the superclass.(because the reference is variable is superclass reference variable). This makes sense because the superclass has no knowledge of the subclass.
 ** Using Super
+*** First use of super
 - There will be times when you will want to create a superclass that keeps the details of its implementation to itself(that is, that keeps its data members private). In this case, there will be no way for a subclass to directly access or initialize these variables on its own. Since encapsulation is the primary attribute of OOP, Java also provides a solution to this problem. Whenever a subclass needs to refer to its immediate superclass, it can do so by use of the keyword *super*.
 - *super* has two general forms. The first calls the superclass' constructor. The second is used to access a member of the superclass that has been hidden by a member of subclass.
 *** Using super to call superclass constructor
@@ -159,14 +160,14 @@
 - In class hierarchy, when a method in a subclass has the same name and type signature as the method in superclass, then the method in the subclass is said to /override/ the method in the superclass. When an overridden method is called through its subclass, it will always refer to the version of that method defined by the subclass. The version of the method defined by the superclass will be hidden.
 - If you wish to access the superclass version of an overridden method, you can do so by using *super*.
 - Method overriding occurs /only/ when the names and the type signature of two methods are identical. If they are not the two methods are simply overloaded.
-*** Dynamic Method Dispatch
+** Dynamic Method Dispatch
 - Method overriding forms the basis for one of Java's most powerful concepts: /dynamic method dispatch/. Dynamic method dispatch is the mechanism by which a call to an overridden method is resolved at runtime, rather than compile time. Dynamic method dispatch is important because this is how Java implements /run-time polymorphism/
 - Java uses a principle, a superclass reference variable can refer to a subclass object, to resolve calls to overridden methods at run-time. Here is how. When an overridden method is called through superclass reference, Java determines which version of that method to execute based up on the type of object being referred to at the time the call occurs. Thus, this determination is made at run-time. When different types of objects are referred to, different version of an overridden method will be called. In other words, /it's the type of the object being referred to/ (not the type of reference variable) that determines which version of an overridden method will be executed. Therefore, if a superclass contains a method that is overridden by a subclass, then when different types objects are referred to through a superclass reference variable, different versions of the method are executed.
-*** Why Overridden methods?
+** Why Overridden methods?
 - Overridden methods allow Java to support run-time polymorphism. Polymorphism is essential for one reason: it allows a general class to specify methods that will be common to all of its derivatives, while allowing subclasses to define the specific implementation of some or all of those methods.
 - Overridden methods are another way that Java implements the "one interface, multiple methods" aspect of polymorphism.
 - By combining inheritance with overridden methods, a superclass can define the general form of the methods that will be used by all its subclasses.
-*** Using Abstract Classes
+** Using Abstract Classes
 - Abstract class is a class that declares the structure of a given abstraction without providing a complete implementation of every method. That is, you will create a superclass that only defines a generalized format that will be shared by all of its subclasses, leaving it to each subclass to fill in details.
 - To make sure that the class methods are overridden is to make the method /abstract/.
 - To declare an abstract method, use the general form:
@@ -176,13 +177,13 @@
 - There can be no objects of an abstract class. That is, an abstract class can not be directly instantiated with the *new* operator.
 - Concrete methods are still allowed in abstract classes.
 - Although it's not possible to create an object of type *abstract class*, you can create a reference variable of type *abstract class*. And that reference variable can be used to refer to an object of any class derived from the *abstract class*. It's through superclass reference variable that overridden methods are resolved at run-time.
-*** Using final with inheritance
+** Using final with inheritance
 - To disallow methods from being overridden, specify *final* as a modifier at the start of its declaration. Methods declared as *final* can not be overridden.
 - Methods declared as *final* can sometimes provide a performance enhancement: The compiler is free to /inline/ calls to them because it "knows" they will not be overridden by subclasses. When a small *final* method is called, often the Java compiler can copy the bytecode for the subroutine directly inline with the compiled code of the calling method, thus eliminates the costly overhead associated with the method call. Inlining is an option only with *final* methods. Normally Java resolves calls to methods dynamically, at run time. This is called /late binding/. However, since *final* methods cannot be overridden, a call to one can be resolved at compile time. This is called /early binding./
 - If you want to prevent a class from being inherited, precede the class declaration with *final*. Declaring a class as *final* implicitly declares all of its methods as *final* too.
 - It's illegal to declare a class as both *abstract* and *final* since an abstract class is incomplete by itself and relies upon its subclasses to provide complete implementation.
 
-*** The Object Class
+** The Object Class
 - There is one special class, *Object*, defined by Java, where all other classes are subclasses of *Object* class. That is *Object* is the superclass of all other classes. This means that a reference variable of type *Object* can refer to all object of any other class. Also since arrays are implemented as classes, a variable type *Object* can also refer to any array.
 - *Object* define the following methods, which means that they are available to every object.
   |------------------------------|
@@ -244,15 +245,298 @@
       /import java.util.Date;/ // explicit class name
       /import java.io.*;/ // import entire package, packages below java.io
 ** Interfaces
+*** What is interface
+- Using the keyword *interface*, you can fully abstract class' interface from its implementation.
 - Interface uses to specify what a class must do, but not how it does. Interfaces are syntactically similar to classes, but they lack instance variables, and, as a general rule, their methods are declared without any body. Also, one class can implement any number of interfaces.
 - To implement an interface, a class must provide a complete set of methods required by the interface. However, each class is free to determine the details of its implementation.
 - By providing the *interface* keyword, Java allows you to fully utilize the "one interface, multiple methods" aspect of polymorphism.
-- An interface is defined much like class.
+- Interface are designed to support dynamic method resolution at run time. Normally, in order for a method to be called from one class to another, both class needed to be present at compile time so the Java compiler can check to ensure that the method signature are compatible. This requirement by itself makes for a static and nonextensible classing environment. Inevitably in a system like this, functionality gets pushed up higher and higher in the class hierarchy so that the mechanisms will be available to more and more subclasses. Interface are designed to avoid this problem. They disconnect the definition of a method or set of methods from the inheritance hierarchy. Since interface are in different hierarchy from classes, it is possible for classes that are unrelated in terms of class hierarchy to implement the same interface. This is where the real power of interface are realized.
+- An interface is defined much like class. General form of an interface.
+  
       /access interface name {}/
       When no access modifier is used, then default access is used and the interface is only available to other members of the package in which it is declared. When it's is declared as *public*, the interface can be used by code outside its package. In this case, the interface must be the only public interface declared in the file, and the file must have same name as the interface.
+      
 - Beginning JDK 8, it is possible to add /default implementation/ to an interface method and also added /static interface methods/. And beginning JDK 9, an interface can include private methods. Thus, it is now possible for *interface* to specify some behaviors.
 - As a general rule, you will still often create and use interfaces in which no use is made to those new features.
 - Variables that are declared inside interfaces are by implicitly *final* and *static*, meaning they can not be changed by the implementing class. They must also be initialized. All methods and variables are implicitly *public*.
-- To implement an interface, include *implements* clause and the class definition and then create the methods required by the interface. If a class implements more than one interface, the interface are separated with commas(,). If a class two interfaces that declare the same method, then the same method will be used by clients of either interface. The methods that implement an interface must be declared *public*. Also, the type signature of the implementing method must match exactly the type signature specified in the *interface* definition.
+*** Implementing Interface
+- Once an interface has been defined, one or more classes can implement that interface.
+- To implement an interface, include *implements* clause and the class definition and then create the methods required by the interface. If a class implements more than one interface, the interface are separated with commas(,). If a class implements two interfaces that declare the same method, then the same method will be used by clients of either interface.
+- The methods that implement an interface must be declared *public*. Also, the type signature of the implementing method must match exactly the type signature specified in the *interface* definition.
 - *Remember* When you implement an interface method, it must be declared as public.
 - It is permissible for classes that implement interface to define additional members of their own.
+*** Accessing Implementations Through Interface Reference
+- You can declare variables as object reference that use an interface rather than a class type. Any instance of any class that implements the declared interface can be referred to by such variable. When you call a method through one of these inferences, the correct version will be called based on the /actual instance of the interface being referred to./ This is one of the key features of an interface. The method to be executed is looked up dynamically at run time, allowing classes to be created later than the code which calls method on them. The calling code can dispatch through an interface without having to know anything about the "callee". This process is similar to using superclass reference to access subclass object.
+- *An interface reference variable has knowledge only of the methods declared by its interface declaration.*
+*** Partial Implementations
+- If a class includes an interface but does not fully implement the methods required by that interface, then that class must be declared as *abstract*.
+- If any third(or more) class inherits from another abstract class in which that class itself inherits from another abstract class, the third class(concrete class) must implement all abstract methods from both the parent abstract class and the grandparent abstract class. If the intermediate abstract class has implemented some of the methods, the third class only needs to implement the remaining unimplemented methods. If it does not implement all the abstract class in the parent and grandparent, it must declare itself as abstract.
+- 
+*** Nested Interface
+- An interface can be declared a member of a class or another interface. Such interface is called a /member interface/ or a /nested interface/. A nested interface can be declared as *public, private,* or *protected*. This differs from a top-level interface, which must either be declared as *public* or use default access level. When a nested interface is used outside of its enclosing scope, it must be qualified by the name of the class or interface of which it is a member. Thus, outside of the class or interface in which a nested interface is declared, its name must be fully qualified.
+*** Variables in Interface
+- You can use interface to import shared constants into multiple classes by simply declaring an interface that contains variables that are initialized to the desired values. When you include that interface in a class(that is when you "implement" the interface), all of these variable names will be in scope as constants. If an interface contains no methods, then any class that includes such an interface doesn't actually implement anything. It's as if that class was importing the constant fields in the class name space as *final* variables.
+*** Interface Can Be Extended
+- One interface can inherit another by use of the keyword *extends*. The syntax is same as for inheriting classes. *When a class implements an interface that inherits another interface, it must provide implements for all the methods required by the interface inheritance chain.*
+
+*** Default Interface Methods
+- The release of JDK 8 adds a new capability to interface called the /default method/. A default method lets you define a default implementation for an interface method. In other words by use of default method, it is possible for an interface method to provide a body, rather than being abstract.
+- A primary motivation for the default method was to provide a means by which interfaces can be expanded without breaking existing code. Recall that there must be implementations for all methods defined by an interface. In the past, if a new method was added to a popular, widely used interface, then the addition of that method will break the existing code because no implementation would be found for that method. The default method solves this problem by supplying an implementation that will be used if no other implementation is explicitly provided. Thus, the addition of a default method will not cause preexisting code to break.
+- Another motivation for the default methods was the desire to specify methods in an interface that are, essentially, optional, depending on how the interface is used.
+- It's important to point out that the addition of default methods does not change a key aspect of *interface*: its inability to maintain state information. All interfaces still can not have instance variables. Thus, the defining difference between an interface and a class is that a class can maintain state information, but an interface can not. Further more, it's still not possible to create an instance of an interface by itself. It must be implemented by a class for an instance variable to be created.
+- As a general rule, default methods constitute a special-purpose feature. Interfaces that you create will still be used primarily to specify /what/ and not /how/. However, the inclusion of default methods gives you added flexibility.
+- An interface default method is defined similar to the way a methods is defined by a class. The primary difference is that the declaration is preceded by the keyword *default*.
+- The default method gives you:
+  + a way to gracefully evolve interface over time
+  + a way to provide optional functionality without requiring that a class provide a placeholder implementation when that functionality is not needed.
+
+*** Multiple Inheritance Issues
+- Assume that two interfaces called *Alpha* and *Beta* are implemented by a class called *MyClass*. What happens if both *Alpha* and *Beta* provide a method called *reset()* for which both declare a default implementation? Or consider situation in which *Beta* extends *Alpha*. Which version of the default method is used? Or, what if *MyClass* provides its own implementation of the method? To handle these situations Java defines a set of rules that resolve such issue.
+  1) In all cases, a class implementation takes priority over an interface default implementation. This is the case even if *MyClass* implements both *Alpha* and *Beta*. In this case, both defaults are overridden by *MyClass* implementation.
+  2) In cases in which a class implements two interfaces that both have the same default method, but the class doesn't override that method, then an error will result. In cases where one interface inherits another, with both defining a common default method, the inheriting interface's version of the method takes precedence. Therefore, continuing with the example, if *Beta* extends *Alpha*, then *Beta*'s version of *reset()* will be used.
+- It's possible to explicitly refer to a default implementation in an inherited interface by using this form of *super*. Its general form is:
+      /InterfaceName.super.methodName()/
+      For example, if *Beta* wants to refer to *Alpha*'s default *rest()*, it can use this statement:
+      /Alpha.super.rest();/
+*** Using static Methods in an Interface
+- Another capability added to *interface* by JDK 8 is the ability to define one or more *static* methods. Like *static* methods in class, a *static* method defined by an interface can be called independently of any object. Thus, no implementation of the interface is necessary, and no instance of the interface is required, in order to call a *static* method. Instead, a *static* method is called by specifying the interface name, followed by a period, followed by the method name. General form:
+      /InterfaceName.staticMethodName();/
+      Notice: this is similar to the way that *static* method in a class is called.
+*** Private Interface Method
+- Beginning with JDK 9, an interface can include a private method. A private interface method can be called only by a default method or another private method by the same interface. Because a private interface method is specified *private*, it cannot be used by code outside the interface in which it's defined. This restriction includes subinterfaces because a private method is not inherited by subinterface.
+- The key benefits of a private interface method is that it lets two or more default methods use a common  piece of code, thus avoiding code duplication.
+- Private interface method is a feature that you will seldom need.
+* Exception Handling
+** Exception-Handling Fundamentals
+- A Java exception is an object. When an exceptional condition arises, an object representing that exception is created and /thrown/ in the method that caused the error. That method may choose to handle the exception itself, or pass it on. Exceptions can be generated by the Java-runtime system, or they can be manually generated by your code. Exceptions throws by Java relate to fundamental errors that violate the rules of Java language or the constraint of the Java execution environment. Manually generated exceptions are typically used to report some error conditions to the caller of the method.
+- Java exception handling is managed via five keywords: *try, catch, throw, throws* and *finally*.
+** Exception Types
+- All exception types are subclass of built-in class *Throwable*. Thus, *Throwable* is at the top of the exception class hierarchy. Immediately below *Throwable* are two subclasses that partition exception class into two distinct branches.
+  1) One branch is headed by *Exception*. This class is used for exceptional conditions that user programs could catch. This is also the class you will subclass to create your own custom exception type. There is an important subclass of *Exception* called *RuntimeException*. Exception of this type are automatically defined for the program that you write
+  2) The other branch is toped by *Error*, which defines exceptions that are not expected to be caught under normal circumstances by your program. Exceptions of type *Error* are used by the Java run-time system to indicate errors having to do with the runtime environment, itself. *StackOverFlow* is an example of such Error. These errors can not usually handled by your program
+- Any exception that is not caught by your program will ultimately be processed by the default handler. The default handler displays a string describing the exception, prints a stack trace from the point at which the exception occurred, and terminates the program.
+- When you handle the exceptions by yourself:
+  1) It allows you to fix the error
+  2) It prevents the program from automatically terminating
+- The goal of most well-constructed *catch* clause should be to resolve the exceptional condition and then continue on as if the error had never happened.
+- When you use multiple *catch* statements, it is important to remember that exception subclass muse come before any of their superclass. This is because a *catch* statement that uses a superclass will catch exceptions of that type plus any of its subclass. Thus, a subclass would never be reached if it came after its superclass. Further, in Java, unreachable code is an error.
+** throw
+- It is possible for your program to throw an exception explicitly, using the *throw* statement. The general form of *throw* is:
+      /throw ThrowableInstance;/
+      Here, /ThrowableInstance/ must be an object of type of *Throwable* or a subclass of *Throwable*.
+- Primitive types such as *int*, or *char* as well as non-*Throwable* classes, such as *String* and *Object*, can not be used as exception. There are two ways you can obtain a *Throwable* object: using a parameter in a *catch* clause or creating one with the *new* operator.
+- The flow of execution stops immediately after the *throw* statement; any subsequent statements are not executed. The nearest enclosing *try* block is inspected to see if it has a *catch* statement matches the type of exception. If not, the next enclosing *try* statement is inspected, and so on. If no matching *catch* is found, then the default exception handler halts the program and prints the stack trace.
+- Many of Java's built-in run-time exceptions have at least two constructors: one with no parameter and one that takes a string parameter. When the second form is used, the argument specifies a string that describes the exception. This string is displayed when the object is used as an argument to *print()* or *println()*. It can also be obtained by a call to *getMessage()*, which is defined by *Throwable*.
+** throws
+- If a method is capable of causing an exception that does not handle, it must specify this behavior so that callers of the method can guard themselves against that exception. You do this by including a *throws* clause in the method's declaration. A *throws* clauses lists the type of exceptions that a method might throw. This is necessary for all exceptions, except those of type *Error* or *RuntimeException*, or any of its subclasses. All other exceptions that a method can throw must be declared in the *throws* clause. If they are not, a compile-time error will occur. General form of methods that includes *throws* clause:
+      /type method-name(parameter-list) throws exception-list {}/
+      Here, /exception-list/ is a comma separated list of exceptions that a method can throw.
+** finally
+- *finally* creates a block of code that will be executed after *try/catch* block has completed and before the code following the *try/catch* block. The *finally* block will execute whether or not an exception is thrown. If an exception is thrown, the *finally* block will execute even if no *catch* statement matches the exception. Anytime a method is about to return to the caller from inside a *try/catch* block, via uncaught exception or an explicit return statement, the *finally* clause is also executed just before the method returns. This can be useful for closing file handles and freeing up any other resources that might have been allocated at the beginning of a method with the intent of disposing of them before returning. The *finally* clause is optional. However, each *try* statement requires at least one *catch* or a *finally* clause.
+** Three Additional Exception Features
+- Beginning JDK 7, three interesting and useful features have been part of exception system.
+  1) The first automates the process of releasing a resource, when it is no longer needed. It is /try-with-resource/
+  2) The second feature is called /multi-catch/ - this allows two or more exceptions to be caught using the same *catch* clause. It is not uncommon for two or more exception handlers to use the same code sequence even though they respond to different exceptions. 
+  3) The third is called /final rethrow/ or /more precise rethrow/.
+- To use a multi-catch, separate each exception type in the *catch* clause with the OR operator. Each multi-catch parameter is implicitly *final*. (You can explicitly specify *final*, if desired  but not necessary). Because each multi-catch parameter is implicitly *final*, it can't be assigned a new value.
+  For example:
+      /catch(ArithmeticException | ArrayIndexOutOfBoundsException e){}/
+* Multi-threaded Programming
+* 
+* I/O
+** I/O Basics
+*** Streams
+**** What is Stream
++ Java programs perform I/O through streams. A /stream/ is an abstraction that either produces or consumes information. A stream is linked to a physical device by the Java I/O system. All streams behave in the same manner, even if the actual physical device to which they are linked differ. Thus, the same I/O classes and methods can be applied to different types of device. This means that an input stream can abstract many different kinds of input: from a disk file, a keyboard, or a network socket. Likewise, an output stream may refer to the console, disk file, or a network connection. Streams are a clean way to deal with input/output without having every part of your code understand the difference between a keyboard and a network.
++ *Note*: In addition to the stream-based I/O defined in *java.io*, java also provides buffer-based and channel-based I/O, which is defined in *java.nio* and its packages.
+**** Byte Streams and Character Streams
+- Java defines two types of I/O streams: byte and character. /Byte streams/ provide a convenient means for handling input and output of bytes. Byte streams are used when, for example, when reading or writing binary data(like character, image, audio, videos...) /Character streams/ provide a convenient means for handling input and output of character data(text data). They use Unicode and, therefore, can be internationalized.
+- The original version of Java(1.0) did not include character stream and thus, all I/O was byte-oriented.
+- At lowest level all I/O is still byte-oriented. The character-based streams simply provides a convenient and efficient means for handling characters.
+**** The Byte Stream Classes
+- Byte streams are defined by using two class hierarchies. At the top are two abstract classes: *InputStream* and *OutputStream*. Each of these abstract classes has several concrete subclasses that handle the differences among various devices, such as disk file, network connections, and even memory buffers.
+- *Remember*, to use the stream classes, you must import *java.io.**
+- The abstract classes *InputStream* and *OutputStream* defines several key methods that other stream class implement. Two of the most important are *read()* and *write()*, which respectively, read and write bytes of data.
+**** The Character Stream Classes
+- Character streams are defined using two class hierarchies. At the top are two abstract classes: *Reader* and *Writer*. These abstract classes handle Unicode character streams.
+- The abstract classes *Reader* and *Writer* defines several key methods that other stream class implement. Two of the most important are *read()* and *write()*, which read and write character of data, respectively
+**** The Predefined Streams
+- All Java code automatically import the *java.lang* package. This package defines a class called *System*, which encapsulates several aspects of the run-time environment. *System* also contains three predefined stream variables: *in, out* and *err*. These field are defined as *public, static* and *final* within the *System*. This means that they can be used by any part of your program and without reference to a specific *System* object.
+  
+  Here is a definition of *out, err*, and *in* respectively:
+      /public static final PrintStream out;/
+      /public static final PrintStream err;/
+      /public static final InputStream in;/
+
+- *System.in* is an object of type of *InputStream*; *System.out* and *System.err* are objects of type *PrintStream*. These are byte streams, even though they are typically used to read and write characters from and to the console. You can wrap these within character-based stream, if desired.
+- *System.out* refers to the standard output stream. By default this is the /console./ *System.in* refers to the standard input, which the /keyboard/ by default. *System.err* refers to the standard error stream, which is also the /console/ by default. However, these streams may be redirected to any compatible I/O device.
+  
+*** Reading Console input
+- In the early days of Java, the only way to perform console input was to use the byte stream. Today, using byte stream to read console input is still acceptable, but for commercial applications, the preferred method of reading console input is to use character-oriented stream. This makes you program easier to internationalize and maintain.
+- In Java, console input is accomplished(either directly or indirectly) by reading from *System.in*. One way to obtain a character-based stream that is attached to the console is to wrap *System.in* in a *BufferedReader*. The *BufferedReader* class supports a buffered input stream. A commonly used constructor is shown here:
+      /BufferedReader(Reader inputReader )/
+      Here, /inputReader/ is the stream that is linked to the instance of *BufferedReader* that is being created. *Reader* is an abstract class. One of its concrete subclass is *InputStreamReader*, which converts bytes to characters.
+      
+*** Reading Characters
+- To read a character from a *BufferedReader()*, use *read()*. The version of *read()* that we will be using is:
+      /int read() throws IOException/
+      Each time that *read()* is called, it reads a character from the input stream and returns it as an integer value. It returns -1 when an attempt is made to read the end of the stream. And it throws an *IOException*.
+
+*** Reading Strings
+- To read a string from the keyboard, the version of *readLine()*, that is the member of *BufferedReader* class. Its general form is:
+      /String readLine() throws IOException/
+      As you can see, it returns a String object
+*** Writing Console Output
+- Console output is most easily accomplished with *print()* and *println()*. These methods are defined by the class *PrintStream* (which is type of object referenced by *System.out*). Even though *System.out* is a byte stream, using it for simple program output is still acceptable.
+- Because *PrintStream* is an output stream derived from *OutputStream*, it also implements the low level method *write()*. Thus, *write()* can be used to write to the console. The simplest form of *write()* defined by *PrintStream* is:
+      /void write(int byteval)/;
+      This method writes the byte specified by /byteval/. Although /byteval/ is declared as integer, only the low-order eight bits are written.
+*** The PrintWriter Class
+- Although using *System.out* to write to the console is acceptable, its use is probably best for debugging purposes or for sample programs, for real-world programs, the recommended method of writing to the console when using Java is through a *PrintWriter* stream. *PrintWriter* is one of the character-based classes. Using character-based class for console output makes internationalizing your program easier.
+- *PrintWriter* defines several constructors. But the common one is:
+       PrintWriter(OutputStream /OutputStream/, boolean /flushingOn/);
+       Here, the /OutputStream/ is an object of type *PrintStream*, and /flushingOn/ controls whether Java flushes the output stream every time a *println()* method(among others) is called. If /flushingOn/ is *true*, flushing automatically takes place. If *false*, flushing is not automatic.
+- *PrintWriter* supports the *print()* and *println()* methods. Thus, you can use these methods in the way as you used them with *System.out*.
+- To write to the console by using a *PrintWriter*, specify *System.out* for the output stream and automatic flushing.
+  
+  #+begin_src java
+    import java.io.PrintWriter;
+    PrintWriter pw = new PrintWriter(System.out, true);
+    pw.println("This a string typed via PrintWriter");
+  #+end_src
+- There is nothing wrong with using *System.out* to write to the console, but using a *PrintWriter* makes your real-world application easier to internationalize.
+*** Reading and Writing Files
+- Java provides a number of classes and methods that allow you to read and write  files.
+- Two of the most often-used stream classes are *FileInputStream* and *FileOutputStream*, which creates byte streams linked to the file. To open a file, you simply create an object of one of these classes, specifying the name of the file as an argument to the constructor. Although both classes support additional constructors, the following are the common:
+      FileInputStream(String /fileName/) throws FileNotFoundException
+      FileOutputStream(String /fileName/) throws FileNotFoundException
+      Here, /fileName/ specifies the name of the file you want to open. When an output file is opened, any preexisting file the name is destroyed.
+- When you are done with a file, you must close it. This is done by calling the *close()* method, which is implemented by both *FileInputStream* and *FileOutputStream*. It is show here:
+      void close() throws IOException
+- Closing a file releases the system resource allocated to the file, allowing them to be used by other file. Failure to close a file an result in "memory leaks" because unused resources remaining unallocated.
+- There are *two* basic approaches that you can use to close a file when you are done with it.
+  1) When *close()* is called explicitly. This is a traditional approach which is used by all version of Java prior to JDK 7.
+  2) *try*-with-resource statement: this is added by JDK 7, which automatically closes a file when it is no longer needed. In this approach no explicit call to *close()* is executed.
+- To read from a file, you can use a version of *read()* that is defined within *FileInputStream*. One form is:
+      int read() throws IOException
+      Each time it's called, it reads a single byte from the file and returns the byte as as integer value. *read()* returns -1 when an attempt is made to read at the end of the stream. It can throw  an *IOException*.
+*** Automatically Closing A File
+- Prior to Java JDK 7, programs have to made explicit calls to *call()* to close a file once the file is no longer needed. But JDK 7 added a feature for automating the closing process. This feature, sometimes referred to as /automatic resource management/, or /ARM/ for short, is based on an expanded version of *try* statement. The principal advantage of /ARM/ is that it prevents situations in which a file(or other resources) is inadvertently not released after it is no longer needed.
+  Here is the general form:
+       try(/resource specification/){
+           // use the resource
+       }
+- Typically, /resource-specification/ is a statement that declares and initializes a resource, such as a file system. It consists of a variable declaration in which the variable is initialized with a reference to the object being managed. When the *try* block ends, the resource is automatically released. In the case of a file, this means that the file automatically closed. Of course, this form of *try* can also include *catch* and *finally* clauses. This forms of *try* is called *try*-/with-resource/ statement.
+- *Note*: Beginning with JDK 9, it is also possible for the resource specification of the *try* to consist of a variable that has been declared and initialized earlier in the program. However, that variable must be effectively final, which means that it has not been assigned a new value after being given its initial value.
+- The *try*-with-resources statements can be used only with those resources that implement the *AutoCloseable* interface defined by the *java.lang*. This interface defines the *close()* method. *AutoCloseable* is inherited by the *Closable* interface in *java.io*. Both interfaces are implemented by the stream classes. Thus, *try*-with-resource can be used when working with streams, including file streams.
+- It is important to understand that a resource declared in the *try* statement is implicitly *final*. This means that you can't assign to the resource after it has been created. Also the scope of the resource is limited to the *try*-with-resource statement.
+- You can use local variable inference to specify the type of the resource declared in *try*-with-resources statement. To do so, specify the type as *var*. When this is done, the type of resource is inferred from its initializer.
+  e.g:
+      try(var fin = new FileInputStream(args[0])){}
+      Here, *fin* is inferred to be of type *FileInputStream* because that is the type of its initializer.
+- *You can manage more than one resources within single /try/ statement. To do so, simply separate each resource specification with a semicolon(;)*.
+- The ability to streamline - made efficient by stripping off non essentials - source code is a side-benefit of automatic resource management.
+- In general, when a *try* block executes, it is possible that an exception inside the *try* block will lead another exception that occur when the resource is closed in a *finally* clause. In the case of a "normal" *try* statement, the original exception is lost, being preempted by the second exception. However, when using *try*-with-resources, the second exception is /suppressed/. It's not, however, lost. Instead it's added to the list of suppressed exception associated with the first exception. The list of suppressed exceptions can be obtained by using the *getSuppressed()* method defined by *Throwable*.
+*** The transient and volatile Modifiers
+- English definition of transient - Remaining for only a brief time
+- English definition of volatile - Evaporating
+- Java defines two interesting type modifiers: *transient* and *volatile*. These modifiers are used to handle somewhat specialized situations. When an instance variable is declared as *transient*, its value need not persist when an object is stored.
+  For example:
+  #+begin_src java
+    class T{
+        transient int a; // will not persist
+        int b; // will persist
+    }
+  #+end_src
+  Here, if an object of type *T* is written to a persistent storage area, the content of *a* would not be saved, but the content of *b* would.
+- The *volatile* modifier tells the compiler that the variable modifier by *volatile* can be changed unexpectedly by other parts of your program. One of these situations involves multi-threaded programs. In multi-threaded program, sometimes two or more threads share the same variable. For efficiency considerations, each thread can keep its own, private copy of such a shared variable. The real(or master) copy of the variable is updated at various times such as when a *synchronized* method is entered. While this approach works fine, it may be inefficient at times. In some cases, all that really matters is that the master copy of a variable always reflects its current state. To ensure this, simply specify the variable as *volatile*, which tells the compiler that it must always use the master copy of the *volatile* variable(or, at least always keep any private copies up-to-date with the master copy, and vice versa). Also access to the shared variable must be executed in the precises order indicated by the program.
+*** Introducing instanceof
+- Sometimes, knowing the type of an object during time is useful. For example, you might have one thread of execution that generates various types of objects, and another thread that processes these objects. In this situation, it might be useful for the processing the thread to know the type of each object when it receives it. Another situation may be run time casting.
+- The traditional *instanceof* operator has this general form:
+      /objref/ instanceof /type/
+      Here, /objref/ is a reference to an instance of a class, and /type/ is a class type. If /objref/ is of the specified type or can be cast into the specified type, then the *instanceof* evaluates to *true*. Otherwise the result is *false*. Thus, *instanceof* is the means by which your program can obtain run-time information about an object.
+*** Native Methods
+...
+*** Using assert
+- It is used during program development to create an /assertion/, which a condition that should be true during the execution of the program. Assertions are often used during testing to verify that some expected condition is actually met.
+- The *assert* keyword has two forms.
+  1) assert /condition/;
+     Here, /condition/ is an expression that must evaluate to a Boolean result. If the result is true, then the assertion is true and no other action takes place. If the result is false, then the assertion fails and a default *AssertionError* object is thrown.
+  2) assert condition: /expr/;
+     In this version, /expr/ is a value that is passed to *AssertionError* constructor. This value is converted to its string format and displayed if an assertion fails. Typically, you will specify a string for /expr,/ but any non-*void* expression is allowed as long as it defines a reasonable string conversation.
+- To enable assertion checking at run time, you must specify the *-ea* option. For example, to enable assertion for *AssertDemo*, execute it using this line:
+      java -ea AssertDemo
+*** Assertion Enabling and Disabling options
+...
+*** Static import
+- Java includes a feature called /static import/ that expands the capability of the *import* keyword. By following *import* with the keyword *static*, an *import* statement can be used to import the static members of a class or interface. When using static import, it is possible to refer to static members directly by their names, without having to qualify them with the name of their class. This simplifies and shortens the syntax required to use a static member.
+- For example, to brought *sqrt and pow* from Math class in java.lang class you can use:
+       import static java.lang.Math.sqrt;
+       import static java.lang.Math.pow;
+       After these statements, it is no longer necessary to qualify *sqrt()* or *pow()* with their class name.
+- There are two general forms of *import static* statements.
+  1) import static pkg.type-name.static-member-name;
+     Here, /type-name/ is the name of the class or interface that contains the desired static member. Its full package name is specified by /pkg/. The name of the member is specified by /static-member-name/
+  2) import static pkg.type-name.*;
+     This forms imports all static members of a given class or interface.
+- As convenient as static import can be, it is important not to abuse it. Remember, the reason that Java organizes its libraries into package is to avoid namespace collisions. When you import static members, you are bringing those members into the current namespace. Thus, you are increasing the potential for namespace conflict and inadvertent name hiding.
+- If you are using a static member once or twice in the program, it's best not to import it. Static import is designed for those situations in which you are using a static member repeatedly, such as when performing a series of mathematical computations. In essence, you should use, but not abuse, this feature.
+* Generics
+** General Overview
+- /generics/ introduced in JDK 5 Java, since that /generics/ changed Java in two ways:
+  1) /Generics/ add new syntactical element to the language
+  2) It caused changes to many of the classes and methods in core Java API
+- Through the use of generics, it is possible to create classes, interfaces, and methods that will work in a type-safe manner with various kinds of data. Many algorithms are logically the same no matter the type of data they are being applied to. For example, the mechanism that supports a stack is the same whether the stack is storing items of type *Integer, String, Object* or *Thread*. With generics, you can define an algorithm once, independently of any specific type of data, and then apply the algorithm to a wide variety of data types without any additional efforts.
+- Perhaps the one feature of Java that was most significantly affected by generics is the /Collections Framework/. A /Collection/ is a group of objects. The Collections Framework defines several classes, such as lists and maps that manage collections. The collection classes had always been able to work with any type of object. The benefit that generics added is the ability to use the collection classes with complete type-safety.
+** What Are Generics?
+- At its core, the term generics means /parameterized types/. Parameterized types enable you to create classes, interfaces, and methods in which the type of data upon which they operate is specified as a parameter. Using generics, it is possible to create a single class, for example, that automatically works with different types of data. A class, interface, or method that operates on parameterized types is called /generic/, as in /generic class/ or /generic method/.
+- Java has given you the ability to create generalized classes, interfaces, and methods by operating through reference of type *Object*. Because *Object* is the superclass of all other classes, an *Object* reference can refer to any type object. Thus, in pre-generics code, generalized classes, interfaces and methods used *Object* reference to operate on various types of objects. The problem was that they could not do so with type safety. Generics added the type safety that was lacking. They also streamline the process, because it is no longer necessary to explicitly employ casts to translate between *Object* and the type of data that it actually being operated upon. With generics, all casts are automatic and implicit. Here is an example how /generic/ class is declared.
+
+  #+begin_src java
+    class Gen<T>{
+        ...
+    }
+  #+end_src
+- Here *T* is the name of /type parameter/. This name is used as a placeholder for the actual type that will be passed to *Gen* when an object is created. In declaration of *Gen*, there is no special significance to the name *T*. Any valid identifier could have been used, but *T* is traditional. Furthermore, it's recommended that type parameter names be single-character capital letters.
+** Why Use Generics?
+- Generics enables *types* (classes and interfaces) to be parameters when defining classes, interfaces and methods. Much like the formal parameters used in method declarations, type parameters provide a way for you to re-use the same code with different inputs. The difference is that the inputs to formal parameter are values, while the inputs to /type parameters/ are /types/.
+- Code that use generics has many benefits over non-generic code:
+  + Stronger type check at compile time. Fixing compile time error is easier than fixing runtime errors, which can be difficult to find.
+  + Elimination of casts.
+  + Enabling programmers to implement generic algorithms.
+- *Type Parameter naming convention:* By convention, type parameter names are single, uppercase letters. This stands in sharp contrast to the variable naming conventions and with a good reason: without this convention, it would be difficult to tell the difference between a type variable and an ordinary class or interface name. The most commonly used type parameter names are: E(Element), K(Key), N(Number), T(Type), V(Value).
+** Generics Work Only With Reference Types
+- When declaring an instance of a generic type, the type argument passed to the type parameter must be a reference type. You can't use primitive types, such as *int* or *char*. Of course, not being able to specify a primitive type is not a serious restriction because you can use the type wrappers to encapsulate a primitive type. Further, Java's auto boxing and auto-unboxing mechanism makes the use of the type wrapper transparent.
+- Generics add stability to your code by making more of you bugs detectable at compile time.
+- A key point to understand about generic type is that a reference of one specific version of a generic type is not compatible with another version of the same generic type. So, generic types differ based on their type argument.
+** A Generic Class with Two Type Parameters
+- You can declare more than one type parameter in generic type. To specify two or more type parameters, simply use a comma-separated list.
+  #+begin_src java
+    class TwoGen<T, V>{
+        ...
+    }
+  #+end_src
+- The general form of a generic class is:
+    class ClassName<type-param-list>{
+        ...
+    }
+    // delcaring a reference to a generic class and instance creation
+    ClassName<type-param-list> var-name = new ClassName<type-param-list>(cons-arg-list);
+- to create generic interface, follow the same convention as for creating a generic class.
+** Bounded Types
+- The type parameters could be replaced by any class type. This is fine for many purposes, but sometimes it is useful to limit the types that can be passed to a type parameter. To handle those Java provides /bounded types/. When specifying a type parameter, you can create an upper bound that declares the superclass from which all type arguments must be derived. This accomplished through the use of *extends* clause when specifying the type parameter, as shown here:
+      /<T *extends* superclass>/
+      This specifies that /T/ can only be replaced by /superclass/ or subclass of /superclass/. Thus, /superclass/ defines an inclusive, upper limit.
+- In addition to using a class type as a bound, you can also use an interface type. In fact, you can specify multiple interfaces. Furthermore, a bound can include both a class type and one or more interfaces, only type arguments that implement that interface are legal. When specifying a bound that has a class and an interface, or multiple interface, use the *&* operator to connect them.
+      class Gen<T extends MyClass & MyInterface>{}
+      Here, *T* is bounded by a class called *MyClass* and an interface *MyInterface*. Thus, any type argument passed to *T* must be subclass of *MyClass* and implements *MyInterface*
+** Using Wildcard argument
+- The wild card argument is specified by *?*, and it represents an unknown type. This wild card simply matches and /valid/ object.
+- Wildcard arguments can be bounded in much the same way that a type parameter can be bounded. A bound wildcards is especially important when you are creating a generic type that will operate on a class hierarchy.
+- In general, to establish an upper bound for a wildcard, use the following type of wildcard expression:
+      <? extends /superclass/ >
+      where /superclass/ is the name of the class that serves as the upper bound. Remember, this is an inclusive clause because the class forming the upper bound(that is, specified by /superclass/) is also within.
+- You can also specify a lower bound for a wild by adding a *super* clause to a wild declaration. Here is its general declaration:
+      <? super /subclass/ >
+      In this case, only classes that are superclasses of /subclass/ are acceptable arguments. This is an inclusive clause.
+** Creating A Generic Method

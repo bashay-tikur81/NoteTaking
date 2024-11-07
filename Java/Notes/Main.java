@@ -1,6 +1,9 @@
 
 public class Main {
 	public static void main(String[] args) {
-		System.out.println("This is a String, too");
+		Student s = new Student();
+		// below two statements are equal
+		System.out.println(s);
+		System.out.println(s.toString());
 	}
 }

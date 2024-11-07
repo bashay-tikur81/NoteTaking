@@ -1,0 +1,5 @@
+#+TITLE: Learning Magit
+#+AUTHOR: Ertale81
+
+
+* Installing magit

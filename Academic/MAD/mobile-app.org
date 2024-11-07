@@ -1,0 +1,595 @@
+#+TITLE: Mobile App Development
+#+AUTHOR: Ertale81
+#+STARTDATE: <2024-10-19 Sat>
+
+* Why Mobile App Development
+** Chapter One - Introduction
+*** Mobile Development life cycle
+- Inception \to Design \to Development \to Test \to Release \to Monitor and Update
+- Those phases can be used with different methodologies(Agile, Spiral...)
+- *Inception* (The creation or beginning of something)
+  + All apps start with an idea.
+  + Questions to consider:
+    - Competitive Advantage: How does this app differentiate from others?
+    - Value: What value does this app bring to user?
+    - Form/Mobility: How will this app work in a mobile form factor? How can I add values using mobile technologies such as location awareness, camera ...?
+- *Design*
+  + User Interface and Responsiveness are critical
+  + User Experience (UX) Design
+    User Centered Design
+  + Mobile user constraints
+    - Constraints should be considered when designing the app
+      + Finite data and Battery
+      + Dividend Attention
+      + Handedness
+      + Small screen
+      + Unreliable network
+- *Development*
+  + Questions to consider, which platform?
+    - Which platform has more user?
+    - Which platform has more competitor?
+    - Which platform is more expensive to develop for?
+    - Which platform makes more money for developers?
+  + Development tools
+    - Android
+      + Android Studio
+    - iPhone
+      + Apple Developer SDK and tools
+  + Cross-platform Development
+    - Target multiple platforms with one code base
+    - Two ways:
+      + Hybrid HTML5 web app that executes within wrapper in devices
+        e.g: apache cordova
+      + SDK that exposes the native APIs for multiple platforms, using a single programming language
+        e.g: Xamarian with C#
+- Testing
+  + "Apps that receive negative user feedback in the first release, never become popular after wards."
+  + Test Automation Frameworks
+    - Esperesso(Android)
+    - UIAutomator(Android)
+    - Robotium(Android)
+    - Selendroid(Android)
+    - Calabash(cross-platform)
+** Chapter Two - User Interface
+*** Android Platform Architecture
+- Android Stack
+  See this figure using C-c C-x C-v
+   [[./Android-Stack.jpeg]]
+  1) System and user apps
+     + System apps have no special status, they provide key capabilities to app developers.
+       e.g: your app can use a system app to deliver SMS message
+  2) Java API Frame work
+     + The entire feature-set of android OS is available to you through API written in Java
+     + Each app runs in its own process with its own instance of the Android Runtime(ART)
+       - Android apps run in a virtual machine called Android Runtime(ART), not the Oracle JVM
+  3) Native APIs(C and C++ Libraries)
+     + These libraries get exposed to you through API
+     + These libraries give access to core native Android System components and services
+  4) HAL(Hardware Abstraction Layer)
+     + Standard interface that expose device hardware capability as libraries
+     + e.g: Camera, Bluetooth Module
+  5) Linux Kernel
+     + Threading and low memory management
+     + Security features
+     + Drivers
+*** Android Development
+- *What is Android app*?
+  + Written using Java and XML
+  + Uses Android Software Development Kit(SDK)
+  + Uses android libraries and android framework
+  + Executed by Android Runtime Virtual Machine(ART)
+- *Challenges of Android Development*
+  + Multiple screen size and resolutions
+  + Performance: make your app responsive and smooth
+  + Security: Keep source code and user data safe
+  + Compatibility: run well on older platform versions
+  + Marketing: Understand the market and your user
+*** Views
++ Everything you see is a view. Every user interface that you see is a view.
++ View subclasses are basic user interface building blocks.
++ Best practices for view hierarchies
+  - Arrangement of view hierarchies affect app performance
+  - Use smallest number of view possible
+  - Keep the hierarchy flat -- limit nesting of views and view groups
+*** Context
++ It is an interface to global information about an application environment.
+*** ConstraintLayout
++ Default layout for new android studio project
++ Provides constraints to determine positions and alignments of UI elements
++ constraint is a connection to another view, parent layout, or invisible guideline
+*** Event Handling
++ Events: something that happens
+  In UI: click, tap, drag
+  Device: DetectedActivity: such as walking, driving, tilting
+  Events are "noticed" by the android system.
++ Event Handler: methods that do something in response to a click
+  A method called an event handler, is triggered by a specific event and does something in response to the event.
+*** Resources
++ Separate static data from code in your layouts.
++ Strings, dimensions, images, menu text, colors, styles
++ Useful for localization
+*** Measurements
++ Density-independent Pixels(dp): for views
++ Scale-independent Pixels(sp): for text
++ Don't use device-dependent and density-dependent units:
+  - Actual pixels(px)
+  - Actual measurement(in, mm)
+  - Points-typography 1/72 inch(pt)
+*** Activity
++ An activity represents a single screen in your app with which your user can perform a single, focused task such as taking photo, sending an email, or viewing a map
++ An activity is usually presented to the user as a full-screen window
++ Typically fills the screen, but can be embedded in other activity or appear as floating window
++ Java class, typically one activity in one file
+*** What does an activity do?
++ Represent an activity
++ Handle user interaction
++ Can start an activity in same or other app
++ Has life a life cycle -- created, started, runs, paused,resumed, stopped, and destroyed
+*** Apps and activities
++ Activities are loosely tied together to make up an app
++ First activity user sees is typically called "main activity"
+*** Layouts and activities
++ An activity typically has a UI layout
++ Layout is usually defined in one or more XML files
++ Activity "inflates" layout as  part of being created
+*** Implement new activities
+1) define layout in XML
+2) Define Activity Java class
+3) Connect Activity with layout
+4) Declare Activity in the Android manifest
+*** Intents
++ An Intent is a description of an operation to be performed.
++ An Intent is an object used to request an action from another app component via the Android system
++ All Android activities are started or activated with an intent. Intents are message objects that make a request to the Android Runtime to start an activity or other app component in your app on in some other app. You don't start those activities yourself.
+*** What can Intents do?
++ Starts an activity
+  A button click starts a new Activity
++ Start a service
+  Initiate downloading a file in the background
++ Deliver Broadcast
+  The system informs everybody that the phone is now charging
+*** Explicit and Implicit Intents
++ Explicit Intent: starts a specific Activity
++ Implicit Intent: asks system to find an Activity that can handle this request
+*** Starting an Activity
++ To start a specific Activity, use an explicit Intent
+  1) Create an Intent
+  2) Use the Intent to start an activity
++ To ask Android to find an Activity to handle your request, your an implicit Intent:
+  1) Create an Intent
+  2) Use the Intent to start the Activity
+*** How Activities Run
++ All Activity instances area managed by the Android Runtime
++ Started by an "Intent", a message to the Android runtime to run an activity
++ Two types of sending data with intents:
+  - Data: one piece of information whose data location can be represented by an URI
+  - Extras: one or more pieces of information as collection of key-value pairs in Bundle
++ Sending and receiving data:
+  - In the first(sending) Activity:
+    1) Create the Intent object
+    2) put data or extras into that Intent
+    3) Start the new activity
+  - In the second(receiving) Activity
+    1) Get the Intent object, the Activity was started with
+    2) Retrieve the data or extras from the Intent object
+*** Navigation
++ When a new Activity is started, the previous Activity is stopped and pushed on the Activity back stack
++ Last-in-first-out-stack: when the current Activity ends, or the user presses the Back button, it's popped from the stack and the previous Activity resumes
++ Two forms of navigation:
+  1) Temporal or back navigation
+     - provided by the devices back button
+     - controlled by the Android System's back stack
+  2) Ancestral or up navigation
+     - provided by the Up button in app's action bar
+     - controlled by defining parent-child relationships between activities in the Android manifest
++ Back navigation       
+  - Back stack preserves history of recently viewed screens
+  - Back stack contains all the Activity instances that have been launched by the user in reverse order for the current stack
+  - Each task has its own back stack
+  - Switching between tasks activates that task's back stack
++ Up navigation
+  - Goes to parent of current Activity
+  - Define an Activity parent in Android manifest
+  - Set parentActivityName
+*** Activity life cycle
++ Activity life cycle is the set of states an Activity can be in during its lifetime, from when it is created until it is destroyed.
++ Activity States and app visibility
+  - Created (not visible)
+  - Started (visible)
+  - Resume (visible)
+  - Paused (partially invisible)
+  - Stopped (hidden)
+  - Destroyed (gone from memory)
+  State changes are triggered by user action, configuration changes such as device rotation, or system action
++ 
+*** User Interaction
++ Users expect to interact with apps by tapping, clicking, typing, using gestures or talking
++ *Buttons*
+  - view that responds to tapping, clicking, or pressing
+  - Usually text or visuals indicate what will happen when tapped
+  - State: normal, focused, disabled, pressed, on/off
++ *Floating Action Button(FAB)*
+  - Raised, circular, floats above layout
+  - Primary or promoted action for screen
+  - One per screen
+    e.g: Add Contact button on Contacts app
++ *Touch Gestures*
+  - Touch gestures include:
+    + long touch
+    + double-tap
+    + drag
+    + fling
+    + scroll
+    + pinch
+  - Don't depend on touch gestures for app's basic behavior
+  - Classes and methods are available to help you handle gestures
+    + GestureDetectorCompact class for common gesture
+    + MotionEvent class for motion events
++ *Input Control*
+  - Accepting user input
+    + Freeform text and numbers: EditText(using keyboard)
+    + Providing choices: CheckBox, RadioButton, Spinner
+    + Switching on/off: Toggle, Switch
+    + Choosing value in range of values: SeekBar
+  - The *View* class is the basic building block for all UI components, including input controls
++ *Focus*
+  - The view that receives user input has "Focus"
+  - Only one view can have focus
+  - Focus makes it unambiguous which View gets the input
+  - Focus is assigned by
+    + User tapping a View
+    + App guiding the user from one text input control to the next using the *Return, tab* or arrow keys.
+    + Calling requestFocus() on any View that is focusable
++ *Clickable versus focusable*
+  - Clickable - View can respond to being clicked or tapped
+  - Focusable - View can gain focus to accept input
+  - Input controls such as keyboards send input to the view that has focus
++ *Freeform text and numbers*
+  - EditText default - alphanumeric keyboard, suggestion appear, tapping *Return(Enter)* key starts new line
++ *Types of Menus*
+  1) App bar with options menu
+     - At the top of each screen -- (usually) the same for all screens
+  2) Contextual menu
+     - Allow users to perform an action on a selected view or content
+     - Can be deployed on any view object, but most often used for items in a RecyclerView, GridView or other view collection
+     - Types of contextual menus
+       1) Floating context menu -- floating list of menu items when long-presses on a view element
+          - User can modify the view element or use it in some fashion
+          - Users perform a contextual action on one View element at a time
+       2) Contextual action mode -- temporary action bar in place of or underneath the app bar
+          - Action items affect the selected view element(s)
+          - Users can perform action on multiple view elements at once
+          - ActionMode is a UI mode that lets you replace parts of the normal UI interactions temporarily. For example, Selecting a section of text or long-pressing an item could trigger action mode
+  3) Contextual action bar
+     - Long-tap on the view shows contextual action bar
+       1) contextual action with actions, edit, share, delete, done
+       2) View on which long press triggers the contextual action bar
+          Action bar is available until user taps Done
+  4) Popup menu
+     - Vertical list of items anchored to a view, typically anchored to a visible icon
+     - Actions should not directly affect view content
++ *Screen Hierarchy*
+  - Types of hierarchical navigation
+    1) Descendent navigation
+       - Down from parent screen to one of its children
+       - Master/detail flow, navigation drawer
+    2) Ancestral navigation
+       - Up from a child or sibling screen to its parent
+       - Up button enable user to go up from a section, or child screen to the parent
+    3) Lateral navigation
+       - From one sibling to another sibling
+       - Tabs and Swipes
+       - Navigate between related screens without visiting parent
+       - Best practices with tabs:
+         + Lay out horizontally
+         + Run along top of screen
+         + Persistent across related screens
+         + Switching should not be treated as history
++ *Drawables*
+  - Drawble -- generic Android class used to represent any kind of graphic
+  - All drawables are stored in the res/drawable object folder
++ *Themes*
+  - A Theme is a style applied to an entire activity or even the entire application
+  - Themes are applied in the Android Manifest
++ *Material design in your app*
+  - Choose colors deliberately
+  - Fill screen edge to edge
+  - Use large-scale typography
+  - Use white-space intentionally
+  - Emphasize user action
+  - Make functionality obvious
++ *Imagery*
+  - Images help you communicate and differentiate your app and it should be /relevant, informative, delightful/
+  - Best practices:
+    - Use together with text
+    - Original images
+    - provide point of focus
+    - Build a narrative
+** Chapter Three - Background
+*** AsyncTask & AsyncTaskLoader
++ *The main Thread*
+  - Independent path of execution in a running program
+  - Apps run in Java thread called "main" or "UI thread"
+  - Draws UI on the main screen
+  - Responds to user actions by handling UI events
++ The main thread must be fast
+  - Hardware updates screen every 16 milliseconds
+  - UI threads has 16ms to do all its work
+  - If it takes too long, app stutters or hangs.
++ *Two rules for Android Threads*
+  1) Do not block the UI thread
+     - Complete all work in less than 16ms for each screen
+     - Run slow non-UI work on a non-UI thread
+  2) Don't access the Android UI toolkit from outside the UI thread
+     - Do UI work only on the UI thread
+*** AsyncTask
++ Use AsyncTask to implement basic background tasks
++ Limitations of AsyncTask:
+  - When device configuration changes, Activity is destroyed
+  - AsyncTask cannot connect to Activity anymore
+  - New AsyncTask created for every config change
+  - Old AsyncTask stay around
+  - App may run our of memory of crash
+*** When to use AsyncTask
++ Short or interruptible tasks
++ Tasks that do not need to report back to UI or user
++ Lower priority tasks that can be left unfinished
++ Use AsyncTaskLoader otherwise
+*** What is Loader?
++ Provides asynchronous loading of data
++ Reconnects the activity after configuration change
++ Can monitor changes in data source and deliver new data
++ Callbacks implemented in Activity
++ Many types of loaders available:
+  - AsyncTaskLoader, CursorLoader
++ *Why use loaders?*
+  - Execute tasks OFF the UI thread
+  - LoadManger handles configuration changes for you
+  - Efficiently implemented by the framework
+  - Users don't have to wait for data to load
+*** Connect to the Internet
++ Steps to connect to the Internet:
+  1) Add permission to Android Manifest
+  2) Check Network connection
+  3) Create Worker Thread
+  4) Implement background task:
+     a) Create URI
+     b) Make HTTP Connection
+     c) Connect and Get Data
+  5) Process results
+     a) Parse Results
++ AsyncTask - very short, or no result returned to UI
++ AsyncTaskLoader - for longer tasks, returns result to UI
+*** Security
++ Receivers cross app boundaries
++ Make sure namespace for intent is unique and you own it
++ Other apps can send broadcasts to your receiver -- user permissions to control this
++ Other apps can respond to broadcast your app sends
++ Access permissions can be enforced by sender or receiver
++ *Local Broadcast Manager*:
+  - For broadcasts only on your app
+  - No security issue since no cross-app communication
+*** Services
++ A service is an application component that can perform long-running operations in the background and does not provide a user interface.
++ What are services good for?
+  - Network transactions
+  - Play music
+  - Perform I/O
+  - Interact with a content provider
++ Characteristics of services:
+  - Started with an Intent
+  - Can stay running when user switches application
+  - Lifecycle -- which you must manage
+  - Other apps can use the service -- manage permissions
+  - Runs in the main thread of its hosting process
++ Forms of service:
+  - started: started with /startService()/, runs indefinitely until it stops itself and usually does not update UI
+  - bound: offers a client-server interaction that allows components to interact with the service, started with /bindService()/ and ends when all clients unbind
++ Services and threads
+  - Although services are separate from the UI, they still run on the main thread by default(except IntentService)
+  - If the service can't access the UI, how do you update the app to show the results?
+    Ans: user a broadcast receiver!
+  - 
+*** IntentService
++ Simple service with simplified lifecycle
++ Uses worker threads to fulfill requests
++ Stops itself when done
++ Ideal for one long task on a single background thread
++ Limitations:
+  - Can not interactive with the UI
+  - Can only run one request at a time
+  - Can not be interrupted
+*** Notifications
++ Android issues a notification that appears as icon
++ To see details, users open the notification drawer
++ User can view notifications any time in the notification drawer
++ *Building notification*:
+  - Using two classes(NotificationCompat.Builder, NotificationManager)
+  - Define variables
+  - Instantiate Notification Manager
+  - Build and send notification
++ *Actions and pending Intents*
+  - *User Actions*
+    + Notifications must be able to perform actions on behalf of your application
+      - Include specific actions inside the Notification UI
+      - Launch action when the notification is tapped
+      - OK for the action to just open an Activity in your app
+  - *Pending intents*
+    + A pending intent is a description of an intent and target action to perform with it
+    + Give a PendingIntent to another application to grant it the right to perform the operation you have specified as if the other application was yourself.
+    + Content intent is activated when the notification is tapped
+*** Notification priority
++ Determines how the system displays the notification with respect to other notifications
++ 5 notification priority levels(PRIORITY_MIN (-2) to PRIORITY_MAX (2)):
+  - Priority above 0 triggers heads-up notification on top of current UI
+    used for important notifications such as phone calls
+  - Use lowest priority possible
+*** Common Layouts
++ Big Text: more text than will fit in standard view
++ Big image: include image with notification
++ Progress bar: for ongoing tasks that can be canceled, not a style
++ Media: Actions for controlling media such as music with image for album cover
+*** Alarm Manager
++ *What is an Alarm in Android?*
+  - Not an actual alarm clock
+  - Schedules something to happen at a set time
+  - Fire intents at set times or intervals
+  - Can be based on a real-time clock or elapsed time
+  - App does not need to run for alarm to be active
++ *Benefits of alarm:*
+  - App does not need to run alarm to be active
+  - Device does not have to be awake
+  - Doesn't use resources until it goes off
+  - Use with BroadcastReceiver to start services and other operations
++ *Measuring time*
+  - Elapsed Real Time -- time since system boot
+    + Independent of timezone and locale
+    + Use for intervals and relative time
+    + Use wherever possible
+    + Elapsed time includes time device was asleep
+  - Real Time Clock(RTC) --  UTC(wall clock) time
+    + When time of day at locale matter
++ *Alarm Best Practice*
+  - Add randomness to network requests on alarms
+  - Minimize alarm frequency
+  - Use ELAPSED_REALTIME, not clock, it you can
+  - Minimize walking the device
+  - Use inexact alarms -- Android synchronizes multiple inexact repeating alarms and fires them at the same time
++ *What is AlarmManager?*
+  - AlarmManger provides access to system alarm services
+  - When alarm goes off, registered Intent is broadcast
+  - Alarm are retained(holding back) while device is asleep
+  - Firing alarms can wake device
+*** Job Scheduler
++ *What is scheduler?*
+  - used for intelligent scheduling for background tasks
+  - Much more efficient than AlarmManger
+  - API 21+(no support library)
++ *Job Scheduler components*
+  - JobService -- Service class where the task is initiated, runs on the main thread
+  - JobInfo -- builder pattern to set the conditions for the task, set conditions of execution
+  - JobScheduler -- Schedule and cancel tasks, launch service, obtain a JobScheduler object from the system
+** Chapter Seven - Permission, Performance and Security
+*** Permission
++ An app must get permission to do anything that:
+  - Uses data or resources that the app does not create
+  - Uses network, hardware, features that don't belong to it
+  - Affects the behavior of the device
+  - Affects the behavior of other apps
++ List permissions in the Manifest
++ *Normal and Dangerous permissions:*
+  - Normal permissions do not directly risk the user's privacy
+    e.g: Set the timezone
+    Android automatically grants normal permissions
+  - Dangerous permissions give access to user's private data
+    e.g: Read the user's contact
+    Android asks user to explicitly grant dangerous permissions
+*** Performance
++ The main thread must be fast
++ Hardware updates screen every 16 milliseconds
++ UI thread has 16ms to do all its work
++ If it takes too long, app stutters or hangs
++ Improving Performance
+  - Be systematic
+  - Iterate
+  - Use tools
++ Don't make users wait
+  - Load data in background
+  - Pre-fetch data
+  - Move work off the UI thread
+  - Optimize UI
++ Don't waste User's resource
+  - WiFi and mobile radio use lots of battery, schedule to run when phone is being charged
+  - Large images consume lots of memory, use smallest images possible, use always compressed image formats. Use WebP when possible
+  - Getting and putting data on the internet uses up data plans, when possible download data when on WiFi
+*** Security Best pracices
++ Android has built-in security features, significantly reduces the frequency and impact of application security issues
++ *Your app's responsibility*
+  - Keep users' private data safe:
+  - Don't leak secret things
+  - Treat user data with integrity
+  - Keep your own app and data safe
++ Handling User data
+  - minimize access to sensitive data, don't store or transmit user data if possible. But if you must, consider using a hash or non-reversible form of the data
++ *Comply with personal data policies*
+  - If your app accesses personal information like username and passwords, it might need a privacy policy explaining how to uses and stores user data
++ *Be careful what you log*
+  - Android logs are shared resources, and available to an application with the READ_LOGS permission
+  - Inappropriate logging of user information could leak user data to other applications
++ *Encrypt Sensitive Data*
+  - Encrypt local files that contain sensitive data
+  - Store the keys so it is accessible by the app
++ *External Storage*
+  - Don't store sensitive information on external storage. Files created on external storage are globally readable and writable. External storage can be removed by user, can be modified by any application
++ *IP Networking*
+  - Minimize network transactions that transmit private data
+  - Use HTTPS over HTTP whenever possible
+  - Mobile devices often connect on networks that are not secured, such as public WiFi hotspots.
+  - You can implement authenticated, encrypted socket-level communication using the SSLSocket class
+*** Firebase and Monetization
++ *What is Firebase?*
+  - It is a platform that provides tools to help you develop your app, grow your user base, earn money from your app
+  - Firebase features are available for Android, iOS, web
+  - Firebase console is a web front end for managing your Firebase proejects
++ Using Firebase:
+  1) Connect your app to your Firebase project
+  2) Enable Firebase features on the console
+  3) Add code to your app(where needed)
++ *Storing and sharing data*
+  - You app can save in an SQLite database on the device and use ContentProvider to share data with other apps
+  - How do you enable different users using different devices, to share and update data?
+   Ans: *Use Firebase Database*.
+   Firebase Realtime database stores and sync data with Firebase cloud database and data is stored as JSON. Data is synced across all clients, and remains available when your app goes offline
+*** Make Money from your apps
++ Premium model -- user pay to download the app
++ Freemium model -- downloading the app is free, users pay for upgrades or in-app purchases
++ Subscriptions -- users pay recurring fee for the app
++ Ads -- app is free but displays ads. Run ads using AdMob and you can sign up for AdMob in Firebase console
+*** Prepare and Publish your app
++ Steps for publishing your app
+  - Prepare app for release
+  - Generate Signed APK
+  - Upload to Google play
+  - Run alpha and beta tests
+  - publish to the world
++ APK - Android Application Package File \to .apk file
+  - Each android application is compiled and packaged in a single file that includes all the app's code, resources, assets, and manifest file
+  - You need an APK to publish on Google play
++ *Prepare your app for release*
+  - Test Test ...
+    Make sure you app works correctly ...
+    + Test you app on different devices and screen size
+    + Test you app on older devices, use support library for backward compatibility
+  - Test on devices on datacenter - test on real devices in a datacenter using the Firebase Cloud Test Lab
+  - Add launcher app icon - this icon appears in Google play, on the device home screen, Manage applications ...
+  - choose you application ID - this ID defines your application's identity and it must be unique across all apps from everywhere!
+    If you change App ID and re-publish, the app becomes a different application and users of previous app cannot update to the new app
+  - Application ID vs Package name
+    + Initial Application ID is same as package in Android Manifest
+    + You can change Application ID in build.gradle independently of package name
+  - Set min and target API level
+    + minSdkVersion - minimum version of the Android platform that the app runs on
+    + targetSdkVersion - API level that the app is designed for
+  - Clean up your app
+    + remove logging statements
+    + Disable debugging
+    + Clean up your project directories
+    + Update URLs for servers and services
+    + Reduce APK size: The size of your APK affects how much fast your app loads, how much memory it uses and how much power it consumes
+  - Reducing image sizes
+  - Clean up project folders
+    + Clean up project folders and files
+    + remove stray or orphaned files
+    + Clean up jni, lib and src folders
++ *Generate APK*
+  - Android apps must be digitally signed before users can install them
+  - Use Android studio to generate and sign your APK
++ *Publish to Google play*
+  - Steps to publish
+    + Create an account on Google play developer console
+    + Create an entry for your app
+    + Add the required assets and information
+    + Run alpha and beta tests
+    + Run pre-launch reports
+    + Publish to the world!
+

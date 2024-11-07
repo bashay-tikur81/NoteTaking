@@ -1,0 +1,35 @@
+#+TITLE: Introduction to Management of Information System (MIS)
+#+AuTHOR: Ertale81
+#+STARTDATE: <2024-10-23 Wed>
+
+* MIS Concept
+- The initial concept of MIS was to process data from the organization and present it in the form of report at regular intervals.
+- The concept of MIS in today's world is a system which handles the databases, providing computing facilities to the end user and gives a variety of decision making tools to user of the system. The concept of MIS gives high regard to the individual and his ability to use information. An MIS gives information through data analysis. While analyzing the data, it relies on many academic disciplines. These includes the theories, principles and concepts from management science, Psychology, Human behavior, making the MIS more effective and useful.
+- The foundation of MIS is the principles of management and its practices.
+
+* Meaning of MIS
+- Management: planning, control and administration of an organization. Management is generally hierarchical:
+  + Top managers handle planning;
+  + Mid-career managers control;
+  + And junior managers administer;
+- Information: processed data to support management functions. /processing/ - record, summarize, store and retrieve.
+- System(in context of MIS):
+  + An input \to processing \to output and feedback matrix
+  + supports the processing of data into information.
+- Objective of MIS
+  + Processes data to support the management functions
+  + Manages information system(IS) productively.
+
+* Content, Design and Performance of MIS
+** Types of Information
+- There are four main types of information:
+  1) Descriptive Information: It tries to answer, what is happening?
+     + It covers such information as:
+     + Financial results and maintenance records
+     + Product records, product marketing, and test results
+  2) Diagnostic Information
+     + Can help to secure other needed types of information
+     + Not enough for identifying and solving management problems
+  3) Predictive Information
+  4) Prescriptive Information
+
