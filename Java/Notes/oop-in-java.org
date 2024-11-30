@@ -341,8 +341,298 @@
 - To use a multi-catch, separate each exception type in the *catch* clause with the OR operator. Each multi-catch parameter is implicitly *final*. (You can explicitly specify *final*, if desired  but not necessary). Because each multi-catch parameter is implicitly *final*, it can't be assigned a new value.
   For example:
       /catch(ArithmeticException | ArrayIndexOutOfBoundsException e){}/
+
 * Multi-threaded Programming
-* 
+** kj
+- A multi-threaded program contains two or more parts that can run concurrently. Each part of that such a program is called a /thread/, and each /thread/ defines a separate path of execution. Thus, multi-threading is a specialized form of multi-tasking.
+- There are two distinct types of multitasking:
+  1) Process-based multitasking
+  2) Thread-based multitasking
+* Enumerations, Autoboxing, and Annotations
+** Enumerations
+*** What is enumeration
+- An /enumeration/ is a list of named constants that define a new data type and its legal value. Thus, an enumeration object can hold only a value that was declared in the list. Other values are not allowed. In other words, an enumeration gives you a way to explicitly specify the only values that a data type can legally have. Enumerations are commonly used to define a set of values that represent a collection of items.
+  For example, you might use an enumeration to represent the error codes that can result from operation, such as success, failed, or pending; or a list of states that a device might be in, such as running, stopped, or paused.
+- In Java an enumerations defines a class type. By making enumerations into classes, the capabilities of enumerations are greatly expanded. For example, in Java enumeration can have constructors, methods and instance variables.
+- An enumeration is created using the *enum* keyword. For example:
+  #+begin_src java
+    enum Apple{
+        // these are enumeration constants
+        // Each is implicitly declared as public static final members of Apple
+        // their type is the type of enumeration they are declared, which is Apple in this
+        // case.
+        Jonatan, GoldenDel, RedDel, Cortland 
+    }
+  #+end_src
+  Once you have defined an enumeration, you can create a variable of that type. However, even though enumerations defines a class type, you don't instantiate an *enum* using *new*. Instead, you declare and use an enumeration variable in which the same way as you do one of the primitive types. For example, this declares *ap* as a variable of enumeration type *Apple*:
+      Apple ap;
+      Because *ap* is of type *Apple*, the only values that it can be assigned(or can contain) are those defined by the enumeration. For example:
+      ap = Apple.Jonatan;
+- All enumerations automatically contain two predefined methods: *values()* and *valueOf()*. Their general forms are shown here:
+      public static /enum-type/[] values()
+      public static /enum-type/ valueOf(String str)
+- *valueOf()* returns the enumeration values associated with the name of constant represented as a String.
+- The *values()* method returns an array that contains a list of enumeration constants. and /enum-type/ is the type of enumeration. In the above case, the return type of Apple.valueOf("Jonatan") is Jonatan.
+- A Java enumeration is a class type. Although you don't instantiate an *enum* using *new*, it otherwise has much the same capabilities as other classes. The fact that *enum* defines a class gives the Java enumeration extraordinary power. For example, you can give them constructors, add instance variable and methods, and even implement Interfaces.
+- Each enumeration constant is an object of its enumeration type. Thus, when you define a constructor for an *enum*, the constructor is called when each enumeration constant is created. Also, each enumeration constant has its own copy of any instance variables defined by the enumeration.
+- Here are two restrictions that apply to enumerations.
+  1) enumeration cannot inherit another class
+  2) an *enum* cannot be a superclass. This means that enum cannot be extended.
+- Otherwise, *enum* acts much like any other class type. The key is to remember that each of the enumeration constant is an object of the class in which it is defined.
+- Although you can't inherit a superclass when declaring an *enum*, all enumerations automatically inherit one: *java.lang.Enum*. This class defines several methods that are available for use by all enumerations. Three methods of *Enum* that worth discussing:
+  + You can obtain a value that indicates an enumeration constant's position in the list of constants. This is called its /ordinal value/, and it is retrieved by calling the *ordinal()* method, shown here:
+        final int ordinal()
+        It returns the ordinal value of the invoking constant. Ordinal values begin at zero. Thus, in the above *Apple* enumeration, *Jonatan* has an ordinal value of zero.
+  + You can compare the ordinal value of two constants of the same enumeration by using *compareTo() method. It has this general form:
+        final int compareTo(/enum-type/ e)
+        Here, /enum-type/ is the type of the enumeration, and /e/ is the constant being compared to the invoking constant. Remember, both the invoking constants and /e/ must be of the same enumeration. If the invoking constant has an ordinal value less than /e/'s, then *compareTo()* returns a negative value, zero if equal and positive if greater.
+  + You can compare for equality an enumeration constant with any other object by using *equals()*, which overrides the *equals()* method defined by *Object*. Although *equals()* can compare an enumeration constant to any other object, those two objects will be equal only if they both refer to the same constant, within the same enumeration. Simply having ordinal values in common will not cause *equals()* to return true if the two constants are from different enumerations. Remember you can compare two enumeration references for equality by using ==.
+*** Type wrappers
+- Java uses primitive types(also called simple type) such as *int*, or *double*, to hold the basic data types supported by the language. Primitive types are used for the sake of performance. Primitive types are not part of the object hierarchy and they don't inherit *Object*.
+- Despite the performance benefit offered by the primitive types, there are times when    you will need an object representation. For example, you can't pass a primitive type reference to a method. Also, many of the standard data structures implemented by Java operate on objects, which means they can't use those data structures to store primitive types. To handle this(and other) situations, Java provides /type wrappers/, which are classes that encapsulate a primitive type within an object.
+- The type wrappers are *Double, Float, Long, Integer, Short, Byte, Character*, and *Boolean*.
+- *Character*
+  + Is wrapper around *char*. The constructor is:
+        Character(char ch)
+  + However, beginning JDK 16, the *Character* constructor has been deprecated for removal. Today it's strongly recommended that you use the static method *valueOf()* to obtain *Character* object. It is shown here:
+        static Character valueOf(char ch).
+        It returns a *Character* object that wraps ch.
+  + To obtain that *char* value contained in *Character* object, call *charValue()*, shown here:
+        char charValue()
+        It returns the encapsulated character.
+- *Boolean*
+  + *Boolean* is a wrapper around *boolean* values. It defines those constructors:
+        Boolean(boolean boolValue) -> here boolValue must be either true or false
+        Boolean(String boolString) -> if boolString contains the string "true" (in upper case or lowercase), then the new *Boolean* object will be true. Otherwise it will be false.
+  + However beginning JDK 16, the *Boolean* constructor were deprecated for removal. Today it's strongly recommended that you use the static method *valueOf()* to obtain a *Boolean* object. It has the two versions shown here:
+        static Boolean valueOf(boolean boolValue)
+        static Boolean valueOf(boolean boolString)
+        Each returns a *Boolean* object that wraps the indicated value.
+  + To obtain a *boolean* value from the *Boolean* object, use *booleanValue()* method shown here:
+        boolean booleanValue()
+        It returns the *boolean* equivalent of the invoking object.
+- *Numeric Type Wrappers*
+  + By far, the most commonly used type wrappers are those that represent numeric values. These are *Byte, Short, Integer, Long, Float* and *Double*. All of the numeric type wrappers inherit the abstract class *Number*. *Number* declares methods that return the value of an object in each of the different number formats. These methods are:
+    - byte byteValue()
+    - short shortValue()
+    - int intValue()
+    - long longValue()
+    - float floatValue()
+    - double doubleValue()
+      These methods are implemented by each of the numeric type wrappers
+  + All of the numeric type wrappers define constructors that allow an object to be constructed from a given value, or a string representation of that value.
+    For example for Integer:
+        Integer(int num)
+        Integer(String str)
+        If /str/ doesn't contain a valid number value, then a *NumericFormatException* is thrown.
+  + However, beginning with JDK 16 the numeric type-wrapper constructor have been deprecated for removal. Today, it is strongly recommended that you use one of the *valueOf()* methods to obtain a wrapper object.
+** Autoboxing and Auto unboxing
+- Autoboxing is the process by which a primitive type is automatically encapsulated(boxed) into its equivalent type wrapper whenever an object of that type is needed. There is no need to explicitly construct an object. Auto-unboxing is the process by which the value of boxed object is automatically extracted(unboxed) from a type wrapper when its value is needed. There is no need to call a method such as *intValue()* or *doubleValue()*.
+- Autoboxing making working with Collections Framework much easier.
+- With autoboxing, it is not necessary to manually construct an object in order to wrap a primitive type. You need only assign that value to a type-wrapper reference. Java automatically constructs the object for you.
+  For example, to constructor an *Integer* that a value 100:
+      Integer iOb = 100; -> autobox an int.
+      int i = iOb; -> auto-unboxed
+- In general, autoboxing and unboxing takes place whenever a conversion into an object or from an object is required. This applies to expressions. For example:
+      Integer iOb;
+      ++iOb; // this will unbox and increment it then re-box it to the object reference.
+- Java also supplies wrappers for *boolean* and *char*. These are *Boolean* and *Character*. Autoboxing/unboxing applies to those wrappers, too.
+  #+begin_src java
+    Boolean b = true;
+    // below, b is auto-unboxed when used in a conditional expression
+    // such as as in if, when Boolean is used in condtions it is automatically into its
+    // boolean equivalent
+    if(b) System.out.println("b is true");
+
+    Character ch = 'A'; // box a char
+    char ch2 = ch; // auto-unbox
+  #+end_src
+- In general, you should restrict your use of type wrappers to only those cases in which an object representation of a primitive type is required. Autoboxing/unboxing was not added to Java as a "back door" way of eliminating the primitive types.
+** Annotations
+*** Annotation Basics
+- Java provides a feature that enables you to embed supplemental information into a source file. This information, called /annotation/, does not change the action of the program. Thus an annotation leaves the semantic of a program unchanged. However, this information can be used by various tools during both development and deployment.
+- An annotation is created through a mechanism based on the *interface*
+- All annotations consist solely of method declaration. However, you don't provide bodies for these methods. Instead, Java implements those methods. Moreover, the methods act much like fields.
+- An annotation can't include an *extends* clause. However, all annotation types automatically extends the *Annotation* interface. Thus, *Annotation* is a super-interface of all annotation types. It's declared within *java.lang.annotation* package
+- Any type of declaration can have an annotation associated with it. classes, methods, fields, parameters, and enum constants can be annotated. Even annotation can be annotated. In all cases, the annotation precedes the rest of the declaration.
+- When you apply annotation, you give values to its members.
+
+*** Retention Policy
+- A retention policy determines at what point an annotation is declared. Java defines three such policies, which are encapsulated within the *java.lang.annotation.RetentionPolicy* enumeration. They are *SOURCE, CLASS* and *RUNTIME*.
+- An annotation with a retention policy of *SOURCE* is retained only in the source file and is discarded during compilation.
+- An annotation with a retention policy of *CLASS* is stored in the *.class* file during compilation. However, it is not available through the JVM during runtime.
+- An annotation with a retention policy of *RUNTIME* is stored in the *.class* file during compilation and is available through the JVM during runtime. Thus, *RUNTIME* retention offers the greatest annotation persistence.
+- *NOTE*: an annotation on local variable declaration is not retained in the *.class* file.
+- A retention policy is specified for an annotation by using Java's built-in annotation: *@Retention*. Its general form is show here:
+      @Retention(/retention-policy/)
+      Here, /retention-policy/ must be one of *SOURCE, CLASS, RUNTIME*. If not retention policy is specified for the annotation, then the default policy of the annotation of *CLASS* is used.
+- Although annotation are designed mostly for use by other development or deployment tools, if they specify the retention policy of *RUNTIME*, then they can be queried at run time by any Java program through the use of /reflection/. Reflection is a feature that enables information about a class to be obtained at runtime. The reflection API is contained in the *java.lang.reflect* package.
+- You can obtain all annotations that have *RUNTIME* retention that are associated with an item by calling *getAnnotations()* on that item. It has this general form:
+      Annotation[] getAnnotations()
+      It returns an array of annotations. *getAnnotations()* can be called on objects of type *Class, Method, Constructor* and *Field*, among others.
+- *AnnotatedElement Interface*
+  + Methods like *getAnnotations()* and *getAnnotation()* are defined by the *AnnotatedElement* interface, which is defined in *java.lang.reflect*.
+- *Using default values*
+  + You can give annotation members default values that will be used if no value is specified when the annotation is applied. A default value is specified by adding *default* clause to a member's declaration. It has this general form:
+        /type member() default value;/
+        Here /value/ must be of type compatible with the /type/.
+        e.g: String str() default "Default annotation";
+- *Marker Annotation*
+  + A /marker/ annotation is a special kind of annotation that contains no members. Its sole purpose is to mark an item. Thus, its presence as an annotation is sufficient. The best way to determine if a marker annotation is present is to use the method is *isAnnotationPresent()* which is defined by the *AnnotatedElement* interface.
+- *Single member Annotation*
+  + A /single-member/ annotation contains only one member. It works like normal annotation except that it allows a shorthand form specifying the value of the member. When only one member is present you can specify the value for that member when the annotation is applied-- you don't need to specify the name of the member. However, in order to use this shorthand, the name of the member must be *value*.
+  + You can use the single-value syntax when applying an annotation that has other members, but those other members must all have default values.
+  + *Remember, whenever you are using a single-member annotation, the name of that member must be /value/.*
+- *Built-in Annotations*
+  + Java defines many built-in annotations. Most are specialized, but nine are general purpose. Of those, four are imported from *java.lang.annotation: @Retention, @Documented, @Target* and *@Inherited*. Five -- *@Override, @Deprecated, @FunctionalInterface, @SafeVarargs* and *@SuppressWarnings* -- are included in *java.lang*.
+  + *java.lang.annotation* also includes the annotations *Repeatable* and *Native*. *Repeatable* supports repeatable annotations, where as *Native* annotates a field that can be accessed by native code.
+  + *@Retention*
+    - Is designed to be used only as an annotation to another annotation. It specifies the retention policy.
+  + *@Documented*
+    - This is a marker interface that tells a tool that an annotation is to be documented. It is designed to be used only as an annotation to an annotation declaration.
+  + *@Target*
+    - This specifies the type of item to which an annotation can be applied. It's designed to be used only as annotation to another annotation. *@Target* takes one argument, which is an array of constants of *ElementType* enumeration. This argument specifies the type of declaration to which the annotation can be applied.
+
+      | Target Constant | Annotation can be applied to    |
+      |-----------------+---------------------------------|
+      | ANNOTATION_TYPE | Another annotation              |
+      |-----------------+---------------------------------|
+      | CONSTRUCTOR     | Constructor                     |
+      |-----------------+---------------------------------|
+      | FIELD           | Field                           |
+      |-----------------+---------------------------------|
+      | LOCAL_VARIABLE  | Local variable                  |
+      |-----------------+---------------------------------|
+      | METHOD          | Method                          |
+      |-----------------+---------------------------------|
+      | MODULE          | Module                          |
+      |-----------------+---------------------------------|
+      | PACKAGE         | Package                         |
+      |-----------------+---------------------------------|
+      | PARAMETER       | Parameter                       |
+      |-----------------+---------------------------------|
+      | TYPE            | Class, interface or enumaration |
+      |-----------------+---------------------------------|
+      | TYPE_PARAMETER  | Type parameter                  |
+      |-----------------+---------------------------------|
+      | TYPE_USE        | Type use                        |
+      |-----------------+---------------------------------|
+
+    - You can specify one or more of these values in a *@Target* annotation. To specify multiple values, you must specify them within a braces-delimited list.
+      For example:
+      /@Target({ElementType.FIELD, ElementType.LOCAL_VARIABLE})/
+    - If you don't use *@Target*, then the annotation can be used on any declaration. For this reason, it is often a good idea to explicitly specify the target or targets so as to clearly indicate the intended uses of an annotation.
+  + *@Inherited*
+    - This is a marker annotation that can be used only on another annotation declaration. Furthermore, it affects only annotations that will be used on class declarations. *@Inherited* causes the annotation for a superclass to be inherited by a subclass.
+  + *@Override*
+    - Is a marker annotation that can be used only on methods. A method annotated with *@Override* must override a method from superclass. If it doesn't, a compile-time error will result.
+  + *@Deprecated*
+    - This indicates that a declaration is obsolete and not recommended for use. This also allows you to specify the Java version in which the deprecation occurred and whether the deprecated element is slated for removal.
+  + *@FunctionalInterface*
+    - This is a marker annotation designed for use on interfaces. It indicates that the annotated interface is a functional interface.
+    - Note that: *@FunctionalInterface* is not needed to create a functional interface, it just makes sure that interface is a functional interface, it is purely informational. Any interface with exact one abstract method is, by definition, a functional interface.
+  + *@SafeVarargs*
+    - This is a marker annotation that can be applied to methods and constructors. It indicates that no unsafe actions related to a varargs parameter occur.
+  + *@SuppressWarnings*
+    - This specifies that one or more warnings that might be issued by the compiler are to be suppressed. The warning to suppress are specified by name, in string form.
+- *Repeating Annotations*
+  + An annotation that can be repeated on the same element is called /repeating annotations/. For an annotation to be repeatable, it must be annotated with *@Repeatable* annotation, defined in *java.lang.annotation*. Its *value* field specifies the /container/ type for the repeatable annotation.
+- *Some Restrictions*
+  1) No annotation can inherit another
+  2) All methods declared by an annotation must be without parameters
+  3) They must retain one of the following:
+     - A primitive type, such *int* or *double*
+     - An object type *String* or *Class*
+     - An object of an *enum* type
+     - An object of another annotation type
+     - An array of legal type.
+  4) An annotation can not be generic(they can't take type parameters).
+  5) Annotation methods cannot specify *throws* clause.
+
+* Lambda expressions
+** What is Lambda
++ Added by JDK 8, lambda expression significantly enhanced Java because of two primary reasons:
+  1) They added new syntax elements that increased the expressive power of the language. In the process, they streamlined the way that certain common constructs are implemented.
+  2) New capabilities being incorporated into the API library. Among the new capabilities are the ability to more easily take advantage of the parallel processing capabilities of multi-core environment, especially as it relates to the handling of for-each style operations, and the new stream API, which supports pipeline operations on data.
++ The addition of lambda expressions also provided the catalyst for other new Java features, including the /default method/, which lets you define a default behavior for interface methods, and the /method reference/, which lets you refer to a method without executing it.
++ Keys to understanding Java's implementation of lambda expressions are two constructs.
+  1) lambda expression itself
+  2) functional interface
+     
++ A /lambda expression/ is, essentially, an anonymous(that is, unnamed) method. However, this method in not executed on its own. Instead, it is used to implement a method defined by a functional interface. Thus, a lambda expression results in a form of anonymous class. Lambda expressions are also commonly referred to as closures.
++ A /functional interface/ is an interface that contains one and only one an abstract method. Normally, this method specifies the intended purpose of the interface. Thus a functional interface typically represents a single action.
+  For example, the standard interface *Runnable* is a functional interface because it defines only one method: *run()*. Therefore, *run()* defines the action of *Runnable*. Furthermore, a functional interface defines the /target type/ of a lambda expression. *A lambda expression can be used only in a context in which its target type is specified*.
++ A functional interface is sometimes referred to as a /SAM type/, where SAM stands for Single Abstract Method.
++ A functional interface may specify any public method defined by *Object*, such as *equals()*, without affecting its "functional interface status". The public *Object* methods are considered implicit members of functional interface because they are automatically implemented by an instance of functional interface.
++ The /lambda operator/ or the /arrow operator/ is *\to*. It divides a lambda expression into two parts. The left side specifies any parameter required by the lambda expression. (If no parameters are required, an empty parameter list is used). On the right side is the /lambda body/, which specifies the actions of the lambda expression.
++ The \to can be verbalized as "becomes" or "goes to".
++ Java defines two types of lambda bodies.
+  1) consisting of single expression
+  2) consisting block of code.
++ In order for a lambda expression to be used in a target context, the type of the abstract method the type of the lambda expression must be compatible. For example, if the abstract method specifies two *int* parameters, then the lambda must specify two parameters whose type is either explicitly *int* or can be implicitly inferred as *int* by the context.
++ In general, the type and number of lambda expression's parameter must be compatible with the method's parameters; the return types must be compatible; and any exception thrown by the lambda expression must be acceptable to the method.
++ When lambda expression has only one parameter, it is not necessary to surround the parameter name with parentheses when it is specified on the left side of the lambda operator, and the data type of the input parameter can be explicit or implicit.
++ Whenever more than one parameter is required, the parameters are specified, separated by commas, in a parenthesized list on the left side of the lambda operator.
++ *Note*: If you need to explicitly declare the types of parameter, then all of the parameters must have declared types. For example, this is legal
+  #+begin_src java
+    (int n, int d) -> (n%d) == 0; // legal
+    (int n, d) -> (n%d) == 0;  //  not legal
+  #+end_src
++ Lambda expressions that consists only single expression on the right side of the lambda operator are referred to as /expression bodies/, and lambdas that have expression bodies are sometimes called, /expression lambdas/.
++ /block body/ is a lambda expression that consists a block of code on the right side of the lambda operator. Lambdas that have block bodies are sometimes referred to as /block lambdas/. Block lambdas are much like the expression lambdas, one key difference; however, is that you must explicitly use a *return* statement to return a value. This is necessary because a block lambda body doesn't represent a single expression.
++ The block body of a lambda is similar to a method body. When a return statement occurs within a lambda expression, it simply causes a return from the lambda. It doesn't cause an enclosing method to return.
++ A lambda expression, itself, can not specify type parameters. Thus, a lambda expression can not be generic. However, the functional interface associated with the lambda expression can be generic. In this case, the target part of lambda expression is determined, in part, by the type argument or arguments specified when a functional interface is declared.
++ Lambda expression can be as an argument. This is very powerful because it gives a way to pass executable code as an argument to a method.
++ To pass a lambda expression as an argument, the type of parameter receiving the lambda expression argument must be of a functional interface type compatible with the lambda.
+** Method Reference
++ A method reference provides a way to refer a method without executing it. It relates to lambda expressions because it, too, requires a target type context that consists of a compatible functional interface. When evaluated, a method reference also creates an instance of the functional interface.
++ *Method references to static methods*
+  - To create a *static* method reference, use this general form:
+       ClassName::methodName
+       Notice that the class name is separated from the method name by a double colon(::).
+       This method reference can be used anywhere in which it is compatible with its target type.
++ *Method references to Instance Methods*
+  - To pass a reference to an instance method on a specific object, use this basic syntax:
+        objRef::methodName
+        The syntax is similar to that used for *static* method, except that an object reference is used instead of a class name.
+  - It is also possible to handle a situation in which you want to specify an instance method that can be used with any object of a given class -- not just a specified object. In this case, you will create a method reference as shown below:
+        ClassName::instanceMethodName;
+        Here, the name of the class is used instead of a specific object, even though the instance method is specified.
++ *Method references with Generics*
+  - You can use method reference with generic classes and/ or generic methods.
++ *Constructor reference*
+  - Similar to the way that you can create reference to methods, you can create reference to constructors. Here is the general form of syntax:
+        classname::new
+        This reference can be assigned to any functional interface reference that defines a method compatible with the constructor.
+  - Constructor reference to generic classes are created in the same fashion. The only difference is that the type argument can be specified. This works the same as it does for using generic class to create a method reference: simply specify the type argument after the class name.
+  - There is a second form of constructor reference that is used for arrays. To create a constructor reference for an array, use this construct:
+        /type/[]::new
+        Here, /type/ specifies the type of the object being created.
++ *Predefined Functional Interface*
+  - A package called *java.util.function* provides several predefined functional interfaces, here is a sample:
+
+    |-------------------+-----------------------------------------------------------|
+    | Interface         | Purpose                                                   |
+    |-------------------+-----------------------------------------------------------|
+    | UnaryOperator<T>  | Apply unary operator and returns *T*                        |
+    |                   | its method is *apply()*                                     |
+    |-------------------+-----------------------------------------------------------|
+    | BinaryOperator<T> | Apply an operation to two object type *T* and return the    |
+    |                   | result, which also type *T*. Its method is *apply()*          |
+    |-------------------+-----------------------------------------------------------|
+    | Consumer<T>       | Apply an operation on an object type *T*. Its method is     |
+    |                   | called *accept()*                                           |
+    |-------------------+-----------------------------------------------------------|
+    | Supplier<T>       | Returns an object type *T*. Its method is *get()*             |
+    |-------------------+-----------------------------------------------------------|
+    | Function<T,R>     | Apply an operation to an object type *T* and returns the    |
+    |                   | object as an object type R. Its method *apply()*            |
+    |-------------------+-----------------------------------------------------------|
+    | Predicat<T>       | Determines if an object of type *T* fulfils some constraint |
+    |                   | Returns a *boolean* value that indicates the outcome.       |
+    |                   | Its method is called *test()*                               |
+    |-------------------+-----------------------------------------------------------|
+
 * I/O
 ** I/O Basics
 *** Streams
@@ -540,3 +830,4 @@
       <? super /subclass/ >
       In this case, only classes that are superclasses of /subclass/ are acceptable arguments. This is an inclusive clause.
 ** Creating A Generic Method
+* Collections

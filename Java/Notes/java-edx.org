@@ -1094,6 +1094,31 @@ Remember that IndexOutOfBoundsException is an unchecked exception; including it 
 * Module Nine
 ** Lists (and more Generics)
 *** List Interface pt1
-- 
++ *ArrayList*
+  - This is a class which can give a high-level way of using arrays as list. Simply put, it's an implementation of the List interface with an array as the underlying data structure for storing items. In fact, internally, the ArrayList class declares an array instance variable called elementData. That particular array is declared as an Object array(i.e, Object[] elementData) and List methods like add(), remove(), clear(), etc would all achieve their goals by interacting with elementData. When that array gets too small, the ArrayList then creates a new Object array and reassigns elementData to the new one.
+  - The ArrayList is a generic class, so we can create one with or without constraints on its element type. When using a generic type without providing any actual type parameter, that version is called a /raw type/. When a type parameter is provided, that resulting version is called a parameterized type.
+        ArrayList playlist = new ArrayList();
+        Without any constraints, the elements of the underlying Object array of playlist, can refer to any Java object. Another omission of the above statement is a specification of the starting length of the playlist's internal array. It's possible to specify that length; however, not specifying it creates an internal Object array with an initial length of 10. Appropriately, these 10 locations will be null reference at the start.
+  - Even with those existing locations(the default 10), the playlist is considered to be empty at the beginning.
+  - Assuming you have a idea of how many elements you might need to store beforehand, you can create an ArrayList with a smaller or larger initial capacity than the default 10. Simply use a different constructor as below:
+        ArrayList playlist = new ArrayList(5);
+        This constructor accepts an int parameter that defines the initial capacity, so now, playlists internal array starts off with 5 nulled object references. The flexibility to store completely different types object in an array may be useful in some cases. However, not placing any type of restriction could create unwanted scenarios.
+  - To keep the element type consistent, we should use the generic capabilities of the ArrayList class. This class accepts a type parameter that defines what kinds of object its element can reference.
+  - Two options for declaring and creating a parameterized ArrayList:
+        ArrayList<elementType> aList = new ArrayList<elementType>();
+        ArrayList<elementType> aList = new ArrayList<elementType>(initialCapacity);
+    
+  - After Java 7, the type parameter on the right side of the assignment is not required and is implied by the parameter on the left. So the following is legal and it creates the same list as the above:
+        ArrayList<elementType> aList = new ArrayList<>();
+        ArrayList<elementType> aList = new ArrayList<>(5);
 
-  
+    e.g: ArrayList<String> playlist = new ArrayList<>(5);
+  - With ArrayList<String>, the playlist can only contains String song names. Note however, that if you declare such parameterized ArrayList like above example, the internal array(elementData) is still an Object array(Object[]). Including a type parameter simply restricts methods like add and remove from accepting any value other than those that are instance of elementType.
+  - ArrayList class not only implements a List interface but several other methods.    
+*** Recursion
++ In order for a recursive method to properly complete, it needs to have three important components.
+  1) terminating condition(base case) that returns value without making recursive call
+  2) reduction step that moves the direction of the recursive call toward the terminating condition
+  3) recursive call(otherwise it won't be recursion!)
+** Introduction to JavaFx
++ 

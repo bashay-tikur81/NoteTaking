@@ -1,0 +1,4 @@
+#+AUTHOR: Ertale81
+#+TITLE: Algorithm as though by Princeton Hall university at Coursera
+#+STARTDATE: <2024-11-14 Thu>
+

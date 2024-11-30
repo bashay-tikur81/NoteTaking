@@ -1,0 +1,309 @@
+#+AUTHOR: Ertale81
+#+TITLE: Data Structure using Java
+#+STARTDATE:<2024-11-15 Fri>
+
+* Introduction
+- Data structure is a way of organizing data in a computer so that it can be accessed, queried, modified efficiently and easily.
+- DS help manage and or organize data.
+- Key areas where data structures are heavily used:
+  1) Algorithm: essential for implementing algorithm efficiently.
+  2) Database: to quickly retrieve data
+  3) Networking: to manage data transmission
+  4) Operating System: for process scheduling, memory management, and filesystem
+  5) Web development: to manage data and requests
+  6) Artificial Intelligence: for efficient processing, like searching
+  7) Compiler design: to parse and translate source code
+  8) Game development: to manage game state, scenes and character's behavior efficiently
+  9) Software engineering: for efficient access and modification, such as in GUI application and scientific computing.
+- *Abstract data type(ADT) vs Data structure?*
+  + First what is *data type?* Data type defines a certain /domain/ of values. It also defines /operations/ allowed on those values. For example: int data type can have integer values and operations like bitwise and modulo(%) operators while float data type can store floating point numbers but operations like bitwise and modulo(%) are not allowed on float. Thus, data types not only declare domain of values but also set of operations allowed on thus values.
+  + User defined data types: the operations and values of user defined data types are not specified in the language itself(like primitives) but is specified by the user.
+  + *ADTs* are like user defined data types which defines operations on values using functions without specifying what is there inside the function and how the operations are performed.
+  + *Why ADT?*- the program which uses data structure is called /client/ program. It has access to the *ADT* i.e. interface. The program which implements the data structure is known as the /implementation/. For example, to use *stack* in your program, you can simply use pop() and push() functions on your program without knowing their implementation. If the implementation of the stack was first using arrays but later changed to linked list, then the client program will work in the same way without being affected.
+    ADT provides abstraction
+  + An abstract data type(ADT) is an abstraction of data structure which provides only the interface to which a data structure must adhere to. This interface doesn't give any specific details about how something should be implemented or in what programming language. Where as data structure is the actual implementation of the operations.
+    Example, ADT and DS
+    |------------------+----------------------|
+    | Abstraction(ADT) | Implementation(DS)   |
+    |------------------+----------------------|
+    | List             | Dynamic Array        |
+    |                  | Linked List          |
+    |------------------+----------------------|
+    | Queue            | Linked list based    |
+    |                  | Array based          |
+    |                  | Stack based          |
+    |------------------+----------------------|
+    | Map              | Tree map             |
+    |                  | Hash map/ Hash table |
+    |------------------+----------------------|
+
+  + A Data structure is used to implement ADT. ADT tells us *what*  is to be done and data structure tells us *how* to do it. For example, to implement a /stack ADT/, we can use array data structure or linked list data structure. Simply ADT gives us the blue print.
+  + How to know which data structure to use for a particular ADT (Since there are many DS that can implement the ADT)?
+    Answer: Different implementations of ADT are compared for time and space efficiency. The one best suited according to the current requirement of the user will be selected. May be one is space efficient while the other may be time efficient.
+
+  + *Linear and Non-linear Data structure*
+    - Linear DS: when all elements are arranged in a linear or sequential order. Or when each element of the data structure has only one predecessor and only one successor, except the first one which has no predecessor and the last one which may not have successor.
+      _Example_: [Arrays,Linked list, Stacks, Queues, Hash tables]
+    - Non-Leaner DS: all elements are not arranged in a linear(sequential) order. There is no linear arrangement of the elements. Here each node might have more than one predecessor and successor.
+      _Example_: [Trees, BST, Heap,Graphs, Tries, Union Find]
+  + *Static Data structure and Dynamic Data structure*
+    - Static DS: the memory is allocated at compile time, therefore, maximum size is fixed. These DS have /fast access/ but slower insertion and deletion operations.
+      _Example_: Array
+    - Dynamic DS: memory is allocated at runtime. Therefore, maximum size is flexible. These DS have faster insertion and deletion operation but slower access.
+      _Example_: linked list
+  + *Advantage of Data Structure*?
+    - Efficiency - proper choice of data structure makes program efficient in terms of space and time
+    - Reusability - one implementation can be used by multiple client programs.
+    - Abstraction - DS is specified by ADT which provides level of abstraction. The client program doesn't have to worry about the implementation details.
+* Algorithm Complexity
+** Big-O definition
+- Big O notation used to describe the asymptotic behavior of a functions. Basically, it tells you how fast a function grows or declines. The letter O is used because the rate of growth of a function is also called /order/.
+- Suppose f(x) and g(x) are two functions defined on some subset of the real numbers. We write
+  f(x) = O(g(x)) OR(f(x) = O(g(x)) for all x\to\infin ) if and only if there exists constant N and C such that:
+       f(x) <= C * g(x)  for all x>N 
+       This means that /f/ doesn't grow faster than /g/.
+- Here is a list of classes of function that commonly encountered when analyzing algorithms. The slower growing functions are list first. c some arbitrary constant
+
+  |-------------+-----------------|
+  | Notation    | name            |
+  |-------------+-----------------|
+  | O(1)        | constant        |
+  |-------------+-----------------|
+  | O(log(n))   | logarithmic     |
+  |-------------+-----------------|
+  | O((log(n))^{c}^{} | polylogarithmic |
+  |-------------+-----------------|
+  | O(n)        | linear          |
+  |-------------+-----------------|
+  | O(n^{2})       | quadratic       |
+  |-------------+-----------------|
+  | O(n^{c})       | polynomial      |
+  |-------------+-----------------|
+  | O(c^{n})       | exponential     |
+  |-------------+-----------------|
+- If a function f(n) is sum of functions, one of which grows faster than the others, then the faster growing one determines the order of f(n).
+- Be careful to differentiate between:
+  1) Performance: how much time/memory/disk ... is actually used when a program is run. This depends on the machine, compiler, etc... as well as the code.
+  2) Complexity: how do the resource requirements of a program or algorithm scale, i.e, what happens as the size of the problem being solved gets larger?
+- Complexity affects performance but not the other way around.
+- The time required by a function/procedure is proportional to the number of "basic operations" that it performs. Here are some examples of basic operations:
+  + one arithmetic operation(e.g., +, *)
+  + one assignment(e.g., x = 0)
+  + one test(e.g., x == 0)
+  + one read(of primitive type: integer,float, character, boolean)
+  + one write(of primitive type: integer,float, character, boolean)
+- When we are trying to find the complexity of the function/procedure/algorithm/program, we are *not* interested in the *exact* number of operations that are being performed. Instead we are interested in the relation of the *number of operations* to the *problem size/input size*. Typically, we are usually interested in the worst case: what is the maximum number of operations that might performed for a given problem size.
+- We express complexity using *big-O* notation. The big-O expression do not have constants or low-order terms. This is because, when N gets large enough constants and lower order terms don't matter.
+- A function T(N) is O(F(N)) if for some constant c and for values of N greater than some value n_{0}:
+  T(N) <= c*F(N)
+  The idea is that T(N) is the *exact* the exact complexity of the procedure/function/algorithm as a function of the problem size N, and that F(N) is an upper-bound on that complexity(i.e., the actual time/space or whatever for a problem size N will not be worse than F(N).)
+  In practice we want the smallest F(N) -- the *least* upper bound on the actual complexity.
+- How can you determine the running time of a piece of code? The answer is it depends on what kinds of statements are being used:
+  + Sequence of statement:
+    statement 1;
+    statement 2;
+    ...
+    statement k;
+    The total time is found by adding the time for all statements:
+    total time = time(statement 1) + time(statement 2) + ... time(statement k)
+    if each statement is "simple"(only involves basic operations) then the time for each statement is constant the total time is also constant: O(1)
+  + If-Then-Else
+    if(cond) then
+        block 1(sequence of statement)
+    else
+        block 2(sequence of statements)
+    end if;
+    Here either block 1 or block 2 will execute. Therefore, the worst-case time is the slower of the two  possibilities:
+        max(time(block 1), time(block 2));
+        If block 1 takes O(1) and block 2 takes O(N), then the if-then-else statement would be O(N).
+  + Loops
+        for i in 1..N loop
+            sequence of statement
+        end loop;
+        
+        The loop executes N times, so the sequence of statements also execute N times, if we assume the statements are O(1), then the total time for the loop is N*O(1), which is O(N) overall
+  + Nested loops
+        for i in 1...N loop
+           for j in 1...M loop
+               sequence of statements
+           end loop
+        end loop
+
+        The outer loop executes N times. Every time the outer loop executes, the inner loop executes M times. As a result the statement in the inner loop execute a total of N*M times. Thus the complexity is O(N*M) but if the stopping condition is j < N not j < M, then the complexity will be O(n^{2}).
+  + Statements with function/procedure calls
+    - When a statement involves a function call, the complexity of the statement includes the complexity of the function. Assume that you know the function /f/ takes constant time, and that function /g/ takes time proportional to the value of its parameter /k/. Then the statement below have the time complexity indicated.
+          f(k) has O(1)
+          g(k) has O(k)
+          When a loop is involved, the same rule applies. For example:
+              for j in 1...N loop
+                  g(j)
+              end loop;
+          has complexity(N^{2}). The loop executes N times and each function call g(N) is complexity O(N).
+           
+** Analyzing an algorithm:(Algorithm by MIT PRESS)
+- This has come to mean predicting the resources that the algorithm requires. You might consider resources like memory, communication bandwidth, or energy consumption. Most often, however, you will measure computational time. If you analyze several candidate for a problem, you can identify the most efficient one.
+- Before you analyze an algorithm, you need a model of the technology that it runs on, including the resource of that technology and a way to express their costs.
+- In the RAM model, instructions execute one after another, with no concurrent operations. The RAM model assumes that each instruction takes the same amount of time as any other instruction and that each data access takes the same amount of time as any other data access. In other words, in the RAM model each instruction or data access takes a constant amount of time -- even indexing into an array.
+- The RAM model contains instructions commonly found in a real computers: arithmetic(such as add, subtract, multiply, divide, remainder, floor, ceiling), data movement(load, store, copy), and control(conditional and unconditional branch, subroutine call and return).
+- Data types in the RAM model are integer, floating point, and character.
+* Arrays
+** What is Array
+- An array is a collection of data values of same type.
+- We use a variable to represent the array as a whole.
+  e.g: int[] grades; [] indicates that it will represent an array, /int/ indicates the elements will be /ints/.
+- Declaring an array variable doesn't create the array.
+- General syntax:
+  /type[] array = new type[length]/;
+  /type/ is the type of individual element
+  length is the number of elements in the array
+- Length of an array can be obtained by /arrayName.length;/ note that length is not a method
+- When you declare an array the runtime system gives the elements default values. The values depends on the type of elements: int 0; double 0.0; char '\0'; boolean false; objects null;
+- To access an array element, we use the array expression of the form /array[index]/ where acceptable values are integer from 0 to array.length;
+- An array is an object type. Thus, an array variable is a reference variable; it stores reference to the array.
+- To indicate that a reference variable doesn't yet refer to any object, we can assign it a special value called, /null/.
+  int[] grades = null;
+- We can pass an array to a method and return an array from a method.
+- When a method is passed an array as a parameter, it gets copy of the reference, /not/ a copy of the array. So, if the method changes the internals of the array, these changes will be there after the method returns. However, if the method changes its variable for the array, that change doesn't affect the original array. Changing what is in one variable doesn't affect any other variable.
+- Once we have created an array, we can't increase its size. Instead we can do the following:
+  + create a new larger array(use a temporary variable)
+  + copy the contents of the original array to the new array
+  + assign the new array to the original array variable
+- We can use array to represent collection of objects, in such case the cells of the array stores reference to the objects.
+- Two-Dimensional Arrays(2-D arrays) are really an array of arrays.
+  e.g: char[][] board;
+- Arrays provide random access.
+  
+*** Static Array
+- A static array is a fixed length container containing n elements indexable from the range [0, n-1]. Indexable means that each slot/index in the array can be referenced with a number.
+- Usage:
+  + Storing and accessing sequential data
+  + Temporary storing objects
+  + Used by IO routines as buffers for large files to read and write
+  + Lookup tables and Inverse lookup tables
+  + To return multiple values from a function, from programming languages that allow only one value to return
+  + Used in dynamic programming to cache answers to subproblems.
+- Complexity:
+
+  |------------+--------------+---------------|
+  | Operations | Static Array | Dynamic Array |
+  |------------+--------------+---------------|
+  | Access     | O(1)         | O(1)          |
+  |------------+--------------+---------------|
+  | Search     | O(n)         | O(n)          |
+  |------------+--------------+---------------|
+  | Insertion  | N/A          | O(n)          |
+  |------------+--------------+---------------|
+  | Appending  | N/A          | O(1)          |
+  |------------+--------------+---------------|
+  | Deletion   | N/A          | O(n)          |
+  |------------+--------------+---------------|
+- Elements in an array are referenced by their index. There is no other way to access elements in an array. Array indexing is zero-based(first element found at position zero).
+- But note that elements can be iterated over using a /for each loop/ offered by some programming languages(like Java). It doesn't require you to explicitly reference the indices of your array, although the indexing is used internally, behind the scene.
+- The notation of square bracket([]) denotes indexing.
+*** Dynamic Arrays
+- The dynamic array can grow and shrink in size. The dynamic array can do operations similar to that of static arrays, but unlike static array it grows as you need.
+- How can we implement dynamic array?
+  One way is to use a static array:
+  1) Create a static array with initial capacity
+  2) Add elements to the underlying static array, keep track of the number of elements
+  3) If adding another element exceed the capacity, the create a new static array with twice the capacity and copy the original elements to it.
+* Linked-List
+- A linked list stores a sequence of items in separate nodes. Each node is an object that contains:
+  + a single item
+  + a link(reference) to the node containing the next item.
+- Linked list can grow without limit(provided there is enough memory). They don't provide random access and takes up additional memory for the links.
+- Linked list is a sequential list of nodes that hold data which point to another node also containing data.
+- The last node has always no reference, except in circular case.
+- The linked list as whole is represented by a variable that holds a reference to the first node(usually this reference is called, "head")
+- In linked list the nodes are distinct objects, they don't have to be next to each other in memory.
+- *Usage:*
+  + Used in implementation of Stack, Queue and Lists because of their great time complexity for adding and removing elements.
+  + Great for creating circular lists.
+  + Used in hash table separate chaining implementation
+  + Often used in the implementation of adjacency list for graphs.
+- *Terminology:*
+  + Head: the first node in the linked list, we always maintain reference to the head
+  + Tail: the last node in the linked list.
+  + Pointer: reference to another node
+  + Node: another object containing data and pointer(s).
+- *Singly Linked List:*
+  + This only hold a reference to the next node. In the implementation you always maintain a reference to *head* to the linked list and a reference to the *tail* node for quick additions and removals.
+  + These uses less memory and simpler implementation but can not easily access previous elements.
+- *Doubly Linked List*
+  + With this each node holds a reference to the next and previous node. In the implementation you always maintain a reference to the *head* and the *tail* of the doubly linked list to do quick additions/removals from both ends of your list.
+  + Can be traversed backwards but takes 2x memory.
+- *Complexity*:
+
+  |------------------+-----------------+---------------|
+  | Operation        | Singly Linked   | Doubly Linked |
+  |------------------+-----------------+---------------|
+  | Search           | O(n)            | O(n)          |
+  |------------------+-----------------+---------------|
+  | Insert at head   | O(1)            | O(1)          |
+  |------------------+-----------------+---------------|
+  | Insert at tail   | O(1)            | O(1)          |
+  |------------------+-----------------+---------------|
+  | Remove at head   | O(1)            | O(1)          |
+  |------------------+-----------------+---------------|
+  | Remove at tail   | O(n)(since we)  | O(1)          |
+  |                  | need to set the |               |
+  |                  | tail back then) |               |
+  |------------------+-----------------+---------------|
+  | Remove at middle | O(n)            | O(n)          |
+  |------------------+-----------------+---------------|
+* Stack
+- A stack is an abstract data type(ADT) that supports two main methods:
+  + push(o) insert object /o/ onto top of stack
+    input: Object; output: none
+  + pop() removes the top object of the stack and returns it; if stack is empty an error occurs
+    input: none; output: object.
+- The following support methods should also be defined.
+  + size(): return the number of objects in the stack.
+    input: none; output: integer
+  + isEmpty() returning boolean if the stack is empty
+    input: none; output: boolean
+  + top()/peek(): return the top object of the stack, without removing it; if the stack is empty an error occurs.
+    input: none; output: Object
+  
+- A stack is one end-ended linear data structure which models a real world stack by having two primary operations, name *push* and *pop*.
+- *Usage*: Stack is used almost everywhere.
+  + Undo mechanisms in text editors
+  + In browsers to navigate backward and forward
+  + Compiler syntax checking for matching brackets and braces
+  + To model pile of books or plates, even games such the tower of Hanoi
+  + Used behind the scene to support recursion by keeping track of previous function calls. When a function returns it pops out of the stack and the rewinds to the next function.
+  + To do a Depth First Search(DFS) on a graph.
+- *Complexity*
+  + The following tables assumes you implemented stack using linked list.
+  |-----------+------|
+  | pushing   | O(1) |
+  |-----------+------|
+  | popping   | O(1) |
+  |-----------+------|
+  | peeking   | O(1) |
+  |-----------+------|
+  | searching | O(n) |
+  |-----------+------|
+  | size      | O(1) |
+  |-----------+------|
+* Queue
+- A queue differs from a stack in that its insertion and removal routines follows the *first-in-first-out* (FIFO)
+- Elements are inserted at the rear(enqueue) and remove from the front(dequeue).
+- Queue supports two fundamental methods:
+  + enqueue(o): Insert object o at the rear of the queue
+    Input: Object; Output: none
+  + dequeue(): removes the object from the front of the queue and return it; an error if queue is empty
+    Input: none; Output: Object
+- These support methods should also be defined:
+  + size(): return the number of objects in the queue
+    Input: none; Output: integer
+  + isEmpty(): return a boolean value that indicates whether the queue is empty or not
+    Input: none; Output: boolean
+  + front(): return, but not remove, the front Object in the queue; an error occurs if the queue is empty
+- 
+* Union-Find
+* BST
+* Hash Tables
+* Trees
+* Graphs
+* Heaps

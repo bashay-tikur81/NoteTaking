@@ -1,0 +1,5 @@
+#+TITLE: Algorithm foundation
+#+AUTHOR: Ertale81
+
+* What is algorithm?
+- An algorithm is a well defined computational procedure that takes some values, or set of values, as an input or produces some values, or set of values, as an output in a finite amount of time.
