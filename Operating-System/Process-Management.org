@@ -1,0 +1,199 @@
+#+TITLE: Process Management as though in Neso Academy
+#+AUTHOR: Ertale81
+#+STARTDATE:<2024-12-11 Wed>
+
+* Process
+- A process can be thought as a program in execution. The moment program starts execution, at that time we call it a process. When it's not executing, it is just a program sitting there.
+- The state of a process is defined in part by the current activity of that process. Each process may be in one of the following states:
+  + New: The process is being created.
+
+  + Running: Instructions are being executed.
+  + Waiting: The process is waiting for some event to occur(such as I/O completion of reception of a signal)
+  + Ready: The process is waiting to be assigned to a processor
+  + Terminated: The process has finished execution.
+    Figure of process state:
+    [[./Process-State.png]]
+- Each process is represented in the operating system by a *Process Control Block(PCB)* -- also called a task control block. A process control block is a block that can contain
+
+  |---------------------|
+  | Process state       |
+  |---------------------|
+  | Process number/ID   |
+  |---------------------|
+  | Program Counter     |
+  |---------------------|
+  | Registers           |
+  |---------------------|
+  | Memory Limits       |
+  |---------------------|
+  | List of open files  |
+  |---------------------|
+  | CPU Scheduling info |
+  |---------------------|
+  | Account info        |
+  |---------------------|
+  | ....                |
+  |---------------------|
+  Table: *PCB* diagram
+  
+- Registers in the PCB diagram tells us registers that are used by the program.
+- CPU Scheduling
+- Interrupts cause the operating system to change a CPU from its current task and to run a kernel routine. When an interrupt occurs, the system needs to save the current *context* (Context -- consist of current process information)of the process currently running on the CPU so that it can restore that context when its processing is done, essentially suspending the process and then resuming it. The context is represented in the PCB of the process.
+- Switching the CPU to another process requires performing a state save of the current process and a state restore of a different process. And this task is known as *Context Switch*.
+- Context-switch time is pure overhead(overhead --- cost involving in doing something. In Os cost can be resource, time ...), because the system does no useful work while switching. Its speed varies from machine to machine, depending on the memory speed, the number of registers that must be copied, and the existence of special instructions(such as a single instruction to load or store all registers). Typical speeds are a few milliseconds.
+- A process may create several new processes, via create-process system call, during the course of execution. The creating process is called a *parent process*, and the new process are called the *children of that process*. Each of these new processes may in turn create other processes, forming a tree of processes.
+- When a process creates a new process, two possibilities exist in terms of execution:
+  1) The parent continues to execute concurrently with its children.
+  2) The parent waits some or all of its children have terminated.
+- There are also two possibilities in terms of the address space of the new process:
+  1) The child process is a duplicate of the parent process(it has the same program and data as the parent)
+  2) The child process has a new program loaded into it.
+- A process terminates when it finishes executing its final statement and asks the operating system to delete it by using the /exit()/ system call. At that point, the process may return a /status value/ (typically an integer) to its parent process(via the /wait()/ system call). And all the resource of the process --- including physical and virtual memory, open files, and I/O buffers --- are deallocated by the operating system.
+- Termination of a process can occur in other circumstances as well:
+  + A process can cause the termination of another process via an appropriate system call. Usually, such a system call be invoked only by the parent of the process that is to be terminated. Otherwise, users could arbitrarily kill each other's jobs and produce unwanted behavior.
+- Why a parent process may kill its child process?
+  + The child has exceeded its usage of some of the resources that it has been allocated.
+  + The task assigned to the child is no longer required.
+  + The parent is exiting, and the operating system does not allow a child to continue if its parent terminates.
+- Processes executing concurrently in the operating system may be either *independent process* or *cooperating processes*.
+  + *Independent Processes*- They can not affect or be affected by the other processes executing in the system.
+  + *Cooperating Processes* - They can affect or be affected by the other processes executing in the system. Any process that shares data with other process is a cooperating process. There are several reasons for providing an environment that allows process cooperation:
+    - Information sharing
+    - Computational speedup (dividing the task into several subtasks and running concurrently, so they need to communicate to each other)
+    - Modularity(designing the system into modules)
+    - Convenience
+- Cooperating processes require an interprocess communication(IPC) mechanism that will allow them to exchange data and information. There are two fundamental models of interprocess communication:
+  1. Shared Memory - a region of memory that is shared by cooperating processes is established. Processes can then exchange information by reading and writing data to the shared region. Typically, a shared-memory regions resides in the address space of the process creating the shared-memory segment.(This memory will be created in the address space of the process that initiates the process communication). Other processes that wish to communicate using this shared-memory segment must attach it to their address space. Normally, the OS tries to prevent one process from accessing another process's memory. So, shared-memory requires that two or more processes agree to remove this restriction. The region of shared-memory is created by the process initiating the communication and the OS itself doesn't interfere in creating the region of shared-memory, where the region of shared-memory has to be created is decided by the processes that are going to communicate each other.
+     *For example:*
+     + Producer Consumer Problem: A producer process produces information that is consumed by a consumer process. One solution to this problem may use shared-memory. To allow producer and consumer processes to run concurrently, we must have available a *buffer of items* that can be filled by the producer and emptied by the consumer. This buffer will reside in a region of memory that is shared by the producer and consumer processes. A producer can produce one item while the consumer is consuming another item. The producer and consumer must be synchronized, so that the consumer doesn't try to consume an item that has not been produced.
+     + Two kinds of buffers for items:
+       1) Unbounded Buffer: Places no practical limit on the size the buffer. The consumer may have to wait for new items, but the producer can always produce new items.
+       2) Bounded Buffer: It assumes a fixed buffer size. In this case, the consumer must wait if the buffer is empty, and the producer must wait if the buffer is full.
+  2. *Message Passing*
+     + communication takes place by means of messages exchanged between the cooperating processes. Message passing provides a mechanism to allow processes to communicate and to synchronize their actions without sharing the same address space and is particularly useful in a distributed environment, where the communicating processes may reside on different computers connected by a network. A message-passing facility provides at least two operations:
+       1) send(message)
+       2) receive(message)
+       Messages sent by a process can be either fixed or variable size:
+       - *fixed size*: the system-level implementation is straightforward, but makes the task of the programming more difficult(you have to always in keep in mind that size of the message should be fixed)
+       - *Variable size*: Requires a more complex system-level implementation, but the programming task becomes simpler(no restriction on size of the messages).
+     + If process *P* and *Q* want to communicate, they must /send message to/ and /receive message from/ each other. In order this to happen a /communication link/ must exist between them. The link can be implemented in variety of ways. There are several methods for *logically implementing a link and the send()/receive()* operations, like:
+       - Direct or indirect communication
+       - Synchronous or Asynchronous communication
+       - Automatic or explicit buffering
+     + There are several issues related with those features like, *naming, synchronization, buffering*.
+     + *Naming*
+       - Processes that want to communicate must have a way to refer to each other. They can use either direct or indirect communication.
+       - Under direct communication each process that wants to communicate must explicitly name the recipient or sender of the communication.
+         send(P, message) -- Send a message to process P
+         receive(Q, message) -- receive a message from process Q
+       - A communication link in this scheme has the following properties:
+         - A link is established automatically between every pair of process that want to communicate. The processes need to know only each other's identity to communicate
+         - A link is associated with exactly two processes
+         - Between each pair of processes, there exists exactly one link.
+       - This scheme exhibits *symmetry in addressing*, that is, both the sender process and receiver process must name the other to communicate.
+       - Another variant of direct communication is when only the sender names the recipient; the recipient is not required to name the sender.
+         send(P, message) --- send message to process P
+         receive(id, message) --- receive message from any process; /the variable id is set to the name of the process with which communication has taken place./ This scheme employs *asymmetry in addressing*.
+       - The disadvantage in both these schemes(symmetric and asymmetric) is the *limited modularity* of the resulting process definitions. Changing the identifier of a process may necessitate examining all other process definitions.
+       - With indirect communication, the messages are sent to and received from *mailboxes* or ports. A *mailbox* can be viewed abstractly as an object into which messages can be placed by processes and from which messages can be removed. Those mailbox can be viewed as an objects into which messages can be placed by processes and other processes can receive or remove from that mailbox. Each mailbox has a unique identification.
+       - Two processes can communicate only if the processes have a *shared mailbox*.
+         send(A, message) --- Send a message to a mailbox A
+         receive(A, message)  --- Receive a message from a mailbox A
+       - A communication link in indirect communication scheme has the following properties:
+         - A link is established between a pair of processes only if both members of the pair have a shared mailbox.
+         - A link may be associated with more than two processes.
+         - Between each pair of communicating processes, there may be a number of different links, with each link corresponding to one mailbox.
+       - Question: suppose that processes P1, P2, and P3 all share mailbox A. Process P1 sends a message to A, while both P2 and P3 execute a receive() from A. Which process will receive the message sent by P1?
+       - Answer: the answer depends which of the following methods we choose:
+         - Allow a link to be associated with two processes at most
+         - Allow at most one process at a time to execute a receive() operation.
+         - Allow the system to select arbitrarily which process will receive the message(that is, either P2 or P3, but not both will receive the message). The system may also define an algorithm for selecting which process will receive the message(that is, round robin where processes take turns receiving messages). The system may identify the receiver to the sender.
+       - A mailbox may be owned either by the process or by the operating system. When a mailbox is owned by the process there is no confusion of who is the owner of the mailbox. The mailbox belongs to that particular process and there is no confusion of who should receive messages sent to that mailbox. All that messages comes to that mailbox are intended to that particular process. But the problem is that when this process terminates, this mailbox will also disappears. On the other hand if the mailbox is owned by the operating system that mailbox has an existence of its own. And that mailbox can later be shared with processes that want use it for sending for receiving messages.
+
+     + *Synchronization*:
+       - Communication between processes takes place through calls to *send()* and *receive()* primitives.
+       - Message passing may be either *blocking* or *nonblocking* --- also known as *synchronous and asynchronous* respectively.
+       - These blocking and nonblocking features can present in the sending primitive as well as in the receiving primitive.
+         1) Blocking send: The sending process is blocked until the message is received by the receiving process or mailbox.
+         2) Nonblocking send: The sending process sends the message and resumes operation.
+         3) Blocking receive: The receiver blocks until a message is available.
+         4) Nonblocking receive: The receiver retrieves either a valid message or null.
+     + *Buffering*
+       - Whether communication is direct or indirect, messages exchanged by communicating processes reside in a temporary queue(that is the buffer). Basically, such queues can be implemented in three ways:
+         1) Zero capacity buffer: The queues has a maximum length of zero; thus, the link can not have any messages waiting in it. In this case the sender must block until the recipient receives the message. It acts like a path through which the message will pass from the sender to the receiver.
+         2) Bounded capacity buffer: The queue has a finite length *n*; thus, at most *n* messages can reside in it. If the queue is not full when a new message is sent, the message is placed in the queue and the sender can continue without waiting. The link capacity is finite, however. If the link is full, the sender must block until space is available in the queue.
+         3) Unbounded capacity buffer: The queue length is potentially *infinite*; thus, any number of messages can wait in it. The sender never blocks.
+- *Sockets*
+  + A socket is a software structure within a network node of a computer network that serves as an end point for sending and receiving data across the network. A socket is externally identified to other hosts by its *socket address*. In the standard Internet protocols TCP and UDP, a socket address is the combination of an IP address and port number.
+  + If we want to create multiple socket connections from the same host, we will be able to do so because OS will assign a different port number for each socket connection. That is why we can have multiple connections between our and the server.
+  + Combining the transport layer port number and the network layer IP address uniquely identifies a particular application process running on an individual host device. This combination is called a socket.
+  + Sockets are mainly used for communication in *Client-Server architecture based systems*.
+    - The server waits for incoming client request by listening to a specific port. Once a request is received, the server accepts a connection from the client socket to complete the connection.
+    - Servers implementing specific services such as telnet, ftp, and HTTP listens to well-known ports.
+    - Each and every socket process will be assigned the IP and port number
+    - OS will assign any arbitrary number other than the reserved port number to these processes.
+    - If two processes from the same host make socket connections with the server, both will assigned different port numbers.
+    - The packets traveling between the hosts are delivered to the appropriate process based on the destination port number.
+  + A port number is a 16-bit unsigned number to uniquely identify a connection endpoint and to direct data to a specific service. The port numbers are divided into three ranges:
+    - the /well-known ports (0 to 1023) and these are reserved/
+    - the /registered ports(1024 to 49151)/
+    - the /dynamic/ or /private ports(49152 to 65535)/
+  + Notable port numbers:
+    |-------------+--------------------------------------|
+    | Port number | Assignment                           |
+    |-------------+--------------------------------------|
+    |          20 | FTP data transfer                    |
+    |-------------+--------------------------------------|
+    |          21 | FTP command control                  |
+    |-------------+--------------------------------------|
+    |          22 | SSH secure login                     |
+    |-------------+--------------------------------------|
+    |          23 | Telnet remote login service,         |
+    |             | unencrypted text message             |
+    |-------------+--------------------------------------|
+    |          25 | SMTP email delivery                  |
+    |-------------+--------------------------------------|
+    |          53 | DNS service                          |
+    |-------------+--------------------------------------|
+    |       67,68 | DHCP                                 |
+    |-------------+--------------------------------------|
+    |          80 | HTTP                                 |
+    |-------------+--------------------------------------|
+    |         110 | POP3                                 |
+    |-------------+--------------------------------------|
+    |         119 | NNTP                                 |
+    |-------------+--------------------------------------|
+    |         123 | NTP                                  |
+    |-------------+--------------------------------------|
+    |         143 | IMAP management of digital mail      |
+    |-------------+--------------------------------------|
+    |         161 | SNMP                                 |
+    |-------------+--------------------------------------|
+    |         194 | IRC(Inter Relay Chat)                |
+    |-------------+--------------------------------------|
+    |         443 | HTTP secure(HTTPS) HTTP over TLS/SSL |
+    |-------------+--------------------------------------|
+    |    546, 547 | DHCPv6 IPv6 version of DHCP          |
+    |-------------+--------------------------------------|
+
+  + Question: If a client connects to port 80, this its port number must be 80 too?
+  + Answer: No, this is not what happens. If that were correct, we could only serve one user per foreign IP address. Three things must understood:
+    1) On a server, a process is /listening/ on a port. once it gets a connection, it hands it off to another thread. The communication never hogs the listening port
+    2) Connections are uniquely identified by the OS by the following 5-tuple: (local-IP, local-port, remote-IP, remote-port, and protocol). If any element in the tuple is different, then this is a completely independent connection.
+    3) When a client connects to a server, it picks a /random, unused high-order source port/. This way, a single client can have up to ~64K connections to the server for the same destination port.
+  + Sockets are the one and the only API that sits between the application layer and transport layer and if you want to directly access the Internet's transport layer services to send application layer messages from one from one part of the distributed application to another, you are going to nee to use sockets that is true for all operating systems. From an operating system point of view, you applications written in user space(that is out side of the OS) while the transport layer the layers beneath it in the Internet protocol stack are inside the OS. The socket is the interface, the door between your application layer program and the transport layer within the OS below it.
+  + Two socket types for two transport services:
+    - UDP: unreliable datagram
+    - TCP: reliable, byte stream-oriented
+  + When a client process initiates a request for a connection, it is assigned a port by the host computer. This port is some arbitrary number greater than 1024. Then, the packets travelling between the hosts are delivered to the appropriate process based on the destination port number.
+- *Remote Procedure Call(RPC)*:
+  + Remote procedure call(RPC) is a protocol that one program can use to request a service from a program located in another computer on a network without having to understand the network's detail.
+  + It's similar in many respects to IPC mechanism. However, because we are dealing with an environment in which the processes are executing on separate systems, we must use a /message based/ communication scheme to provide remote service.
+  + In contrast to the IPC facility, the messages exchanged in RPC communication are well structured and are thus no longer just packets of data.
+  + Each message is addressed to an RPC daemon listening to a port on the remote system, and each contains an identifier of the function to execute and the parameters to pass to that function.
+
+
+
+
+* Thread
+- A thread is a unit of execution within a process. A process can have one to many threads.

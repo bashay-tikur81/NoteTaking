@@ -399,8 +399,7 @@
   |-------------+------------------------------------------|
 
 ** The Main Thread
-- When a Java program starts up, one thread begins running immediately. This is usually called the /main thread/ of your program, because it is the one that is executed when your program begins. The main thread is important for two reasons:
-  1) It is the thread from which other "child" threads will be spawned(spawn -- make offspring by reproduction)
+- When a Java program starts up, one thread begins running immediately. This is usually called the /main thread/ of your program, because it is the one that is executed when your program begins. The main thread is important for two reasons:  1) It is the thread from which other "child" threads will be spawned(spawn -- make offspring by reproduction)
   2) Often, it must be the last thread to finish execution because it performs various shutdown actions.
 - Although the main thread is created automatically when your program is started, it can be controlled through a *Thread* object. To do so, you must obtain a reference to it by calling the method *currentThread()*, which is a *public static* member of Thread. Its general form is shown here:
       static Thread currentThread()
@@ -421,11 +420,52 @@
       void start()
 *** Extending Thread
 - The second way to create thread is to create a new class that extends *Thread*, then to create an instance of that class. The extending class must override the *run()* method, which is the entry point of the new thread. And call to *start()* begins execution of the new thread.
-*** Choosing Approach
+** Choosing Approach
 - Why Java has two ways to create child threads? And which approach is better? The answers to these questions turn on the same point. The *Thread* class defines several methods that can be overridden by derived class. Of these methods, the only one that must be overridden is *run()*. This is, of course, the same method required when you implement *Runnable*. Many Java programmers feel that classes should be extended only when they are being enhanced or adapted in some way. So, if you will not be overriding any of the *Thread*'s other methods, it is probably best simply to implement *Runnable*. Also, by implementing *Runnable*, your thread class doesn't need to inherit *Thread*, making it free to inherit a different class. Ultimately which approach to use is up to you.
-
-  
-*** 
+** Using isAlive() and join()
+- Often you will want the main thread to finish last. *Thread* provides two ways to determine whether a thread has finished. The first you can call is *isAlive()* on the thread. This method is defined by *Thread*, and its general form is shown here:
+      final boolean isAlive()
+      This method return *true* if the thread upon which it is called is still running. It returns *false* otherwise.
+- While *isAlive()* is occasionally useful, the method that you will more commonly use to wait for a method to finish is called *join()*, shown here:
+      final void join() throws InterruptedException
+      This method waits until the thread on which it is called terminates. Its name came  from the concept of the calling thread waiting until the specified thread /joins/ it. Additional forms of *join()* allow you to specify a maximum amount of time that you want to wait for the specific thread to terminate.
+- The *join()* method is used to pause the execution of the current thread until the thread it is called on has finished executing. This particularly useful when you want to ensure that a particular thread completes before the main thread or any other thread continues its execution. 
+** Thread Priorities
+- Thread priorities are used by the thread scheduler to decide when each thread should be allowed to run. In theory, over a given period of time, higher-priority threads get more CPU time than lower-priority threads. In practice, the amount of CPU time that a thread gets often depends on several factors besides its priority. (For example, how an operating system implements multitasking can affect the relative availability of CPU time.) A higher-priority thread can also preempt a lower-priority one. For instance, when a lower-priority thread is running and a higher-priority thread resumes (from sleeping or waiting on I/O, for example), it will preempt the lower-priority thread.
+- In theory, threads of equal priority should get equal access to the CPU. But you need to be careful. Remember, Java is designed to work in a wide range of environments. Some of those environments implement multitasking fundamentally differently than others. For safety, threads that share the same priority should yield control once in a while. This ensures that all threads have a chance to run under a nonpreemptive operating system. In practice, even in nonpreemptive environments, most threads still get a chance to run, because most threads inevitably encounter some blocking situation, such as waiting for I/O. When this happens, the blocked thread is suspended and other threads can run. But, if you want smooth multithreaded execution, you are better off not relying on this. Also, some types of tasks are CPU-intensive. Such threads dominate the CPU. For these types of threads, you want to yield control occasionally so that other threads can run.
+- To set a thread's priority, use the *setPriority()* method, which is a member of *Thread*. This is its general form:
+      final void setPriority(int /level/)
+      Here, /level/, specifies the new priority setting for the calling thread. The value of /level/ should be within the range of *MIN_PRIORITY* and *MAX_PRIORITY*. Currently, these values are 1 and 10 respectively
+- You can obtain the current priority setting by calling the *getPriority()* method of *Thread*.
+      final int getPriority()
+- Implementations of Java may have radically different behavior when it comes to scheduling. Most of the inconsistencies arise when you have threads that are relying on preemptive behavior, instead of cooperatively giving up CPU time. The safest way to obtain predictable, cross-platform behavior with Java is to use threads that voluntarily give up control of the CPU.
+** Synchronization
+- When two or more threads need access to a shared resource, they need some way to ensure that the resource will be used by only one thread at a time. The process by which this achieved is called /synchronization/.
+- Key to synchronization is the concept of the monitor. A /monitor/ is an object that is used as a mutually exclusive lock. Only one thread can /own/ a monitor at a given time. When a thread acquires a lock, it is said to have /entered/ the monitor. All other threads attempting to enter the locked monitor will be suspended until the first thread /exits/ the monitor. These other threads are said to be /waiting/ for the monitor. A thread that own a monitor can reenter the same monitor if it so desires.
+- You can synchronize your code in either of the two ways:
+  1) Using synchronized methods:
+     + Synchronization is easy in Java, because all objects have their own implicit monitor associated with them. To enter an object's monitor, just call a method that has been modified with the *synchronized* keyword. While a thread is inside a synchronized method, all other threads that try to call it(or any other synchronized method) on the same instance have to wait. To exit the monitor and relinquish control of the object to the next waiting thread, the owner of the monitor simply returns from the synchronized method.
+     + Remember, once a thread enters any synchronized method on an instance, no other thread can enter any other synchronized method on the same instance. However, nonsynchronized methods on that instance will continue to be callable.
+  2) Synchronized statement:
+     + While creating synchronized methods within classes that you create is an easy and effective means of achieving synchronization, it will not work in all cases. Imagine that you want to synchronize access to objects of a class that was not designed for multithreaded access. That is, the class does not use synchronized methods. Further, this class was not created by you, but by a third party, and you do not have access to the source code. Thus, you can’t add *synchronized* to the appropriate methods within the class. How can access to an object of this class be synchronized? Fortunately, the solution to this problem is quite easy: You simply put calls to the methods defined by this class inside a *synchronized* block. This is the general form of the *synchronized* statement:
+           synchronized(/objRef/){
+           // statements to be synchronized
+           }
+           Here, /objRef/ is a reference to the object being synchronized. A synchronized block ensures that a call to a synchronized method that is a member of /objRef/'s class occurs only after the current thread has successfully entered /objRef/'s monitor.
+** Interthread Communication
+- Multithreading replaces event loop programming by dividing your tasks into discrete, logical units. Threads also provide a secondary benefit: they do away will polling. Polling is usually implemented by loop that is used to check some conditions repeatedly. Once the condition is true, appropriate action is taken. This wastes CPU time. For example, consider the classic queuing problem, where one thread is producing some data and another is consuming it. To make the problem more interesting, suppose that the producer has to wait until the consumer is finished before it generates more data. In a polling system, the consumer would waste many CPU cycles while it waited for the producer to produce. Once the producer was finished, it would start polling, wasting more CPU cycles waiting for the consumer to finish, and so on. Clearly, this situation is undesirable.
+- To avoid polling, Java includes an elegant interprocess communication mechanism via the *wait(), notify()*, and *notifyAll()* methods. These methods are implemented as *final* methods in *Object*, so all classes have them. All three methods can be called only from within a *synchronized* context.
+  + *wait()* tells the calling thread to give up the monitor and go to sleep until some other thread enters the same monitor and calls *notify()* or *notifyAll()*
+  + *notify()* wakes up a thread that called *wait()* on the same object.
+  + *notifyAll()* wakes up all the threads that called *wait()* on the same object. One of the threads will be granted access.
+- These methods are declared within *Object*, as shown here:
+      final void wait() throws InterruptedException
+      final void notify()
+      final void notifyAll()
+      Additional forms of *wait()* exist that allow you to specify a period of time to wait.
+- Although *wait()* normally waits until *notify() or notifyAll()* is called, there is a possibility that in a very rare cases the waiting thread could be awakened due to /spurious wakeup/. In this case, waiting thread resumes without *notify()* or *notifyAll()* having been called.(In essence the thread resumes for no apparent reason). Because of this remote possibility, the Java API documentation recommends that calls to *wait()* should take place within a loop that checks the condition on which the thread is waiting. 
+** Deadlock
+- A special type of error that you need to avoid that relates specifically to multitasking is /deadlock/, which occurs when two threads have a circular dependency on a pair of synchronized objects.
 * Enumerations, Autoboxing, and Annotations
 ** Enumerations
 *** What is enumeration
