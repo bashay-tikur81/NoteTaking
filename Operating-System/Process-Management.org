@@ -191,9 +191,115 @@
   + It's similar in many respects to IPC mechanism. However, because we are dealing with an environment in which the processes are executing on separate systems, we must use a /message based/ communication scheme to provide remote service.
   + In contrast to the IPC facility, the messages exchanged in RPC communication are well structured and are thus no longer just packets of data.
   + Each message is addressed to an RPC daemon listening to a port on the remote system, and each contains an identifier of the function to execute and the parameters to pass to that function.
+  + The function is then executed as requested, and any output is sent back to the requester in a separate message.
+  + The semantics of RPCs allow a client to invoke a procedure on a remote host as it would invoke a procedure locally.
+    - The RPC systems hides the details that allow communication to take place by providing stub on the client side.
+    - Typically, a separate stub exists for each separate remote procedure.
+    - When the client invokes a remote procedure, the RPC system calls the appropriate stub, passing it the parameters provided to the remote procedure. This stub locates the port on the server and marshals the parameters.
+    - Parameter marshalling involves packaging the parameters into a form that can be transmitted over a network.
+    - The stub then transmits a message to the server using message passing.
+    - A similar stub on the server side receives this message and invokes the procedure on the server.
+    - If necessary, return values are passed back to the client using the same technique.
+  + 
+    - 
+- *Issues in RPC and how they are resolved*
+  | Issues                                 | How they are resolved                           |
+  |----------------------------------------+-------------------------------------------------|
+  | Difference in data representation on   | RPC system defines a machine-independent        |
+  | the client and server machine.         | representation of data. One such representation |
+  | e.g: representation of 32-bit integer  | is known as *External Data Representation(XDR)*   |
+  | (little-endian or big-endian )         | On the client side, parameter marshalling       |
+  |                                        | involves converting the machine dependent data  |
+  |                                        | into XDR before they are sent to the server.    |
+  |                                        | On the server side, the XDR data are            |
+  |                                        | unmarshalled and converted to the machine       |
+  |                                        | dependent representation for the server.        |
+  |----------------------------------------+-------------------------------------------------|
+  | Where as local procedure calls fail    | The OS must ensure that messages are acted on   |
+  | only under extreme circumstances, RPC  | exactly once, rather than at most once. Most    |
+  | can fail, or be duplicated and         | local procedure calls have the "exactly once"   |
+  | executed more than once, as a result   | functionality, but it's more difficult to       |
+  | of common network errors.              | implement. This can solve with acknowledgment   |
+  |                                        | sent by the server.                             |
+  |----------------------------------------+-------------------------------------------------|
+  | With standard procedure calls, some    | 1)The binding information may be predetermined, |
+  | form of binding takes place during     | in the form of fixed port address at compile    |
+  | link, load, or execution time so that  | time, an RPC call has a fixed port number       |
+  | a procedure call's name is replaced by | associated with it. Once a program is complied, |
+  | the memory address of the procedure    | the server can not change the port number of    |
+  | call. The RPC scheme requires a        | the requested service.                          |
+  | similar binding of the client and      | 2) Binding can done dynamically by /rendezvous/   |
+  | server port, /but how does a client/     | mechanism. Typically, an OS provides rendezvous |
+  | /know the port numbers on the server?/   | (also called a /matchmaker/) daemon on a fixed    |
+  | Neither system has full information    | RPC port. A client then sends a message         |
+  | about the other because they don't     | containing the name of the RPC to rendezvous    |
+  | share memory.                          | daemon requesting the port address of the RPC   |
+  |                                        | it needs to execute. The port number is         |
+  |                                        | returned, and the RPC call can be sent to that  |
+  |                                        | port until the process terminates(the server    |
+  |                                        | crashes)                                        |
+  |----------------------------------------+-------------------------------------------------|
 
-
-
-
-* Thread
+* Threads
+** What is Thread?
 - A thread is a unit of execution within a process. A process can have one to many threads.
+- A thread comprises A thread ID, A program counter, A register and A stack.
+- It shares with other threads belonging to the same process its code section, data section, and other operating system resources, such open files and signals.
+  Figure multi-thread process:
+  [[./Multi-threaded-process.png]]
+- Benefits of multi-threaded programming can be broken down into four major categories:
+  1) Responsiveness: allow a program to continue running even if part of it is blocked or is performing a lengthy operation, thereby increasing responsiveness to the user.
+  2) Resource sharing: By default, threads share the memory and the resources of the process to which they belong. The benefit of sharing code and data is that it allows an application to have several different threads of activity within the same address space.
+  3) Economy: Allocating memory and resources for process creation is costly. Because threads share resources of the process to which they belong, it is more economical to create and context-switch threads.
+  4) Utilization of multiprocessor architecture: threads may run in parallel on different processors. A single-threaded process can only run on one CPU, no matter how many are available. Multithreading on a multi-CPU machine increases concurrency.
+** Multithreading Models and Hyperthreading
+*** Multithreading
+- There are two types of threads:
+  1) User Threads: Supported above the kernel and are managed without kernel support
+  2) Kernel Threads: Supported and managed directly by the operating system
+- Ultimately, for the system to work there must exist a relationship between user threads and kernel threads. There are three common ways of establishing this relationship:
+  1) Many-to-One Model:
+     + Maps many user-level threads to one kernel thread and thread management is done by the thread library in user space, so it is efficient.
+     + The entire process will block if a thread makes a blocking system call
+     + Because only one thread can access the kernel at a time, multiple threads are unable to run in parallel on multiprocessors.
+  2) One-to-One Model:
+     + One user thread is mapped to one kernel thread.
+     + Provides more concurrency than the many-to-one model by allowing another thread to run when a thread makes a blocking system call
+     + Also allows multiple threads to run in parallel on multiprocessors.
+     + _disadvantages_
+       - Creating a user thread requires creating the corresponding kernel thread
+       - Because the overhead of creating kernel threads can burden the performance of an applications, most implementation of this model restrict the number of threads supported by the system.
+  3) Many-to-Many Model
+     + Many user threads are mapped many kernel threads.
+     + It multiplexes many user-level threads to a smaller or equal number of kernel threads.
+     + The number of threads may be specific to either a particular application or a particular machine.
+     + Developers can create as many user threads as necessary, and the corresponding kernel threads can run in parallel on a multiprocessor.
+     + Also, when a thread performs a blocking system call, the kernel can schedule another thread for execution.
+     + This is the best model and implemented on most systems.
+*** Hyperthreading(Simultaneous Multithreading(SMT))
+- Hyperthreaded systems allow their processor cores' resource to become multiple logical processors for performance.
+- It enables the processor to execute two threads, or a set of instructions, at the same time. Since hyper-threading allows two streams to be executed in parallel, it is almost like having two separate  processors working together.
+** Example of System Calls
+- *fork():* Used to create a separate(different process id), duplicate process.
+  Total number of processes = 2^{n}, where n is the number of fork() system calls.
+- *exec()*: When an exec() system call is invoked, the program specified in the parameter exec() will replace the entire process --- including all threads. But it doesn't change the process number (It only replaces the content by the parameter passed to it).
+** Threading issues
+- The semantics of the fork() and exec() system calls change in a multithreaded program.
+- *Issue*: If one thread in a program call fork(), does the new process duplicate all threads, or is the new process single-threaded?
+  *Answer*: Some UNIX systems have chosen to have two versions of fork(), one that duplicates all threads and another that duplicates only the thread that invokes the fork() system call. But which versions of fork() to use and when? Also, if a thread invokes the exec() system call, the program specified in the parameter to exec() will replace the entire process --- including all threads. Which of the two versions of fork() to use depends on the application:
+  + If exec() is called immediately after forking, then duplicating all the threads is unnecessary, as the program specified in the parameters to exec() will replace the process. In this instance, duplicating only the calling thread is appropriate.
+  + If the separate process doesn't call exec() after forking, then the separate process should duplicate all threads.
+- *Issue Thread cancellation*:
+  + Thread cancellation is the task of terminating a thread before it has completed.
+    For example:
+    1) If multiple threads are concurrently searching through a database and one thread returns the result, the remaining threads might be cancelled.
+    2) When a user presses a button on a web browser that stops a web page from loading any further, all threads loading the page are cancelled.
+  + A thread that is to be cancelled is often referred to as the /target thread/. Cancellation of a target thread may occur in two different scenarios:
+    1) Asynchronous cancellation: One thread immediately terminates the target thread
+    2) Deferred cancellation: The target thread periodically checks whether it should terminate, allowing it an opportunity to terminate itself in an orderly fashion.
+  + *Difficulties with cancellation lies*: 
+    - In situations where:
+      + resources have been allocated to a cancelled thread
+      + A thread is cancelled while in the midst of updating data it is sharing with other threads.
+    - Resources allocated to threads by the OS. Often, the OS will reclaim system resources from a cancelled thread but will not reclaim all resources. Therefore, cancelling a thread asynchronously may not free a necessary system-wide resource.
+    - With deferred cancellation, one thread indicates that a target thread is to be cancelled. But cancellation occurs only after the target thread has checked a flag to determine if it should be cancelled or not. This allows a thread to check whether it should be cancelled at a point when it can be cancelled safely.

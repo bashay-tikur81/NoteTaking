@@ -1,0 +1,113 @@
+#+TITLE: Operating System Basics as though by Neso Academy
+#+AUTHER: Ertale81
+#+STARTDATE: <2024-12-13 Fri>
+
+* Operating System Basics
+- An OS is a program that manages the computer hardware. It also provides a basis for application programs and acts as an *intermediary* between computer *user* and computer *hardware*.
+- Its main function are resource allocation, resource management(Memory management, process management, file management), and security.
+- The goals of OS are convenience, efficiency or both.
+- *Some important terms*
+  1. Bootstrap program:
+     - The initial program that runs when a computer is powered up or rebooted.
+     - It is stored on ROM(Read Only Memory).
+     - It must know how to load the OS(since the OS is stored on secondary memory) and start executing that system
+     - It must locate and load into memory the OS kernel.
+  2. Interrupt:
+     - The occurrence of an event is usually signaled by an interrupt from Hardware or Software.
+     - Hardware may trigger an interrupt at any time by sending a signal to the CPU, usually by the way of system bus.
+  3. System Call(Monitor Call)
+     - Software may trigger an interrupt by executing a special operation called *System call*.
+- When the CPU is interrupted, it stops what it is doing and immediately transfers execution to a fixed location(the fixed location usually contains the starting address where the Service Routine of the interrupt is located). Then, the Interrupt Service Routine executes. On completion, the CPU resumes the interrupted computation.
+- *I/O Structure*
+  + A large portion of OS code is dedicated to managing I/O, both because of its importance to the reliability and performance of a system and because of the varying nature of the device.
+  + A general purpose computer system consists of CPUs and multiple device controllers that are controlled through a common bus. Each *device controller* is in charge of a specific type of device. These device controller maintains two things:
+    1) Local buffer storage
+    2) Set of special purpose registers
+  + Typically, operating systems have a device driver for each device controller. This device driver understands the device controller and presents a uniform interface to the device to the rest of the operating system.
+  + *Working of I/O Operation*:
+    1) To start an I/O operation, the device driver loads the appropriate registers within the device controller.
+    2) The device controller, in turn, examines the content of these registers to determine what action to take.
+    3) The controller starts the transfer of data from the device to its local buffer.
+    4) Once the transfer of data is complete, the device controller informs the device driver via an interrupt that it has finished its operation.
+    5) The device driver then returns control to the operating system.
+  + This form of interrupt-driven I/O is fine for moving small amounts of data but can produce high overhead when used for bulk data movement. To solve this problem, *Direct Memory Access(DMA)* is used.
+  + In *DMA*, steps 1\to3 stays same. Here is what happens in DMA:
+    - After setting up buffers, pointers, and counters for the I/O device, the device controller transfers an entire block of data directly to or from its own buffer storage to memory, with no intervention by the CPU.
+    - Only one interrupt is generated per block, to tell the device driver that the operation has completed(but in the above system there will be interrupt per byte of data that is being transferred, so the CPU is interrupted so many times).
+    - While the device controller is performing these operations, the CPU is available to accomplish other works.
+- *Computer Systems based on general purpose processors*:
+  1. Single Processor System:
+     - One main CPU capable of executing a general purpose instruction set including instructions from user processes.
+     - Other special purpose processors are also present which perform device specific tasks(e.g., a specific processor on keyboard that converts the typed character to binary)
+  2. Multiprocessor Systems:
+     - Also known as /parallel systems/ or /tightly coupled systems/.
+     - It has two or more processors in close communication, sharing the computer bus and sometimes the clock, memory, and peripheral devices.
+     - Advantages:
+       + Increased throughput/performance
+       + Economy of scale(due to sharing of resources. if you want the same kind of setup with single processor, every processor will need their own resource)
+       + Increased reliability(even one processor fails, we still have the other processors that will work and work the failed processor work)
+     - Types of multiprocessor systems:
+       + Symmetric multiprocessing: different processors can participate on different processes and they are peers and similar to each other. All CPUs can involve in all processes.
+       + Asymmetric multiprocessing: is a master-slave approach. One of the processor(CPU) will act as a master and the remaining processor will be slaves. The master monitors the other processors and assign a task for these processors. The slaves then take care of particular process.
+         Figure of multiprocessor:
+         [[./Multiprocessor.png]]
+  3. Clustered Systems
+     - Like multiprocessor systems, clustered systems gather together multiple CPUs to accomplish computational work. But unlike multiprocessor systems, they are composed of two or more individual systems coupled together. In multiprocessor systems what we had was multiple processors, only the processors was the multiple things. But in clustered system we have the complete system coupled together.
+     - This system provides high availability(others can take care a failed work of the system).
+     - Can be structured *asymmetrically* where one machine in *Hot-standby mode(master)* while others *run applications(slave)* or *symmetrically* where two or more hosts *run applications* and *monitor each other*.
+     - The *symmetric* is better since all the resources can be shared and used efficiently.
+
+* Operating System Structures
+** Multiprogramming
+- A single user can not, in general, keep either the CPU or the I/O devices busy at all times.
+- Multiprogramming increases CPU utilization by organizing jobs(code and data) so that the CPU always has one to execute.
+- Multiprogrammed systems provide an environment in which various system resources (like CPU, memory, and peripheral device) are utilized effectively, but they don't provide for user interaction with the computer system.
+** Time Sharing(Multitasking)
+- CPU executes multiple jobs by switching among them.
+- Switches occur so frequently that the users can interact with each program while it is running.
+- Time sharing requires an interactive(or hands-on) computer system, which provides direct communication between the user and the system.
+- A time-shared operating system allows many users share the computer simultaneously.
+- It uses CPU scheduling and multiprogramming to each user with a small portion of a time-shared computer.
+- Each user has at least one separate program in memory.
+- A program loaded into memory and executing is called a "*process*"
+- Multitasking aims to improve user experience by allowing simultaneous task execution. Multiprogramming aims to maximize CPU utilization by keeping multiple programs on main memory.
+
+* Operating System Services
+1) User Interaction
+   + An OS provides an environment for the execution of programs.
+   + CLI, GUI ...
+2) Program Execution
+3) I/O operations
+4) File System Manipulation/Management
+   + Create files, delete files, search files, modify files,
+   + Controls permission given to certain programs, files, ...
+5) Communication
+   + Communication between processes
+6) Error detection
+   + for example, if a printer stops printing due to no paper on the printer, the OS must know it and manage from where to start printing when paper loads to the printer.
+7) Resource allocation
+   + Allocate the required resources to processes which are waiting or asking for those resources and it must allocate them in an efficient way such that all the processes get the resources they need and no process keeps waiting for the process and never gets it.
+   + We should never have a scenario in which a process waits a resource and never gets it.
+8) Accounting
+   + Accounting mean that keeping track of which user use how much and what kind of computer resource. This record keeping may be used for accumulating usage statistics. This statistics may be useful for those who want to reconfigure the system or to improve the computing services.
+9) Protection and security
+   + Process protection
+   + System protection
+   + External network adapter protection
+
+* User Operating System Interface
+- There are two fundamental approaches for users to interact with the operating system:
+  1) CLI: users directly enter commands that are to be performed by the operating system.
+  2) GUI: Using menus and pointing devices to interact with the operating system.
+- Some operating systems include the command interpreter in the kernel. Others, like UNIX, treat the command interpreter as a special program.
+- On systems with multiple command interpreters to choose from, the interpreters are known as shells. e.g., Bourne shell, C shell, Bourne-Again shell(BASH), Korn shell
+  
+* System Calls
+- System calls provide an interface to the services made available by an operating system.
+- System call is the programmatic way in which a computer program requests a service from the kernel of the operating system. These calls are generally available as routines written in C and C++.
+- System calls can be grouped roughly into five major categories:
+  1) Process control
+  2) File Manipulation
+  3) Device Management
+  4) Information Maintenance
+  5) Communications
