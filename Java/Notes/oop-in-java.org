@@ -466,6 +466,7 @@
 - Although *wait()* normally waits until *notify() or notifyAll()* is called, there is a possibility that in a very rare cases the waiting thread could be awakened due to /spurious wakeup/. In this case, waiting thread resumes without *notify()* or *notifyAll()* having been called.(In essence the thread resumes for no apparent reason). Because of this remote possibility, the Java API documentation recommends that calls to *wait()* should take place within a loop that checks the condition on which the thread is waiting. 
 ** Deadlock
 - A special type of error that you need to avoid that relates specifically to multitasking is /deadlock/, which occurs when two threads have a circular dependency on a pair of synchronized objects.
+- 
 * Enumerations, Autoboxing, and Annotations
 ** Enumerations
 *** What is enumeration

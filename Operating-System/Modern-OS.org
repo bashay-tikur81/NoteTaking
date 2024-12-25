@@ -460,4 +460,65 @@
 - These problems are certainly not insurmountable, but they do show that just introducing threads into an existing system without a fairly substantial system redesign is not going to work at all. The semantics of system calls may have to be redefined and libraries rewritten, at the very least. And all of these things must be done in such a way as to remain backward compatible with existing programs for the limiting case of a process with only one thread.
   
 ** Event-Driven Servers
-- 
+- Suppose that threads are not available or not desirable but the system designers find the performance loss due to single threading, unacceptable. If nonblocking versions of system calls, such as /read/, are available, a third approach is possible. When a request comes in, the one and only thread examines it. If it can be satisfied from the cache, fine, but if not, a non-blocking disk operation is started.
+- The server records the state of the current request in a table and then goes and gets the next event. The next event may either be a request for new work or a reply from the disk about a previous operation. If it is new work, that work is started. If it is a reply from the disk, the relevant information is fetched from the table and the reply processed. With nonblocking disk I/O, a reply probably will have to take the form of a signal or interrupt.
+- In this design, the state of the computation must be explicitly saved and restored in the table every time the server switches from working on one request to another. A design like this, in which each computation has a saved state, and there exists some set of events that can occur to change the state, is called a *finite-state machine.* This concept is widely used throughout computer science.
+** Single-Threaded VS Multi-threaded VS Event-Driven Servers
+- It is now clear that threads make it possible to retain the idea of sequential processes that make blocking calls(e.g., for disk I/O) and still achieve parallelism. Blocking system calls make programming easier, and parallelism improves performance. The single-threaded server retains the simplicity of blocking system calls but gives up performance.
+- Event-driven programming, also achieves high performance through parallelism but uses non-blocking calls and interrupts to do so. It is considered harder to program.
+
+|-----------------------------+----------------------------------------|
+| Model                       | Characteristics                        |
+|-----------------------------+----------------------------------------|
+| Threads                     | Parallelism, blocking system calls     |
+|-----------------------------+----------------------------------------|
+| Single-threaded             | No, parallelism, blocking system calls |
+|-----------------------------+----------------------------------------|
+| Finite-state Machine/Event- | Parallelism, nonblocking system calls  |
+| Driven                      | interrupts                             |
+|-----------------------------+----------------------------------------|
+** Synchronization and Inter process Communication
+- There are three issues in inter process communication:
+  1) How one process can pass information to another?
+  2) How to make sure two or more processes or threads don't get into each other's way? For example, two threads in an airline reservation system each trying to grab the last seat on a plane for different customers.
+  3) The third issues concerns with proper sequencing when dependencies are present: if thread /A/ produces data and thread /B/ prints them, /B/ has to wait until /A/ has produced some data before starting to print.
+*** Race Condition
+- Situations where two or more processes are reading or writing some shared data and the final result depends on who runs precisely when, are called *race conditions.*
+*** Critical Regions
+- How do we avoid race conditions? The key to preventing trouble here and in many other situations involving shared memory, shared files, and shared everything else is to find some way to prohibit more than one process from reading and writing the shared data at the same time. Put in other words, what we need is *mutual exclusion*, that is, some way of making sure that if one process is using a shared variable or file, the other processes will be excluded from doing the same thing.
+- Part of the program where the shared memory is accessed is called the *critical region* or *critical section.* If we could arrange matters such that no two processes were ever in their critical regions at the same time, we could avoid races.
+- Although this requirement avoids race conditions, it is not sufficient for having parallel processes cooperate correctly and efficiently using shared data. We need four conditions to hold to have a good solution:
+  1) No two processes may be simultaneously inside their critical region.
+  2) No assumptions may be made about speeds or the number of CPUs.
+  3) No process running outside its critical region may block any process.
+  4) No process should have to wait forever to enter its critical region.
+*** Mutual Exclusion with Busy Waiting
+**** Disabling Interrupts
+- On a single-processor system, the simplest solution is to have each process disable all interrupts just after entering its critical region and re-enable them just before leaving it. With interrupts disabled, no clock interrupts can occur. The CPU is only switched from process to process as a result of clock interrupt or other interrupts, after all, and with interrupts turned off the CPU will not be switched to another process. Thus, once a process has disabled interrupts, it can examine and update the shared memory without fear that any other process will intervene and make a mess of things.
+- This approach is unwise because it gives user processes the power to turn off interrupts. What if one of them did it, and never turned them on again? That could be the end of the system. Furthermore, if the system is a multiprocessor (with two or more CPUs), disabling interrupts affects only the CPU that executed the disable instruction. The other ones will continue running and can access the shared memory.
+- On the other hand, it is frequently convenient for the kernel itself to disable interrupts for a few instructions while it is updating variables or especially critical lists. If an interrupt occurs while the list of ready processes, for example, is in an inconsistent state, race conditions could occur. The conclusion is: disabling interrupts is often a useful technique within the operating system itself but is not appropriate as a general mutual exclusion mechanism for user processes. The kernel should not disable interrupts for more than a few instructions lest it miss interrupts.
+- The possibility of achieving mutual exclusion by disabling interrupts—even within the kernel—is becoming less every day due to the increasing number of multicore chips even in low-end PCs. Disabling the interrupts of one CPU does not prevent other CPUs from interfering with operations the first CPU is performing.
+**** Lock Variables
+- This attempt is a software solution. Consider having a single, shared (lock) variable, initially 0. When a process wants to enter its critical region, it first tests the lock. If the lock is 0, the process sets it to 1 and enters the critical region. If the lock is already 1, the process just waits until it becomes 0. Thus, a 0 means that no process is in its critical region, and a 1 means that some process is in its critical region.
+- Unfortunately this idea has a fatal flaw. Suppose that one process reads the lock and sees that it is 0. Before it can set the lock to 1, another process is scheduled, runs, and sets the lock to 1. When the first process runs again, it will also set the lock to 1, and two processes will be in their critical regions at the same time.
+- Now you might think that we could get around this problem by first reading out the lock value, then checking it again just before storing into it, but that really does not help. The race now occurs if the second process modifies the lock just after the first process has finished its second check.
+**** Strict Alternation
+- This is the third approach to mutual exclusion problem.
+- In this solution one process may be blocked by a process not in its critical region.
+- This solution requires that two processes strictly alternate in entering their critical regions. While this algorithm does avoid all races, it is not really a serious candidate as a solution because it violates condition 3(No process running outside its critical region may block any process).
+**** Peterson's solution
+- By combining the idea of taking turns with the idea of lock variables and warning variables, a Dutch mathematician, T. Dekker, was the first one to devise a software solution to the mutual exclusion problem that does not require strict alternation.
+- In 1981, G. L. Peterson discovered a much simpler way to achieve mutual exclusion, thus rendering Dekker’s solution effectively obsolete.
+- Before using the shared variables (i.e., before entering its critical region), each process calls /enter_region/ with its own process number, 0 or 1, as parameter. This call will cause it to wait, if need be, until it is safe to enter. After it has finished with the shared variables, the process calls /leave_region/ to indicate that it is done and to allow the other process to enter, if it so desires.
+- Let us see how this solution works. Initially neither process is in its critical region. Now process 0 calls /enter_region/. It indicates its interest by setting its array element and sets /turn/ to 0. Since process 1 is not interested, /enter_region/ returns immediately. If process 1 now makes a call to /enter_region/, it will hang there until /interested[0]/ goes to FALSE, an event that happens only when process 0 calls /leave_region/ to exit the critical region.
+- Now consider the case that both processes call enter region almost simultaneously. Both will store their process number in /turn/. Whichever store is done last is the one that counts; the first one is overwritten and lost. Suppose that process 1 stores last, so turn is 1. When both processes come to the while statement, process 0 executes it zero times and enters its critical region. Process 1 loops and does not enter its critical region until process 0 exits its critical region.
+**** The TSL Instruction
+- Now let us look at a proposal that requires a little help from the hardware.
+- Some computers, especially those designed with multiple processors in mind, have an instruction like:
+      /TSL, RX, LOCK/
+  (Test and Set Lock) that works as follow. It reads the contents of the memory word /lock/ into register RX and then stores a nonzero value at the memory address /lock/.  The operations of reading the word and storing into it are guaranteed to be indivisible—no other processor can access the memory word until the instruction is finished. The CPU executing the TSL instruction locks the memory bus to prohibit other CPUs from accessing memory until it is done.
+- It is important to note that locking the memory bus is very different from disabling interrupts. Disabling interrupts then performing a read on a memory word followed by a write does not prevent a second processor on the bus from accessing the word between the read and the write. In fact, disabling interrupts on processor 1 has no effect at all on processor 2. The only way to keep processor 2 out of the memory until processor 1 is finished is to lock the bus, which requires a special hardware facility (basically, a bus line asserting that the bus is locked and not available to processors other than the one that locked it).
+- To use the TSL instruction, we will use a shared variable, lock, to coordinate access to shared memory. When lock is 0, any process may set it to 1 using the TSL instruction and then read or write the shared memory. When it is done, the process sets lock back to 0 using an ordinary move instruction.
+- One solution to the critical-region problem is now easy. Before entering its critical region, a process calls enter region, which does busy waiting until the lock is free; then it acquires the lock and returns. After leaving the critical region the process calls leave region, which stores a 0 in lock. As with all solutions based on critical regions, the processes must call enter region and leave region at the correct times for the method to work. If one process cheats, the mutual exclusion will fail. In other words, critical regions work only if the processes cooperate.
+*** Mutual Exclusion Sleep and Wake up
+- Both Peterson’s solution and the solutions using TSL or XCHG are correct, but both have the defect of requiring busy waiting. In essence, what these solutions do is this: when a process wants to enter its critical region, it checks to see if the entry is allowed. If it is not, the process just sits in a tight loop burning the CPU while waiting until it is.
