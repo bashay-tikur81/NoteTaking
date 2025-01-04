@@ -1,0 +1,8 @@
+#+TITLE: Bash Scripting
+#+DESCRIPTION: Bash for beginners as though in Microsoft
+#+AUTHOR: Ertale81
+
+* Terminal vs Bash?
+- Terminal also known as console or command line interface(CLI), is the environment that you issue the bash commands. Terminal can run various command-line interpreters(or shells), like /zsh/, /bash/, /eshell/, ...
+- Bash(Bourne Again SHell), is a specific type of command line interpreter or shell.
+- In essence, the *terminal* is the interface you use to interact with the system, while *Bash* is one of the many shells you can run within the terminal. Think of the terminal as the stage, and Bash as one of the actors performing on it.

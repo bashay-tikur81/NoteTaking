@@ -492,6 +492,10 @@
   2) No assumptions may be made about speeds or the number of CPUs.
   3) No process running outside its critical region may block any process.
   4) No process should have to wait forever to enter its critical region.
+- In a simple way a solution to the critical-section problem must satisfy the following three requirements:
+  1) Mutual Exclusion: If p_{i} is executing in its critical section, then no other processes can be executing in their critical section.
+  2) Progress: If no process is executing in its critical section and some processes wish to enter their critical sections, then only these processes that are not executing in their remainder section can participate in the decision on which will enter its critical section next, and the selection can not be postponed indefinitely.
+  3) Bounded waiting: There exists a bound, or limit, on the number of times that processes are allowed to enter their critical sections after a process has made a request to enter its critical section and before that request is granted.
 *** Mutual Exclusion with Busy Waiting
 **** Disabling Interrupts
 - On a single-processor system, the simplest solution is to have each process disable all interrupts just after entering its critical region and re-enable them just before leaving it. With interrupts disabled, no clock interrupts can occur. The CPU is only switched from process to process as a result of clock interrupt or other interrupts, after all, and with interrupts turned off the CPU will not be switched to another process. Thus, once a process has disabled interrupts, it can examine and update the shared memory without fear that any other process will intervene and make a mess of things.
@@ -512,13 +516,111 @@
 - Before using the shared variables (i.e., before entering its critical region), each process calls /enter_region/ with its own process number, 0 or 1, as parameter. This call will cause it to wait, if need be, until it is safe to enter. After it has finished with the shared variables, the process calls /leave_region/ to indicate that it is done and to allow the other process to enter, if it so desires.
 - Let us see how this solution works. Initially neither process is in its critical region. Now process 0 calls /enter_region/. It indicates its interest by setting its array element and sets /turn/ to 0. Since process 1 is not interested, /enter_region/ returns immediately. If process 1 now makes a call to /enter_region/, it will hang there until /interested[0]/ goes to FALSE, an event that happens only when process 0 calls /leave_region/ to exit the critical region.
 - Now consider the case that both processes call enter region almost simultaneously. Both will store their process number in /turn/. Whichever store is done last is the one that counts; the first one is overwritten and lost. Suppose that process 1 stores last, so turn is 1. When both processes come to the while statement, process 0 executes it zero times and enters its critical region. Process 1 loops and does not enter its critical region until process 0 exits its critical region.
-**** The TSL Instruction
-- Now let us look at a proposal that requires a little help from the hardware.
+- *Peterson's Solution*
+  + A classical software-based solution to the critical-section problem.
+  + Because of how modern computer architecture are designed, Peterson's solution may not work on modern computer architectures. However, it provides a good algorithmic description of solving critical-section problem and illustrates some of the complexities involved in designing software that addresses the requirement of mutual exclusion, progress, and bounded waiting requirements.
+  + Peterson's solution is restricted to two processes that alternate execution between their critical section and remainder section. Peterson's solution requires two data items to be shared between the two processes:
+    1) /int/ turn: indicates whose turn it is to enter its critical section
+    2) /boolean/ flag[2]: Used to indicate if a process is ready to enter its critical section
+  + Peterson Solutions fulfills the 3 requirements of critical section solutions(mutual exclusion, progress, and bounded waiting)
+**** The TSL Instruction(Test and Set Lock)
+- This is a hardware solution to the synchronization problem.
 - Some computers, especially those designed with multiple processors in mind, have an instruction like:
       /TSL, RX, LOCK/
   (Test and Set Lock) that works as follow. It reads the contents of the memory word /lock/ into register RX and then stores a nonzero value at the memory address /lock/.  The operations of reading the word and storing into it are guaranteed to be indivisible—no other processor can access the memory word until the instruction is finished. The CPU executing the TSL instruction locks the memory bus to prohibit other CPUs from accessing memory until it is done.
 - It is important to note that locking the memory bus is very different from disabling interrupts. Disabling interrupts then performing a read on a memory word followed by a write does not prevent a second processor on the bus from accessing the word between the read and the write. In fact, disabling interrupts on processor 1 has no effect at all on processor 2. The only way to keep processor 2 out of the memory until processor 1 is finished is to lock the bus, which requires a special hardware facility (basically, a bus line asserting that the bus is locked and not available to processors other than the one that locked it).
 - To use the TSL instruction, we will use a shared variable, lock, to coordinate access to shared memory. When lock is 0, any process may set it to 1 using the TSL instruction and then read or write the shared memory. When it is done, the process sets lock back to 0 using an ordinary move instruction.
 - One solution to the critical-region problem is now easy. Before entering its critical region, a process calls enter region, which does busy waiting until the lock is free; then it acquires the lock and returns. After leaving the critical region the process calls leave region, which stores a 0 in lock. As with all solutions based on critical regions, the processes must call enter region and leave region at the correct times for the method to work. If one process cheats, the mutual exclusion will fail. In other words, critical regions work only if the processes cooperate.
+- *TSL(Test and Set Lock)*
+  + The main thing in  TSL is a *shared lock variable* which can take either of the two values, *0* or *1*. So if the shared lock variable has value 0 it means it is unlocked, and if 1 it means it is locked.
+  + Before entering into the critical section, a process inquires about the lock. It will see whether the lock value is set to 0 or 1, and that is the *testing* part.
+  + If it is locked, it keeps on waiting till it becomes free.
+  + If it is not locked, it takes the lock and executes the critical section.
+  + Definition of the TestAndSet() instruction:
+    boolean TestAndSet(boolean *target){
+    boolean rv = *target;
+    *target = true;
+    return rv;
+    }
+    
+  + In a Test and Set Lock instruction whatever is happening in a process, i.e, when the process checks for the lock and if the lock is available and when it acquires a lock and set the lock value to 1 and execute its critical section, all these tasks will happen as a single operation which can not be interrupted by anyone. This means *atomic operation*.(a single operation that won't be interrupted).
+  + While TSL satisfies mutual execution, it doesn't satisfy bounded-waiting.
 *** Mutual Exclusion Sleep and Wake up
 - Both Peterson’s solution and the solutions using TSL or XCHG are correct, but both have the defect of requiring busy waiting. In essence, what these solutions do is this: when a process wants to enter its critical region, it checks to see if the entry is allowed. If it is not, the process just sits in a tight loop burning the CPU while waiting until it is.
+- Not only does this approach waste CPU time, but it can also have unexpected effects. Consider a computer with two processes, /H/, with high priority, and /L/, with low priority. The scheduling rules are such that /H/ is run whenever it is in ready state. At a certain moment, with /L/ in its critical region, /H/ becomes ready to run(e.g., an I/O operation completes). /H/ now begins busy waiting, but since /L/ is never scheduled while /H/ is running, /L/ never gets the chance to leave its critical region, /H/ loops forever. This situation is sometimes referred to as a variant of the *priority inversion problem*.
+- Now let us look at some interprocess communication primitives that block instead of wasting CPU time when they are not allowed to enter their critical regions. One of the simplest is the pair /sleep/ and /wakeup/. /Sleep/ is a system call that causes the caller to block, that is, be suspended until another process wakes its up. The /wakeup/ call has one parameter, the process to be awakened. Alternatively, both /sleep/ and wakeup each have one parameter, a memory address used to match up sleeps with wakeups.
+**** The producer-Consumer Problem
+- Also known as *bounded-buffer* problem.
+- Two processes share a common, fixed-size buffer. One of them, the producer, puts information into the buffer, and the other one, the consumer, takes it out. (It is also possible to generalize the problem to have m producers and n consumers, but we will consider only the case of one producer and one consumer because this assumption simplifies the solutions.)
+- Trouble arises when the producer wants to put a new item in the buffer, but it is already full. The solution is for the producer to go to sleep, to be awakened when the consumer has removed one or more items. Similarly, if the consumer wants to remove an item from the buffer and sees that the buffer is empty, it goes to sleep until the producer puts something in the buffer and wakes it up.
+- This approach can also lead to race conditions.
+- To keep track of the number of items in the buffer, we will need a variable, /count./ If the maximum number of items the buffer can hold is N, the producer’s code will first test to see if count is N. If it is, the producer will go to sleep; if it is not, the producer will add an item and increment /count./
+- The consumer’s code is similar: first test count to see if it is 0. If it is, go to sleep; if it is nonzero, remove an item and decrement the counter. Each of the processes also tests to see if the other should be awakened, and if so, wakes it up.
+- It can occur race condition because access to /count/ is unconstrained. As a consequence, the following situation could possibly occur. The buffer is empty and the consumer has just read /count/ to see if it is 0. At that instant, the scheduler decides to stop running the consumer temporarily and start running the producer. The producer inserts an item in the buffer, increments /count/, and notices that it is now 1. Reasoning that count was just 0, and thus the consumer must be sleeping, the producer calls wakeup to wake the consumer up.
+- Unfortunately, the consumer is not yet logically asleep, so the wakeup signal is lost. When the consumer next runs, it will test the value of count it previously read, find it to be 0, and go to sleep. Sooner or later the producer will fill up the buffer and also go to sleep. Both will sleep forever.
+- The essence of the problem here is that a wakeup sent to a process that is not (yet) sleeping is lost. If it were not lost, everything would work. A quick fix is to modify the rules to add a wakeup waiting bit to the picture. When a wakeup is sent to a process that is still awake, this bit is set. Later, when the process tries to go to sleep, if the wakeup waiting bit is on, it will be turned off, but the process will stay awake. The wakeup waiting bit is a piggy bank for storing wakeup signals. The consumer clears the wakeup waiting bit in every iteration of the loop.
+*** Semaphores
+- Semaphore proposed by Edsger Dijkstra(in 1965), is a technique to manage concurrent processes by using a simple integer value, which is known as a semaphore.
+- Semaphore is simply a variable which is non-negative and shared between threads. This variable is used to solve the critical section problem and to achieve process synchronization in the multiprocessing environment.
+- A semaphore *S* is an integer variable that, apart from its initialization, is accessed only through two standard atomic operations: *wait()* and *signal()*.
+  Terminology used to denote *wait()* and *signal()*:
+  + wait() --> P[From the Dutch word *proberen,* which means "*to test*"]
+  + signal() --> V[From the Dutch word *verhogen*, which means "*to increment*"]
+    
+  Definition of *wait()*:
+  P(Semaphore S) {
+  while(S <= 0)
+  ; // no operation
+  S--;
+  }
+
+  Definition of *signal()*:
+  V(Semaphore S){
+  S++;
+  }
+- All the modifications to the integer value of the semaphore in the wait() and signal() operations must be executed indivisibly. That is, when one process modifies the semaphore value, no other process can simultaneously modify that same semaphore value.
+- *Types of semaphores*:
+  1) Binary Semaphore: The value of binary semaphore can range only between 0 and 1. On some systems, binary semaphores are known as *mutex locks*, as they are locks that provide mutual exclusion. If the value is 0, that means that the shared resource is being used by some other process and the currently requesting process has to wait. If in terms of critical section, if *S* has the value 0, that means that some process is already executing in its critical section and the requesting process has to wait. And if the value of the semaphore is 1, it means that it's free fro the currently requesting process to either enter its critical section or to use the shared resource. Remember that the initial value of *S* is 1.
+
+  2) Counting Semaphore: Its value can range over an unrestricted domain. It is used to control access to the resource that has multiple instances.
+- Disadvantage of Semaphores:
+  + It requires *busy waiting*. Busy waiting means that while a process is in its critical section, any other process that tries to enter its critical section must loop continuously in the entry code. Thus, busy waiting wastes CPU cycles that some other processes might be able to use productively. This type of semaphore is also called a *spinlock* because the process *"spins"* while waiting for the lock.
+  + To overcome the need for busy waiting, we can modify the definition of *wait()* and *signal()* semaphore operations. When a process executes wait() operation and finds that the semaphore value is not positive, it must wait. However, rather than engaging in busy waiting, the process can block it self. The block operations places a process into a waiting queue associated with the semaphore, and the state of the process is switched to the waiting state. Then control is transferred to the CPU scheduler, which selects another process to execute.
+  + Though we can implement semaphore using waiting queue, it is still going to *deadlocks and starvation*. The implementation of a semaphore with a waiting queue may result in a situation where two or more processes are waiting indefinitely or an event that can be caused only by one of the waiting process. The event in question is the execution of a *signal()* operation. When such a state is reached, these processes are said to be *deadlocked*.
+- *Deadlock*: A set of process is deadlocked when every process in the set is waiting for the resource that is currently allocated to another process in the set. We can say there is a deadlock if the following all conditions are *TRUE*:
+  1) Mutual exclusion
+  2) No preemption
+  3) Hold and wait
+  4) Circular wait
+- Solution to the *Bounded Buffer(Producer-Consumer problem)* using semaphores:
+  We will make use of three semaphores:
+  1) _m(mutex)_, a binary semaphore which is used to acquire and release the lock
+  2) _empty_, a counting semaphore whose initial value is the number of slots in the buffer, since, initially all slots are empty.
+  3) _full_, a counting semaphore whose initial value is 0.
+
+  Definition of Producer:
+  do{
+      wait(empty); # wait until empty>0 and then decrement 'empty'
+      wait(mutext); # acquire lock
+      # add data to buffer
+      signal(mutex); # release lock
+      signal(full); # increment 'full'
+  
+  } while(TRUE);
+
+  Definition of Consumer:
+  do{
+      wait(full); # wait until full>0 and then decrement
+      wait(mutex); # acquire lock
+      signal(mutex); # release lock
+      signal(empty); increment 'empty'
+      
+  }
+- 
+
+
+     
+* Deadlock
+* Main Memory
+* Virtual Memory
+* File Systems
