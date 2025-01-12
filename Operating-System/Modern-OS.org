@@ -560,6 +560,7 @@
 - Unfortunately, the consumer is not yet logically asleep, so the wakeup signal is lost. When the consumer next runs, it will test the value of count it previously read, find it to be 0, and go to sleep. Sooner or later the producer will fill up the buffer and also go to sleep. Both will sleep forever.
 - The essence of the problem here is that a wakeup sent to a process that is not (yet) sleeping is lost. If it were not lost, everything would work. A quick fix is to modify the rules to add a wakeup waiting bit to the picture. When a wakeup is sent to a process that is still awake, this bit is set. Later, when the process tries to go to sleep, if the wakeup waiting bit is on, it will be turned off, but the process will stay awake. The wakeup waiting bit is a piggy bank for storing wakeup signals. The consumer clears the wakeup waiting bit in every iteration of the loop.
 *** Semaphores
+**** What is Semaphores
 - Semaphore proposed by Edsger Dijkstra(in 1965), is a technique to manage concurrent processes by using a simple integer value, which is known as a semaphore.
 - Semaphore is simply a variable which is non-negative and shared between threads. This variable is used to solve the critical section problem and to achieve process synchronization in the multiprocessing environment.
 - A semaphore *S* is an integer variable that, apart from its initialization, is accessed only through two standard atomic operations: *wait()* and *signal()*.
@@ -592,12 +593,12 @@
   2) No preemption
   3) Hold and wait
   4) Circular wait
+**** Producer-Consumer problem
 - Solution to the *Bounded Buffer(Producer-Consumer problem)* using semaphores:
   We will make use of three semaphores:
   1) _m(mutex)_, a binary semaphore which is used to acquire and release the lock
   2) _empty_, a counting semaphore whose initial value is the number of slots in the buffer, since, initially all slots are empty.
   3) _full_, a counting semaphore whose initial value is 0.
-
   Definition of Producer:
   do{
       wait(empty); # wait until empty>0 and then decrement 'empty'
@@ -616,10 +617,40 @@
       signal(empty); increment 'empty'
       
   }
+  - 
+**** Readers And Writer program
+- The producers-consumers problem is useful for modeling two processes (or threads) that exchange blocks of data while sharing a buffer. Another famous problem is *readers and writers problem*, which models access to a database. Imagine, for example, an airline reservation system, with many competing processes wishing to read and write it. It is acceptable to have multiple processes reading the database at the same time, but if one process is updating (writing) the database, no other processes may have access to the database, not even readers. The question is how do you program the readers and the writers?
+- In this problem a database is to be shared among several concurrent processes. Some of these processes may want *only to read the database*, whereas others may want to *update(that is, to read and write) the database*. We distinguish between these two types of processes by referring the former as *readers* and the latter as *writers*. Obviously, if two readers access the shared data simultaneously, no adverse affects will result. However, if a writer and some other thread(either a reader or a writer) access the database simultaneously, chaos may ensue.
+- *Solution to reader-writer problem using semaphore*
+  We will use two semaphores and an integer value:
+  1) mutex, a semaphore(initialized to 1) which is used to ensure mutual exclusion when *readcount* is updated, i.e., when any reader enters or exit from the critical section.
+  2) wrt, a semaphore(initialized to 1) common to reader and writer process.
+  3) readcount, an integer value(initialized to 0) that keeps track of how many processes are currently reading the object.
+  _Code for the writer process_
+  do{
+      # writer requests for critical section
+      wait(wrt);
+      # perform the write
+      # leave the critical section
+      signal(wrt);
+  } while(true);
+
+  _Code for the reader process_
+  do{
+      wait(mutex);
+      # the number of reader has now increased by 1
+      readcount++;
+      if(readcount == 1)
+          wait(wrt);
+      signal(mutex);
+      wait(mutex);
+      readcount--;
+      if(readcount == 0)
+          signal(wrt);
+          signal(mutex);
+  } while(true);
+**** Dining-philosophers Problem
 - 
-
-
-     
 * Deadlock
 * Main Memory
 * Virtual Memory

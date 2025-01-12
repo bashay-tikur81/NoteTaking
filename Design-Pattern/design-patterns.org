@@ -1,0 +1,7 @@
+#+TITLE: Design Patterns by gang of four
+#+AUTHOR: Ertale81
+
+* Introduction
+** What is a design pattern?
+- Designing object-oriented software is hard, and designing reusable object-oriented software is even harder. You must find pertinent objects, factor them into classes at the right granularity, define class interfaces and inheritance hierarchies, and establish key relationships among them. Your design should be specific to the problem at hand but also general enough to address future problems and requirements. You also want to avoid redesign, at least minimize it.
+- 

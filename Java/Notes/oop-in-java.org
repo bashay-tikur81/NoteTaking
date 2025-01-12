@@ -455,7 +455,7 @@
 ** Interthread Communication
 - Multithreading replaces event loop programming by dividing your tasks into discrete, logical units. Threads also provide a secondary benefit: they do away will polling. Polling is usually implemented by loop that is used to check some conditions repeatedly. Once the condition is true, appropriate action is taken. This wastes CPU time. For example, consider the classic queuing problem, where one thread is producing some data and another is consuming it. To make the problem more interesting, suppose that the producer has to wait until the consumer is finished before it generates more data. In a polling system, the consumer would waste many CPU cycles while it waited for the producer to produce. Once the producer was finished, it would start polling, wasting more CPU cycles waiting for the consumer to finish, and so on. Clearly, this situation is undesirable.
 - To avoid polling, Java includes an elegant interprocess communication mechanism via the *wait(), notify()*, and *notifyAll()* methods. These methods are implemented as *final* methods in *Object*, so all classes have them. All three methods can be called only from within a *synchronized* context.
-  + *wait()* tells the calling thread to give up the monitor and go to sleep until some other thread enters the same monitor and calls *notify()* or *notifyAll()*
+  + *wait()* tells the calling thread to give up the monitor and go to sleep until some other thread enters the same monitor and calls *notify()* or *notifyAll()*.
   + *notify()* wakes up a thread that called *wait()* on the same object.
   + *notifyAll()* wakes up all the threads that called *wait()* on the same object. One of the threads will be granted access.
 - These methods are declared within *Object*, as shown here:
@@ -463,10 +463,44 @@
       final void notify()
       final void notifyAll()
       Additional forms of *wait()* exist that allow you to specify a period of time to wait.
-- Although *wait()* normally waits until *notify() or notifyAll()* is called, there is a possibility that in a very rare cases the waiting thread could be awakened due to /spurious wakeup/. In this case, waiting thread resumes without *notify()* or *notifyAll()* having been called.(In essence the thread resumes for no apparent reason). Because of this remote possibility, the Java API documentation recommends that calls to *wait()* should take place within a loop that checks the condition on which the thread is waiting. 
+- Although *wait()* normally waits until *notify() or notifyAll()* is called, there is a possibility that in a very rare cases the waiting thread could be awakened due to /spurious wakeup/. In this case, waiting thread resumes without *notify()* or *notifyAll()* having been called.(In essence the thread resumes for no apparent reason). Because of this remote possibility, the Java API documentation recommends that calls to *wait()* should take place within a loop that checks the condition on which the thread is waiting.
 ** Deadlock
 - A special type of error that you need to avoid that relates specifically to multitasking is /deadlock/, which occurs when two threads have a circular dependency on a pair of synchronized objects.
+- Deadlock is a difficult error to debug for two reasons:
+  1) In general, it occurs only rarely, when the two threads time-slice in just the right way.
+  2) It may involve more than two threads and two synchronized objects. (That is, deadlock can occur through a more convoluted sequence of events)
+** Suspending, Resuming, and Stopping Threads
+- Sometimes, suspending execution of a thread is useful.
+- A thread can exist in a number of different states. You can obtain the current state of a thread by calling the *getState()* method defined by *Thread*. It's shown here:
+      Thread.State getState()
+      It returns a value type *Thread.State* that indicates the state of the thread at the time at which the call was made. *State* is an enumeration defined by *Thread*.(An enumeration is a list of named constants).
+- Here are the values that can be returned by *getState()*:
+  
+  | Value         | State                                                |
+  |---------------+------------------------------------------------------|
+  | BLOCKED       | A thread that has suspended execution because        |
+  |               | it's waiting to acquire a lock                       |
+  |---------------+------------------------------------------------------|
+  | NEW           | A thread that has not began execution                |
+  |---------------+------------------------------------------------------|
+  | RUNNABLE      | A thread that either is currently executing or will  |
+  |               | execute when it gains access to CPU                  |
+  |---------------+------------------------------------------------------|
+  | TERMINATE     | A thread that has completed execution                |
+  |---------------+------------------------------------------------------|
+  | TIMED_WAITING | A thread that has suspended execution for a specific |
+  |               | period of time, such as when it has called *sleep()*.  |
+  |               | This state is also entered when a timeout version of |
+  |               | *wait()* or *join()* is called                           |
+  |---------------+------------------------------------------------------|
+  | WAITING       | A thread that has suspended execution because it is  |
+  |               | waiting for some action to occur. For example, it's  |
+  |               | waiting because of a call to non-timeout version of  |
+  |               | *wait()* or *join()*.                                    |
+  |---------------+------------------------------------------------------|
 - 
+- It is important to understand that a thread’s state may change after the call to *getState()*. Thus, depending on the circumstances, the state obtained by calling
+  *getState()* may not reflect the actual state of the thread only a moment later. For this (and other) reasons, *getState()* is not intended to provide a means of synchronizing threads. It’s primarily used for debugging or for profiling a thread’s run-time characteristics.
 * Enumerations, Autoboxing, and Annotations
 ** Enumerations
 *** What is enumeration
