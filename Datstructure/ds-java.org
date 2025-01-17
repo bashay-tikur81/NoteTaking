@@ -145,3 +145,48 @@
 - A nested class can also be designated as either *static* or (by default) *nonstatic*, with significant consequences. A *static* nested class is most like a traditional class; its instances have no association with any specific instance of the outer class.
 - A nonstatic nested class is more commonly known as an *inner class* in Java. An instance of an inner class can only be created from within a nonstatic method of the outer class, and that inner instance becomes associated with the outer instance that creates it. Each instance of an inner class implicitly stores a reference to its associated outer instance, accessible from within the inner class method using the syntax *OuterName.this* (as opposed to *this*, which refers to the inner instance). The inner instance also has private access to all members of its associated outer instance, and can rely on the formal type parameters of the outer class, if generic.
 * Fundamental Data Structures
+** Arrays
+- We use a variable to represent the array as a whole. Example of declaring an array variable:
+      int[] grades;
+      [] indicates that it will represent an array
+      the /int/ indicates that the elements will be ints.
+- Declaring an array variable doesn't create the array. Example of creating an array:
+      grades = new int[8];
+- We often declare and create an array in the same statement. General syntax is:
+      /type[] arrayName = new type[length];/
+- Length of an array can be obtained as: arrayName.length. Note that, it is not a method.
+- When you create an array but not give a value, the runtime system give the elements a default value. The value used depend on the type of the elements:
+  |---------+---------------|
+  | type    | default value |
+  |---------+---------------|
+  | int     | 0             |
+  |---------+---------------|
+  | double  | 0.0           |
+  |---------+---------------|
+  | char    | '\0'          |
+  |---------+---------------|
+  | boolean | false         |
+  |---------+---------------|
+  | Object  | null          |
+  |---------+---------------|
+- If a variable represents an object, the object itself is not stored inside the variable. Rather, the object is located somewhere else in memory, and the variable holds the memory address of that object. A variable that stores a reference to an object are called /reference variable./
+- An array is a type of object. Thus, an array variable is a reference variable, it stores a reference to an array.
+- When we assign the value of one reference variable to another, we copy the reference to the object. We don't copy the object itself.
+- Once we have created an array, we can not increase its size. Instead, we need to do the following:
+  + create a new, larger array(use a temporary variable)
+  + copy the contents of the original array into the new array
+  + assign the new array to the original array variable
+- We can also create a multi-dimensional arrays. The most common type is a two-dimensional (2-D) array. We can visualize it as a matrix consisting of rows and columns.
+  For example:
+      int[][] scores = new int[5][8];
+- To access an element, we use an expression of the form /arrayName[row][column]/
+  e.g., scores[2][1];
+- 2-D array can be used for maintaining a game board, like Tic-Tac-Toe
+- A 2-D array is really an array of arrays. For example:
+      int[][] scores = new int[5][8];
+      in this array creation, scores[0] represents the entire first row; scores[1] represents the entire second row, etc...
+- arrayName.length gives the number of rows. /arrayName[row].length/ gives the number of columns in that row.
+- To perform some operations on all the elements in a 2-D array, we typically uses a nested loop.
+- It is also possible to have a "ragged" 2-D array in which different rows have different number of columns.
+      int[][] foo = {{11,22,33},{7,20,30,40}, {1,2}};
+  
