@@ -189,4 +189,179 @@
 - To perform some operations on all the elements in a 2-D array, we typically uses a nested loop.
 - It is also possible to have a "ragged" 2-D array in which different rows have different number of columns.
       int[][] foo = {{11,22,33},{7,20,30,40}, {1,2}};
-  
+** Linked-List
+- A linked list is a collection of *nodes* that collectively for a linear sequence. In a singly linked list, each node stores a reference to an object that is an element of the sequence, as well as a reference to the next node of the list.
+- A linked list's representation relies on the collaboration of many objects. Minimally, the linked list instance must keep a reference to the first node of the list, known as a *head*. Without an explicit reference to the head, there would be no way to locate that node (or indirectly, any others).
+- The last node of the list is known as the *tail*. The tail of a list can be found by traversing the linked list— starting at the head and moving from one node to another by following each node’s next reference. We can identify the tail as the node having *null* as its next reference. This process is also known as *link hopping* or *pointer hopping*. However, storing an explicit reference to the tail node is a common efficiency to avoid such a traversal.
+- It is common for a linked list instance to keep a count of the total number of nodes that comprise the list (also known as the *size* of the list), to avoid traversing the list to count the nodes.
+*** Implementing A Singly Linked List Class
+- The SinglyLinkedList class supports the following methods:
+  + size(): returns the number of elements in the list
+  + isEmpty(): returns *true* if the list is empty, and *false* otherwise
+  + first(): returns(but doesn't remove) the first element in the list
+  + last(): returns(but doesn't remove) the last element in the list
+  + addFirst(e): add a new element to the front of the list
+  + addLast(e): add a new element to the last of the list
+  + removeFirst(): removes and returns the first element of the list
+*** Circularly Linked List
+- Linked lists are traditionally viewed as storing a sequence of items in a linear order, from first to last. However, there are many applications in which data can be more naturally viewed as having a *cyclic order*, with well-defined neighboring relationships, but no fixed beginning or end.
+- For example, many multiplayer games are turn-based, with player A taking a turn, then player B, then player C, and so on, but eventually back to player A again, and player B again, with the pattern repeating. As another example, city buses and subways often run on a continuous loop, making stops in a scheduled order, but with no designated first or last stop.
+- Circularly Linked List is essentially a singularly linked list in which the /next/ reference of the tail node is set to refer back to the head of the list(rather than *null*).
+- This new CircularLinkedList class supports all the public behaviors of SinglyLinkedList class and one additional update method:
+      *rotate()*: moves the first element to the end of the list.
+- In implementing a CircularLinkedList class, we make one additional optimization—we no longer explicitly maintain the head reference. So long as we maintain a reference to the tail, we can locate the head as *tail.getNext()*. Maintaining only the tail reference not only saves a bit on memory usage, it makes the code simpler and more efficient, as it removes the need to perform additional operations to keep a head reference current.
+- Implementing the new *rotate* method is quite trivial. We do not move any nodes or elements, we simply advance the tail reference to  point to the node that follows it(the implicit head of the list).
+- We can add a new element at the front of the list by creating a new node and linking it just after the tail of the list. To implement the *addLast* method, we can rely on the use of a call to *addFirst* and then immediately advance the tail reference so that the newest node becomes the last.
+*** Doubly Linked Lists
+- In a singly linked list, each node maintains a reference to the next node that is immediately after it. This representation is useful for managing sequence of elements. However, there are limitations that stem from the asymmetry of a singly linked list.
+- We can efficiently insert a node at either end of a singly linked list, and can delete a node at the head of a list, but we are unable to efficiently delete a node at the tail of the list. More generally, we cannot efficiently delete an arbitrary node from an interior position of the list if only given a reference to that node, because we cannot determine the node that immediately /precedes/ the node to be deleted (yet, that node needs to have its next reference updated).
+- To provide greater symmetry, we define a linked list in which each node keeps an explicit reference to the node before it and a reference to the node after it. Such a structure is known as a *doubly linked list*. These lists allow a greater variety of *O(1)-time update operations*, including insertions and deletions at arbitrary positions within the list.
+**** *Header and Trailer Sentinels*
++ In order to avoid some special cases when operating near the boundaries of a doubly linked list, it helps to add special nodes at both ends of the list: a *header node* at the beginning of the list, and a *trailer node* at the end of the list. These “dummy” nodes are known as *sentinels (or guards)* (sentinel -- a person employed to keep watch for some anticipated event), and they do not store elements of the primary sequence.
++ When using sentinel nodes, an empty list is initialized so that the /next/ field of the /header/ points to the /trailer/, and the /prev/ of the /trailer/ points to the /header/; the remaining fields of the sentinels are irrelevant(presumably /null/ in Java).
++ For a nonempty list, the header’s next will refer to a node containing the first real element of a sequence, just as the trailer’s prev references the node containing the last element of a sequence.
++ Although we could implement doubly linked list without sentinel nodes, the slight extra memory devoted to the sentinels greatly simplifies the logic of our operation. Most notably, the header and trailer nodes never change—only the nodes between them change. Furthermore, we can treat all insertions in a unified manner, because a new node will always be placed between a pair of existing nodes. In similar fashion, every element that is to be deleted is guaranteed to be stored in a node that has neighbors on each side.
++ Every insertion into our doubly linked list representation will take place between a pair of existing nodes.
++ The deletion of a node proceeds in the opposite fashion of insertion. The two neighbors of the node to be deleted are linked directly to each other, thereby bypassing the original node. As a result, that node will no longer be considered part of the list and it can be reclaimed by the system. Because of our use of sentinels, the same implementation can be used when deleting the first or the last element of a sequence, because even such an element will be stored at a node that lies between two others.
+*** Implementing a Doubly Linked List Class
+- Doubly Linked List class should support the following public methods:
+  + size(): returns the number of elements in the list.
+  + isEmpty(): returns *true* if the list is empty, and *false* otherwise.
+  + first(): returns(but doesn't remove) the first element in the list.
+  + last(): returns(but doesn't remove) the last element in the list.
+  + addFirst(e): add a new element to the front of the list.
+  + addLast(e): add a new element to the last of the list.
+  + removeFirst(): removes and returns the first element of the list.
+  + removeLast(): removes and returns the last element of the list.
+- If first( ), last( ), removeFirst( ), or removeLast( ) are called on a list that is empty, we will return a *null* reference and leave the list unchanged.
+** Equivalence Testing
+- When working with reference types, there are many different notions of what it means for one expression to be equal to another. At the lowest level, if a and b are reference variables, then expression *a == b* tests whether a and b refer to the same object (or if both are set to the *null* value).
+- However, for many types there is a higher-level notion of two variables being considered “equivalent” even if they do not actually refer to the same instance of the class. For example, we typically want to consider two String instances to be equivalent to each other if they represent the identical sequence of characters.
+- To support a broader notion of equivalence, all object types support a method named equals. Users of reference types should rely on the syntax a.equals(b), unless they have a specific need to test the more narrow notion of identity. The equals method is formally defined in the Object class, which serves as a superclass for all reference types, but that implementation reverts to returning the value of expression a == b. Defining a more meaningful notion of equivalence requires knowledge about a class and its representation.
+- The author of each class has a responsibility to provide an implementation of the equals method, which overrides the one inherited from Object, if there is a more relevant definition for the equivalence of two instances. For example, Java’s String class redefines equals to test character-for-character equivalence.
+- Great care must be taken when overriding the notion of equality, as the consistency of Java’s libraries depends upon the equals method defining what is known /as an *equivalence relation* in mathematics/, satisfying the following properties:
+  + *Treatment of null:* For any nonnull reference variable x, the call x.equals(*null*) should return *false* (that is, nothing equals *null* except null).
+  + *Reflexivity:* For any nonnull reference variable x, the call x.equals(x) should return *true* (that is, an object should equal itself).
+  + *Symmetry:* For any nonnull reference variables x and y, the calls x.equals(y) and y.equals(x) should return the same value.
+  + *Transitivity:* For any nonnull reference variables x, y, and z, if both calls     x.equals(y) and y.equals(z) return *true*, then call x.equals(z) must return *true* as well.
+*** Equivalence Testing with Arrays
+*** Equivalence Testing with Linked Lists
+** Cloning Data Structure
+- The beauty of object-oriented programming is that abstraction allows for a data structure to be treated as a single object, even though the encapsulated implementation of the structure might rely on a more complex combination of many objects.
+- In a programming environment, a common expectation is that a copy of an object has its own state and that, once made, the copy is independent of the original(so, changes to one do not affect the other). However, when objects have fields that are reference variable pointing to auxiliary object, it is not always obvious whether a copy should have a corresponding field that refers to the same auxiliary object, or to a new copy of that auxiliary object.
+- Each class in Java is responsible for defining whether its instances can be copied, and if so, precisely how the copy is constructed. The universal *Object* superclass defined a method named *clone*, which can be used to produce what is known as /a *shallow copy* of/ an object. This uses the standard assignment semantics to assign the value of each field of the new object equal to the corresponding field of the existing object that is being copied. The reason this is known as a shallow copy is because if the field is a reference type, then an initialization of the form duplicate.field = original.field causes the field of the new object to refer to the same underlying instance as the field of the original object. A shallow copy is not always appropriate for all classes, and therefore, Java intentionally disables use of /the *clone() method* by/ declaring it as *protected*, and by having it throw a /CloneNotSupportedException/ when called. The author of a class must explicitly declare support for cloning by formally declaring that the class implements the Cloneable interface, and by declaring a public version of the *clone()* method. That public method can simply call the protected one to do the field-by-field assignment that results in a shallow copy, if appropriate. However, for many classes, the class may choose to implement a deeper version of cloning, in which some of the referenced objects are themselves cloned.
+*** Cloning Arrays
++ Consider the following code:
+      int[] data = {2,3,5,7,11,13,17,19};
+      int[] backup;
+      backup = data;
+      The assignment of variable /backup/ to data doesn't create any new array; it simply creates a new alias for the same array.
++ Instead, if we want to make a copy of the array, data, and assign a reference to the new array to variable, backup, we should write:
+      backup = data.clone();
+      The clone method, when executed on an array, initializes each cell of the new array to the value that is stored in the corresponding cell of the original array. This results in an independent array.
+      If we subsequently make an assignment such as data[4] = 23 in this configuration, the backup array is unaffected.
++ There are more considerations when copying an array that stores reference type rather than primitive types. The clone() method produces a *shallow copy* of an array, producing a new array whose cells refer to the same objects referenced by the first array. A *deep copy* of a list can be created by iteratively cloning the individual elements. But to use *clone()* method to copy every item, the class must be declared as /Cloneable/.
++ Because a two-dimensional array is really a one-dimensional array storing other one-dimensional arrays, the same distinction between a shallow and deep copy exists. Unfortunately, the java.util.Arrays class does not provide any *“deepClone”* method. However, we can implement our own method by cloning the individual rows of an array.
+*** Cloning Linked Lists
++ The first step to making a class cloneable in Java is declaring that it implements /Cloneable/ interface. First line of class definition looks like the ff:
+      public class SinglyLinkedList<E> implements Cloneable{}
+      The remaining task is implementing a public version of clone() method of the class.
+* Stacks, Queues, and Deques
+** Stacks
+- A *stack* is a collection of objects that are inserted and removed according to /the *last-in, first-out (LIFO)* principle/. A user may insert objects into a stack at any time, but may only access or remove the most recently inserted object that remains (at the so-called “top” of the stack). The name “stack” is derived from the metaphor of a stack of plates.
+- The fundamental operations involved are *pushing* and *popping* of plates off the stack.
+- Applications of stack:
+  1) Internet web browsers store the address of recently visited sites on a stack. Each time a user visits a new site, that site’s address is “pushed” onto the stack of addresses. The browser then allows the user to “pop” back to previously visited sites using the “back” button.
+  2) Text editors usually provide an “undo” mechanism that cancels recent editing operations and reverts to former states of a document. This undo operation can be accomplished by keeping text changes in a stack.
+  3) Recursive function calls. Stacks are used to manage function calls and local variables. Each time a function is called, its local variables and the return address are pushed onto the stack.
+  4) Backtracking algorithm. In algorithms that require backtracking, such as solving mazes or puzzles, stacks are used to keep track of the previous steps.
+  5) Expression Evaluation and Conversion. Infix to postfix/prefix conversion.
+  6) Syntax parsing.
+*** Stack ADT
+- Formally, a stack is an abstract data type(ADT) that supports the following two update methods:
+  + push(e): Add element /e/ to the top of the stack
+  + pop(): Removes and returns the top element from the stack(or null if the stack is empty)
+  Additionally, a stack supports the following accessor methods for convenience.
+  + top(): Returns the top element of the stack with out removing it(or /null/ if empty).
+  + size(): Returns the number of elements in the stack
+  + isEmpty(): Returns a boolean indicating whether the stack is empty.
+- By convention, we assume that elements added to the stack can have arbitrary type and that a newly
+  created stack is empty.
+**** A stack Interface in Java
++ We define *application program interface(API)* in the form of a Java *interface*, which describes the names of the methods that the ADT supports and how they are to be declared and used.
++ Interface serves as a type definition but it can not directly instantiated. For the ADT to be of any use, we must provide one or more concrete classes that implement the methods of the interface associated with that ADT.
+**** The Adapter Pattern
++ The *adapter* design pattern applies when you want to modify an existing class so that its method match those of related, but different class or interface. One general way to apply the adapter pattern is to define a new class in such a way that it contains an instance of the existing class as a hidden field, and then to implement each method of the new class using methods of this hidden instance variable.
+**** Application of Stack
++ Reversing an Array using a Stack.
+  As a sequence of LIFO protocol, a stack can be used as a general toll to reverse a data sequence.
++ Matching parentheses and HTML Tags.
+  An algorithm for matching delimiters. Each time we encounter an opening symbol, we push that symbol onto the stack, and each time we encounter a closing symbol, we pop symbol from the stack(assuming it's not empty) and check that these two symbols form a valid pair. If we reach the end of the expression and the stack is empty, then the original expression was properly matched. Otherwise, there must be an opening delimiter on the stack without a matching symbol. If the length of the original expression is /n/, the algorithm will make at most /n/ calls to push and /n/ calls to pop.
+
+** Queue
+- Queue is a collection of objects that that are inserted and removed according to the *first-in, first-out (FIFO)* principle. That is, elements can be inserted at any time, but only elements that has been in the queue the longest can be next removed. We usually say elements enter a queue at the back and are removed from the front. A queue would be a logical choice for a data structure to handle calls to a customer service center, or a wait-list at a restaurant. FIFO queues are also used by many computing devices, such as a networked printer, or a Web server responding to requests.
+*** Queue ADT
++ The queue ADT defines a collection that keeps objects in a sequence, where element access and deletion are restricted to the first element in the queue, and element insertion is restricted to the back of the sequence. This restriction enforces the rule that items are inserted and deleted according to the first-in first-out principle.
++ The queue ADT supports the following two update methods:
+      /enqueue(e)/: Add element e to the back of a queue
+      /dequeue()/: Removes and returns the first element from the queue(or /null/ if the queue is empty)
++ The queue ADT also supports includes the following accessor methods(with /first/ being analogous to the stack's /top/ method)
+      first(): Returns the first element of the queue, without removing it(or /null/ if empty)
+      size(): Returns the number of elements in the queue
+      isEmpty(): Returns a boolean indicating whether the queue is empty.
++ Java provides a type of queue interface, java.util.Queue, which has functionality similar to the traditional queue ADT, given above, but the documentation for the java.util.Queue interface does not insist that it support only the FIFO principle. When supporting the FIFO principle, the methods of the java.util.Queue interface have the equivalences with the queue ADT.
++ The java.util.Queue interface supports two styles for most operations, which vary in the way that they treat exceptional cases. When a queue is empty, the remove() and element() methods throw a *NoSuchElementException*, while the corresponding methods poll() and peek() return null. For implementations with a bounded capacity, the add method will throw an *IllegalStateException* when full, while the offer method ignores the new element and returns false to signal that the element was not accepted.
+**cd** Circular Queue
+- A circular queue is an excellent abstraction for applications in which elements are cyclically arranged, such as for multiplayer, turn-based games, or round-robin scheduling of computing processes. In the remainder of this section, we provide a demonstration of the use of a circular queue.
+** Double Ended Queue(Deque)
+- This is a queue like data structure that supports insertion and deletion at both the front and back of the queue. Such a structure is called a *double-ended queue*, or *deque*, which is usually pronounced “deck” to avoid confusion with the dequeue method of the regular queue ADT, which is pronounced like the abbreviation “D.Q.”
+- The deque abstract data type is more general than both the stack and the queue ADTs. The extra generality can be useful in some applications. For example, we described a restaurant using a queue to maintain a waitlist. Occasionally, the first person might be removed from the queue only to find that a table was not available; typically, the restaurant will reinsert the person at the first position in the queue. It may also be that a customer at the end of the queue may grow impatient and leave the restaurant.
+- The deque abstract data type is richer than both the stack and the queue ADTs. To provide a symmetrical abstraction, the deque ADT is defined to support the following update methods:
+      addFirst(e): Insert a new element /e/ at the front of the deque
+      addLast(e): Insert a new element /e/ at the end of the deque
+      removeFirst(): Remove and return the first element of deque(or /null/ if the deque is empty)
+      removeLast(): Remove and return the last element of the deque(or /null/ if the deque is empty)
+- Additionally, the deque ADT will include the following accessors:
+      first(): Return the first element of deque without removing it(or /null/ if the deque is empty)
+      last(): Return the last element of deque without removing it(or /null/ if the deque is empty)
+      size(): Return the number of elements in the deque
+      isEmpty(): Return a boolean indicating whether the deque is empty
+- We can implement the deque ADT efficiently using either an array or a linked list for storing elements.
+* List and Iterator ADTs
+**  The List ADT
+- In this chapter, we explore several abstract data types that represent a linear sequence of elements, but with more general support for adding or removing elements at arbitrary positions.
+- Java defines a general interface, /java.util.List/, that include the following index based methods and more:
+      size(): Returns the number of elements in the list
+      isEmpty():Returns a boolean whether the list is empty
+      get(/i/): Returns the element of the list having index /i/; an error condition occurs if /i/ is
+              not in the range [0, size()-1].
+      set(/i,e/): Replaces the element at index /i/, with /e/, and returns the old element that was
+                replaced; an error condition occurs if /i/ is not in range [0, size()-1]
+      add(/i,e/): Insert a new element /e/ in to the list so that it has index /i/, moving all
+                subsequent elements one index later in the list; an error condition occurs if /i/ is not in range [0,size()]
+      remove(/i/):Removes and returns the element at index /i/, moving all subsequent elements one
+                index earlier in the list; an error condition occurs if /i/ is not in the range [0, size()-1].
+- *We note that the index of an existing element may change over time, as other elements are added or removed in front of it. We also draw attention to the fact that the range of valid indices for the add method includes the current size of the list, in which case the new element becomes the last.*
+- 
+** Array List
+- An obvious choice for implementing the list ADT is to use array A, where *A[i]* stores (a reference) the element with index /i/. With a representation on an array A, the get(/i/), and set(/i,e/) methods are easy to implement by accessing A[i] (assuming /i/ is a legitimate index). Methods add(/i,e/) and remove(/i/) are more time consuming, as they require shifting elements up or down to maintain our rule of always storing element whose list index is /i/ at index /i/ of the array. 
+** Dynamic Array
+- The ArrayList Implementation as well as those for stack, queue, deque, has a serious limitation; it requires that a fixed maximum capacity be declared, throwing an exception if attempting to add an element once full. This is a major weakness, because if a user is unsure of the maximum size that will be reached for a collection, there is risk that either too large of an array will be requested, causing an inefficient waste of memory, or that too small of an array will be requested, causing a fatal error when exhausting that capacity.
+- Java's ArrayList class provides a more robust abstraction, allowing a user to add elements to the list, with no apparent limit on the overall capacity. To provide this abstraction Java relies on a *dynamic array*.
+- In reality, element of an ArrayList are stored in a traditional array, and the precise size of that traditional array must be internally declared in order for the system to properly allocate a consecutive piece of memory for its storage.
+- Because the system may allocate neighboring memory locations to store other data, the capacity of an array cannot be increased by expanding into subsequent cells.
+- The first key to providing the semantics of an unbounded array is that an array list instance maintains an internal array that often has greater capacity than the current length of the list. For example, while a user may have created a list with five elements, the system may have reserved an underlying array capable of storing eight object references (rather than only five). This extra capacity makes it easy to add a new element to the end of the list by using the next available cell of the array.
+- If a user continues to add elements to a list, all reserved capacity in the underlying array will eventually be exhausted. In that case, the class requests a new, larger array from the system, and copies all references from the smaller array into the beginning of the new array. At that point in time, the old array is no longer needed, so it can be reclaimed by the system.
+- A commonly used rule is for the new array to have twice the capacity of the existing array that has been filled.
+*** Java's StringBuilder Class
++ The StringBuilder class represents a mutable string by storing characters in a dynamic array.
+** Positional List
+- When working with array-based sequences, integer indices provide an excellent means for describing the location of an element, or the location at which an insertion or deletion should take place. However, numeric indices are not a good choice for describing positions within a linked list because, knowing only an element’s index, the only way to reach it is to traverse the list incrementally from its beginning or end, counting elements along the way.
+- Indices are not a good abstraction for describing a more local view of a position in a sequence, because the index of an entry changes over time due to insertions and deletions that happen on the sequence earlier. For example, it may not be convenient to describe the location of a person waiting in line based on the index, as that requires knowledge of precisely how far away that person is from the front of the line. We prefer an abstraction, in which there is some other means for describing a position.
+- Our goal is to design an abstract data type that provides a user a way to refer to elements anywhere in a sequence, and to perform arbitrarily insertions and deletions. This would allow us to efficiently describe actions such as a person deciding to leave the line before reaching the front, or allowing a friend to “cut” into line right behind him or her.
+- As another example, a text document can be viewed as a long sequence of characters. A word processor uses the abstraction of a *cursor* to describe a position within the document without explicit use of an integer index, allowing operations such as “delete the character at the cursor” or “insert a new character just after the cursor.” Furthermore, we may be able to refer to an inherent position within a document, such as the beginning of a particular chapter, without relying on a character index (or even a chapter number) that may change as the document evolves.
+- For those reasons we develop our own abstract data type that we denote as a *positional list*. Although a positional list is an abstraction, and need not rely on a linked list for its implementation, we certainly have a linked list in mind as we design the ADT, ensuring that it takes best advantage of particular capabilities of a linked list, such as /O(1)/-time insertions and deletions at arbitrary positions(something that is not possible with an array-based sequence).
+- We face an immediate challenge in designing the ADT; to achieve constant time insertions and deletions at arbitrary locations, we effectively need a reference to the node at which an element is stored.
+- To provide a general abstraction for the location of an element within a structure, we define a simple *position* abstract data type. A position supports the following single method:
+      getElement(): Returns the element stored at this position
+- 

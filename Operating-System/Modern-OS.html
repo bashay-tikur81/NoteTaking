@@ -1,0 +1,1666 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-02-02 Sun 10:59 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Modern Operating System</title>
+<meta name="author" content="Ertale81" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Modern Operating System</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org4c99540">1. Introduction</a>
+<ul>
+<li><a href="#org00466ad">1.1. What is an OS?</a>
+<ul>
+<li><a href="#org908fb03">1.1.1. General Overview</a></li>
+<li><a href="#org35aab38">1.1.2. OS as an Extended Machine</a></li>
+<li><a href="#orge2ab53c">1.1.3. OS as Resource Manager</a></li>
+</ul>
+</li>
+<li><a href="#orgb865957">1.2. History Of OS</a>
+<ul>
+<li><a href="#org1b59500">1.2.1. 1st Generation(1945-1955): Vacuum Tubes</a></li>
+<li><a href="#orgded45b7">1.2.2. 2nd Generation(1955-1965): Transistors and Batch Systems</a></li>
+<li><a href="#orgb5b019e">1.2.3. 3rd Generation (1965-1980): ICs and Multiprogramming</a></li>
+<li><a href="#org77b49f6">1.2.4. 4the Generation(1980-present): Personal Computers</a></li>
+<li><a href="#org827426f">1.2.5. 5th Generation(1990-present): Mobile Computers</a></li>
+</ul>
+</li>
+<li><a href="#orge62f974">1.3. Computer Hardware Review</a>
+<ul>
+<li><a href="#org32ceaf6">1.3.1. General view</a></li>
+<li><a href="#org178dbdc">1.3.2. Processor</a></li>
+<li><a href="#orgf78751e">1.3.3. Memory</a></li>
+<li><a href="#org5cddda7">1.3.4. Nonvolatile Storage</a></li>
+<li><a href="#orgcd21eae">1.3.5. I/O Devices</a></li>
+<li><a href="#org82920f3">1.3.6. Buses</a></li>
+</ul>
+</li>
+<li><a href="#org34a7381">1.4. The OS Zoo</a>
+<ul>
+<li><a href="#org807eac2">1.4.1. Mainframe OS</a></li>
+<li><a href="#org8eff701">1.4.2. Server OS</a></li>
+<li><a href="#orgc69b148">1.4.3. Personal Computer OS</a></li>
+<li><a href="#orgb3eb3b0">1.4.4. Smartphone and Handheld Computer OS</a></li>
+<li><a href="#org4492e72">1.4.5. The Internet of Things and Embedded OS</a></li>
+<li><a href="#orgd58b6be">1.4.6. Real-Time OS</a></li>
+<li><a href="#org3a7a6f5">1.4.7. Smart Card OS</a></li>
+</ul>
+</li>
+<li><a href="#org35d793b">1.5. OS Concepts</a>
+<ul>
+<li><a href="#org1e8304d">1.5.1. Processes</a></li>
+<li><a href="#orgc90ca33">1.5.2. Address Space</a></li>
+<li><a href="#orgd76e525">1.5.3. Files</a></li>
+</ul>
+</li>
+<li><a href="#org852d13a">1.6. System Calls</a>
+<ul>
+<li><a href="#org39e62ef">1.6.1. What are System Calls</a></li>
+<li><a href="#org51302e4">1.6.2. System Calls for Process Management</a></li>
+<li><a href="#org9a3ef65">1.6.3. System Calls for File Management</a></li>
+<li><a href="#org4a1fec3">1.6.4. System Calls for Directory Management</a></li>
+</ul>
+</li>
+<li><a href="#org7508be1">1.7. Operating System Structure</a>
+<ul>
+<li><a href="#org81a033f">1.7.1. Monolithic Systems</a></li>
+<li><a href="#org88f2052">1.7.2. Layered Systems</a></li>
+<li><a href="#orgd28b22d">1.7.3. Microkernels</a></li>
+<li><a href="#orgd681a26">1.7.4. Client-Server Model</a></li>
+<li><a href="#orgb6a16da">1.7.5. Virtual Machines</a></li>
+<li><a href="#orgf393ef4">1.7.6. Exokernels and Unikernels</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org0b19961">2. processes</a>
+<ul>
+<li><a href="#org8c19109">2.1. Process Model</a></li>
+<li><a href="#org4ef14fc">2.2. Threads</a>
+<ul>
+<li><a href="#orgf3b1258">2.2.1. What are Threads</a></li>
+<li><a href="#org1e996be">2.2.2. POSIX Threads</a></li>
+<li><a href="#org7ece629">2.2.3. Implementing Threads</a></li>
+<li><a href="#orgce68e81">2.2.4. Making Single-Threaded Code Multithreaded</a></li>
+</ul>
+</li>
+<li><a href="#org6dbc777">2.3. Event-Driven Servers</a></li>
+<li><a href="#org9a92337">2.4. Single-Threaded VS Multi-threaded VS Event-Driven Servers</a></li>
+<li><a href="#orgfe3aa53">2.5. Synchronization and Inter process Communication</a>
+<ul>
+<li><a href="#org6ba0752">2.5.1. Race Condition</a></li>
+<li><a href="#orgd1c3acd">2.5.2. Critical Regions</a></li>
+<li><a href="#orgb646c5b">2.5.3. Mutual Exclusion with Busy Waiting</a></li>
+<li><a href="#org8e32cf8">2.5.4. Mutual Exclusion Sleep and Wake up</a></li>
+<li><a href="#org0f861a8">2.5.5. Semaphores</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgf473159">3. Deadlock</a></li>
+<li><a href="#org407ab4e">4. Main Memory</a></li>
+<li><a href="#orgda389a7">5. Virtual Memory</a></li>
+<li><a href="#org43fa235">6. File Systems</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4c99540" class="outline-2">
+<h2 id="org4c99540"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org00466ad" class="outline-3">
+<h3 id="org00466ad"><span class="section-number-3">1.1.</span> What is an OS?</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-org908fb03" class="outline-4">
+<h4 id="org908fb03"><span class="section-number-4">1.1.1.</span> General Overview</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li>Smartphones and tablets (like the Apple iPad) are just computers in a smaller package with a touch screen. They all have operating systems. Android smartphones and tablets all run Linux as OS on the bare hardware. Android is simply a layer of software running on top of Linux.</li>
+<li>The program that users interact with, usually called <b>shell</b> when it is text based and the <b>GUI(Graphical User Interface)</b> when it uses icons, is actually not part of the operating system, although it uses OS to get its work done.</li>
+<li>Most computers have two modes of operation:
+<ol class="org-ol">
+<li><b>Kernel mode(supervisor mode)</b>- OS runs in this mode for at least some of its functionality. In this mode, it has complete access to all the hardware and can execute any instruction the machine is capable of executing.</li>
+<li><b>User mode</b>- The rest of software runs in user mode, in which only a subset of the machine instruction is available. In particular, those instructions that affect control of the machine, determine the security boundaries, or do <b>I/O</b> are forbidden to user-mode programs.</li>
+</ol></li>
+<li>The user interface program, shell or GUI, is the lowest level of user mode software, and allows the user to start other programs, such as web browser, or music player &#x2026; These programs make heavy use of the operating system.</li>
+<li>The placement of OS is above hardware. It runs on the bare hardware and provides the base for all the other software.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org35aab38" class="outline-4">
+<h4 id="org35aab38"><span class="section-number-4">1.1.2.</span> OS as an Extended Machine</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ul class="org-ul">
+<li>Operating systems contain many drivers for controlling I/O devices.</li>
+<li>The job of OS is to create good abstractions and then implement and manage the abstract objects thus created.</li>
+<li>One of the major tasks of OS is to hide the (complicated, difficult, awkward&#x2026;) hardware and present programs with nice, clean, elegant, consistent, abstractions to work with. OS turns the awful in to beautiful.</li>
+<li>OS's real customers are application programs.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge2ab53c" class="outline-4">
+<h4 id="orge2ab53c"><span class="section-number-4">1.1.3.</span> OS as Resource Manager</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<ul class="org-ul">
+<li>The concept of an OS as primarily providing abstractions to application programs is a top-down view. An alternative, bottom-up, view holds that the OS is there to manage all the pieces of the complex system.</li>
+<li>In the bottom-up view, the job of the OS is to provide for an orderly and controlled allocation of the processors, memories, and I/O devices among the various programs wanting them.</li>
+<li>Resource management includes <b>multiplexing(sharing)</b> resources in two different ways:
+<ol class="org-ol">
+<li><b>Time multiplexing-</b> When a resource is time multiplexed, different programs or users take turns using it. First one of them gets to use the resource, then the another, and so on. For example: with only one CPU and multiple programs that want to run on it, the OS first allocates the CPU to one program, then, after it has run long enough, another program gets to use the CPU, then another, and eventually the first one again. Determining who gets next and for how long is the task of OS. Another example of time multiplexing is sharing the printer.</li>
+<li><b>Space multiplexing</b>- In this resource sharing, each customer gets part of the resource, instead of taking turns. For example,  main memory is normally divided up among several running programs, each one can be resident at the same time(for example, in order to take turns using the CPU). Other resources that are space multiplexed are disks and Flash drives.</li>
+</ol></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb865957" class="outline-3">
+<h3 id="orgb865957"><span class="section-number-3">1.2.</span> History Of OS</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org1b59500" class="outline-4">
+<h4 id="org1b59500"><span class="section-number-4">1.2.1.</span> 1st Generation(1945-1955): Vacuum Tubes</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>OS have historically been closely tied to the architecture of the computers on which they run.</li>
+<li>All programming was done in an absolute machine language, or even worst yet, by wiring up electrical circuits by connecting thousands of cables to plugboards to control the machines basic functions.</li>
+<li>Programming language was unknown(even assembly language was unknown). OS was unheard of.</li>
+<li>The usual mode of operation was for the programmer to sign up for a block of time using the sign up sheet on the wall, then come down to the machine room, insert his/her plugboard into the computer, and spend the next few hours hoping that none of the 2,000 or so vacuum tubes would burn out during the run. Virtually all the problems were simple mathematical and numerical calculations, such as grinding out tables of sines, cosines, and logarithms, or computing artillery trajectories.</li>
+<li>By the early 1950, the routine had improved somewhat with the introduction punched cards. It was now possible to write programs on cards and read them instead of using plugboards.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgded45b7" class="outline-4">
+<h4 id="orgded45b7"><span class="section-number-4">1.2.2.</span> 2nd Generation(1955-1965): Transistors and Batch Systems</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>For the first time, there was a clear separation between designers, builders, operators, programmers, and maintenance personnel.</li>
+<li>To run a <b>job</b> (i.e., a program or set of programs), a programmer would first write the program on paper(in FORTRAN or assembler), then punch it on cards. The programmer would then bring the card deck down to the input room, hand it to one of the operators, and go drink coffee until the output was ready.</li>
+<li>When the computer finished whatever job it was currently running, an operator
+would go over to the printer and tear off the output and carry it over to the output
+room, so that the programmer could collect it later. Then the operator would take one of the card decks that had been brought from the input room and read it in. If the FORTRAN compiler was needed, the operator would have to get it from a file cabinet and read it in. Much computer time was wasted while operators were walking around the machine room.</li>
+<li>The solution generally adopted was the <b>batch system</b>. The idea behind it was to collect a tray full of jobs in the input room and then read them onto a magnetic tape using a (inexpensive) small computers like IBM 1401, which was good at reading cards, copying tapes, and printing output, but not quite good at numerical calculations. Other, much more expensive machines, such as IBM 7094, were used for real computing.</li>
+<li>After about an hour of collecting a batch of jobs, the cards were read onto a magnetic tape, which was carried into the machine room.</li>
+
+<li>Batch operating system group's jobs that perform similar types of functions. These groups are called as batch and are executed at the same time. In early 1950's batch operating system got into action at that time computer was not that developed, they had less processing power and a very minimal memory. So, at that time only one job would get executed at a time. We had to wait until the job gets executed to run the next job. We are saying execution of a job not execution of a program. So what is a job?
+<ul class="org-ul">
+<li>The operating system/computer at that time was not interactive. What do we mean by interactive? Let's see with an ATM. If you go to an ATM, the ATM machine will interact with you by first asking your PIN. After you enter the PIN, it will ask you for amount and other services. Basically it will take information, do the processing, ask you next question or input and do processing on it. But the computers in early stages weren't interactive. They would require everything all at once.</li>
+<li>So as we need to input all information at once it was given input as a job. A job would basically consist of programs, input data, and control instructions. So, how would you give this job as input to the operating system? The input device at that time used was punch card readers and punch cards were storage device. Punch cards were stiff papers which could store digital data represented by presence or absence of holes in predefined positions. Punch cards were punched by hand or machine.</li>
+<li>After preparing the job, users would give it the operator. Operator was a person who would operate the computer. He would collect the jobs from the user. There was no direct interaction of user and operating system or computer. The processing and memory power of the computer back then were not so good. It was tough to execute different types of jobs each time.</li>
+<li>Let's say we have three jobs. Two of them are same(job 1 and job 3) and one(job 2) is different. And you executed in job 1 &rarr; job 2 &rarr; job 3 sequence. The system would then reload all the resources for job 1, take input, do process and give an output. Then it will take the job 2. As the this job is different it has to deallocate the resources from previous job and allocate the resources for new job and the whole process will work. Then job 3 will be executed, again since it is difference from the previous job, deallocation of resources and allocation of resources for this job will be done.</li>
+<li>Due to less memory and processing power, execution time taken was to much and deallocation and allocation of resources for each new job would take much time. <b>Batch processing</b> was the solution for this problem. The similar kinds of job were combined in batches. Using this technique system would allocate resources for a particular type of jobs which are having similar requirement will execute one by one. This will save time for making system ready for different job each time.</li>
+<li>Then the operator would make collection of jobs having similar requirements in to batches and the batch was given input to the system where once the loading of resources was done. And batch was executed and the output was generated.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb5b019e" class="outline-4">
+<h4 id="orgb5b019e"><span class="section-number-4">1.2.3.</span> 3rd Generation (1965-1980): ICs and Multiprogramming</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>By the early 1960s, most computer manufactures had two distinct incompatible product lines. On the one hand, there were the word-oriented, large-scale scientific computers, such as 7094, which were used for industrial-strength numerical calculations in science and engineering. On the other hand, there were the character-oriented, commercial computers such as 1401, which were widely used for tape sorting and printing by banks and insurance companies.</li>
+<li>IBM attempted to solve both these problems at a single stroke by introducing the System/360.</li>
+<li>The IBM 360 was the first major computer line to use IC(Integrated Circuit), thus providing a major price/performance advantage over the second generation machines, which were built up from individual transistors.</li>
+<li>They popularized techniques absent on second generation OS. The most important of these was <b>multiprogramming</b>. On the 7094, when the current job paused to wait for a tape or other I/O operations to complete, the CPU simply sat idle until the I/O finished. With heavily CPU-bound scientific calculations, I/O is infrequent, so this wasted time is not significant. With commercial data processing, the I/O wait time can often be 80% or 90% of the total time, so something has to be done to avoid having the(expensive) CPU be idle so much. The solution that evolved was to partition memory into several  pieces, with a different job in each partition. While one job was waiting for I/O to complete, another job could be using the CPU. If enough jobs could be held in main memory at once, the CPU could be kept busy nearly 100% of the time. Having multiple jobs safely in memory at once requires special hardware to protect each job against snooping and mischief by other ones, but the 360 and other third-generation systems were equipped with this hardware.</li>
+<li>Another major feature present in third-generation OS was the ability to read jobs from cards onto the disk as soon they were brought to the computer room. Then, whenever a running job finished, the operating system could load a new job from the disk into the now-empty partition and run it. This ability is called <b>spooling</b> (from <b>Simultaneous peripheral Operation on Line</b>) and was also used for output. With spooling, the 1401s were no longer needed, and much carrying of tapes disappeared.</li>
+<li>Third generation computers were basically batch systems.</li>
+<li>Another major development during the third generation was the phenomenal growth of minicomputers, starting with DEC PDP-1 in 1961. The PDP-1 had only 4K of 18-bit words, but at $120,000 per machine( less than 5% of the price of 7094). It was quickly followed by a series of other PDPs culminating(culminate- reach climactic stage) in the PDP-11.</li>
+<li>One of the computer scientists at Bell Labs who had worked on the MULTICS project, Ken Thompson, subsequently found a small PDP-7 minicomputer that no one was using and set out to write a stripped-down, one-user version of MULTICS. This work later developed into the <b>UNIX</b> operating system.</li>
+<li>Because the source code of UNIX was widely available, various organizations developed their own(incompatible versions), which lead to chaos. Two major versions developed, <b>System V</b>, from AT&amp;T, and <b>BSD(Berkeley Software Distribution)</b> from the university of California at Berkeley. To make it possible to write program that could run on any UNIX system, IEEE developed a standard for UNIX, called <b>POSIX(Portable Operating System Interface)</b>, that most versions of UNIX now support. POSIX defines a minimal system-call interface that conformant(conformant- conforming to a particular specification or standard) UNIX system must support.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org77b49f6" class="outline-4">
+<h4 id="org77b49f6"><span class="section-number-4">1.2.4.</span> 4the Generation(1980-present): Personal Computers</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ul class="org-ul">
+<li>With the development of <b>LSI(Large Scale Integration)</b> circuits &#x2013; chips containing thousands of transistors on a square centimeter of silicon &#x2013; the age of personal computer dawned. In terms of architecture, personal computers(initially called <b>minicomputers</b>) were not all that different from minicomputers of the PDP-11 class, but in terms of price they certainly was different.</li>
+<li>An interesting development that began during the mid-1980s was the development of network operating systems and distributed operating systems to manage a collection of computers.</li>
+<li>In a network operating system, the users are aware of the existence of multiple computers and can log in to remote machines and copy files from one machine to another. Each machine runs its own local operating system and has its own local user (or users). Such systems are not fundamentally different from single-processor operating systems. They obviously need a network interface and some low-level software to drive it, as well as programs to achieve remote login and remote file access, but these additions do not change the essential structure of the operating system.</li>
+<li>A distributed OS, in contrast, is one that appears to its users a traditional uniprocessor system, even though it is actually composed of multiple processors. The users should not be aware of where their programs are being run or where their files are located; that should all be handled automatically and efficiently by the operating  system.</li>
+<li>True distributed operating systems require more than just adding a little code to a uniprocessor operating system, because distributed and centralized systems differ in certain critical ways. Distributed systems, for example, often allow applications to run on several processors at the same time, thus requiring more complex processor scheduling algorithms in order to optimize the amount of parallelism. Moreover, communication delays within the network often mean that these (and other) algorithms must run with incomplete, outdated, or even incorrect information. This situation differs radically from that in a single-processor system in which the operating system has complete information about the system state.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org827426f" class="outline-4">
+<h4 id="org827426f"><span class="section-number-4">1.2.5.</span> 5th Generation(1990-present): Mobile Computers</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<ul class="org-ul">
+<li>The first real mobile phone was appeared in 1946 and weighted 40kilos. You could take it wherever you want as long as you had a car in which to carry it.</li>
+<li>The first true handheld phone appeared in the 1970s and, at roughly one kilo gram.</li>
+<li>While the idea of combining telephony and computing in a phone-like device has been around since the 1970s also, the first real smartphone did not appear until the mid-1990s when Nokia released the N9000, which literally combined two, mostly separate devices: a phone and a Personal Digital Assistant.</li>
+<li>After all, most smartphones in the first decade after their inception were running <b>Symbian OS.</b> It was the operating system of choice for popular brands like Samsung, Sony Ericsson, Motorola, and especially Nokia. However, other operating systems like RIM’s Blackberry OS(introduced for smartphone in 2002) and Apple's iOS(released for the first <b>iPhone</b> in 2007) started eating into Symbian's market share. Many expected that RIM would dominate the business market, while iOS would dominate on consumer devices. Symbian’s market share plummeted. In 2011, Nokia ditched Symbian and announced it would focus on Windows Phone as its primary platform.</li>
+<li>But it did not take very long for Android, a Linux-based operating system released by Google in 2008, to overtake all its rivals.</li>
+<li>For phone manufacturers, Android had the advantage that it was open source and available under a permissive license. As a result, they could tinker with it and adapt it to their own hardware with ease. Also, it has a huge community of developers writing apps, mostly in the familiar Java programming language.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orge62f974" class="outline-3">
+<h3 id="orge62f974"><span class="section-number-3">1.3.</span> Computer Hardware Review</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-org32ceaf6" class="outline-4">
+<h4 id="org32ceaf6"><span class="section-number-4">1.3.1.</span> General view</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>An operating system is intimately tied to the hardware of the computer it runs on. It extends the computer's instruction set and manages its resource.</li>
+<li>A simple personal computer can be abstracted to a model having CPU, memory, Video controller, Keyboard controller, USB controller, and Hard disk controller. These devices are connected by a system bus and communicate with one another over it.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org178dbdc" class="outline-4">
+<h4 id="org178dbdc"><span class="section-number-4">1.3.2.</span> Processor</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>It fetches instruction from memory and executes them. The basic cycle of every CPU is to fetch the first instruction from memory, decode it to determine its type and operands, executes it and then fetch, decode, and execute subsequent instructions. The cycle is repeated until the program finishes. In this way, programs are carried out.</li>
+<li>Each CPU has a specific set of instructions that it can execute. Thus an x86 processor can not execute ARM programs and an ARM(Advanced RISK Machine) processor can not execute x86 programs.</li>
+<li>Because accessing memory to get an instruction or data word takes much longer than executing an instruction, all CPUs contain <i>registers</i> inside to hold key variables and temporary results.</li>
+<li>Instruction sets often contains instructions to load a word from memory into a register, and store a word from a register into memory. Other instructions combine two operands from registers and/or memory, into a result, such as adding two words and storing the result in a register or memory.</li>
+<li>In addition to the general registers used to hold variables and temporary results, most computers have several special registers that are visible to programmer. One of these is the <b>program counter</b>, which contain the memory address of the next instruction to be fetched. After that instruction has been fetched, the program counter is updated to point to its successor.</li>
+<li>Another register is the <b>stack register</b>, which points to the top of the current stack in memory. The stack contains one frame for each procedure that has been entered but not yet exited. A procedure's stack frame holds those input parameters, local variables, and temporary variables that are not kept in registers.</li>
+<li>Another register is <b>PSW(Program Status Word)</b>. This register contains the condition code bits, which are set by comparison instructions, the CPU priority, the mode(user or kernel), and various other control bits. User programs may normally read the entire PSW but typically may write only some of its fields. The PSW plays an important role in system calls and I/O.</li>
+<li>The OS must be fully aware of all the registers. When time multiplexing the CPU, the operating system will often stop the running program to (re)start another one. Every time it stops a running program, the operating system must save all the registers so they can be restored when the program runs later.</li>
+<li>In fact, we distinguish between the <b>architecture</b> and the <b>micro-architecture</b>. The architecture consists of everything that is visible to the software such as the instructions and the registers. The micro-architecture comprises the implementation of the architecture. Here we find data and instruction caches, translation lookaside buffers, branch predictors, the pipelined datapath, and many other elements that should not normally be visible to the operating system or any other software.</li>
+<li>To improve performance, CPU designers have long abandoned the simple model of fetching, decoding, and executing one instruction at a time. Many modern CPUs have facilities for executing more than one instruction at the same time. For example, a CPU might have separate fetch, decode, and execute units, so that while it is executing instruction n, it could also be decoding instruction n + 1 and fetching instruction n + 2. Such an organization is called a <b>pipeline</b>.</li>
+<li>Most CPUs, except very simple ones used in embedded systems, have (at least) two modes, kernel mode, and user mode. Usually, a bit in PSW controls the mode. When running in kernel mode, the CPU can execute every instruction in its instruction set and use every feature of the hardware. On desktop, notebook, and server machines OS runs in kernel mode, giving it access to the complete hardware. On most embedded systems, a small piece runs in kernel mode, with the rest of the OS running in user mode.</li>
+<li>User programs always run in user mode, which permits only a subset of the instructions to be executed and a subset of the features to be accessed. Generally, all instructions involving I/O and memory protection are disallowed in user mode. Setting the PSW mode bit to enter kernel mode is also forbidden, of course.</li>
+<li>To obtain services from the OS, a user program must make a <b>system call</b>, which traps into the kernel and invokes the OS. The <i>trap</i> instruction (e.g., <i>syscall</i> on x86) switches from user mode to kernel mode and starts the operating system.</li>
+</ul>
+</div>
+<ol class="org-ol">
+<li><a id="org7225aa8"></a>Multithreaded and Multicore Chips<br />
+<div class="outline-text-5" id="text-1-3-2-1">
+<ul class="org-ul">
+<li>Moore's law states that the number of transistors on a chip doubles every 18 months. Moore's law has held for half a century already and is expected to hold for at least a few years more. After that, the number of atoms per transistor will become too small and quantum mechanics will start to play a big role, preventing further shrinkage of transistor sizes.</li>
+<li>The Intel Pentium 4 introduced a property called <b>multithreading</b> or <b>hyperthreading</b> (Intel's name for it), to the x86 processor, and several other CPU chips also have it&#x2013; including the SPARC, the power5, and some ARM processors. To a first approximation, what it does is allow the CPU to hold the state of two different threads and then switch back and forth on a nanosecond time scale.(A thread is a light-weight process, which in turn is, a running program). For example, if one of the processes needs to read a word from memory(which takes many clock cycles), a multithreaded CPU can just switch to another thread. Only one process at a time is running, but thread-switching time is reduced to the order of nanoseconds.</li>
+<li>Multithreading has implications for the OS because each thread appears to the OS as a separate CPU.</li>
+<li>Beyond multithreading, many CPU chips now have four, eight, or more complete processors or <b>cores</b> on them.</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgf78751e" class="outline-4">
+<h4 id="orgf78751e"><span class="section-number-4">1.3.3.</span> Memory</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>The second major component in any computer is memory. Ideally, memory should be extremely fast(faster than executing an instruction so that the CPU is not held up by memory), abundantly large, and dirty chip. No current technology satisfies all those goals, so a different approach is taken.</li>
+<li>The memory system is constructed as a hierarchy of layers. (see the figure by typing C-c C-x C-v)  <img src="./Memory-Hierarchy.jpeg" alt="Memory-Hierarchy.jpeg" />
+The top layers have higher speed, smaller capacity, and greater cost per bit than the lower ones, often by a factor of a billion or more.</li>
+<li>The top layers consists of the registers internal to the CPU. They are made of the same material as the CPU and are as fast as the CPU. Consequently, there is no delay in accessing them. The storage capacity available in them is on the order of 32 x 32 bits on a 32-bit CPU and 64 x 64 bits on 64-bit CPU. Less than 1KB in both cases. Programs must manage the registers(i.e., decide what to keep in them) themselves, in software.</li>
+<li>Next comes the cache memory, which is mostly controlled by the hardware. Main memory is divided up into <b>cache lines</b>, typically 64 bytes, with address 0 to 63 in cache line 0, 64 to 127 in cache line 1, and so on. The most heavily used cache lines are kept in a high-speed cache located inside or very close to CPU. When a programs needs to read a memory word, the cache hardware checks to see if the line needed is in the cache. If it is, called a <b>cache hit</b>, the request is satisfied from the cache and no memory request is sent over the bus to the main memory.</li>
+<li>Cache hits normally takes a few clock cycle. Cache misses have to go to memory, with a substantial time penalty of tens to hundreds of cycles. Cache memory is limited in size due to its high cost. Some machines have two or even three levels of cache, each one slower and bigger than the one before it.</li>
+<li>Caching plays a major role in many areas of computer science, not just caching lines of RAM.
+Uses of cache:
+<ul class="org-ul">
+<li>to avoid repeated lookups(like converting long path name into a disk address)</li>
+<li>resolving conversion of web URL to its IP address(not to happen every time)</li>
+</ul></li>
+<li>In any caching system, several questions come up fairly soon, including:
+<ol class="org-ol">
+<li>When to put a new item into the cache.</li>
+<li>Which cache line to put the new item in.</li>
+<li>Which item to remove from the cache when the slot is needed</li>
+<li>Where to put a newly evicted(evicted &#x2013; eject) item in the larger memory.</li>
+</ol></li>
+<li>Caches are such a good idea that modern CPUs have two or more of them. The first level or <b>L1 cache</b> is always inside the CPU and usually feeds decoded instructions into the CPU’s execution engine. Most chips have a second L1 cache for very heavily used data words. The L1 caches are typically 32 KB each. In addition, there is often a second cache, called the <b>L2 cache</b>, that holds several megabytes of recently used memory words. The difference between the <b>L1 and L2 caches lies in the timing</b>. Access to the L1 cache is done without any delay, whereas access to the L2 cache involves a delay of several clock cycles.</li>
+<li>On multicore chips, the designer have to decide where to put the caches. For example, a single <b>L2 cache</b> can be shared by all the cores or each core can have its own <b>L2 cache</b>. Each strategy has its pros and cons. For example, the shared L2 caches requires a more complicated cache controller but the per-core L2 caches makes keeping the caches consistent more difficult.</li>
+<li>Main memory comes next in the hierarchy(the above image). Main memory is usually called <b>RAM</b>.(old-timers some times call it <b>core memory</b>).</li>
+<li>All CPU requests that can not be satisfied out of the cache go to the main memory.</li>
+<li>In addition to main memory, many computers have different kind of nonvolatile random-access memory. Unlike RAM, nonvolatile memory does not lose its contents when the power is switched off. <b>ROM (Read Only Memory)</b> is programmed at the factory and cannot be changed afterward. On some computers, the bootstrap loader used to start the computer is contained in ROM. <b>EEPROM (Electrically Erasable PROM)</b> is also nonvolatile, but in contrast to ROM can be erased and rewritten. However, writing it takes orders of magnitude more time than writing RAM, so it is used in the same way ROM is, except that it is now possible to correct bugs in programs by rewriting them in the field.</li>
+<li>Bootstrapping code may also be stored in <b>Flash memory</b>, which is similarly non volatile, but in contrast to ROM can be erased and rewritten. The bootstrapping code is commonly referred to as <b>BIOS(Basic Input/Output System)</b>.</li>
+<li>Flash memory is also commonly used as the storage medium in portable electronic devices such as smartphones and in SSDs to serve as a faster alternative to hard disks. Flash memory is intermediate in speed between RAM and disk. Also, unlike disk memory, if it is erased too many times, it wears out. Firmware inside the device tries to mitigate this through load balancing.</li>
+<li>Yet another kind of memory is <b>CMOS</b>, which is volatile. Many computers use CMOS memory to hold the current time and date. The CMOS memory and the clock circuit that increment the time in it are powered by a small battery, so the time is correctly updated, even when the computer is unplugged. The CMOS memory can also hold the configuration parameters, such as which drive to boot from. CMOS is used because it draws so little power that the original factory-installed battery often lasts for several years. However, when it begins to fail, the computer can appear to be losing its marbles, forgetting things that it has known for years, like how to boot.</li>
+<li>Incidentally, many computers today support a scheme known as <b>virtual memory</b>. It makes it possible to run programs larger than physical memory by placing them on non volatile storage(SSD or disk) and using the main memory as a kind of cache for the most heavily executed parts.</li>
+<li>In multiprogramming switching from one program to another is sometimes called a <b>context switch</b>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5cddda7" class="outline-4">
+<h4 id="org5cddda7"><span class="section-number-4">1.3.4.</span> Nonvolatile Storage</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>Next in hierarchy are magnetic disks(hard disks), solid state drivers(SSDs), and persistent memory.</li>
+<li>A disk consists of one or more metal platters that rotate at 5400, 7200, 10,800, 15,000 RPM or more.</li>
+<li>Many people refer to SSDs as disks, even though they are physically not disks at all and don't have platters or moving arms. They store data in electronic(Flash) memory. The only way in which they resemble disks is in terms of hardware is that they also store a lot of data which is not lost when the power is off. But from the OS's point of view, they are somewhat like disks.</li>
+<li>The youngest and fastest member of the stable storage family is known as <b>persistent memory</b>. The best known example is Intel Optane which became available in 2016. In many ways, persistent memory can be seen as an additional layer between SSDs(or hard disks) and memory: it's both fast, only slightly slower than regular RAM, and it holds its content across power cycles. While it can be used to implement really fast SSDs, manufacturers may also attach it directly to the memory bus. In fact, it can be used like normal memory to store an application’s data structures, except that the data will still be there when the power goes off.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgcd21eae" class="outline-4">
+<h4 id="orgcd21eae"><span class="section-number-4">1.3.5.</span> I/O Devices</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<ul class="org-ul">
+<li>Besides disks there are many other I/O devices that interact heavily with the OS. I/O devices generally consist of two parts: a controller and a device itself. The controller is a chip( or a set of chips) that physically controls the device. It accepts commands from the operating system, for example, to read data from the device, and carries them out. In many cases, the actual control of the device is complicated and detailed, so it is the job of the controller to present a simpler(but still very complex) interface to the operating system.</li>
+<li>The other piece is the actual device itself. Devices have fairly simple interfaces, both because <b>they can not do much and to make them standard</b>. The later is needed so that any SATA disk controller can handle any SATA disk.</li>
+<li><b>SATA(Serial ATA, ATA stands for Advanced Technology Attachment)</b> is currently the standard type of hard disk on many computers. Since the actual device interface is hidden behind the controller, all that the operating system sees is the interface to the controller, which may be quite different from the interface from the device.</li>
+<li>Because each type of controller is different, different software is needed to control each one. The software that talks to the controller, giving it commands and accepting responses, is called a <b>device driver</b>. Each controller manufacturer has to supply a driver for each OS it supports.</li>
+<li>To be used, the driver has to be put in to the operating system so it can run in kernel mode. Drivers can actually run outside the kernel, and operating systems like Linux and Windows nowadays do offer some support for doing so, but the vast majority of the drivers still run below the kernel boundary.</li>
+<li>There are three ways the driver can be put into the kernel.
+<ol class="org-ol">
+<li>relink the kernel with the new driver and then reboot the system. Many older UNIX systems work this way</li>
+<li>make an entry in an OS file telling it that it needs the driver and then reboot the system. At boot time, the OS goes and finds the driver it needs and loads them. Older versions of Windows works this ways</li>
+<li>Enabling the OS to accept new drivers while running and install them on the fly without the need to reboot. Hot pluggable devices, such as USB and Thunderbolt devices are always need dynamically loaded drivers.</li>
+</ol></li>
+<li>Every controller has a small number of registers that are used to communicate with it. For example, a minimal disk controller might have registers for specifying the disk address, memory address, sector count, and direction (read or write). To activate the controller, the driver gets a command from the operating system, then translates it into the appropriate values to write into the device registers.</li>
+<li>On some computers, the device registers are mapped into the operating system's address space(the address it can use), so they can be read and written like ordinary memory words. On such computers, no special I/O instructions are required and user programs can be kept away from the hardware by not putting those memory addresses within their reach(e.g., by using base and limit registers)</li>
+<li>On other computers are put in a special I/O port space, which each register having a port address. On these machines, special <i>IN</i> and <i>OUT</i> instructions are available in kernel mode to allow drivers to read and write the registers. The former schema eliminates the need for special I/O instructions but uses up some of the address space. The latter uses no address space but requires special instructions. Both systems are widely uses.</li>
+<li>Input and output can be done in three different ways.
+<ol class="org-ol">
+<li>The simplest method, in which a user program issues a system call, which the kernel then translates into a procedure call to the appropriate driver. The driver then starts the I/O and sits in a tight loop continuously polling the device to see if it is done(usually there is some bit that indicates that the device is still busy). When the I/O has completed, the driver puts the data(if any) where they are needed and returns. The OS then returns control to the caller. This method is called <b>busy waiting</b> and has the disadvantage of tying up the CPU polling the device until it is finished.</li>
+<li>This is for the driver to start the device and ask it to give an interrupt when it is finished. At that point the driver returns. The OS then blocks the caller if need be and looks for other work to do. When the controller detects the end of the transfer, it generates an <b>interrupt</b> to signal completion.</li>
+<li>The third method for doing I/O makes use of special hardware: a <b>DMA(Direct Memory Access)</b> chip that can control the flow of bits between memory and some controller without constant CPU intervention.The CPU sets up the DMA chip, telling it how many bytes to transfer, the device and memory addresses involved, and the direction, and lets it go. When the DMA chip is done, it causes an interrupt, the interrupt gets then handled.</li>
+</ol></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org82920f3" class="outline-4">
+<h4 id="org82920f3"><span class="section-number-4">1.3.6.</span> Buses</h4>
+<div class="outline-text-4" id="text-1-3-6">
+<ul class="org-ul">
+<li>A system x86 has many buses(e.g., cache, memory, PCIe, PCI, USB, SATA and DMI), each with different transfer rate and function. The operating system must be aware of all of them for configuration and management.</li>
+<li>The main bus is the <b>PCIe(Peripheral Component Interconnect Express)</b> bus.</li>
+<li>The PCIe was invented by Intel as a successor of the older <b>PCI</b> bus, which in turn was a replacement for the original <b>ISA(Industry Standard Architecture)</b> bus.</li>
+<li>Capable of transferring tens of gigabits per second, PCIe is much faster than its predecessors. It is also very different in nature. Up to its creation in 2004, most buses were parallel and shared. A <b>shared bus architecture</b> means that multiple devices uses the same wires to transfer data. Thus, when multiple devices have data to send, you need an arbiter to determine who can use the bus. A <b>parallel bus architecture</b> as used in traditional PCI means that you send each word of data over multiple wires. For instance, in regular PCI bus, a single 32-bit number is sent over 32 parallel wires.
+In contrast this, PCIe uses a <b>serial bus architecture</b> and sends all bits in a message through a single connection, known as a <b>lame</b>, much like a network  packet.</li>
+<li></li>
+
+<li>The <b>USB(Universal Serial Bus)</b> was invented to attach all the slow I/O devices, such as the keyboard and mouse, to the computer.</li>
+<li>However, calling a modern USB4 device humming along at 40 Gbps ‘‘slow’’ may not come naturally for the generation that grew up with 8-Mbps ISA as the main bus in the first IBM PCs. USB uses a small connector with 4–11 wires (depending on the version), some of which supply electrical power to the USB devices or connect to ground. USB is a centralized bus in which a root device polls all the I/O devices every 1 msec to see if they have any traffic. USB 1.0 could handle an aggregate load of 12 Mbps, USB 2.0 increased the speed to 480 Mbps, USB 3.0 to 5 Gbps, USB 3.2 to 20 Gbps and USB 4 will double that. Any USB device can be connected to a computer and it will function immediately, without requiring a reboot, something pre-USB devices required, much to the consternation of a generation of frustrated users.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org34a7381" class="outline-3">
+<h3 id="org34a7381"><span class="section-number-3">1.4.</span> The OS Zoo</h3>
+<div class="outline-text-3" id="text-1-4">
+</div>
+<div id="outline-container-org807eac2" class="outline-4">
+<h4 id="org807eac2"><span class="section-number-4">1.4.1.</span> Mainframe OS</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>The OS for mainframes are heavily oriented toward processing many jobs at once, most of which need prodigious amount of I/O. They typically offer three kinds of services: <b>batch, transaction processing, and timesharing</b>.</li>
+<li>A batch system is one that processes routine jobs without any interactive user present. Claims processing in an insurance company or sales reporting for a chain of stores is typically done in batch mode.</li>
+<li>Transaction-processing systems handle large number of small requests, for example, check processing at a bank or airline reservations. Each unit of work is small, but the system must handle hundreds or thousands per second.</li>
+<li>Timesharing systems allow multiple remote users to run jobs on the computer at once, such as querying a big database. These functions are closely related; mainframe OS often perform all of them. An example mainframe operating system is Z/OS, the successor of OS/390, which in turn was a direct descendant of OS/360. However, mainframe operating systems are gradually being replaced by UNIX variants such as Linux.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8eff701" class="outline-4">
+<h4 id="org8eff701"><span class="section-number-4">1.4.2.</span> Server OS</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>One level down are the server OS. They run on servers, which are either very large personal computers, workstations, or even mainframes. They serve multiple users at once over a network and allow the users to share hardware and software resources. Servers can provide print service, file service, database service, or Web service.</li>
+<li>Typical server operating systems are Linux, FreeBSD, Solaris, and the Windows Server family.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc69b148" class="outline-4">
+<h4 id="orgc69b148"><span class="section-number-4">1.4.3.</span> Personal Computer OS</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<ul class="org-ul">
+<li>The next category is the personal computer operating system. Modern ones all support multiprogramming, often with dozens of programs started up at boot time, and multiprocessor architecture. Their job is to provide good support to a single user. They are widely used for word processing, spreadsheets, games and Internet access. Common examples are Windows 11, macOS, Linux and FreeBSD.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb3eb3b0" class="outline-4">
+<h4 id="orgb3eb3b0"><span class="section-number-4">1.4.4.</span> Smartphone and Handheld Computer OS</h4>
+<div class="outline-text-4" id="text-1-4-4">
+<ul class="org-ul">
+<li>Continuing on down to smaller and smaller systems, we come to tablets(like Apple's iPad), smartphones and other handheld computers. A handheld computer, originally known as a <b>PDA (Personal Digital Assistant)</b>, is a small computer that can be held in your hand during operation. Smartphones and tablets are the best known examples. As we have already seen, this market is currently dominated by Google’s Android and Apple’s iOS. Most of these devices boast multicore CPUs, GPS, cameras and other sensors, copious amounts of memory, and sophisticated operating systems. Moreover, all of them have more third-party applications (apps) than you can shake a (USB) stick at. Google has over 3 million Android apps in the Play Store and Apple has over 2 million in the App Store.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4492e72" class="outline-4">
+<h4 id="org4492e72"><span class="section-number-4">1.4.5.</span> The Internet of Things and Embedded OS</h4>
+<div class="outline-text-4" id="text-1-4-5">
+<ul class="org-ul">
+<li>The <b>IOT(Internet of Things)</b> comprises all the billions of physical objects with sensors and actuators that are increasingly connected to the network, such as fridges, thermostats, security camera's motion sensor, and so on. All of these devices contain small computers and most of them run small operating system.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd58b6be" class="outline-4">
+<h4 id="orgd58b6be"><span class="section-number-4">1.4.6.</span> Real-Time OS</h4>
+<div class="outline-text-4" id="text-1-4-6">
+<ul class="org-ul">
+<li>Real-time systems are characterized as having time as a key parameter. For example, in industrial process-control systems, real-time computers have to collect data about the production process and use it to control machines in the factory. Often there are hard deadlines that must be met. For example, if a car is moving down an assembly line, certain actions must take place at certain instants of time. If, for example, a welding robot welds too early or too late, the car will be ruined. If the action absolutely must occur at a certain moment (or within a certain range), we have a <b>hard real-time system</b>. Many of these are found in industrial process control, avionics, military, and similar application areas. These systems must provide absolute guarantees that a certain action will occur by a certain time.</li>
+<li><b>A soft real-time system</b> is one where missing an occasional deadline, while not desirable, is acceptable and does not cause any permanent damage. Digital audio or multimedia systems fall in this category. Smartphones are also soft real-time systems.</li>
+<li>We should emphasize that the categories of IoT, embedded, real-time and even handheld systems overlap considerably. Many of them have at least some soft real-time aspects. The embedded and real-time systems run only software put in by the system designers; users cannot add their own software, which makes protection easier.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3a7a6f5" class="outline-4">
+<h4 id="org3a7a6f5"><span class="section-number-4">1.4.7.</span> Smart Card OS</h4>
+<div class="outline-text-4" id="text-1-4-7">
+<ul class="org-ul">
+<li>The smallest OS run on smart cards, which are credit-card-sized devices containing a CPU. They have very severe processing power and memory constraints. Some are powered by contacts in the reader into which they are inserted, while contactless smart cards are inductively powered (which greatly limits what they can do.) Some of them can handle only a single function, such as electronic payments, but others can handle multiple functions. Often these are proprietary systems.</li>
+<li>Some smart cards are Java oriented. This means that the ROM on the smart card holds an interpreter for the Java Virtual Machine(JVM). Java applets (small programs) are downloaded to the card and are interpreted by the JVM interpreter. Some of these cards can handle multiple Java applets at the same time, leading to multiprogramming and the need to schedule them. Resource management and protection also become an issue when two or more applets are present at the same time. These issues must be handled by the (usually extremely primitive) operating system present on the card.</li>
+<li>Many embedded systems have no protection hardware and run just a single program. That works because the system designers have total control over all the software.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org35d793b" class="outline-3">
+<h3 id="org35d793b"><span class="section-number-3">1.5.</span> OS Concepts</h3>
+<div class="outline-text-3" id="text-1-5">
+</div>
+<div id="outline-container-org1e8304d" class="outline-4">
+<h4 id="org1e8304d"><span class="section-number-4">1.5.1.</span> Processes</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<ul class="org-ul">
+<li>A process is basically a program in execution. Associated with each process is its <b>address space</b>, a list of memory locations from 0 to some maximum, which the process can read and write. The address space contains the executable program, the program's data, and its stack. Also associated with each process is a set of resources, commonly including registers(including the program counter and stack pointer), a list of open files, outstanding alarms, lists of related processes, and all the other information needed to run the program. A process is fundamentally a container that holds all the information needed to run a program.</li>
+<li>When a process is suspended temporarily(didn't finish executing), it must later be restarted in exactly the same state it had when it was stopped. This means that all information about the process must be explicitly saved somewhere during the suspension. In many OSs, all the information about each process, other than the contents of its own address space, is stored in an operating system table called the <b>process table</b>, which is an array of structures, one for each process currently in existence. Thus, a (suspended) process consists of its address space, usually called the <b>core image</b>, and its process table entry, which contains the contents of its registers and many other items needed to restart the process later.</li>
+<li>The key process-management system calls are those dealing with the creation and termination of processes. Consider a typical example. A process called the <b>command interpreter or (i.e., shell)</b> reads commands from a terminal. The user has just typed a command requesting that a program be compiled. The shell must now create a new process that will run the compiler. When that process has finished the compilation, it executes a system call to terminate itself.</li>
+<li>Related processes that are cooperating to get some job done often need to communicate with one another and synchronize their activities. This communication is called <b>interprocess communication</b></li>
+<li>Each person authorized to use a system is assigned a <b>UID(User Identification)</b> by the system administrator. Each process started has the UID of the person who started it. On UNIX, a child process has the same UID as its parent. Users can be members of groups, each of which has a <b>GID(Group Identification)</b>.</li>
+<li>One UID, called the <b>superuser</b> or <b>root</b> (in UNIX), or <b>Administrator</b> (in Windows), has a special power and may override many of the protection rules.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc90ca33" class="outline-4">
+<h4 id="orgc90ca33"><span class="section-number-4">1.5.2.</span> Address Space</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<ul class="org-ul">
+<li>More sophisticated OSs allows multiple programs to be in memory at the same time. To keep them from interfering with one another(and with the OS), some kind of protection mechanism is needed. While the hardware must provide this mechanism, it is the operating system that controls it.</li>
+<li>The above viewpoint is concerned with managing and protecting the main memory. A different, but equally important, memory-related issue is managing the address space of the processes. Normally, each process has some set of addresses it can use, typically running from 0 up to some maximum. In the simplest case, the maximum amount of address space a process has is less than the main memory. In this way, a process can fill up its address space and there will be enough room in main memory to hold it all.</li>
+<li>However, on many computers addresses are 32 or 64 bits, giving an address space of 2<sup>32</sup> or 2<sup>64</sup> bytes, respectively.</li>
+<li>What happens if a process has more address space than the computer has main memory and the process want to use it all? In the first computers, such a process was just out of luck. Nowadays, a technique called <b>virtual memory</b> exists, in which the OS keeps part of the address space in main memory and part on SSD or disk and shutles pieces back and forth between them as needed.</li>
+<li>In essence, the operating system creates the abstraction of an address space as the set of addresses a process may reference. The address space is decoupled from the machine’s physical memory and may be either larger or smaller than the physical memory. Management of address spaces and physical memory forms an important part of what an operating system does.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd76e525" class="outline-4">
+<h4 id="orgd76e525"><span class="section-number-4">1.5.3.</span> Files</h4>
+<div class="outline-text-4" id="text-1-5-3">
+<ul class="org-ul">
+<li>A major function of the OS is to hide the peculiarities of the SSDs, disks, and other I/O devices and present the programmer with a nice, clean abstract model of device independent files. System calls are obviously needed to create files, remove files, read files, and write files. Before a file can be read, it must be located on the storage device and opened, and after being read it should be closed, so calls are provided to do these things.</li>
+<li>To provide a place to keep files, most PC OSs have the concept of <b>directory</b>, sometimes called <b>folder</b> or <b>map</b>, as a way of grouping files together.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org852d13a" class="outline-3">
+<h3 id="org852d13a"><span class="section-number-3">1.6.</span> System Calls</h3>
+<div class="outline-text-3" id="text-1-6">
+</div>
+<div id="outline-container-org39e62ef" class="outline-4">
+<h4 id="org39e62ef"><span class="section-number-4">1.6.1.</span> What are System Calls</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<ul class="org-ul">
+<li>OS has two main functions: providing abstractions to user programs and managing computer's resource. Resource management is transparent to the users and are done automatically. Thus, the interface between user programs and the OS is primarily about dealing with the abstractions. To really understand what OS do, we must examine this interface closely.</li>
+<li>Since the actual mechanics of issuing a system call are highly machine dependent and often must be expressed in assembly code, a procedure library is provided to make it possible to make system calls from C programs and often from other languages as well.</li>
+<li>If a process is running a user program in user mode and needs a system service, such as reading data from file, it has to execute a <b>trap instruction</b> to transfer control to the operating system. The operating system then figures out what the calling process wants by inspecting the parameter. Then it carries out the system call and returns control to the instruction following the system call.</li>
+<li>The trap instruction is actually fairly similar to the procedure-call instruction in the sense that the instruction following it is taken from distant location and the return address is saved on the stack for use later.
+Nevertheless, the trap instruction also differs from the procedure-call instruction in two fundamental ways. First, as side effect, it switches into kernel mode. The procedure call instruction does not change the mode. Second, rather than giving a relative or absolute address where the procedure is located, the trap instruction can not jump to an arbitrary address. Depending on the architecture, either it jumps to a single fixed location or there is an 8-bit field in the instruction giving the index into a table in memory containing jump addresses, or equivalent.</li>
+<li>Making a system call is like making a special kind of procedure call &#x2013; only system calls enter the kernel mode and procedure calls do not.</li>
+<li>Programs should always check the results of a system call to see if an error occurred.</li>
+<li>System calls are performed in a series of steps. To make this concept clearer, let us examine the <i>read</i> system call from UNIX. To make the <i>read</i> system call, the calling program first prepares the parameters, for instance by storing them in a set of registers that by convention are used for parameters. For instance, on x86-64 CPUs, Linux, FreeBSD, Solaris and macOS use the System V AMD64 ABI <b>calling convention</b>, which means that the first six parameters are passed in registers RDI, RSI, RDX, RCX, R8, and R9. If there are more than six arguments, the remainder will be pushed onto the stack.</li>
+<li><p>
+POSIX has about 100 procedure calls. Some of the most important ones, grouped for convenience in four categories as follow:
+</p>
+
+<p>
+<b>Process Management</b>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">call</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">pid = fork()</td>
+<td class="org-left">creates a child process identical to the parent</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">pid=waitpid(pid,&amp;statloc,options)</td>
+<td class="org-left">wait for a child to terminate</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">s = execve(nave,argv,environp)</td>
+<td class="org-left">Replaces process' core image</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">exit(status)</td>
+<td class="org-left">Terminate process execution and return status</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<b>File Management</b>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">call</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">fd = open(file, how, &#x2026;)</td>
+<td class="org-left">Open a file for reading, writing or both</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">s = close(fd)</td>
+<td class="org-left">close an open file</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">n = read(fd, buffer, nbytes)</td>
+<td class="org-left">Read data from a file into a buffer</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">n = write(fd, buffer, nbytes)</td>
+<td class="org-left">Write data from a buffer into a file</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">position=lseek(fd, offset, whence)</td>
+<td class="org-left">Move the file pointer</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">s = stat(name, &amp;buf)</td>
+<td class="org-left">Get a file's status information</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<b>Directory and File management</b>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">call</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">s = mkdir(name, mode)</td>
+<td class="org-left">Create a new directory</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">s = rmdir(name)</td>
+<td class="org-left">Remove an empty directory</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">s = link(name1, name2)</td>
+<td class="org-left">Create new entry, name2, pointing to name1</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">s = unlink(name)</td>
+<td class="org-left">Remove a directory entry</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">s = mount(special,name, flag)</td>
+<td class="org-left">Mount a file system</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">s = umount(special)</td>
+<td class="org-left">Unmount a file system</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<b>Miscellaneous</b>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">call</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">s = chdir(dirname)</td>
+<td class="org-left">change the working directory</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">s = chmode(name, mode)</td>
+<td class="org-left">Change a file's protection bits</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">s = kill(pid, signal)</td>
+<td class="org-left">send a signal to a process</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">seconds = time(&amp;seconds)</td>
+<td class="org-left">Get the elapsed time since Jan. 1, 1970</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org51302e4" class="outline-4">
+<h4 id="org51302e4"><span class="section-number-4">1.6.2.</span> System Calls for Process Management</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<ul class="org-ul">
+<li><i>fork</i> is the only way to create a new process in POSIX. It creates an exact duplicate of the original process, including all the file descriptors, registers, &#x2013; everything. After the <i>fork</i>, the original process and the copy(parent and child) got their separate ways. All the variables have identical values at the time of the fork, but since the parent’s data are copied to create the child, subsequent changes in one of them do not affect the other one. In fact, the memory of the child may be shared <b>copy-on-write</b> with the parent. This means that parent and child share a single physical copy of the memory until one of the two modifies a value at a location in memory &#x2013; in which case the OS makes a copy of the small chunk of memory containing that location. Doing so minimizes the amount of memory that needs to be copied a priori, as much can remain shared. Moreover, part of the memory, for instance, the program text does not change at, so it can always be shared between parent and child. The <i>fork</i> call returns a value, which is zero in the child and equals to the child's <b>PID(Process IDentifier)</b> in parent. Using the returned PID, the two processes can see which one is the parent process and which one is the child process.</li>
+<li>In most cases, after <i>fork</i>, the child will need to execute different code from the parent.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9a3ef65" class="outline-4">
+<h4 id="org9a3ef65"><span class="section-number-4">1.6.3.</span> System Calls for File Management</h4>
+<div class="outline-text-4" id="text-1-6-3">
+<ul class="org-ul">
+<li>To read or write a file, it must first be opened. This call specifies the filename to be opened, either as an absolute path name or relative to the working directory, as well as the code for opening for reading, writing or both. The file can be closed by <i>close</i>, which makes the file descriptor available for reuse on a subsequent <i>open</i>.</li>
+<li>Associated with each file is a pointer that indicates the current position in the file. When reading(writing) sequentially, it normally points to the next byte to be read(written). The <i>lseek</i> call changes the value of the position pointer, so that subsequent calls to read or write can begin anywhere in the file.</li>
+<li>Lseek has three parameters: the first is the file descriptor for the file, the second is a file position, and the third tells whether the file position is relative to the beginning of the file, the current position, or the end of the file. The value returned by lseek is the absolute position in the file (in bytes) after changing the pointer.</li>
+<li>For each file, UNIX keeps track of the file mode(regular file, special file, directory, and so on), size, time of last modification, and other information. Programs can ask to see this information via the <i>stat</i> system call. The firs</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4a1fec3" class="outline-4">
+<h4 id="org4a1fec3"><span class="section-number-4">1.6.4.</span> System Calls for Directory Management</h4>
+<div class="outline-text-4" id="text-1-6-4">
+<ul class="org-ul">
+<li>The first two calls, <i>mkdir</i> and <i>rmdir</i> create and remove directories. The next call is <i>link</i>. Its purpose is to allow the same file to appear under two or more names, often in different directories. A typical use is to allow several members of the same programming team to share a common file, with each of them having the file appear in his own directory, possibly under different names. Having a shared file means that changes that any member of the team makes are instantly visible to other members &#x2013; there is only one file.</li>
+<li>Every file in UNIX has a unique number, its <b>i-number</b>, that identifies it. This i-number is an index into a table of <b>i-nodes</b>, one per file, telling who owns the file, where its disk block are, and so on. A directory is simply a file containing a set of(i-number, ASCII name) pairs.</li>
+<li>The <i>mount</i> call makes it possible to integrate removable media into a single integrated file hierarchy, without having to worry about which device a file is on.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org7508be1" class="outline-3">
+<h3 id="org7508be1"><span class="section-number-3">1.7.</span> Operating System Structure</h3>
+<div class="outline-text-3" id="text-1-7">
+</div>
+<div id="outline-container-org81a033f" class="outline-4">
+<h4 id="org81a033f"><span class="section-number-4">1.7.1.</span> Monolithic Systems</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<ul class="org-ul">
+<li>By far the most common organization, the monolithic approach is to run the entire operating system as a single program in kernel mode. The OS is written as a collection of procedures, linked together into a single large executable binary program.</li>
+<li>When this technique is used, each procedure in the system is free to call any other one, if the later provides some useful computation that the former needs.</li>
+<li>Being able to call any procedure you want is very efficient, but having thousands of procedures that can call each other without restriction may also lead to a system that is unwieldy and difficult to understand. Also, a crash in any of these procedures will take down the entire operating system.</li>
+<li>To construct the actual object program of the OS when this approach is used, one must first compile all the individual procedures and then bind them all together into a single executable file using the system linker.</li>
+<li>In terms of information hiding, there is essentially <b>none</b> &#x2013; every procedure is to every other procedure.</li>
+<li>Even in monolithic systems, however, it is possible to have some structure. The services (system calls) provided by the operating system are requested by putting the parameters in a well-defined place (e.g., on the stack) and then executing a trap instruction. This instruction switches the machine from user mode to kernel mode and transfer control to the operating system.</li>
+<li>This organization suggests a basic structure for the operating system:
+<ol class="org-ol">
+<li>A main program that invokes the requested service procedure.</li>
+<li>A set of service procedures that carry out the system calls.</li>
+<li>A set of utility procedures that help the service procedures.</li>
+</ol></li>
+<li>In this model, for each system call there is one service procedure that takes cares of it and executes it. The utility procedures do things that are needed by several service procedures, such as fetching data from user programs.
+See below figure:
+<img src="./Monolithic-System.jpeg" alt="Monolithic-System.jpeg" /></li>
+<li>In addition to the core operating system that is loaded when the computer is booted, many operating systems support loadable extensions, such as I/O device drivers and file systems. These components are loaded in demand. In UNIX they are called <b>shared libraries</b>. In Windows they are called <b>DLLs(Dynamic Link Libraries)</b>. They have file extension <i>.dll</i></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org88f2052" class="outline-4">
+<h4 id="org88f2052"><span class="section-number-4">1.7.2.</span> Layered Systems</h4>
+</div>
+<div id="outline-container-orgd28b22d" class="outline-4">
+<h4 id="orgd28b22d"><span class="section-number-4">1.7.3.</span> Microkernels</h4>
+<div class="outline-text-4" id="text-1-7-3">
+<ul class="org-ul">
+<li>The basic idea behind the microkernel design is to achieve high reliability by splitting the operating system up into small, well-defined modules, only one of which &#x2013;the microkernel&#x2013; runs in kernel mode and the rest run as relatively powerless ordinary user processes.</li>
+<li>In particular, by running each device driver and file system as a separate user process, a bug in one of these can crash that component, but cannot crash the entire system. Thus, a bug in the audio driver will cause the sound to be garbled or stop, but will not crash the computer. In contrast, in a monolithic system with all the drivers in the kernel, a buggy audio driver can easily reference an invalid memory address and bring the system to a grinding halt instantly.</li>
+<li>Many microkernels have been implemented and deployed for decades.</li>
+<li>With the exception of macOS, which is based on the Mach microkernel, common desktop operating system do not use microkernels. However, they are dominant in real-time, industrial, avionics, and military applications that are mission critical and have very high reliability requirements. A few of the better-known microkernels include Integrity, K42, L4, PikeOS, QNX, Symbian, and MINIX 3.</li>
+<li>MINIX3 has taken the idea of modularity to the limit, breaking most of the operating system up into an number of independent user-mode processes. MINIX 3 is a POSIX conformant, open source OS.</li>
+<li>Intel adopted MINIX 3 for its management engine in virtually all its CPU.
+<b>OVERVIEW OF MINIX 3</b></li>
+<li>The MINIX 3 microkernel is only about 15,000 lines of C and some 1,400 lines of assembler for every low-level functions such as catching interrupt and switching process.
+The C code manages and schedules processes, handles interprocess communication (by passing messages between processes), and offers a set of about 40 kernel calls to allow the rest of the operating system to do its work. These calls perform functions like hooking handlers to interrupts, moving data between address spaces, and installing memory maps for new processes.(see MINIX 3 textbook by the creator for more)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd681a26" class="outline-4">
+<h4 id="orgd681a26"><span class="section-number-4">1.7.4.</span> Client-Server Model</h4>
+<div class="outline-text-4" id="text-1-7-4">
+<ul class="org-ul">
+<li>A slight variation of the microkernel idea is to distinguish two classes of processes, the <b>servers</b>, each of which provides some services, and the <b>client</b>, which use these services. The essence is the presence of client processes and server processes.</li>
+<li>Communication between clients and servers is often by message passing. To obtain a service, a client process constructs a message saying what it wants and sends it to the appropriate service. The service then does the work and sends back the answer. If the client and server happen to run on the same machine, certain optimizations are possible, but conceptually, we are still talking about message passing here.</li>
+<li>Since clients communicate with servers by sending messages, the client need not know whether the messages are handled locally on their own machines, or whether they are sent across a network to servers on remote machine. As far as the client is concerned, the same thing happens in both cases: request are sent and replies come back. Thus, the client-server model is an abstraction that can be used for a single machine or a network of machines.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb6a16da" class="outline-4">
+<h4 id="orgb6a16da"><span class="section-number-4">1.7.5.</span> Virtual Machines</h4>
+<div class="outline-text-4" id="text-1-7-5">
+<ul class="org-ul">
+<li>Many companies have traditionally run their mail servers, Web servers, FTP servers, and other servers on separate computers, sometimes with different operating systems. They see virtualization as a way to run them all on the same machine without having a crash of one server bring down the rest</li>
+<li>Virtualization is also popular in the web hosting world.</li>
+<li>Another use of virtualization is for end users who want to be able to run two or more operating systems at the same time.</li>
+<li><b>Hypervisor</b>, also known as <b>Virtual Machine Monitor(VMM)</b>, is a software layer that allows multiple operating systems to run concurrently on a single physical machine. There are two types of hypervisors:
+<ol class="org-ol">
+<li>Type 1 hypervisor: installed directly on the physical hardware. Often used in data centers and enterprise environments for server virtualization due to their performance and efficiency.
+e.g., VMware, ESXi, Microsoft Hyper-v, and xen</li>
+<li>Type 2 hypervisor: Installed on top of the conventional operating system(host OS). Typically used for personal use, development and testing environment where ease of use and flexibility are prioritized.
+e.g., VMware Workstation, Oracle VirtualBox</li>
+</ol></li>
+<li>In order to run virtual machine software on a computer, its CPU must be virtualizable.</li>
+<li><b>Containers</b>: beside full virtualization, we can also run multiple instances of an operating system on a single machine at the same time by having the operating system itself support different systems, or <b>containers</b>. Containers are provided by the host operating system like Windows or Linux and mostly run just the user mode portion of the operating system. Each container shares the host operating system kernel and typically the binaries and libraries in a read-only fashion. This way, a Linux host can support many Linux containers. Since a container does not contain a full operating system, it can be extremely lightweight.
+Of course there are downsides to containers also.
+<ol class="org-ol">
+<li>It is not possible to run a container with a completely different OS from that of the host</li>
+<li>There is no strict resource partitioning.</li>
+<li>Containers are process-level isolated. This means that a container that messes with the stability of the underlying kernel will also affect other containers.</li>
+</ol></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf393ef4" class="outline-4">
+<h4 id="orgf393ef4"><span class="section-number-4">1.7.6.</span> Exokernels and Unikernels</h4>
+<div class="outline-text-4" id="text-1-7-6">
+<ul class="org-ul">
+<li>Rather than cloning the actual machine, as done with virtual machines, another strategy is partitioning it, in other words, giving each other a subset of the resources. Thus, one virtual machine may get disk block 0 to 1023, the next one may get blocks of 1024 to 2047, and so on.</li>
+<li>At the bottom layer, running in kernel mode, is a program called the <b>exokernel</b>. Its job is to allocate resources to virtual machines and then check attempts to use them to make sure no machine is trying to use somebody else's resources. Each user-level virtual machine can run its own Operating system, except that each one is restricted to using only the resources it has asked for and been allocated.</li>
+<li>The advantage of the exokernel schema is that it saves a layer of mapping. In the other design, each virtual machine thinks it has its own disk or SSD, with block running from 0 to some maximum, so the virtual machine monitor must maintain tables to remap disk block addresses(and all other resources). With the exokernel the remapping is not needed. The exokernel need only keep track of which virtual machine has been assigned which resource. This method still has the advantage of separating the multiprogramming (in the exokernel) from the user operating system code (in user space), but with less overhead, since all the exokernel has to do is keep the virtual machines out of each other’s hair.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org0b19961" class="outline-2">
+<h2 id="org0b19961"><span class="section-number-2">2.</span> processes</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org8c19109" class="outline-3">
+<h3 id="org8c19109"><span class="section-number-3">2.1.</span> Process Model</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>A process is an activity that has program, input, output, and a state. A single  processor may be shared among several processes, with some scheduling algorithm being accustomed to determine when to stop work on one process and service a different one. In contrast, a program is something that may be stored on disk, not doing anything.</li>
+<li>If a program is running twice, it counts as two processes. The fact that two processes happen to be running the same program doesn't matter; they are distinct processes. The operating system may be able to share the code between them so only one copy is in memory, but that is a technical detail that doesn't change the conceptual situation of the two processes running.</li>
+<li>Four principal events causes processes to be created:
+<ol class="org-ol">
+<li>System initialization</li>
+<li>Execution of a process-creation system call by a running process</li>
+<li>A user requests a new process</li>
+<li>Initialization of a batch job</li>
+</ol></li>
+<li>When an OS is booted, typically numerous processes are created. Some of these processes are foreground processes, that is, processes that interact with (human) users and perform work for them. Others run in the background and are not associated with particular users, but instead have some specific function.</li>
+<li>Processes that stay in the background to handle some activity such as email, Web page, news, printing, and so on are called <b>daemons</b>. Large systems commonly have dozens of them. In UNIX, the <i>ps</i> program can be used to list the running processes.</li>
+<li>Often a running process will issue system calls to create one or more processes to help it do its job.</li>
+<li>In interactive systems, users can start program by typing a command or (double) clicking an icon. Taking either of these actions starts a new process and runs the selected program in it. In command-based UNIX systems running the <b>X Window System</b>, the new process takes over the window in which it was started. In Windows, when a process is started it does not have a window, but it can create one (or more) and most do. In both systems, users may have multiple windows open at once, each running some process.</li>
+<li>Technically a new process is created by having an existing process execute a process creation system call. This system call tells the operating system to create a new process and indicates, directly or indirectly, which program to run in it. The very first process is hard-crafted when the system is booted.</li>
+<li>In UNIX, there is only one system call to create a new process: <i>fork</i>. This call creates an exact clone of the calling process. After the <i>fork</i>, the two processes, the parent and the child, have the same memory image, the same environment Strings, and the same open files. That is all there is. Usually the child process then executes <i>execve</i> or a similar system call to change its memory image and run a new program. For example, when a user types a command, say, <i>sort</i>, to the shell, the shell forks off a child process and the child executes the <i>sort</i>. The reason for this two-step process is to allow the child to manipulate its file descriptors after the <i>fork</i> but before the <i>execve</i> in order to accomplish redirection of standard input, standard output, and standard error.</li>
+<li>In both UNIX and Windows systems, after a process is created, the parent and child have their own distinct address spaces. If either process changes a word in its address space, the change is not visible to the other process. In traditional UNIX, the child’s initial address space is a copy of the parent’s, but there are definitely two distinct address spaces involved; no writable memory is shared. Some UNIX implementations share the program text between the two since that cannot be modified. Alternatively, the child may share all of the parent’s memory, but in that case the memory is shared copy-on-write, which means that whenever either of the two wants to modify part of the memory, that chunk of memory is explicitly copied first to make sure the modification occurs in a private memory area. Again, no writable memory is shared. It is, however, possible for a newly created process to share some of its creator’s other resources, such as open files. In Windows, the parent’s and child’s address spaces are different from the start.</li>
+<li>After a process has been created, it starts running and does whatever its job is. Sooner or later the new process will terminate, usually due to one of the following:
+<ol class="org-ol">
+<li>Normal exit(voluntary)</li>
+<li>Error exit(voluntary)</li>
+<li>Fatal error(involuntary)</li>
+<li>Killed by another process(involuntary)</li>
+</ol></li>
+<li>Most processes terminate because they have done their work. When a compiler has compiled the program given to it, the compiler executes a system call to tell the operating system that it is finished. This call is <i>exit</i> in UNIX and <i>ExitProcess</i> in Windows. Screen-oriented programs also support voluntary termination. Word processor, Internet browsers, and similar programs always have an icon or menu item that the user can click to tell the process to remove any temporary files it has open and terminate.</li>
+<li>Note that unlike plants and animals that use sexual reproduction, a process has only one parent (but zero, one, two, or more children).</li>
+<li>In UNIX, a process and all of its children and further descendants together form a process group. When a user sends a signal from the keyboard (e.g., by pressing CTRL-C), the signal is delivered to all members of the process group currently associated with the keyboard (usually all active processes that were created in the current window). Individually, each process can catch the signal, ignore the signal, or take the default action, which is to be killed by the signal.</li>
+<li>A special process, called <i>init</i>, is present in the boot image. When it starts running, it reads a file telling how many terminals there are. Then it forks off a new process per terminal(A terminal is a text-based interface that allows users to interact with the computer). These processes wait for someone to log in. If a login is successful, the login process executes a shell(A shell is a command-line interpreter that reads user command and executes them) to accept commands. These commands may start up more processes, and so forth. Thus, all the processes in the whole system belong to a single tree, with <i>init</i> at the root.</li>
+<li>In contrast, Windows has no concept of process hierarchy. All processes are equal. The only hint of a process hierarchy is that when a process is created, the parent is given a special token (called a <b>handle</b>) that <i>it can</i> use to control the child. However, it is free to pass this token to some other process, thus invalidating the hierarchy. Processes in UNIX cannot disinherit their children.</li>
+<li>When a process blocks, it does so because logically it cannot continue, typically because it is waiting for input that is not yet available. It is also possible for a process that is conceptually ready and able to run to be stopped because the operating system has decided to allocate the CPU to another process for a while. These two conditions are completely different. In the first case, the suspension is inherent in the problem (you cannot process the user’s command line until it has been typed). In the second case, it is a technicality of the system (not enough CPUs to give each process its own private processor).</li>
+<li><b>Three states</b> of a process are:
+<ol class="org-ol">
+<li>Running(actually using the CPU at that instant)</li>
+<li>Ready(runnable; temporarily stopped to let another process run)</li>
+<li>Blocked(unable to run until some external event happens)</li>
+</ol></li>
+<li>Logically, the first two states are similar. In both cases the process is willing to run, only in the second one, there is temporarily no CPU available for it. The third state is fundamentally different from the first two in that the process can not run, even if the CPU is idle and has nothing else to do.</li>
+<li>Four transitions are possible among these three states.
+<ol class="org-ol">
+<li>Running &rarr; Blocked &#x2014; process blocks for input</li>
+<li>Running &rarr; Ready &#x2014; scheduler picks another process</li>
+<li>Ready &rarr; Running &#x2014; scheduler picks this process</li>
+<li>Blocked &rarr; Ready &#x2014; input becomes available</li>
+</ol></li>
+<li>Transition 2 and 3 are caused by the process scheduler, a part of OS, without the process even knowing about them. Transition 2 occurs when the scheduler decides that the running process has run long enough, and it is time to let another process have some CPU time. Transition 3 occurs when all the other processes have had their fair share and it is time for the first process to get the CPU to run again. Many algorithms have been devised to  try to balance the competing demands of efficiency for the system as a whole and fairness to individual processes.</li>
+<li>Transition 4 occurs when the external event for which a process was waiting (such as the arrival of some input) happens. If no other process is running at that instant, transition 3 will be triggered and the process will start running. Otherwise it may have to wait in ready state for a little while until the CPU is available and its turn comes.</li>
+<li>The lowest level of the operating system is the scheduler, with a variety of processes on top of it. All the interrupt handling and details of actually starting and stopping processes are hidden away in what is here called the scheduler.</li>
+<li><b>Implementation of Processes</b>
+<ul class="org-ul">
+<li>To implement the process model, the OS maintains a table(an array of structure), called the <b>Process Table or Process Control Block</b>, with one entry per process. This entry contains important information about the process' state, including its program counter, stack pointer, memory allocation, the status of its open files, its accounting and scheduling information, and everything else about the process that must saved when the process is switched from <i>running</i> to ready or <i>blocked</i> state so that it can be restarted later if it have never been stopped.
+Figure of process table entry:
+<img src="./Process-Table-Entry.png" alt="Process-Table-Entry.png" /></li>
+<li>A process may be interrupted thousands of times during its execution, but the key idea is that after each interrupt the interrupted process returns to precisely the same state it was in before the interrupt occurred.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4ef14fc" class="outline-3">
+<h3 id="org4ef14fc"><span class="section-number-3">2.2.</span> Threads</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-orgf3b1258" class="outline-4">
+<h4 id="orgf3b1258"><span class="section-number-4">2.2.1.</span> What are Threads</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<ul class="org-ul">
+<li>Why a process in side another process?
+<ol class="org-ol">
+<li>In many applications multiple activities are going on at once. By decomposing such an application into multiple sequential threads that run in quasi-parallel, the programming model becomes simpler.</li>
+<li>Mini-processes(threads) are lighter weight than processes, they are easier(i.e., faster) to create and destroy. In many systems creating a thread goes 10&rarr;100 times faster than creating a process. When the number of threads needed changes dynamically and rapidly, this property is useful to have.</li>
+<li>Performance. Threads yield no performance gain when all of them are CPU bound, but when there is substantial computing and also substantial I/O, having threads allow these activities to overlap, thus speeding up the application.</li>
+<li>Threads are useful on systems with multiple CPUs, where real parallelism is possible.</li>
+</ol></li>
+<li>The term <b>multithreading</b> can also be used to describe the situation of allowing multiple threads in the same process. Some CPUs have direct hardware support for multithreading and allow a thread switch to happen on a nanosecond time scale.</li>
+<li>All threads have exactly the same address space, which means that they also share the same global variables. Since every thread can access every memory address within the process’ address space, one thread can read, write, or even wipe out another thread’s stack. There is no protection between threads because:
+<ol class="org-ol">
+<li>It is impossible</li>
+<li>It should not be necessary</li>
+</ol></li>
+<li>Unlike different processes, which may be from different users and which may be mutually hostile to one another, a process is always owned by a single user, who has presumably created multiple threads so that they can cooperate, not fight with each other. In addition to sharing an address space, all the threads can share the same set of open files, child processes, signals, alarms, and so forth.</li>
+<li>If each thread had its own address space, open files, pending alarms, and so on, it would be a separate process. What we are trying to achieve with the thread concept is the ability for multiple threads of execution to share a set of resources so that they can work together closely to perform some task.</li>
+<li>It is important to realize that each thread has its own stack. Each thread's stack contains one frame for each procedure called but not yet returned from. This frame contains the procedure's local variables and the return address to use when the procedure call has finished. Each thread will generally call different procedures and thus have a different execution history. This is why each thread needs its own stack.</li>
+<li>When multithreading is present, processes usually start with a single thread present. This thread has the ability to create new threads by calling a library procedure such as <i>thread<sub>create</sub></i>. A parameter to <i>thread<sub>create</sub></i> specifies the name of the procedure for the new thread to run. It is not necessary(or even possible) to specify anything about the new thread's address space, since it automatically runs in the address space of the creating thread. Often, all threads are equal, on hierarchical relationship.</li>
+<li>With or without hierarchical relationship, the creating thread is usually returned a thread identifier that names then the new thread. When a thread has finished its work, it can exit by calling a library procedure, say <i>thread<sub>exit</sub></i>. It then vanishes and is no longer schedulable. In some thread systems, one thread can wait for a (specific) thread to exit by calling a procedure, for example, <i>thread<sub>join</sub></i>. This procedure blocks the calling thread until a (specified) thread has exited. In this regard, thread creation and termination is very much like process creation and termination.</li>
+<li>Another common thread call is <i>thread<sub>yield</sub></i>, which allows a thread to voluntarily give up the CPU to let another thread run. Such a call is important because there is no clock interrupt to actually enforce multiprogramming as there is with processes. Thus, it is important for threads to be polite and voluntarily surrender the CPU from time to time to give other threads a chance to run. Other calls allow one thread to wait for another thread to finish some work, for a thread to announce that it has finished some work, and so on.</li>
+<li><b>Issues raised by threads:</b>
+<ul class="org-ul">
+<li>Consider the effect of the UNIX <i>fork</i> system call. If the parent process has multiple threads, should the child also have them? If not, the process may not function properly, since all of them may be essential. However, if the child process gets as many threads as the parent, what happens if a thread in the parent was blocked on a read call, say, from the keyboard? Are two threads now blocked on the keyboard, one in the parent and one in the child? When a line is typed, do both threads get a copy of it? Only the parent? Only the child? The same problem exists with open network connections.</li>
+<li>Another class of problems is related to the fact that threads share many data structures. What happens if one thread closes a file while another one is still reading from it? Suppose one thread notices that there is too little memory and starts allocating more memory. Partway through, a thread switch occurs, and the new thread also notices that there is too little memory and also starts allocating more memory. Memory will probably be allocated twice.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1e996be" class="outline-4">
+<h4 id="org1e996be"><span class="section-number-4">2.2.2.</span> POSIX Threads</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<ul class="org-ul">
+<li>To make it possible to write portable threaded programs, IEEE has defined a standard for threads in IEEE standard 1003.1c. The threads package it defines is called <b>Pthreads</b>. Most UNIX systems support it. The standard defines over 60 function calls.</li>
+<li><p>
+Some Pthread function calls:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Thread Call</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">pthread<sub>create</sub></td>
+<td class="org-left">Create a new thread</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">pthread<sub>exit</sub></td>
+<td class="org-left">Terminate the calling thread</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">pthread<sub>join</sub></td>
+<td class="org-left">Wait for a specific thread to exit</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">pthread<sub>yield</sub></td>
+<td class="org-left">Release the CPU to let another thread run</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">pthread<sub>attr</sub><sub>init</sub></td>
+<td class="org-left">Create and initialize a thread's attribute structure</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">pthread<sub>attr</sub><sub>destroy</sub></td>
+<td class="org-left">Remove a thread's attribute structure</td>
+</tr>
+</tbody>
+</table></li>
+<li>All Pthreads threads have certain properties. Each one has an identifier, a set of registers (including the program counter), and a set of attributes, which are stored in an attribute structure. The attributes include the stack size, scheduling parameters, and other items needed to use the thread.</li>
+<li>A new thread is created using the pthread create call. The thread identifier of the newly created thread is returned as the function value. This call is intentionally very much like the fork system call (except with parameters), with the thread identifier playing the role of the PID, mostly for identifying threads referenced in other calls.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7ece629" class="outline-4">
+<h4 id="org7ece629"><span class="section-number-4">2.2.3.</span> Implementing Threads</h4>
+<div class="outline-text-4" id="text-2-2-3">
+</div>
+<ol class="org-ol">
+<li><a id="orgf2cf571"></a>Implementing Threads in User Space<br />
+<div class="outline-text-5" id="text-2-2-3-1">
+<ul class="org-ul">
+<li>There are two main places to implement threads: user space and the kernel. The choice is a bit controversial, and a hybrid implementation is also possible.</li>
+<li>User space thread implementation is to put the threads package entirely in user space. The kernel know nothing about them. The kernel is simply managing ordinary, single threaded process.</li>
+<li>One obvious advantage of implementing threads in user space is that user-level threads package can be implemented on an OS that doesn't support threads. With this approach, threads are implemented by a library.</li>
+<li>When threads are managed in user space, each process needs its own private <b>thread table</b> to keep track of the threads in that process. This table is analogous to the kernel’s process table, except that it keeps track only of the per-thread proper- ties, such as each thread’s program counter, stack pointer, registers, state, and so forth. The thread table is managed by the run-time system. When a thread is moved to the ready or blocked state, the information needed to restart it is stored in the thread table, exactly the same way as the kernel stores information about processes in the process table.</li>
+<li>When a thread does something that may cause it to become blocked locally, for example, waiting for another thread in its process to complete some work, it calls a run-time system procedure. This procedure checks to see if the thread must be put into blocked state. If so, it stores the thread’s registers (i.e., its own) in the thread table, looks in the table for a ready thread to run, and reloads the machine registers with the new thread’s saved values. As soon as the stack pointer and program counter have been switched, the new thread comes to life again automatically. If the machine happens to have an instruction to store all the registers and another one to load them all, the entire <b>thread switch</b> can be done in just a handful of instructions. Doing thread switching like this is at least an order of magnitude— maybe more—faster than trapping to the kernel and is a strong argument in favor of user-level threads packages.
+Figure of user and kernel thread implementation:
+<img src="./User-Kernel-Thread.png" alt="User-Kernel-Thread.png" /></li>
+<li>In addition, when a thread is finished running for the moment, for example, when it calls thread yield, the code of thread yield saves the thread’s information in the thread table and then calls the thread scheduler to pick another thread to run. The procedure that saves the thread’s state and the scheduler are just local procedures, so invoking them is much more efficient than making a kernel call. There is no need for a trap, a context switch, flushing of caches, and so on. This makes thread scheduling very fast.</li>
+<li>User-level threads also have other advantages. They allow each process to have its own customized scheduling algorithm. For some applications, for example, those with a garbage-collector thread, not having to worry about a thread being stopped at an inconvenient moment is a plus.</li>
+<li>Despite their better performance, user-level threads packages have some major problems.
+<ul class="org-ul">
+<li>The problem how blocking system call are implemented. Suppose that a thread reads from the keyboard before any keys have been hit. Letting the thread actually make the system call is unacceptable, since this will stop all the threads. One of the main goals of having threads in the first place was to allow each thread to use blocking calls, but to prevent one blocked thread from affecting the others. With blocking system calls, it is hard to see how this goal can be achieved readily.</li>
+<li>The problem of page faults. Computers can be set up in such a way that not all of the program is in main memory at once. If the program calls or jumps to an instruction that is not in memory, a page fault occurs and the operating system will go and get the missing instruction (and its neighbors) from disk. This is called a <b>page fault</b>. The process is blocked while the necessary is being located and read in. If a thread causes a page fault, the kernel, unaware of even the existence of threads, naturally blocks the entire process until the disk I/O is complete, even though other threads might be runnable.</li>
+<li>Another problem with user-level thread packages is that if a thread starts running, no other thread in that process will ever run unless the first thread voluntarily gives up the CPU. Within a single process, there are no clock interrupts, making it impossible to schedule processes in round-robin fashion (taking turns). Unless a thread exits the run-time system of its own free will, the scheduler will never run.</li>
+<li>One possible solution to the problem of threads running forever is to have the run-time system request a clock signal (interrupt) once a second to give it control, but this, too, is crude and messy to program. Periodic clock interrupts at a higher frequency are not always possible, and even if they are, the total overhead may be substantial. Furthermore, a thread might also need a clock interrupt, interfering with the run-time system’s use of the clock.</li>
+<li>Another, and really the most devastating, argument against user-level threads is that programmers typically want threads precisely in applications where threads block often, as, for example, in a multithreaded Web server. These threads are constantly making system calls. Once a trap has occurred to the kernel to carry out the system call, it is hardly any more work for the kernel to switch threads if the old one has blocked, and having the kernel do this eliminates the need for constantly making <i>select</i> system calls to see if <i>read</i> system calls are safe. For applications that are CPU bound and rarely block, what is the point of having threads at all? No one would seriously propose computing the first n prime numbers or playing chess using threads because there is nothing to be gained by doing it that way.</li>
+</ul></li>
+</ul>
+</div>
+</li>
+<li><a id="orgcd2900e"></a>Implementing Threads in the Kernel<br />
+<div class="outline-text-5" id="text-2-2-3-2">
+<ul class="org-ul">
+<li>The kernel knows and manage the threads. There is no need for a run-time system or thread table in each process. Instead, the kernel has a thread table that keeps track of all the threads in the system. When a thread wants to create a new thread or destroy an existing thread, it makes a kernel call, which then does the creation or destruction by updating the kernel thread table.</li>
+<li>The kernel’s thread table holds each thread’s registers, state, and other information. The information is the same as with user-level threads, but now kept in the kernel instead of in user space (inside the run-time system).</li>
+<li>All calls that might block a thread are implemented as system calls, at considerably greater cost than a call to a run-time system procedure. When a thread blocks, the kernel may choose to run either another thread from the same process (if one is ready) or a thread from a different process. With user-level threads, the run-time system keeps running threads from its own process until the kernel takes the CPU away from it (or there are no ready threads left to run).</li>
+<li>Due to the relatively greater cost of creating and destroying threads in the kernel, some systems take an environmentally correct approach and recycle their threads. When a thread is destroyed, it is marked as not runnable, but its kernel data structures are not otherwise affected. Later, when a new thread must be created, an old thread is reactivated, saving some overhead. Thread recycling is also possible for user-level threads, but since the thread-management overhead is much smaller, there is less incentive to do this.</li>
+<li>Kernel threads do not require any new, nonblocking system calls. In addition, if one thread in a process causes a page fault, the kernel can easily check to see if the process has any other runnable threads, and if so, run one of them while waiting for the required page to be brought in from the disk.</li>
+<li>Their main disadvantage is that the cost of a system call is substantial, so if thread operations (creation, termination, etc.) are common, much more overhead will be incurred.</li>
+<li>While kernel threads solve some problems, they do not solve all problems.
+<ul class="org-ul">
+<li>What happens when a multithreaded process forks. Does the new process have as many threads as the old one did, or does it have just one? In many cases, the best choice depends on what the process is planning to do next. If it is going to call <i>exec</i> to start a new program, probably one thread is the correct choice, but if it continues to execute, reproducing all the threads is probably best.</li>
+<li>Another issue with threads is signals. Remember that signals are sent to processes, not to threads, at least in the classical model. When a signal comes in, which thread should handle it? Possibly threads could register their interest in certain signals, so when a signal came in it would be given to the thread that said it wants it. On Linux, for instance, a signal may be handled by any thread and the lucky winner is selected by the operating system, but we can simply block the signal on all threads except one. If two or more threads register for the same signal, the operating system picks a thread (say, at random) and lets it handle the signal.</li>
+</ul></li>
+</ul>
+</div>
+</li>
+<li><a id="org93fe9b9"></a>Hybrid Thread Implementation<br />
+<div class="outline-text-5" id="text-2-2-3-3">
+<ul class="org-ul">
+<li>One way to combine the advantage of user-level threads and kernel level threads is to use kernel-level threads and then multiplex user-level threads onto some or all of them. When this approach is used, the programmer can determine how many kernel threads to use and how many user-level threads to multiplex on each one. This model gives the ultimate flexibility. With this approach the kernel is aware of <i>only</i> the kernel-level threads and thus schedule those. Some of these threads may have multiple user-level threads multiplexed on top of them. These user-level threads are created, destroyed, and scheduled just like user-level threads in a process that runs on an operating system without multithreading capability. In this model, each kernel-level thread has some set of user-level threads that take turns using it.</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgce68e81" class="outline-4">
+<h4 id="orgce68e81"><span class="section-number-4">2.2.4.</span> Making Single-Threaded Code Multithreaded</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<ul class="org-ul">
+<li>Many existing programs were written for single-threaded processes. Converting these to multithreading is much trickier than it may at first appear. Let's examine a few of pitfalls.</li>
+<li>As a start, the code of a thread normally consists of multiple procedures, just like a process. These may have local variables, global variables, and parameters. Local variables and parameters do not cause any trouble, but variables that are global to a thread but not global to the entire program are a problem. These are variables that are global in the sense that many procedures within the thread use them (as they might use any global variable), but other threads should logically leave them alone.</li>
+<li>As an example, consider the <i>errno</i> variable maintained by UNIX. When a process (or a thread) makes a system call that fails, the error code is put into <i>errno</i>. Suppose two threads thread 1 and thread 2 are running on a system. Thread 1 executes the system call <i>access</i> to find out if it has permission to access a certain file. The operating system returns the answer in the global variable <i>errno</i>. After control has returned to thread 1, but before it has a chance to read <i>errno</i>, the scheduler decides that thread 1 has had enough CPU time for the moment and switches to thread 2. Thread 2 executes an open call that fails, which causes <i>errno</i> to be overwritten and thread 1’s access code to be lost forever. When thread 1 starts up later, it will read the wrong value and behave incorrectly.
+Various solutions to this problem are possible. One is to prohibit global variables altogether. However worthy this ideal may be, it conflicts with much existing Software. Another is to assign each thread its own private global variables. In this way, each thread has its own private copy of errno and other global variables, so conflicts are avoided. In effect, this decision creates a new scoping level, variables visible to all the procedures of a thread (but not to other threads), in addition to the existing scoping levels of variables visible only to one procedure and variables visible everywhere in the program.</li>
+<li>Accessing the private global variables is a bit tricky, however, since most programming languages have a way of expressing local variables and global variables, but not intermediate forms. It is possible to allocate a chunk of memory for the globals and pass it to each procedure in the thread as an extra parameter. While hardly an elegant solution, it works. Alternatively, new library procedures can be introduced to create, set, and read these threadwide global variables. The first call might look like this:
+create<sub>global</sub>("bufptr");
+It allocates storage for a pointer called <i>bufptr</i> on the heap on in a special storage area and reserved for the calling thread. No matter where the storage is allocated, only the calling thread has access to the global variable. If another thread creates a global variable with the same name, it gets a different storage location that does not conflict with the existing one.</li>
+<li>Two calls are needed to access global variables: one for writing them and the other for reading them. For writing something like
+set<sub>global</sub>("bufptr", &amp;buf);
+will do. It stores the value of a pointer in the storage location previously created by the call to <i>create<sub>global</sub></i>. To read a global variable, the call may look like,
+bufptr = read<sub>global</sub>("bfptr");
+It returns the address stored in the global variable, so its data can be accessed.</li>
+<li>The next problem in turning a single-threaded program into a multithreaded one is that many library procedures are not reentrant.(reentrant &#x2014; that may be executed more than once at a time either by different threads, or because of recursion). That is, they were not designed to have a second call made to any given procedure while a previous call has not yet finished. For example, sending a message over the network may well be programmed to assemble the message in a fixed buffer within the library, then to trap to the kernel to send it. What happens if one thread has assembled its message in the buffer, then a clock interrupt forces a switch to a second thread that immediately overwrites the buffer with its own message?</li>
+<li>Similarly, memory-allocation procedures such as <i>malloc</i> in UNIX, maintain crucial tables about memory usage, for example, a linked list of available chunks of memory. While <i>malloc</i> is busy updating these lists, they may temporarily be in an inconsistent state, with pointers that point nowhere. If a thread switch happens to occur while the tables are inconsistent and a new call comes in from a different thread, an invalid pointer may be used, leading to a program crash. Fixing all these problems effectively means rewriting the entire library. Doing so is a nontrivial activity with a real possibility of introducing subtle errors.</li>
+<li>A different solution is to provide each procedure with a wrapper that sets a bit to mark the library as being in use. Any attempt for another thread to use a library procedure while a previous call has not yet completed is blocked. Although this approach can be made to work, it greatly eliminates potential parallelism.</li>
+<li>Next, consider signals. Some signals are logically thread specific; others are not. For example, if a thread calls <i>alarm</i>, it makes sense for the resulting signal to go to the thread that made the call. However, when threads are implemented entirely in user space, the kernel does not even know about threads and can hardly direct the signal to the right one. An additional complication occurs if a process may only have one alarm pending at a time and several threads call alarm independently.</li>
+<li>Other signals, such as keyboard interrupt, are not thread specific. Who should catch them? One designated thread? All the threads? Furthermore, what happens if one thread changes the signal handlers without telling other threads about it? And what happens if one thread wants to catch a particular signal (say, the user hitting CTRL-C), and another thread wants this signal to terminate the process? This situation can arise if one or more threads run standard library procedures and others are user-written. Clearly, these wishes are incompatible. In general, signals are difficult enough to manage even in a single-threaded environment. Going to a multithreaded environment does not make them any easier to handle.</li>
+<li>One last problem introduced by threads is stack management. In many systems, when a process’ stack overflows, the kernel just provides that process with more stack automatically. When a process has multiple threads, it must also have multiple stacks. If the kernel is not aware of all these stacks, it cannot grow them automatically upon stack fault. In fact, it may not even realize that a memory fault is related to the growth of some thread’s stack.</li>
+<li>These problems are certainly not insurmountable, but they do show that just introducing threads into an existing system without a fairly substantial system redesign is not going to work at all. The semantics of system calls may have to be redefined and libraries rewritten, at the very least. And all of these things must be done in such a way as to remain backward compatible with existing programs for the limiting case of a process with only one thread.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6dbc777" class="outline-3">
+<h3 id="org6dbc777"><span class="section-number-3">2.3.</span> Event-Driven Servers</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>Suppose that threads are not available or not desirable but the system designers find the performance loss due to single threading, unacceptable. If nonblocking versions of system calls, such as <i>read</i>, are available, a third approach is possible. When a request comes in, the one and only thread examines it. If it can be satisfied from the cache, fine, but if not, a non-blocking disk operation is started.</li>
+<li>The server records the state of the current request in a table and then goes and gets the next event. The next event may either be a request for new work or a reply from the disk about a previous operation. If it is new work, that work is started. If it is a reply from the disk, the relevant information is fetched from the table and the reply processed. With nonblocking disk I/O, a reply probably will have to take the form of a signal or interrupt.</li>
+<li>In this design, the state of the computation must be explicitly saved and restored in the table every time the server switches from working on one request to another. A design like this, in which each computation has a saved state, and there exists some set of events that can occur to change the state, is called a <b>finite-state machine.</b> This concept is widely used throughout computer science.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9a92337" class="outline-3">
+<h3 id="org9a92337"><span class="section-number-3">2.4.</span> Single-Threaded VS Multi-threaded VS Event-Driven Servers</h3>
+<div class="outline-text-3" id="text-2-4">
+<ul class="org-ul">
+<li>It is now clear that threads make it possible to retain the idea of sequential processes that make blocking calls(e.g., for disk I/O) and still achieve parallelism. Blocking system calls make programming easier, and parallelism improves performance. The single-threaded server retains the simplicity of blocking system calls but gives up performance.</li>
+<li>Event-driven programming, also achieves high performance through parallelism but uses non-blocking calls and interrupts to do so. It is considered harder to program.</li>
+</ul>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Model</th>
+<th scope="col" class="org-left">Characteristics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Threads</td>
+<td class="org-left">Parallelism, blocking system calls</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Single-threaded</td>
+<td class="org-left">No, parallelism, blocking system calls</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Finite-state Machine/Event-</td>
+<td class="org-left">Parallelism, nonblocking system calls</td>
+</tr>
+
+<tr>
+<td class="org-left">Driven</td>
+<td class="org-left">interrupts</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgfe3aa53" class="outline-3">
+<h3 id="orgfe3aa53"><span class="section-number-3">2.5.</span> Synchronization and Inter process Communication</h3>
+<div class="outline-text-3" id="text-2-5">
+<ul class="org-ul">
+<li>There are three issues in inter process communication:
+<ol class="org-ol">
+<li>How one process can pass information to another?</li>
+<li>How to make sure two or more processes or threads don't get into each other's way? For example, two threads in an airline reservation system each trying to grab the last seat on a plane for different customers.</li>
+<li>The third issues concerns with proper sequencing when dependencies are present: if thread <i>A</i> produces data and thread <i>B</i> prints them, <i>B</i> has to wait until <i>A</i> has produced some data before starting to print.</li>
+</ol></li>
+</ul>
+</div>
+<div id="outline-container-org6ba0752" class="outline-4">
+<h4 id="org6ba0752"><span class="section-number-4">2.5.1.</span> Race Condition</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<ul class="org-ul">
+<li>Situations where two or more processes are reading or writing some shared data and the final result depends on who runs precisely when, are called <b>race conditions.</b></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd1c3acd" class="outline-4">
+<h4 id="orgd1c3acd"><span class="section-number-4">2.5.2.</span> Critical Regions</h4>
+<div class="outline-text-4" id="text-2-5-2">
+<ul class="org-ul">
+<li>How do we avoid race conditions? The key to preventing trouble here and in many other situations involving shared memory, shared files, and shared everything else is to find some way to prohibit more than one process from reading and writing the shared data at the same time. Put in other words, what we need is <b>mutual exclusion</b>, that is, some way of making sure that if one process is using a shared variable or file, the other processes will be excluded from doing the same thing.</li>
+<li>Part of the program where the shared memory is accessed is called the <b>critical region</b> or <b>critical section.</b> If we could arrange matters such that no two processes were ever in their critical regions at the same time, we could avoid races.</li>
+<li>Although this requirement avoids race conditions, it is not sufficient for having parallel processes cooperate correctly and efficiently using shared data. We need four conditions to hold to have a good solution:
+<ol class="org-ol">
+<li>No two processes may be simultaneously inside their critical region.</li>
+<li>No assumptions may be made about speeds or the number of CPUs.</li>
+<li>No process running outside its critical region may block any process.</li>
+<li>No process should have to wait forever to enter its critical region.</li>
+</ol></li>
+<li>In a simple way a solution to the critical-section problem must satisfy the following three requirements:
+<ol class="org-ol">
+<li>Mutual Exclusion: If p<sub>i</sub> is executing in its critical section, then no other processes can be executing in their critical section.</li>
+<li>Progress: If no process is executing in its critical section and some processes wish to enter their critical sections, then only these processes that are not executing in their remainder section can participate in the decision on which will enter its critical section next, and the selection can not be postponed indefinitely.</li>
+<li>Bounded waiting: There exists a bound, or limit, on the number of times that processes are allowed to enter their critical sections after a process has made a request to enter its critical section and before that request is granted.</li>
+</ol></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb646c5b" class="outline-4">
+<h4 id="orgb646c5b"><span class="section-number-4">2.5.3.</span> Mutual Exclusion with Busy Waiting</h4>
+<div class="outline-text-4" id="text-2-5-3">
+</div>
+<ol class="org-ol">
+<li><a id="org42fdec2"></a>Disabling Interrupts<br />
+<div class="outline-text-5" id="text-2-5-3-1">
+<ul class="org-ul">
+<li>On a single-processor system, the simplest solution is to have each process disable all interrupts just after entering its critical region and re-enable them just before leaving it. With interrupts disabled, no clock interrupts can occur. The CPU is only switched from process to process as a result of clock interrupt or other interrupts, after all, and with interrupts turned off the CPU will not be switched to another process. Thus, once a process has disabled interrupts, it can examine and update the shared memory without fear that any other process will intervene and make a mess of things.</li>
+<li>This approach is unwise because it gives user processes the power to turn off interrupts. What if one of them did it, and never turned them on again? That could be the end of the system. Furthermore, if the system is a multiprocessor (with two or more CPUs), disabling interrupts affects only the CPU that executed the disable instruction. The other ones will continue running and can access the shared memory.</li>
+<li>On the other hand, it is frequently convenient for the kernel itself to disable interrupts for a few instructions while it is updating variables or especially critical lists. If an interrupt occurs while the list of ready processes, for example, is in an inconsistent state, race conditions could occur. The conclusion is: disabling interrupts is often a useful technique within the operating system itself but is not appropriate as a general mutual exclusion mechanism for user processes. The kernel should not disable interrupts for more than a few instructions lest it miss interrupts.</li>
+<li>The possibility of achieving mutual exclusion by disabling interrupts—even within the kernel—is becoming less every day due to the increasing number of multicore chips even in low-end PCs. Disabling the interrupts of one CPU does not prevent other CPUs from interfering with operations the first CPU is performing.</li>
+</ul>
+</div>
+</li>
+<li><a id="org58ca31a"></a>Lock Variables<br />
+<div class="outline-text-5" id="text-2-5-3-2">
+<ul class="org-ul">
+<li>This attempt is a software solution. Consider having a single, shared (lock) variable, initially 0. When a process wants to enter its critical region, it first tests the lock. If the lock is 0, the process sets it to 1 and enters the critical region. If the lock is already 1, the process just waits until it becomes 0. Thus, a 0 means that no process is in its critical region, and a 1 means that some process is in its critical region.</li>
+<li>Unfortunately this idea has a fatal flaw. Suppose that one process reads the lock and sees that it is 0. Before it can set the lock to 1, another process is scheduled, runs, and sets the lock to 1. When the first process runs again, it will also set the lock to 1, and two processes will be in their critical regions at the same time.</li>
+<li>Now you might think that we could get around this problem by first reading out the lock value, then checking it again just before storing into it, but that really does not help. The race now occurs if the second process modifies the lock just after the first process has finished its second check.</li>
+</ul>
+</div>
+</li>
+<li><a id="orgdfde75a"></a>Strict Alternation<br />
+<div class="outline-text-5" id="text-2-5-3-3">
+<ul class="org-ul">
+<li>This is the third approach to mutual exclusion problem.</li>
+<li>In this solution one process may be blocked by a process not in its critical region.</li>
+<li>This solution requires that two processes strictly alternate in entering their critical regions. While this algorithm does avoid all races, it is not really a serious candidate as a solution because it violates condition 3(No process running outside its critical region may block any process).</li>
+</ul>
+</div>
+</li>
+<li><a id="org3e21b61"></a>Peterson's solution<br />
+<div class="outline-text-5" id="text-2-5-3-4">
+<ul class="org-ul">
+<li>By combining the idea of taking turns with the idea of lock variables and warning variables, a Dutch mathematician, T. Dekker, was the first one to devise a software solution to the mutual exclusion problem that does not require strict alternation.</li>
+<li>In 1981, G. L. Peterson discovered a much simpler way to achieve mutual exclusion, thus rendering Dekker’s solution effectively obsolete.</li>
+<li>Before using the shared variables (i.e., before entering its critical region), each process calls <i>enter<sub>region</sub></i> with its own process number, 0 or 1, as parameter. This call will cause it to wait, if need be, until it is safe to enter. After it has finished with the shared variables, the process calls <i>leave<sub>region</sub></i> to indicate that it is done and to allow the other process to enter, if it so desires.</li>
+<li>Let us see how this solution works. Initially neither process is in its critical region. Now process 0 calls <i>enter<sub>region</sub></i>. It indicates its interest by setting its array element and sets <i>turn</i> to 0. Since process 1 is not interested, <i>enter<sub>region</sub></i> returns immediately. If process 1 now makes a call to <i>enter<sub>region</sub></i>, it will hang there until <i>interested[0]</i> goes to FALSE, an event that happens only when process 0 calls <i>leave<sub>region</sub></i> to exit the critical region.</li>
+<li>Now consider the case that both processes call enter region almost simultaneously. Both will store their process number in <i>turn</i>. Whichever store is done last is the one that counts; the first one is overwritten and lost. Suppose that process 1 stores last, so turn is 1. When both processes come to the while statement, process 0 executes it zero times and enters its critical region. Process 1 loops and does not enter its critical region until process 0 exits its critical region.</li>
+<li><b>Peterson's Solution</b>
+<ul class="org-ul">
+<li>A classical software-based solution to the critical-section problem.</li>
+<li>Because of how modern computer architecture are designed, Peterson's solution may not work on modern computer architectures. However, it provides a good algorithmic description of solving critical-section problem and illustrates some of the complexities involved in designing software that addresses the requirement of mutual exclusion, progress, and bounded waiting requirements.</li>
+<li>Peterson's solution is restricted to two processes that alternate execution between their critical section and remainder section. Peterson's solution requires two data items to be shared between the two processes:
+<ol class="org-ol">
+<li><i>int</i> turn: indicates whose turn it is to enter its critical section</li>
+<li><i>boolean</i> flag[2]: Used to indicate if a process is ready to enter its critical section</li>
+</ol></li>
+<li>Peterson Solutions fulfills the 3 requirements of critical section solutions(mutual exclusion, progress, and bounded waiting)</li>
+</ul></li>
+</ul>
+</div>
+</li>
+<li><a id="org0f99833"></a>The TSL Instruction(Test and Set Lock)<br />
+<div class="outline-text-5" id="text-2-5-3-5">
+<ul class="org-ul">
+<li>This is a hardware solution to the synchronization problem.</li>
+<li>Some computers, especially those designed with multiple processors in mind, have an instruction like:
+	<i>TSL, RX, LOCK</i>
+(Test and Set Lock) that works as follow. It reads the contents of the memory word <i>lock</i> into register RX and then stores a nonzero value at the memory address <i>lock</i>.  The operations of reading the word and storing into it are guaranteed to be indivisible—no other processor can access the memory word until the instruction is finished. The CPU executing the TSL instruction locks the memory bus to prohibit other CPUs from accessing memory until it is done.</li>
+<li>It is important to note that locking the memory bus is very different from disabling interrupts. Disabling interrupts then performing a read on a memory word followed by a write does not prevent a second processor on the bus from accessing the word between the read and the write. In fact, disabling interrupts on processor 1 has no effect at all on processor 2. The only way to keep processor 2 out of the memory until processor 1 is finished is to lock the bus, which requires a special hardware facility (basically, a bus line asserting that the bus is locked and not available to processors other than the one that locked it).</li>
+<li>To use the TSL instruction, we will use a shared variable, lock, to coordinate access to shared memory. When lock is 0, any process may set it to 1 using the TSL instruction and then read or write the shared memory. When it is done, the process sets lock back to 0 using an ordinary move instruction.</li>
+<li>One solution to the critical-region problem is now easy. Before entering its critical region, a process calls enter region, which does busy waiting until the lock is free; then it acquires the lock and returns. After leaving the critical region the process calls leave region, which stores a 0 in lock. As with all solutions based on critical regions, the processes must call enter region and leave region at the correct times for the method to work. If one process cheats, the mutual exclusion will fail. In other words, critical regions work only if the processes cooperate.</li>
+<li><b>TSL(Test and Set Lock)</b>
+<ul class="org-ul">
+<li>The main thing in  TSL is a <b>shared lock variable</b> which can take either of the two values, <b>0</b> or <b>1</b>. So if the shared lock variable has value 0 it means it is unlocked, and if 1 it means it is locked.</li>
+<li>Before entering into the critical section, a process inquires about the lock. It will see whether the lock value is set to 0 or 1, and that is the <b>testing</b> part.</li>
+<li>If it is locked, it keeps on waiting till it becomes free.</li>
+<li>If it is not locked, it takes the lock and executes the critical section.</li>
+<li>Definition of the TestAndSet() instruction:
+boolean TestAndSet(boolean *target){
+boolean rv = *target;
+*target = true;
+return rv;
+}</li>
+
+<li>In a Test and Set Lock instruction whatever is happening in a process, i.e, when the process checks for the lock and if the lock is available and when it acquires a lock and set the lock value to 1 and execute its critical section, all these tasks will happen as a single operation which can not be interrupted by anyone. This means <b>atomic operation</b>.(a single operation that won't be interrupted).</li>
+<li>While TSL satisfies mutual execution, it doesn't satisfy bounded-waiting.</li>
+</ul></li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org8e32cf8" class="outline-4">
+<h4 id="org8e32cf8"><span class="section-number-4">2.5.4.</span> Mutual Exclusion Sleep and Wake up</h4>
+<div class="outline-text-4" id="text-2-5-4">
+<ul class="org-ul">
+<li>Both Peterson’s solution and the solutions using TSL or XCHG are correct, but both have the defect of requiring busy waiting. In essence, what these solutions do is this: when a process wants to enter its critical region, it checks to see if the entry is allowed. If it is not, the process just sits in a tight loop burning the CPU while waiting until it is.</li>
+<li>Not only does this approach waste CPU time, but it can also have unexpected effects. Consider a computer with two processes, <i>H</i>, with high priority, and <i>L</i>, with low priority. The scheduling rules are such that <i>H</i> is run whenever it is in ready state. At a certain moment, with <i>L</i> in its critical region, <i>H</i> becomes ready to run(e.g., an I/O operation completes). <i>H</i> now begins busy waiting, but since <i>L</i> is never scheduled while <i>H</i> is running, <i>L</i> never gets the chance to leave its critical region, <i>H</i> loops forever. This situation is sometimes referred to as a variant of the <b>priority inversion problem</b>.</li>
+<li>Now let us look at some interprocess communication primitives that block instead of wasting CPU time when they are not allowed to enter their critical regions. One of the simplest is the pair <i>sleep</i> and <i>wakeup</i>. <i>Sleep</i> is a system call that causes the caller to block, that is, be suspended until another process wakes its up. The <i>wakeup</i> call has one parameter, the process to be awakened. Alternatively, both <i>sleep</i> and wakeup each have one parameter, a memory address used to match up sleeps with wakeups.</li>
+</ul>
+</div>
+<ol class="org-ol">
+<li><a id="org32a7590"></a>The producer-Consumer Problem<br />
+<div class="outline-text-5" id="text-2-5-4-1">
+<ul class="org-ul">
+<li>Also known as <b>bounded-buffer</b> problem.</li>
+<li>Two processes share a common, fixed-size buffer. One of them, the producer, puts information into the buffer, and the other one, the consumer, takes it out. (It is also possible to generalize the problem to have m producers and n consumers, but we will consider only the case of one producer and one consumer because this assumption simplifies the solutions.)</li>
+<li>Trouble arises when the producer wants to put a new item in the buffer, but it is already full. The solution is for the producer to go to sleep, to be awakened when the consumer has removed one or more items. Similarly, if the consumer wants to remove an item from the buffer and sees that the buffer is empty, it goes to sleep until the producer puts something in the buffer and wakes it up.</li>
+<li>This approach can also lead to race conditions.</li>
+<li>To keep track of the number of items in the buffer, we will need a variable, <i>count.</i> If the maximum number of items the buffer can hold is N, the producer’s code will first test to see if count is N. If it is, the producer will go to sleep; if it is not, the producer will add an item and increment <i>count.</i></li>
+<li>The consumer’s code is similar: first test count to see if it is 0. If it is, go to sleep; if it is nonzero, remove an item and decrement the counter. Each of the processes also tests to see if the other should be awakened, and if so, wakes it up.</li>
+<li>It can occur race condition because access to <i>count</i> is unconstrained. As a consequence, the following situation could possibly occur. The buffer is empty and the consumer has just read <i>count</i> to see if it is 0. At that instant, the scheduler decides to stop running the consumer temporarily and start running the producer. The producer inserts an item in the buffer, increments <i>count</i>, and notices that it is now 1. Reasoning that count was just 0, and thus the consumer must be sleeping, the producer calls wakeup to wake the consumer up.</li>
+<li>Unfortunately, the consumer is not yet logically asleep, so the wakeup signal is lost. When the consumer next runs, it will test the value of count it previously read, find it to be 0, and go to sleep. Sooner or later the producer will fill up the buffer and also go to sleep. Both will sleep forever.</li>
+<li>The essence of the problem here is that a wakeup sent to a process that is not (yet) sleeping is lost. If it were not lost, everything would work. A quick fix is to modify the rules to add a wakeup waiting bit to the picture. When a wakeup is sent to a process that is still awake, this bit is set. Later, when the process tries to go to sleep, if the wakeup waiting bit is on, it will be turned off, but the process will stay awake. The wakeup waiting bit is a piggy bank for storing wakeup signals. The consumer clears the wakeup waiting bit in every iteration of the loop.</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org0f861a8" class="outline-4">
+<h4 id="org0f861a8"><span class="section-number-4">2.5.5.</span> Semaphores</h4>
+<div class="outline-text-4" id="text-2-5-5">
+</div>
+<ol class="org-ol">
+<li><a id="org9e0b935"></a>What is Semaphores<br />
+<div class="outline-text-5" id="text-2-5-5-1">
+<ul class="org-ul">
+<li>Semaphore proposed by Edsger Dijkstra(in 1965), is a technique to manage concurrent processes by using a simple integer value, which is known as a semaphore.</li>
+<li>Semaphore is simply a variable which is non-negative and shared between threads. This variable is used to solve the critical section problem and to achieve process synchronization in the multiprocessing environment.</li>
+<li><p>
+A semaphore <b>S</b> is an integer variable that, apart from its initialization, is accessed only through two standard atomic operations: <b>wait()</b> and <b>signal()</b>.
+Terminology used to denote <b>wait()</b> and <b>signal()</b>:
+</p>
+<ul class="org-ul">
+<li>wait() &#x2013;&gt; P[From the Dutch word <b>proberen,</b> which means "<b>to test</b>"]</li>
+<li>signal() &#x2013;&gt; V[From the Dutch word <b>verhogen</b>, which means "<b>to increment</b>"]</li>
+</ul>
+
+<p>
+Definition of <b>wait()</b>:
+P(Semaphore S) {
+while(S &lt;= 0)
+; // no operation
+S&#x2013;;
+}
+</p>
+
+<p>
+Definition of <b>signal()</b>:
+V(Semaphore S){
+S++;
+}
+</p></li>
+<li>All the modifications to the integer value of the semaphore in the wait() and signal() operations must be executed indivisibly. That is, when one process modifies the semaphore value, no other process can simultaneously modify that same semaphore value.</li>
+<li><b>Types of semaphores</b>:
+<ol class="org-ol">
+<li>Binary Semaphore: The value of binary semaphore can range only between 0 and 1. On some systems, binary semaphores are known as <b>mutex locks</b>, as they are locks that provide mutual exclusion. If the value is 0, that means that the shared resource is being used by some other process and the currently requesting process has to wait. If in terms of critical section, if <b>S</b> has the value 0, that means that some process is already executing in its critical section and the requesting process has to wait. And if the value of the semaphore is 1, it means that it's free fro the currently requesting process to either enter its critical section or to use the shared resource. Remember that the initial value of <b>S</b> is 1.</li>
+
+<li>Counting Semaphore: Its value can range over an unrestricted domain. It is used to control access to the resource that has multiple instances.</li>
+</ol></li>
+<li>Disadvantage of Semaphores:
+<ul class="org-ul">
+<li>It requires <b>busy waiting</b>. Busy waiting means that while a process is in its critical section, any other process that tries to enter its critical section must loop continuously in the entry code. Thus, busy waiting wastes CPU cycles that some other processes might be able to use productively. This type of semaphore is also called a <b>spinlock</b> because the process <b>"spins"</b> while waiting for the lock.</li>
+<li>To overcome the need for busy waiting, we can modify the definition of <b>wait()</b> and <b>signal()</b> semaphore operations. When a process executes wait() operation and finds that the semaphore value is not positive, it must wait. However, rather than engaging in busy waiting, the process can block it self. The block operations places a process into a waiting queue associated with the semaphore, and the state of the process is switched to the waiting state. Then control is transferred to the CPU scheduler, which selects another process to execute.</li>
+<li>Though we can implement semaphore using waiting queue, it is still going to <b>deadlocks and starvation</b>. The implementation of a semaphore with a waiting queue may result in a situation where two or more processes are waiting indefinitely or an event that can be caused only by one of the waiting process. The event in question is the execution of a <b>signal()</b> operation. When such a state is reached, these processes are said to be <b>deadlocked</b>.</li>
+</ul></li>
+<li><b>Deadlock</b>: A set of process is deadlocked when every process in the set is waiting for the resource that is currently allocated to another process in the set. We can say there is a deadlock if the following all conditions are <b>TRUE</b>:
+<ol class="org-ol">
+<li>Mutual exclusion</li>
+<li>No preemption</li>
+<li>Hold and wait</li>
+<li>Circular wait</li>
+</ol></li>
+</ul>
+</div>
+</li>
+<li><a id="org4ad891a"></a>Producer-Consumer problem<br />
+<div class="outline-text-5" id="text-2-5-5-2">
+<ul class="org-ul">
+<li><p>
+Solution to the <b>Bounded Buffer(Producer-Consumer problem)</b> using semaphores:
+We will make use of three semaphores:
+</p>
+<ol class="org-ol">
+<li><span class="underline">m(mutex)</span>, a binary semaphore which is used to acquire and release the lock</li>
+<li><span class="underline">empty</span>, a counting semaphore whose initial value is the number of slots in the buffer, since, initially all slots are empty.</li>
+<li><span class="underline">full</span>, a counting semaphore whose initial value is 0.</li>
+</ol>
+<p>
+Definition of Producer:
+do{
+	wait(empty); # wait until empty&gt;0 and then decrement 'empty'
+	wait(mutext); # acquire lock
+</p>
+
+<p>
+signal(mutex); # release lock
+signal(full); # increment 'full'
+</p>
+
+<p>
+} while(TRUE);
+</p>
+
+<p>
+Definition of Consumer:
+do{
+	wait(full); # wait until full&gt;0 and then decrement
+	wait(mutex); # acquire lock
+	signal(mutex); # release lock
+	signal(empty); increment 'empty'
+</p>
+
+<p>
+}
+</p>
+<ul class="org-ul">
+<li></li>
+</ul></li>
+</ul>
+</div>
+</li>
+<li><a id="org373ca70"></a>Readers And Writer program<br />
+<div class="outline-text-5" id="text-2-5-5-3">
+<ul class="org-ul">
+<li>The producers-consumers problem is useful for modeling two processes (or threads) that exchange blocks of data while sharing a buffer. Another famous problem is <b>readers and writers problem</b>, which models access to a database. Imagine, for example, an airline reservation system, with many competing processes wishing to read and write it. It is acceptable to have multiple processes reading the database at the same time, but if one process is updating (writing) the database, no other processes may have access to the database, not even readers. The question is how do you program the readers and the writers?</li>
+<li>In this problem a database is to be shared among several concurrent processes. Some of these processes may want <b>only to read the database</b>, whereas others may want to <b>update(that is, to read and write) the database</b>. We distinguish between these two types of processes by referring the former as <b>readers</b> and the latter as <b>writers</b>. Obviously, if two readers access the shared data simultaneously, no adverse affects will result. However, if a writer and some other thread(either a reader or a writer) access the database simultaneously, chaos may ensue.</li>
+<li><p>
+<b>Solution to reader-writer problem using semaphore</b>
+We will use two semaphores and an integer value:
+</p>
+<ol class="org-ol">
+<li>mutex, a semaphore(initialized to 1) which is used to ensure mutual exclusion when <b>readcount</b> is updated, i.e., when any reader enters or exit from the critical section.</li>
+<li>wrt, a semaphore(initialized to 1) common to reader and writer process.</li>
+<li>readcount, an integer value(initialized to 0) that keeps track of how many processes are currently reading the object.</li>
+</ol>
+<p>
+<span class="underline">Code for the writer process</span>
+do{
+</p>
+
+<p>
+wait(wrt);
+</p>
+
+<p>
+	signal(wrt);
+} while(true);
+</p>
+
+<p>
+<span class="underline">Code for the reader process</span>
+do{
+	wait(mutex);
+</p>
+
+<p>
+	readcount++;
+	if(readcount <code>= 1)
+          wait(wrt);
+      signal(mutex);
+      wait(mutex);
+      readcount--;
+      if(readcount =</code> 0)
+		signal(wrt);
+		signal(mutex);
+} while(true);
+</p></li>
+</ul>
+</div>
+</li>
+<li><a id="orge7cdc2a"></a>Dining-philosophers Problem<br />
+<div class="outline-text-5" id="text-2-5-5-4">
+<ul class="org-ul">
+<li></li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf473159" class="outline-2">
+<h2 id="orgf473159"><span class="section-number-2">3.</span> Deadlock</h2>
+</div>
+<div id="outline-container-org407ab4e" class="outline-2">
+<h2 id="org407ab4e"><span class="section-number-2">4.</span> Main Memory</h2>
+</div>
+<div id="outline-container-orgda389a7" class="outline-2">
+<h2 id="orgda389a7"><span class="section-number-2">5.</span> Virtual Memory</h2>
+</div>
+<div id="outline-container-org43fa235" class="outline-2">
+<h2 id="org43fa235"><span class="section-number-2">6.</span> File Systems</h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ertale81</p>
+<p class="date">Created: 2025-02-02 Sun 10:59</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

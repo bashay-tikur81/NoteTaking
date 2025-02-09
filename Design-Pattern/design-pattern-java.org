@@ -1,0 +1,11 @@
+#+TITLE: Design Patterns as thought in Udemy
+#+AUTHOR: Ertale81
+#+STARTDATA:<2025-01-19 Sun>
+
+* SOLID
+
+* Creational Design Patterns
+
+* Structural Design Patterns
+
+* Behavioral Design Patterns
