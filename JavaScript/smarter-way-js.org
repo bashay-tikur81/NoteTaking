@@ -1,0 +1,151 @@
+#+TITLE: A Smarter way to learn Java Script by Mark Myers
+#+AUTHOR: Ertale81
+
+* alert
+- An alert is a box that pops up to give the user a message. Alert means, "Display, in an alert box the message that follows".
+- A variable is created when you write *var* (for variable) followed by the  name that you choose to give it.
+  #+begin_src javascript
+   var name = "mark";
+  #+end_src
+- If it's an alphabet letter or word, and it's not enclosed in quotes, and it is not a keyword that has special meaning for JavaScript, like *alert*, it's a variable. If it's some character enclosed in quotes, it's a /text string/.
+- A string is not the only thing you can assign to a variable. You can also assign a number. Unlike a string, a number is not enclosed in quotes. That is how JavaScript knows it's a number that it can do math on and not a text string, like ZIP code, that it handles as text.
+- But then, since it's not enclosed in quotes, how does JavaScript know it's not a variable? Well, because a number, or any combination of characters starting with a number, can't be used as a variable name. If it's a number, JavaScript rejects it as a variable. So it must be a number.
+- If you enclose a number in quotation marks, it's a string. JavaScript can't do addition on it. It can do addition only on numbers not enclosed in quotes.
+- Variable name rules:
+  + Variables can't enclose in quotation marks
+  + Variable name can't be a number or start with a number
+  + Variable can't be JavaScript's keyword
+  + Variable can't contain any spaces
+  + A variable name can contain only letters, numbers, dollar signs, and underscores.
+  + Though a variable name can't be any of JavaScript's keywords, it can contain keywords. For example, userAlert and myVar are legal.
+  + Capital letters are fine, but be careful. Variable names are case sensitive. A rose is not a Rose. If you assign the string "Floribundas" to the variable rose, and then ask JavaScript for the value assigned to Rose, you'll come up empty.
+  + Use camelCase naming convention. Why "camelCase"? Because there is a hump or two (or three) in the middle if the name is formed by more than one word. A camelCase name begins in lower case. If there's more than one word in the name, each subsequent word gets an initial cap, creating a hump. If you form a variable name with only one word, like response, there's no hump. It's a camel that's out of food. Please adopt the camelCase convention. It'll make your variable names more readable, and you'll be less likely to get variable names mixed up.
+    For example: userResponse, userResponseTime, userResponseTimeLimit, response, ...
+  + Make your variable names descriptive, so it's easier to figure out what your code means when you or someone else comes back to it three weeks or a year from now.
+
+* Prompt
+- A /prompt box/ asks the user for some information and provides a response field for her answer.
+- Prompt box is like alert code with two difference:
+  1) In a prompt you need a way to capture the user's response. That means you need to start by declaring a variable, followed by an equal sign
+  2) In a prompt, you can specify a second string. The is the default response that appears in the field when the prompt displays. If the user leaves the default response as-is and just clicks *OK*, the default response is assigned to the variable. It's up to you whether you could include a default response. All responses to prompt come back as strings. If the user enters nothing and clicks OK, the variable is assigned an empty string: "". If the user clicks Cancel, the variable is assigned a special value, *null.*
+
+* Arrays
+- An array is a variable that can have multiple values assigned to it. You define an array this way:
+- An array can be assigned any type of value that you can assign to ordinary variables. You can even mix the different types in the same array.
+  #+begin_src javascript
+    var cities = ["Atlanta","Baltimore","Chigago"];
+    console.log(cities[0]);
+    var mixedArray = [1, "bob", true, 3.5];
+    var removedcity = cities.pop();
+    cities.push("Denver","New York");
+    cities.shift(); // removes the first element in the array
+    cities.unshift("Colorado", "Sandiago"); // add to the beginning of the array
+    cities.splice(1,2,"Washington","LA"); // addint at position 1 and delete the next two elements
+    cities.splice(1,0,"California"); // adding witout removing
+    var northerCities = cities.slice(2,3);
+  #+end_src
+- Using the keyword *pop*, you can remove the last element of an array.
+- Using the keyword *push*, you can add one or more elements to the end of an array.
+- Use *shift* method to remove an element from the beginning of an array.
+- Use *unshift*  method to add  one or more element to the beginning of an array.
+- Use *splice* method to insert one or more elements anywhere in an array, while optionally removing one or more elements that comes after it. The first digit inside the parentheses is the index of the position where you want to start adding if you're adding and deleting if you are deleting. The second digit is the number of existing elements to remove, starting with the first that comes after the element(s) that you're splicing in.
+- By putting 0 as a second argument, you could make additions without removing any element. You can also remove elements without adding by only putting only two arguments inside *slice*.(like arrayName.splice(2,2)).
+- Use *slice* method to copy one or more consecutive elements in any position and put them in a new array.
+- JavaScript provides a straight forward way to replace a string:
+      stringName.replace(toBeReplaced, toBeInserted);
+- Rounding number- Math.round(); note the capped *M*. To force JavaScript to round up to the nearest integer, no matter how small the fraction, use *ceil* instead of round. The following code rounds .000001, which would normally round down to 0, up to the nearest integer, 1. /ceil/ stands for "ceiling".
+- To force JavaScript to round down to the nearest integer, no matter how large the fraction, use *floor* instead of round. The following code rounds .999999, which would normally round up to 1, down to 0.
+* Functions
+- You don't have to declare a variable when used as a parameter in a function definition.
+- A number, either a literal number or a number represented by a variable, can be an argument.
+* Placing Scripts
+- When you embed blocks of JavaScript in HTML(as opposed to having a separate JavaScript file), you must enclose the JavaScript code between <script> and </script> tag.
+- For most purposes, coders prefer to have all or most of their JavaScript code in a separate JavaScript file, then have the browser load this external file at the same time it's loading the HTML file.
+- You include a JavaScript file in an HTML file the same way you include an external CSS file—with an opening and closing tag.
+       <script src="whatever.js"></script>
+* Events:
+**  link
+- A good website is a responsive website. The user does something—clicks a button, moves the mouse, presses a key—and something happens. JavaScript gives you many ways to respond to the user's needs.
+- All of these user actions—clicking a button, moving the mouse, moving from one field to another in a form, selecting a different option—are known as *events.* JavaScript code that responds to an event—for example, displaying a guarantee or swapping an image when the pointer hovers over it—is called an *event handler.*
+- Inline event-handling means that you combine bits of JavaScript with HTML markup. Here's a line that displays a link and then displays an alert when the user clicks it.
+      <a href="#" onClick="alert('Hi');">Click</a>
+** button
+- When you want to give the user something to click, a more professional approach, usually, is to use button rather than a link.
+      <input type="button" value="Click" onClick="alert('Hello world!');">
+- The event handler is the same, whether you're coding a link or a button: *onClick="alert('Hello world!');"* But the beginning of the code is different: <input type="button" value="Click". Some pros would argue that the button code should be enclosed in form tags, but it's not absolutely necessary.
+- You can also use an image to trigger an event.
+** mouse
+- onMouseOver, onMouseOut, ....
+** fields
+- onFocus: tells JS to do something when the user clicks in the field. The syntax is the same as for other event handlers that you've already learned to code: a keyword, followed by an equal sign, followed by JavaScript or HTML in quotes. The opposite of this is *onBlur*.
+** Reading field values
+* DOM
+** Parent and Children
+** Finding Children
+** Target Elements, Target Names
+** Counting elements
+** Attributes, Attribute name and Attribute Value
+** Adding and Inserting Nodes
+* Objects
+#+begin_src javascript
+  var plan1 = {
+      name: "basic",
+      price: 5.99,
+      space: 100,
+      transfer: 1000,
+      pages: 10
+  };
+#+end_src
+- Object declaration:
+  + The code begins like any variable definition, with the keyword /var/, followed by the object name, and then an equal sign. But then, instead of value, there is a curly bracket, whose twin comes at the end of the block.
+    + Each property begins with a name, followed by a colon, and then a value.
+  + Each property definition except the last one ends with a comma.
+  + The closing curly bracket is followed by a semicolon, because of the equal sign in the first line.
+- To change the value of an object's number value, use a simple assignment statement, the same way you'd assign a value to a plain variable.
+  + You can assign a string, an array, a number or a boolean value to any property.
+  + You can also use an assignment statement to define a new property for an object. Suppose the object deal3 has some properties, but none of them are deal3.market. Now you want to add it, while assigning it a value.
+        deal3.market = "regional";
+- Just as you can create an undefined variable by not assigning it a value, you can create an object without any properties.
+      var deal4 = {};
+- If you want to create a property now and assign it a value later, you can create it with a value of /undefined/.
+      deal3.market = undefined;
+      Note that the keyword /undefined/ isn't in quotation marks. It's not a string
+- You can delete a property of an object
+      delete deal3.market;
+- You can check to see if a property of an object exists.
+      propertyExists = "market" in deal3;
+      The keyword /in/ asks, "The property /market/ is in the object /deal3/ -- true or false?"
+      The property /market/ is in quotes.
+      The object /deal3/ is not in quotes.
+** Properties
+** Methods and Constructors
+** Prototypes
+* Browser Control
+** Setting and Getting URL
+** Forward and Reverse
+** Filling the window with content
+** Controlling windows size and location
+** Testing for popup blocker
+* Form Validation
+** Text Fields
+- Is the user filling out your form correctly? JS can help /validate/ you form. With form validation, if there is a problem, you can ask the user to try again.
+** Drop Down
+- Consider a form with a select-a-state field. I'm going to limit the list of states to just 4, for simplicity.
+** Radio Button
+** ZIP codes
+- Now, a one-field form that asks that asks the user to enter his ZIP code. Using the above methods we can check if a field left blank. But how do we test whether someone enters the right number of digits for a ZIP-- 5 digits?
+- HTML gives you a way to keep her from entering too many digits: /maxlength=5/. But if you want to make sure she hasn't entered too few digits, you need to use JavaScript. Here is a function:
+  #+begin_src javascript
+    function validateZIP(){
+        var numChars = document.getElementById("zip").value.length;
+        if(numChars < 5){
+            alert("Please enter a 5-digit code");
+            return false;
+        }
+    }
+  #+end_src
+** Email
+- Validating an email field includes checking to make sure there are no illegal characters, like spaces, and that all the essentials of a legal email address are there: one or more characters, followed by @, followed by one or more characters, followed by a dot, followed by two to four characters. The standard way to test for all this is to match the user's entry with  a regular expression.
+* Exceptions
+** Try and Catch
+** Throw

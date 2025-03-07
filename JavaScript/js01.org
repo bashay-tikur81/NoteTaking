@@ -1,0 +1,11 @@
+#+TITLE: Learning Java Script
+#+AUTHOR: Ertale81
+
+* Some Functions
+- alert(message);
+- prompt(message);
+- var varName = "value";
+- onload
+
+* Node
+
