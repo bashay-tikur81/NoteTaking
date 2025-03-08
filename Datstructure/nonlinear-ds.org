@@ -1,0 +1,17 @@
+#+TITLE: Tree and Graph data structure
+#+AUTHOR: Ertale81
+#+option:toc
+#+STARTDATE: <2025-03-08 Sat>
+
+* Tree
+** General Trees
+- Trees are one of the most important non-linear data structures in computing. Trees allows us to implement a host of algorithms much faster than when using linear data structures, such as arrays or linked lists.
+- Trees also provide a natural organization for data, and consequently have become ubiquitous in file system, graphical user interface, data bases, websites, and many other computer systems.
+- The relation ships in a trees are *hierarchical*, which some objects being "above" and some "below" others. Actually the  main terminology for tree data structures comes from family trees, with the terms "parent", "child", "ancestor", and "descendant" being the most common words to describe relation ships.
+*** Tree definition and Properties
+- A tree is an abstract data type that stores elements hierarchically. With the exception of the top element, each element in the tree has a *parent* element and zero or more *children* element. A tree is usually visualized by placing elements inside ovals or rectangles, and by drawing the connections between parents and children with straight lines.
+- We typically call the top element the *root* of the tree, but is drawn as the highest element, with the other elements being connected below(just the opposite of botanical tree).
+- Formally, we define a *tree T* as a set of nodes storing elements such that the nodes have a *parent-child* relationship that satisfies the following properties:
+  + If *T* is nonempty, it has a special node, called the root of T, that has no parent
+  + Each  node /v/ of T different from the root has a unique parent node /w/; every node with parent /w/ is a child of /w/.
+- Note that according to our definition, a tree can be empty, meaning that it does not have any nodes. This convention also allows us to define a tree recursively such that a tree T is either empty or consists of a node r, called the root of T , and a (possibly empty) set of subtrees whose roots are the children of r.
