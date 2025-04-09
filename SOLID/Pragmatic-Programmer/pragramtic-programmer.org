@@ -1,0 +1,7 @@
+#+TITLE: The Pragmatic Programmer: Your journey to Mastery by David Thomas, Andrew Hunt
+#+AUTHOR: Ertale81
+#+STARTDATE: <2025-03-15 Sat>
+
+* Chapter 1: A pragmatic Philosophy
+** It's your life
+- Make no mistakes, it is your career, and more importantly it's your life. You own it.

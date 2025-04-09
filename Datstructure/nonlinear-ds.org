@@ -15,3 +15,101 @@
   + If *T* is nonempty, it has a special node, called the root of T, that has no parent
   + Each  node /v/ of T different from the root has a unique parent node /w/; every node with parent /w/ is a child of /w/.
 - Note that according to our definition, a tree can be empty, meaning that it does not have any nodes. This convention also allows us to define a tree recursively such that a tree T is either empty or consists of a node r, called the root of T , and a (possibly empty) set of subtrees whose roots are the children of r.
+- Two nodes that are children of the same parent are called *siblings*. A node /v/ is *external* if /v/ has no children. A node /v/ is *internal* if it has one or more children. External nodes are also known as *leaves*. In a file system(most OSes) we can see that directories are associated with the internal nodes of a tree and regular files are associated with leaves.
+- A node /u/ is an *ancestor* of a node /v/ if /u = v/ or /u/ is an ancestor of the parent of /v/. Conversely, we say that a node /v/ is a *descendant* of a node /u/ if /u/ is an ancestor of /v/.
+- An *edge* of tree /T/ is a pair of nodes (u,v) such that /u/ is the parent of /v/, or vice versa. A *path* of /T/ is a sequence of nodes that such that any two consecutive nodes in the sequence form an edge.
+- A tree is *ordered* if there is a meaningful linear order among the children of each node; that is, we purposefully identify the children of the node as being the first, second, third, and so on. Such an order is usually visualized by arranging siblings left to right, according to their order. Example of ordered tree can be, family tree with siblings ordered according to their birth, structure of a book in which parts, chapters, sections act as internal nodes, and paragraphs, figures and pictures as external node and are organized in order.
+- In contrast, an organizational chart for a company is typically considered an *unordered* tree.  Likewise, when using a tree to describe an inheritance hierarchy, there is no significance to the order among the subclass of the parent class. Finally, we consider the use of tree in modeling a computer's file system. Although an OS often displays entries of directories in particular order(e.g., alphabetically, chronologically), such an order is not typically inherent to the file systems representation. 
+*** Tree ADT
+- We can define tree ADT using the concept of a *position* as an abstraction of for a node of tree. An element is stored at each position, and position satisfy parent-child relationship that define the tree structure. A position object for a tree supports the method:
+  + getElement(): Returns the element stored at this position.
+- The tree ADT then supports the following *accessor methods*, allowing a user to navigate to various positions of a tree T:
+  + root(): Returns the position of the root of a tree(/null/ if empty)
+  + parent(p): Returns the position of the parent of position /p/ (/null/ if /p/ is root)
+  + children(p): Returns an iterable collection containing the children of the position /p/ (if any).
+  + numChildren(p): Returns the number of children of position /p/.
+- If a tree T is ordered, then children(p) reports the children of p in order.
+- In addition to the above fundamental accessor methods, a tree supports the following   *query methods*:
+  + isInternal(p): Returns /true/ if position /p/ has at least one child
+  + isExternal(p): Returns /true/ if position /p/ doesn't have any child
+  + isRoot(): Returns /true/ if position /p/ is the root of the tree.
+    These methods make programming with trees easier and more readable, since we can use them in the conditionals of *if* statements and *while* loops.
+- Trees support a number of more general methods, unrelated to the specific structure of the tree. These include:
+  + size(): Returns the number of positions(and hence elements) that are contained in the tree.
+  + isEmpty(): Returns /true/ if the tree doesn't contain any positions(and hence no elements).
+  + iterator(): Returns the iterator for all elements in the tree(so that the tree itself is Iterable)
+  + positions(): Returns an iterable collection of all positions of the tree.
+- Difference between interface and abstract class in Java? An interface is a type definition that includes public declaration of various methods, an interface can not include definitions for any of those methods. In contrast, an *abstract class* may define concrete implementations for some of its methods, while leaving other methods without definition.
+- An abstract class is designed to serve as a base class, through inheritance, for one or more concrete implementations of an interface. When some of the functionality of an interface is implemented in an abstract class, less work remains to complete a concrete implementation.
+- The standard Java libraries include many such abstract classes, including several within the Java Collections Framework. To make their purpose clear, those classes are conventionally named beginning with the word /Abstract/. For example, there is an /AbstractCollection/ collection class that implements some of the functionalities of the /Collection/ interface, an /AbstractQueue/ class that implements some of the functionality of the /Queue/ interface, and an /AbstractList/ class that implements some of the functionality of the /List/ interface.
+- In case of our Tree interface, we will define an /AbstractTree/ base class, demonstrating how many tree-based algorithms can be described independently of the low-level representation of a tree data structure. In fact, if a concrete implementation provides three fundamental methods -- root(), parent(p), and children(p) --- all other behaviors of the Tree interface can be derived within the /AbstractTree base class./
+*** Computing Depth and Height
+- Let /p/ be a position within tree /T/. the *depth* of /p/ is the number of ancestors of /p/, other than /p/ itself. Note that this definition implies that the depth of the root of /T/ is 0. The depth of /p/ can also be recursively defined as follows:
+  + if /p/ is the root, then the depth of /p/ is 0.
+  + Otherwise, the depth of /p/ is one plus the depth of the parent of /p/.
+    Based on this we can present a simple recursive algorithm for depth. This method calls itself recursively on the parent of /p/, and adds 1 to the value returned.
+    #+begin_src java
+      public int depth(Position<E> p){
+          if(isRoot(p)){
+              return 0;
+          }
+          else{
+              return 1 + depth(parent(p));
+          }
+      }
+    #+end_src
+- Height of a tree equal to the maximum of the depth of its positions(or zero, if the tree is empty). It's easy to see that the position with maximum depth must be a leaf. Here is not efficient height method, so we called it heightBad(because this method run in O(n^{2}) in worst case) method.
+  #+begin_src java
+    private int heightBad(){
+        int h = 0;
+        for(Position<E> p : positions()){
+            if(isExternal(p)){
+                h = Math.max(h, depth(p));
+            }
+        }
+    }
+  #+end_src
+- We can compute the height of a tree efficiently, in O(/n/) worst-case time, by considering a recursive definition. To do this, we will parameterize a function based on a position with the tree, and calculate the height of the subtree rooted at that position. Formally, we define the *height* of a position /p/ in a tree /T/ as follows:
+  + If /p/ is a leaf, then the height of /p/ is 0.
+  + Otherwise, the height of /p/ is one more than the maximum of the heights of /p/'s children.
+ #+begin_src java
+   public int height(Position<E> p){
+      int h = 0;
+      for(Position<E> c: children(p)){
+          h = Math.max(h, 1 + height(children(c)));
+      }
+      return h;
+   }
+ #+end_src
+** Binary Tree
+- A binary tree is an ordered tree with the following properties:
+  1) Every node has at most two children
+  2) Each child node is labeled as either a *left child* or a *right child*.
+  3) A left child precedes a right child in the order of children of node.
+- The subtree rooted at a left or right child of an internal node /v/ is called a *left subtree* or *right subtree*, respectively, of /v/. A binary tree is *proper* if each node has either zero or two children. Some people also refer to such trees as being *full* binary trees. Thus, in a proper binary tree, every internal node has exactly two children. A binary tree that is not proper is *improper*.
+- A typical arithmetic expression tree is a proper binary tree, since each operator +, -, *, and / takes exactly two operands. Of course, if we were to allow unary operators, like negation(-), as in "-x", then we would have an improper binary tree.
+- A recursive binary tree definition:
+  Incidentally, we can also define a binary tree, in a recursive way. In that case, a binary tree is either:
+  + An empty tree
+  + A nonempty tree having a root node /r/, which stores an element, and two binary trees that are respectively the left and right subtrees of /r/. We note that one or both of these subtrees can be empty.
+*** Binary Tree Abstract Data Type
+- As an abstract data type, a binary tree is a specialization of a tree that supports three additional accessor methods:
+  + left(/p/): Returns the position of the left child of /p/ (or /null/ if /p/ has no left child)
+  + right(/p/): Returns the position of the right child of /p/ (or /null/ is p has no right child)
+  + sibling(/p/): Returns the position of the sibling of /p/ (or /null/ if p has no sibling)
+- Typically, we identify the siblings of position /p/, as the "other" child of /p/'s parent. However, /p/ doesn't have a sibling if it's the root, or if it's the only child of its parent.
+*** Properties of Binary Trees
+- Binary trees have several interesting properties dealing with relationships between their heights and number of nodes. We denote the set of all nodes of a tree /T/ at the same depth /d/ as *level* /d/  of /T/.
+- In binary tree, level 0 has at most one node(the root), level 1 has at most two nodes(the children of the root), level 2 has at most four nodes, and so on. In general, level /d/, has at most 2^{n} nodes.
+- In nonempty proper binary tree /T/, with n_{E} external nodes and n_{I} internal nodes, we have n_{E} = n_{I} +1.
+** Implementing Trees
+- A natural way to realize a binary tree /T/ is to use a *linked structure*, with a node that maintain references to the element stored at a position /p/ and the nodes associated with the children and parent of /p/. If /p/ is the root of /T/, then the parent field of /p/ is /null/. Likewise, if /p/ doesn't have a left child(respectively, right child), the associated field is /null/. The tree itself maintains an instance variable storing a reference to the root node(if any), and a variable, called size, that represents the overall number of nodes of /T/.
+- In cases of a linked binary tree, we suggest that the following update methods be supported:
+  + addRoot(/e/): Creates a root for an empty tree, storing /e/, as the element, and returns the position of that root; an error occurs if the tree is non empty
+  + addLeft(/p, e/): Creates a left child of position /p/, storing element /e/, and returns the position of the new node; an error occurs if /p/ already has a left node.
+  + addRight(/p, e/): Creates a right child of position /p/, storing element /e/, and returns the position of the new node; an error occurs if /p/ already has a right child.
+  + set(/p, e/): Replaces the element stored at position /p/ with element /e/, and returns the previously stored element.
+  + attach(/p, T1, T2/): Attaches the internal structure of trees /T1/ and /T2/ as a respective left and right subtrees of leaf position /p/ and resets /T1/ and /T2/ to empty trees; an error condition occurs if /p/ is not a leaf.
+  + remove(/p/): Removes the node at position /p/, replacing it with its child(if any), and returns the element that had been stored at /p/; an error occurs if /p/ has two children.
+- We have specifically chosen this collection of operations because each can be implemented in /O(1)/ worst-case time with our linked representation. The most complex of those are /attach/ and /remove/, due to the case analyses involving the various parent-child relationships and boundary conditions, yet there remains only a constant number of operations to perform.(The implementation of both methods could be greatly simplified if we used a tree representation with a sentinel node)
+- 

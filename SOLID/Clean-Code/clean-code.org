@@ -1,0 +1,338 @@
+#+TITLE: Robert C. Martin Books: Clean Code, Clean Architecture, and Agile Software Development
+#+AUTHOR: Ertale81
+
+* Meaningful Names
+** Use Intention-Revealing Names
+- Names should reveal intent. Choosing good names takes time but saves more than it takes. So take care with your names and change them when you ﬁnd better ones. Everyone who reads your code (including you) will be happier if you do.
+- The name of a variable, function, or class should tell you why it exists, what it does, and how it is used. If a name requires a comment, then the name doesn't reveal its intent.
+** Avoid Disinformation
+- Programmers must avoid leaving false clues that obscure the meaning of code. We should avoid words whose entrenched meanings vary from our intended meaning. For example, /hp, aix/, and /sco/ would be poor variable names because they are the names of Unix plat- forms or variants. Even if you are coding a hypotenuse and hp looks like a good abbreviation, it could be disinformative.
+- Don't refer to a grouping of accounts as an /accountList/ unless it is actually a /List/. The word list means something specific to programmers. If the container holding the accounts is not actually a /List/, it may lead to false conclusions. So /accountGroup/ or /bunchOfAccounts/ or just plain /accounts/ would be better.
+- Be aware of using names which vary in small ways. How long does it take to spot the subtle difference between a /XYZControllerForEfficientHandlingOfStrings/ in one module and, somewhere a little more distant, /XYZControllerForEfficientStorageOfStrings/? The words have frightfully similar shapes.
+- Spelling similar concepts similarly is /information/. Using inconsistent spellings is /disinformation/. A truly awful example of disinformative names would be the use lower-case /L/ or uppercase /O/ as a variable names, especially in combination. The problem is that they look almost entirely like the constants one and zero, respectively.
+** Make Meaningful Distinctions
+- Programmers create problems for themselves when they write code solely to satisfy a compiler or interpreter. For example, because you can’t use the same name to refer to two different things in the same scope, you might be tempted to change one name in an arbitrary way. Sometimes this is done by misspelling one, leading to the surprising situation where correcting spelling errors leads to an inability to compile. It is not sufﬁcient to add number series or noise words, even though the compiler is satisﬁed. If names must be different, then they should also mean something different.
+- Number-series naming /(a1, a2, .. aN)/ is the opposite of intentional naming. Such names are not disinformative—they are noninformative; they provide no clue to the author’s intention.
+- Noise words are another meaningless distinction. Imagine that you have a /Product/ class. If you have another called /ProductInfo/ or /ProductData/, you have made the names different without making them mean anything different. /Info/ and /Data/ are indistinct noise words like /a, an/ and /the/.
+- Note that there is nothing wrong with using preﬁx conventions like /a/ and /the/ so long as they make a meaningful distinction. The problem comes in when you decide to call a variable /theZork/ because you already have another variable named /zork/.
+- Noise words are redundant. The word /variable/ should never appear in a variable name. The word /table/ should never appear in table name. Would a /Name/ ever be a floating number?
+- Assume the following methods:
+      getActiveAccount();
+      getActiveAccounts();
+      getActiveAccountInfo();
+      How are programmers in this project supposed to know which of these information to call?
+- In the absence of speciﬁc conventions, the variable /moneyAmount/ is indistinguishable from /money/, /customerInfo/ is indistinguishable from /customer/, /accountData/ is indistinguishable from /account/, and /theMessage/ is indistinguishable from /message/. Distinguish names in such a way that the reader knows what the differences offer.
+** Use Pronounceable Names
+- If you can't pronounce it, you can't discuss it without sounding like an idiot. “Well, over here on the bee cee arr three cee enn tee we have a pee ess zee kyew int, see?” This matters because programming is a social activity.
+- A company I know has /genymdhms/ (generation date, year, month, day, hour, minute, and second) so they walked around saying “gen why emm dee aich emm ess”. New developers had to have the variable explained to them, and then they spoke about it in silly made-up words instead of using proper English terms. It would be a shame not to take advantage of huge portion of our brain that has evolved to deal with spoken language. So make your names pronounceable.
+** Use Searchable Names
+- Single-letter names and numeric constants have a particular problem in that they are not easy to locate across a body of text.
+- One might easily grep for /MAX_CLASSES_PER_STUDENT/, but the number 7 could be more troublesome. Searches may turn up the digit as part of ﬁle names, other constant deﬁnitions, and in various expressions where the value is used with different intent. It is even worse when a constant is a long number and someone might have transposed digits, thereby creating a bug while simultaneously evading the programmer’s search.
+- The length of a name should correspond to the size of its scope. If a variable or constant might be seen or used in multiple places in a body of code, it is imperative to give it a search-friendly name.
+** Avoid Encodings
+- We have enough encodings to deal with without adding more to our burden. Encoding type or scope information into names simply adds an extra burden of deciphering. It hardly seems reasonable to require each new employee to learn yet another encoding “language” in addition to learning the (usually considerable) body of code that they’ll be working in. It is an unnecessary mental burden when trying to solve a problem. Encoded names are seldom pronounceable and are easy to mis-type.
+** Interfaces and Implementations
+- I prefer to leave interfaces unadorned. The preceding /I/, so common in today's legacy wads, is a distraction at best and too much information at worst. I don't want my users knowing that I'm handing them an interface.
+** Avoid Mental Mapping
+- Readers shouldn’t have to mentally translate your names into other names they already know. This problem generally arises from a choice to use neither problem domain terms nor solution domain terms.
+- This is a problem with single-letter variable names. Certainly a loop counter may be named /i or j or k/ (though never l!) if its scope is very small and no other names can conﬂict with it. This is because those single-letter names for loop counters are traditional. However, in most other contexts a single-letter name is a poor choice; it’s just a place holder that the reader must mentally map to the actual concept. There can be no worse reason for using the name /c/ than because /a/ and /b/ were already taken.
+** Class Names
+- Class names and object should have noun or noun phrase names like /Customer, WikiPage, Account/, and /AddressParser/. Avoid words like /Manager, Processor, Data/ or /Info/ in the name of a class. A class name should not be a verb.
+** Method Names
+- Methods should have verb or verb phrase names like /postPayment, deletePage,/ or /save/. Accessors, mutators, and predicate should be name for their value and prefixed with /get, set,/ and /is/ according to the javabean standard. And /enum/ should be adjectives.
+** Don't be Cute
+- If names are too clever, they will be memorable only to people who share the author's sense of humor, and only as long as those people remember the joke. Choose clarity over entertainment value.
+- Cuteness in code often appears in the form of colloquialisms or slang. For example, don’t use the name whack() to mean kill(). Don’t tell little culture-dependent jokes like /eatMyShorts()/ to mean /abort()./
+  *Say what you mean. Mean what you say.*
+** Pick One Word per Concept
+- Pick one word for one abstract concept and stick with it. For instance, it's confusing to have /fetch, retrieve,/ and /get/ as equivalent methods of different classes. How do you remember which method name goes with which class? Sadly, you often have to remember which company, group, or individual wrote the library or class in order to remember which term was used. Otherwise, you spend an awful lot of time browsing through headers and previous code samples.
+- Modern editing environments like Eclipse and IntelliJ-provide context-sensitive clues, such as the list of methods you can call on a given object. But note that the list doesn’t usually give you the comments you wrote around your function names and parameter lists. You are lucky if it gives the parameter names from function declarations. The function names have to stand alone, and they have to be consistent in order for you to pick the correct method without any additional exploration.
+** Don't Pun
+- Avoid using the same word for two purposes. Using the same term for two different ideas is essentially a pun.(pun -- a humorous use of words that have multiple meanings or sound similar)
+- If you follow the “one word per concept” rule, you could end up with many classes that have, for example, an /add/ method. As long as the parameter lists and return values of the various /add/ methods are semantically equivalent, all is well.
+  However one might decide to use the word /add/ for “consistency” when he or she is not in fact adding in the same sense. Let’s say we have many classes where /add/ will create a new value by adding or concatenating two existing values. Now let’s say we are writing a new class that has a method that puts its single parameter into a collection. Should we call this method /add/? It might seem consistent because we have so many other /add/ methods, but in this case, the semantics are different, so we should use a name like /insert/ or /append/ instead. To call the new method /add/ would be a pun.
+- Our goal, as authors, is to make our code as easy as possible to understand. We want our code to be a quick skim, not an intense study. We want to use the popular paperback model whereby the author is responsible for making himself clear and not the academic model where it is the scholar’s job to dig the meaning out of the paper.
+** Use Solution Domain Names
+- Remember that the people who read your code will be programmers. So go ahead and use Computer Science terms, algorithm names, pattern names, math terms, and so forth. It is not wise to draw every name from the problem domain because we don’t want our coworkers to have to run back and forth to the customer asking what every name means when they already know the concept by a different name.
+** Use Problem Domain Names
+- When there is no "programmer-eese" for what you are doing, use the name from the problem domain. At least the programmer who maintains your code can ask a domain expert what it means.
+- Separating solution and problem domain concepts is part of the job of a good programmer and designer. The code that has more to do with problem domain concepts should have names drawn from the problem domain.
+* Functions
+** Small
+- The first rule of functions is that they should be small. The second rule of functions is that /they should be smaller than that./
+** Do One Thing
+- Functions should do one thing. They should do it well. They should do it only.
+- How to know if a function does only one thing?
+  _Ans_: Functions that do one thing cannot be reasonably divided into sections. Another way to know that a function is doing more than "one thing" is if you can extract function from it with a name that is not merely a restatement of its implementation.
+- In order to make sure our functions are doing “one thing,” we need to make sure that the statements within our function are all at the same level of abstraction.
+** One Level Abstraction per Function
+- In order to make sure our functions are doing "one thing," we need to make sure that the statements within our function are all at the same level abstraction.
+- Mixing levels of abstraction within a function is always confusing.
+** Extract Till You can't
+** Use Descriptive Names
+- Don’t be afraid to make a name long. A long descriptive name is better than a short enigmatic name. A long descriptive name is better than a long descriptive comment. Use a naming convention that allows multiple words to be easily read in the function names, and then make use of those multiple words to give the function a name that says what it does.
+- Don’t be afraid to spend time choosing a name. Indeed, you should try several different names and read the code with each in place.
+- orable restructuring of the code. Be consistent in your names. Use the same phrases, nouns, and verbs in the function names you choose for your modules.
+- More three number of arguments in function arguments should be avoided whenever possible.
+- Arguments are even harder from a testing point of view. Imagine the difﬁculty of writing all the test cases to ensure that all the various combinations of arguments work properly. If there are no arguments, this is trivial. If there’s one argument, it’s not too hard. With two arguments the problem gets a bit more challenging. With more than two arguments, testing every combination of appropriate values can be daunting.
+- Flag arguments are ugly. Passing a boolean into a function is a truly terrible practice. It immediately complicates the signature of the method, loudly proclaiming that this function does more than one thing. It does one thing if the ﬂag is true and another if the ﬂag is false!
+** Verbs and keywords
+- Choosing good names for a function can go a long way to ward explaining the intent of the function and the order and the intent of arguments. In the case of a monad(one argument function), the function and argument should form a very nice verb/noun pair. For example, /write(name)/ is very evocative. Whatever this "name" thing is, it is being "written". An even better name might be /writeFieldName(name)/, which tells us the "name" thing is a "field."
+- Another example of good function name might be /assertExpectedEqualsActual(expected, actual)./ This strongly mitigates the problem of having to remember the ordering of the arguments.
+** Have No Side Effects
+- Side effects are lies. Your function promises to do one thing, but it also does other /hidden/ things. Sometimes it will make unexpected changes to the variables of its own class.
+** Prefer Exceptions to Returning Error Codes
+** Tell Don't Ask
+- You should be telling other objects to do the work not just asking them. Simply stated, tell don't ask is, telling other objects what to do but not to ask other objects about what their state is. We don't ever want ask an object for its state and the make decisions on that object behave. The object knows its own state and can make its own decisions!
+- If we tell objects what to do as opposed to asking them, them we wouldn't need so many query functions. And this could be a good thing because query functions can get out of control pretty quickly.
+- Long chain of query violates "Th law of Demeter". This law tells us it is bad idea to for a single function to know the entire navigation structure of the system. We don't want our function to know about the whole system. Functions should have a limited amount of knowledge.
+- The law Demeter formalize the "tell don't ask" with the following set of rules:
+  + You may call methods of object that are:
+    1) Passed as arguments
+    2) Created locally
+    3) Instance variables
+    4) Global
+  + You may NOT call a method on objects that are *returned from a previous method call*.
+** Extract Try/Cath Blocks
+- /Try/Catch/ blocks are very ugly in their own right. They confuse the structure of the code and mix error processing with normal processing. So it is better to extract the bodies of /try/ and /catch/ blocks out into functions of their own.
+  #+begin_src java
+    public void delete(Page page){
+        try{
+            deletePageAndAllReferences(page);
+        }
+        catch(Exception e){
+            logError(e);
+        }
+    }
+  #+end_src
+** Error Handling is One Thing
+- Functions should do one thing. Error handling is one thing. Thus, a function that handles errors should do nothing else. This implies that if the keyword /try/ exists in a function, it should be very first word in the function and that there should be nothing after /cath/finally/ blocks.
+** Don't Repeat Yourself(DRY)
+* Comments
+** Why Comments
+- "Don't comment bad code -- rewrite it"
+- The proper use of comments is to compensate for our failure to express our self  in code. Comments are always failures. We must use have them because we can not always figure out how to express ourselves without them, but their use is not a cause for celebration.
+- So when you ﬁnd yourself in a position where you need to write a comment, think it through and see whether there isn’t some way to turn the tables and express yourself in code. Every time you express yourself in code, you should pat yourself on the back. Every time you write a comment, you should grimace and feel the failure of your ability of expression.
+- Why am I so down on comments? Because they lie. Not always, and not intentionally, but too often. The older a comment is, and the farther away it is from the code it describes, the more likely it is to be just plain wrong. The reason is simple. Programmers can’t realistically maintain them.
+- It is possible to make the point that programmers should be disciplined enough to keep the comments in a high state of repair, relevance, and accuracy. I agree, they should. But I would rather that energy go toward making the code so clear and expressive that it does not need the comments in the ﬁrst place
+- Inaccurate comments are far worse than no comments at all. They delude and mislead. They set expectations that will never be fulﬁlled. They lay down old rules that need not, or should not, be followed any longer.
+- Truth can only be found in one place: the code. Only the code can truly tell you what it does. It is the only source of truly accurate information. Therefore, though comments are sometimes necessary, we will expend signiﬁcant energy to minimize them.
+** Comments Don't Make Up for Bad Code
+- We write a module and we know it is confusing and disorganized. We know it’s a mess. So we say to ourselves, “Ooh, I’d better comment that!” No! You’d better clean it!
+- Rather than spend your time writing comments that explain the mess you've made, spend it cleaning that  mess.
+** Explain Yourself in Code
+- It takes only a few seconds of thought to explain most of your intent in code. In many cases it’s simply a matter of creating a function that says the same thing as the comment you want to write.
+** Legal Comments
+- Sometimes our corporate coding standards force us to write certain comments for legal reasons. For example, copyright and authorship statements are necessary and reasonable things to put into a comment at the start of each source ﬁle.
+** Informative Comments
+- It is sometimes useful to provide basic information with a comment. 
+** Amplification
+- A comment may be used to amplify the importance of something that may otherwise seen in consequential.
+- If you decide to write a comment, then spend the time necessary to make sure it is the best comment you can write.
+- Any comment that forces you to look in another module for the meaning of that comment has failed to communicate to you and is not worth the bits it consumes.
+** Misleading Comments
+** Noise Comments
+- Sometimes you see comments that are nothing but noise. They restate the obvious and provide no new information.
+** Don't Use a Comment When You Can a Function or Variable
+** Nonlocal Information
+- If you must write a comment, then make sure it describes the code it appears near. Don't offer systemwide information in the context of a local comment.
+** Inobvious Connection
+- The connection between the a comment and the code it describes should be obvious.
+* Formatting
+** Vertical Formatting
+** Horizontal Formatting
+** Indentation and spacing
+* Objects and Data Structures
+** Data Abstraction
+- There is a reason why we keep our variables private. We don't want anyone else to depend on them. We want to keep the freedom to change their type or implementation on a whim or an impulse. Why, then, we automatically add getters and setters to their object, exposing their private variables as they were public?
+- Hiding implementation is not just a matter of putting a layer of functions between the variables. Hiding implementation is about abstractions! A class does not simply push its variables out through getters and setters. Rather it exposes abstract interfaces that allow its users to manipulate the /essence/ of the data, without having to know its implementation.
+- We do not want to expose the details of our data. Rather we want to express our data in abstract terms.
+- *Objects hide their data behind abstractions and expose functions that operate on that data. Data structure expose their data and have no meaningful functions.* Notice the complimentary nature of the two definitions. They are virtual opposites.
+- /Procedural code (code using data structures) makes it easy to add new functions without changing the existing data structures. OO code, on the other hand, makes it easy to add new classes without changing existing functions./
+- The complement is also true:
+- /Procedural code makes it hard to add new data structures because all the functions must change. OO code makes it hard to add new functions because all the classes must change./
+- So, the things that are hard for OO are easy for procedures, and the things that are hard for procedures are easy for OO!
+- In any complex system there are going to be times when we want to add new data types rather than new functions. For these cases objects and OO are most appropriate. On the other hand, there will also be times when we’ll want to add new functions as opposed to data types. In that case procedural code and data structures will be more appropriate.
+- We use classes and objects when its type are more likely to be added. We use data structure and switch statements when method are more likely to be added.
+** The Law of Demeter
+- The law of Demeter says a module should not know about the innards of the /objects/ it manipulates. Objects hide their data and expose operations. This means that an object should not expose its internal structure through accessors because to do so is to expose, rather than to hide, its internal structure.
+- More precisely, the Law of Demeter says that a method /f/ of a class /C/ should only call the methods of these:
+  + /C/
+  + An object created by /f/
+  + An object passed as an argument to /f/
+  + An object held in an instance variable of /C/
+- The method should not invoke methods that are returned by any of the allowed functions. In other words to talk to friends not to strangers.
+** Data Transfer Objects
+- The quite essential form of data structure is a class with public variables and no functions. This is sometimes called a data transfer object, or *DTO*. DTOs are very useful structures, especially when communicating with databases or parsing messages from sockets, and so on. They often become the first in a series of translation stages that convert raw data in a database into objects in the application code.
+** Active Record
+- Active records are special forms of DTOs. They are data structures with public(or bean-accessed) variables; but they typically have navigational methods like /save/ and /find/. Typically these Active Records are direct translations from database tables, or other data sources.
+- Unfortunately we often ﬁnd that developers try to treat these data structures as though they were objects by putting business rule methods in them. This is awkward because it creates a hybrid between a data structure and an object.
+- The solution, of course, is to treat the Active Record as a data structure and to create separate objects that contain the business rules and that hide their internal data (which are probably just instances of the Active Record).
+** Conclusion
+- Objects expose behavior and hide data. This makes it easy to add new kind of objects without changing existing behaviors. It also makes hard to add new behaviors to existing objects. Data structure expose data and have no significant behavior. This makes easy to add new behavior to the existing data structure but makes it hard to add new data structures to existing functions.
+- In any given system we will sometimes want the ﬂexibility to add new data types, and so we prefer objects for that part of the system. Other times we will want the ﬂexibility to add new behaviors, and so in that part of the system we prefer data types and procedures.
+* Error Handling
+** Use Exceptions Rather Than Return Codes
+** Write Your /Try-Catch-Finally/ Statement First
+- One of the most interesting things about exceptions is that they define a scope within your program. When you execute code in the /try/ portion of a /try-catch-finally/ statement, you are stating that execution can abort at any point and resume at the /catch/.
+- In a way, /try/ blocks are like transactions. Your /catch/ has to leave your program in a consistent state, no matter what happens in the /try/. For this reason it is good practice to start with /try-catch-finally/ statement when you are writing code that could throw exceptions. This helps you define what the user of the code should expect, no matter what goes wrong with the code that is executed  in the /try/.
+- Try to write tests that force exceptions, and then add behavior to your handler to satisfy your test. This will cause you to build the transaction scope of the /try/ block first and help you maintain the transaction nature of that scope.
+** Use Unchecked Exceptions
+- Checked exception breaks encapsulation.
+- Checked exceptions can sometimes be useful if you are writing a critical library: You must catch them. But in general application development the dependency costs outweigh the beneﬁts.
+** Define Exception Classes in Terms of a Caller's Needs
+- There are many ways to classify errors. We can classify them by their source: Did they came from one component or another? Or their type: Are they device failures, network failures, or programming errors? However, when we define exception classes in an application, our most important concern should be /how they are caught/.
+** Don't Return Null
+- Any discussion about error handling should include mention of the things we do that invite errors. The first on the list is returning /null/.
+- In many cases, Special Case Objects are an easy remedy.
+** Don't Pass Null
+- Returning /null/ from methods is bad, but passing /null/ into methods is worse. Unless you are working with an API which expects you to pass /null/, you should avoid passing /null/ in your code whenever possible.e
+** Conclusion
+- Clean code is readable, but it must also be robust. We can write robust clean code if we see error handling as a separate concern, something that is viewable independently of our main logic. To the degree we are able to do that, we can reason about it independently, and we can make great strides in the maintainability of our code.
+* Boundaries
+** Using Third Party Code
+- There is a natural tension between the provider of an interface and the user of an interface. Providers of third-party packages and frameworks strive for broad applicability so they can work in many environments and appeal to a wide audience. Users, on the other hand, want an interface that is focused on their particular needs. This tension can cause problems at the boundaries of our systems.
+- Let’s look at /java.util.Map/ as an example. Maps have a very broad interface with plenty of capabilities. Certainly this power and ﬂexibility is useful, but it can also be a liability. For instance, our application might build up a /Map/ and pass it around. Our intention might be that none of the recipients of our /Map/ delete anything in the map. But there is a /clear()/ method in /Map/ and any user of the /Map/ has the power to clear it. Or may be our design convention is that only particular types of  objects can stored in the /Map/, but /Map/ doesn't reliably constrain the types of objects passed within them. Any determined user can add items of any type to any /Map/.
+** Exploring and Learning Boundaries
+- Third-party code helps us get more functionality delivered in less time. Where do we start when we want to utilize some third-party package? It's not our job to test the third party code, but it may be in our best interest to write tests for the third-party code we use.
+- Learning the third-party code is hard. Integrating the third-party code is hard too. Doing both at the same time is doubly hard. What if we took a different approach? Instead of experimenting and trying out the new stuff in our production code, we could write some tests to explore our understanding of the third-party code. Jim Newkirk calls such tests /learning tests/.
+- In learning tests we call the third-party API, as we expect to use it in our application. We’re essentially doing controlled experiments that check our understanding of that API. The tests focus on what we want out of the API.
+** Learning Tests Are Better Than Free
+- The learning tests end up costing nothing. We had to learn the API anyway, and writing those tests was an easy and isolated way to get that knowledge. The learning tests were precise experiments that helped increase our understanding.
+- Not only are learning tests free, they have a positive return on investment. When there are new releases of the third-party package, we run the learning tests to see whether there are behavioral differences.
+- Learning tests verify that the third-party packages we are using work the way we expect them to. Once integrated, there are no guarantees that the third-party code will stay compatible with our needs. The original authors will have pressures to change their code to meet new needs of their own. They will ﬁx bugs and add new capabilities. With each release comes new risk. If the third-party package changes in some way incompatible with our tests, we will ﬁnd out right away.
+- Whether you need the learning provided by the learning tests or not, a clean boundary should be supported by a set of outbound tests that exercise the interface the same way the production code does. Without these boundary tests to ease the migration, we might be tempted to stay with the old version longer than we should.
+** Using Code That Does Not Yet Exist
+- There is another kind of boundary, one that separates the known from the unknown. There are often places in the code where our knowledge seems to drop off the edge. Sometimes what is on the other side of the boundary is unknowable (at least right now). Sometimes we choose to look no farther than the boundary.
+* Test Driven Development(TDD)
+** Three Laws 0f TDD
+- Nowadays everyone knows that TDD asks as to write unit tests first, before we write production code. But that rule is just the tip of the iceberg. Consider the following three laws:
+  1) You may not write production code until you have written a failing unit test.
+  2) You may not write more of a unit test than is sufficient to fail, and not compiling is failing
+  3) You may not write more production code than is sufficient to pass the currently failing test.
+- These three laws lock you into a cycle that is perhaps thirty seconds long. The tests and the production code are written /together/, with the tests just a few seconds ahead of the production code.
+- If we work this way, we will write dozens of tests every day, hundreds of tests every month, and thousands of tests every year. If we work this way, those tests will cover virtually all of our production code.
+** Keeping Test clean
+- Test code is as important as production code. It is not second class citizen. It requires thought, design and care. It must be kept as clean as production code.
+- If you don't keep your tests clean, you will loose them. And without them, you loose the very thing that keeps your production code flexible. It's /unit tests/ that keep our code flexible, maintainable, and reusable. The reason is simple. If you have tests, you do not fear making changes to the code! Without tests every change is a possible bug. No matter how ﬂexible your architecture is, no matter how nicely partitioned your design, without tests you will be reluctant to make changes because of the fear that you will introduce undetected bugs.
+- But /with/ tests that fear virtually disappears. The higher your test coverage, the less your fear.
+- So having an automated suite of unit tests that cover the production code is the key to keep your design and architecture as clean as possible. So if your tests are dirty, then your ability to change your code is hampered, and you begin to lose the ability to improve the structure of that code. The dirtier your tests, the dirtier your code becomes. Eventually you lose the tests, and your code rots.
+** Clean Tests
+- What makes a clean test? Three things. Readability, readability, and readability. Readability is perhaps even more important in unit tests than it is in production code. What makes tests readable? The same thing that makes all code readable: clarity, simplicity, and density of expression. In a test you want to say a lot with as few expressions as possible.
+** One Assert per Test
+- There is a school of thought that says that every test function in a JUnit test should have one and only one assert statement.
+- I think the single assert rule is a good guideline. But I am not afraid to put more than one assert in a test. I think the best thing we can say is that the number of asserts in a test ought to be minimized.
+** Single Concept per Test
+- Perhaps a better rule is that we want to test a single concept in each test function. We don’t want long test functions that go testing one miscellaneous thing after another.
+** F.I.R.S.T.
+- Clean tests follow five other rules that form the above acronym.
+- *Fast*: Tests should be fast. They should run quickly. When tests run slow, you don't want to run them frequently. If you don’t run them frequently, you won’t ﬁnd problems early enough to ﬁx them easily. You won’t feel as free to clean up the code. Eventually the code will begin to rot.
+- *Independent*: Tests should not depend on each other. One test should not set up the conditions for the next test. You should be able to run each test independently and run the tests in any order you like. When tests depend on each other, then the ﬁrst one to fail causes a cascade of downstream failures, making diagnosis difﬁcult and hiding downstream defects.
+- *Repeatable*: Tests should be repeatable in any environment. You should be able to run the tests in the production environment, in the QA environment, and on your laptop while riding home on the train without a network. If your tests aren’t repeatable in any environment, then you’ll always have an excuse for why they fail. You’ll also ﬁnd yourself unable to run the tests when the environment isn’t available.
+- *Self-Validating*: The tests should have a boolean output. Either they pass or fail. You should not have to read through a log ﬁle to tell whether the tests pass. You should not have to manually compare two different text ﬁles to see whether the tests pass. If the tests aren’t self-validating, then failure can become subjective and running the tests can require a long manual evaluation.
+- *Timely*: The tests need to be written in a timely fashion. Unit tests should be written just before the production code that makes them pass. If you write tests after the production code, then you may ﬁnd the production code to be hard to test. You may decide that some production code is too hard to test. You may not design the production code to be testable.
+** Conclusion
+- Tests are important to the health of a project as the production code is. Perhaps they are even more important, because tests preserve and enhance the flexibility, maintainability, and reusability of the production code. So, keeps your code constantly clean. Work to make them expressive and succinct. Invent testing APIs that act as domain-specific language that help you write the tests.
+- If you let the tests rot, then you code will rot too. Keep your tests clean!
+* Classes
+** Class Organization
+- Following the standard Java convention, a class should begin with a list of variables. Public static constants, if any, should come first. The private static variables, followed by private instance variables. There is seldom a good reason to have a public variables.
+- Public functions should follow the list of variables. We like to put the private utilities called by a public functions right after the public function itself. This follows the *step down* rule and helps the program read like a newspaper article.
+** Encapsulation
+- We like to keep our variables and utility functions private, but we’re not fanatic about it. Sometimes we need to make a variable or utility function *protected* so that it can be accessed by a test. If a test in the same package needs to call a function or access a variable, we’ll make it protected or package scope. However, we’ll ﬁrst look for a way to maintain privacy. Loosening encapsulation is always a last resort
+** Class Should be Small
+- The first rule of classes is that they should be small. The second rule of classes is that they should be smaller than that. No, we’re not going to repeat the exact same text from the Functions chapter. But as with functions, smaller is the primary rule when it comes to designing classes. As with functions, our immediate question is always “How small?”
+- With functions we measured size by counting physical lines. With classes we use a different measure. We count responsibilities.
+- The name of a class should describe what responsibilities it fulfills. In fact, naming is probably the first way of helping determine class size. If we can't derive a concise name for a class, the it's likely too large. The more ambiguous the class name, the more likely it has too many responsibilities.
+- We should also be able to write a brief description of the class in about 25 words, with out using the words *"if," "and," "or," or "but."*
+** Single Responsibility Principle(SRP)
+- SRP states that a class or module should have one, and only one, /reason to change/. This principle gives us both a definition responsibility and, and a guideline for class size.
+- Classes should have one responsibility -- one reason to change.
+- Trying to identify responsibilities(reasons to change) often helps us recognize and create better abstraction in our code.
+- SRP is one of the more important concept in OO design. It’s also one of the simpler concepts to understand and adhere to. Yet oddly, SRP is often the most abused class design principle. We regularly encounter classes that do far too many things. Why?
+- Getting software to work and making software clean are two very different activities.
+- We want our system to be composed of many small classes, not a few large ones. Each small class encapsulates a single responsibility, has a single reason to change, and collaborates with a few others to achieve the desired system behavior.
+** Cohesion
+- Classes should have a minimum number of instance variables. Each of the methods of a class should manipulate one or more of those variables. In general the more variables a method manipulates the more cohesive that method is to its class. A class in which each variable is used by each method is maximally cohesive.
+- In general it is neither advisable nor possible to create such maximally cohesive classes; on the other hand, we would like cohesion to be high. When cohesion is high, it means that the methods and variables of the class are co-dependent and hang together as a logical whole.
+* Systems
+- 
+** 
+* Design And Architecture
+** What is Architecture
+- Architecture is the discipline of laying the foundation of an entire a software system. It's composed of the highest level decisions, decisions that must made first. Decisions that survive the life time of the software. Architecture includes the grand shape of the system and the tinniest low level design. It includes the most abstract of the module interfaces and the most concrete of the method implementation.
+- Architecture is the shape that the system takes in order to meet its use cases, and in order to remain flexible and maintainable.
+- Architecture of a system is the set of irrevocable early decisions that lays the foundation for the entire system and its development. Architecture is not about tools, it is about usage.
+- *Architecture exposes usages*. The architecture of a well designed entity will scream its intent at you!
+- A good architecture scream use cases. We want the separation between the UI and use cases to be very strong, so strong in fact, so they can be deployed independently of each other. We don't want the use cases to know anything to know anything at all about the delivery mechanism.
+- The use cases should stand alone.
+- One of the primary goals of good architecture is deferring decisions about databases, UI, and service layers.
+- A good architecture allows you to postpone decisions about frameworks, web server, UI and all of that stuff.
+- A good architecture knows how to keep options open for as long as possible. A good architecture maximizes the number of decisions not made.
+- Good architectures are not composed of tools and frameworks. Good architecture allows you to defer the decisions about the tools and frameworks. Like the UI, like the web server, and even like the dependency injection framework.
+- How do you defer those decisions? You design a structure that decouples you from them and makes them irrelevant.
+- How do you decouple from tools, frameworks and databases? You focus your architecture on the use cases not on the software environment.
+- By focusing the architecture of our application upon its use cases we can defer decisions about the UI, the database or other system components. This deferral allows us to keep our options open for as long as possible. And this means we will be able to change our mind if we need perhaps many times during the course of the project without undo cost. It also creates a strong separation between the system components which allows the business to compare their cost to their business value.
+** Use cases
+- The web is nothing more than a delivery mechanism. When you look at the architecture of an accounting system you should see "accounting system" not web system. It is the web that is the annoying details.
+- In fact you should be able to completely change the delivery mechanism without changing the architecture. Given two versions of the system, one delivered on the web and one delivered on the console app, the architecture of these two systems should be identical.
+- In other words when looking at the architecture of the system you should not be able to tell if it is web delivered or not. The web delivered mechanism shouldn't intrude on the high level architecture of the system. The web delivery mechanism is a detail.
+- You should understand ways users interact with the system in a delivery independent way. In other words we describe how a user interacts with the system without using web related like link, button, click or page. Instead we use words and concepts that don't imply a delivery mechanism. These interactions descriptions are often called *use cases*.
+- Yacobson's(author of OO Software engineering a use case driven approach) idea was that the development of application should be driven by these delivery independent use cases. In other words it's the use cases that form the central organizing principles and the abstraction around witch  the system is built. When you look at the architecture of a use case driven system you see the use case not the delivery mechanism. What you see is the intent of the system.
+- *A use case is nothing more than and nothing less than a formal description of how a user interacts with the system in order to achieve the specific goal.*
+- Use case talks about the data and the commands that goes into the system and the way the system responds. If we are going to have a delivery independent architecture, we need to start with delivery independent use cases.
+- Finally notice that the use cases is essentially an algorithm for the interpretation of input data and the generation of out put data. This means we can create an object that implements that use case.
+- Use cases have the following key elements:
+  1) Data: data needed to start the use case(for verification, or any information required by the system)
+  2) Primary course of the use case: procedures to follow in normal condition. It's called the primary course because it shows what happens if nothing goes wrong.
+  3) Exception course: validation error, procedures for exceptions and errors. This handles if something goes wrong.
+- Again the "Exception course" extensions are a simple modification of the high level algorithm of the original use case. It would be pretty simple to integrate these extensions into the object that implements that use cases.
+- One of the job of use case is to accept input data from the user and deliver out put data back to the user.
+- Web frameworks are not foundations, databases are not foundations they are tools. There is nothing foundational about them. The true foundation of a system lies in its uses cases. To lay that foundation ask yourself what must the system do, but you ask it in a delivery agnostic way, the you create the abstraction that support those delivery agnostic use cases. This leads us to a system whose structure is based on its intent not on some architect's framework.
+* SOLID
+** The source code is the Design
+- Question: What do engineers produce?
+  Answer: Engineers produce documents that specify how to build products.
+- Architects and building engineers produce documents, blue prints and building diagrams that specify  how to build a building. Electronic engineers produce documents, circuit diagrams that specify how to build a circuit board. Mechanical engineers produce documents, mechanical drawings that specify how to build machines. *So what, in the software world qualifies such an engineering document?*
+- Answer: The only document produced by a software engineering that is detailed enough to fully specify software product is the *source code*.
+- You may say the source is the product. No it's not! The running program is the true product. The binary executable is the true product. The source code is the document from which the true  product(the running program) derives.
+- Let's see in another way. If I have an automated factory capable of building houses, then the input to that factory is will be the architect's blue print. If I have an automated factory capable of building circuit boards, then the input to that factory would be the diagrams and specifications created by electronic engineering. And it turns out that there is an automated building factory that can build a software called *compiler*. And the input to that factory is *source code*. Therefore, *the source code is the design*. Any other documents you might produce that are preliminary to source code are just *preliminary*. They are not the design. UML diagrams are not the design. They helped you to create the real design. There's nothing wrong with these, they are very useful but the diagrams are not the design. *The source code is the design*.
+
+** Design Smells
+- The symptoms of bad designs are rigidity, fragility, and immobility.
+*** Rigidity
+- Rigidity is the tendency of the system to be hard to change. What makes a system  hard to change? A system is hard to change when the cost of making a change is high. For example, if by making a small change I have to do a major rebuild, then that system is rigid. What makes a system rigid?
+  1) It takes a long time to do a test and build
+  2) It's just a tiny change that forces a total rebuild.
+- When a small changes force rebuild it's also a sign of high coupling. When modules are coupled tiny little causes the system to be rebuild. Therefore, one of our design goals is to manage the dependencies between modules to ensure when one module changes the others remain unaffected.
+*** Fragility
+- A system is fragile when a small change to one module causes other unrelated modules to misbehave. Long distance sensitivity is always caused by strange coupling and dependencies sneaking across the system. The solution is to manage the dependencies between the modules and isolate them from each other.
+*** Immobility
+- A system is immobile when its internal components can't be easily extracted and reused in new environment. Consider for example a system in which there is a typical username and password login module. If you can't quickly extract that login module and use in an entirely different system then that module is immobile. It can't be moved. Immobility is caused by coupling dependencies in the modules of the system. Let's we have a login module that use particular user interface scheme and particular database schema, I wouldn't be able to reuse that module in a different system if it had a different database schema and different user interface scheme. That login module would be immobile. The strategy for avoiding immobility is when decoupled the central abstractions of the application from the database, UI and the frameworks.
+*** Viscosity
+- A system is viscose when necessary operation like building and testing are difficult to perform and take a long time to execute. A development environment where check in, check out and merges are long processes is viscose. Because the cost of these essential operations is high.
+- The cause of viscosity is always the same, irresponsible tolerance. Developers tolerate conditions they know to be bad and do nothing to correct them. The cost these bad behaviors is coupling. Tight coupling makes systems hard to build, hard to test, and hard to change. It's the tight coupling that makes the cost of these essential operations high.
+- The cure for viscosity is to attack the symptoms by decoupling the modules and managing the dependencies that remain.
+** Inversion of Dependency(What is OO)
+- OO is about passing messages. When you pass a message, you loose control over how that message is going to be interpreted. You don't know it is going to wind up. You can only hope that the receiver of the message reacts appropriately.
+- The essence of OO is that the dependency opposes the flow of control!
+- It's often said that OO is about modeling the real world within your software. But there is nothing special about OO that allows it. Programming is about modeling the real world within your software.
+- It's often said OO is about encapsulation, inheritance and polymorphism. While it's true they are involved, you can use encapsulation, inheritance and polymorphism to write programs that rot every bit as well. Encapsulation, inheritance and polymorphism are mechanisms within OO but they are not its essential quality.
+- The essential quality of OO, the thing that makes different from other paradigms and the thing that makes it useful is the ability to invert key dependencies protecting high level policies from low level policies.
+- OO programming design is all about *dependency management*. Robert C. Martin creates 11 dependency managements.
+- The first 5 dependency management principles controls the relationship and operations between classes. They are called *SOLID* principles, because their names form the acronym *SOLID*. These five principles describes the way classes in OO design relate to one another. These principles are:
+  1) Single Responsibility Principle
+  2) Open Closed Principle
+  3) Liskov Substitution Principle
+  4) Interface Segregation Principle
+  5) Dependency Inversion Principle
+- The next 3 principles are called the principle of *Component Cohesion Principles.* They describe the forces that causes classes to be grouped in independently deployable  components. These principles are:
+  1) Release-Reuse Equivalency Principle
+  2) Common Closure Principle
+  3) Common Reuse Principle
+- The last 3 principles are the principles of component coupling. These principles describes the forces that govern the dependencies between components. These principles are:
+  1) Acyclic Dependencies Principle
+  2) Stable Dependencies Principle
+  3) Stable Abstractions Principle
+- Taking together these principles form a regime of dependency management, which describe how we use OO to build application out of classes and compose them into independently deployable components which  high cohesion and low coupling.
+- Unlike most other industries software is expensive to design but cheap to build.
