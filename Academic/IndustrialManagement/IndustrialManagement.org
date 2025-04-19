@@ -1,0 +1,137 @@
+#+TITLE: Industrial Management for 5th year
+#+AUTHOR: Ertale81
+#+STARTDATE: <2025-04-15 Tue>
+* Introduction to Industrial Management
+** What is Industrial Management?
+- It is a combination of two words:
+  + Industrial: refers to industry. Complex & sophisticated methods to the production of goods and services.
+  + Management: means planning, organizing, coordinating, controlling, motivating and directing various activities in an organization. Management is the process used to accomplish organizational goals.
+    Management is an art of knowing what to do, when to do and see that is done in the best and cheapest way.
+- Industrial Management deals with the creation and management of systems that integrates people, materials and energy in productive ways.
+- Essentially industrial management is concerned with the design of system and its primary function is that of management.
+- Efficiency: is getting the most output from the least amount of inputs in order to minimize resource costs. "Doing things right"
+- Effectiveness: is completing activities so that organizational goals are attained. "Doing the right things"
+** Industrial Vs Production management
+- Industrial management deals with the analysis, design and control of productive systems. A productive system is any system that produces either a product or a service.
+- Production management attempts to familiarize a person with concepts and techniques specific to the analysis and management of a production activity.
+- Production management is mostly associated with managing a production environment. The deign and analysis of productive systems are outside its purview on the other hand, industrial management is concerned with designing systems and providing expert information without actually operating the systems.
+- Production or operations management is a sub specialty of industrial management.
+** Objectives of Industrial management
+- The ultimate objective of industrial management is to produce the right quantity of right quality goods at the right time. These are attained through:
+  1) Manufacturing costs: The unit cost of the product should be estimated carefully and every effort should be made to stick to the cost standards.
+     Efforts should be made for the following:
+     + Reduction in variable costs
+     + Reduction in the fixed costs
+     + Increase in the volume of production, so that the fixed costs may be spread over more production resulting in the reduction in the per unit absorption.
+     + The allocation of the fixed overheads should be made on scientific basis.
+  2) Machinery and Equipment:
+     + Selection and acquisition of machinery and equipment according to production process
+     + Utilization of machinery and equipment
+  3) Materials
+  4) Manpower
+  5) Manufacturing Services
+** Application of Industrial Management
+- Design and Development
+- Plant layout material handling
+- Method study and measurement techniques
+- Production forecasting
+- Production planning and scheduling
+- Proper inventory control
+- Quality control: while planning, scheduling and inventory control are responsible for providing quantity and timing production, quality control is responsible for providing quality.
+- Production control
+- Method Analysis
+- Motivate workers
+** Functions of Management
+- To manage is to forecast and plan, to organize, to command, and to control
+- The most widely accepted functions of management are: planning, organizing, staffing, directing and controlling.
+- *Planning*: in deciding in advance what to do, when to do and how to do. Plan is a future course of actions and it bridges the gap from where we are & where we want to be.
+- *Organizing*: to organize a business is to provide it with everything useful or its functioning i.e., raw material, tools, capital and personnel's.
+- *Staffing*: selecting and training individuals for specific job functions, and charging them with associated responsibilities.
+  Determining the number of employed personnel in an organization or program. The main purpose of staffing is to put the right man on the right job. Staffing involves:
+  + Manpower planning(choose the person and giving the right place)
+    recruitment, selection and placement
+  + Training and development
+- *Directing/Leading*: Direction deals directly with influencing, guiding, supervising, motivating sub-ordinate for the achievement of organizational goals. Direction has following elements:
+  + supervision and Motivation
+  + Communication
+- *Controlling*: is a three-step process of measuring progress to ware objective, evaluating what remains to be done, and taking the necessary corrective action to achieve or exceed the objectives.
+  + Measuring: determining the degree to which progress toward objective is being made.
+  + Evaluating: determining cause of and possible ways to act on significant deviation from planned performance.
+  + Correcting: taking control action to correct an unfavorable trend or take advantage of unusually favored trend.
+  Steps in controlling:
+  1) Establish Standards of performance
+  2) Measure Actual performance
+  3) Compare performance to standard
+  4) Take corrective action
+** Level of Managers
+- First-line managers: often called supervisions stand at the base of managerial hierarchy
+- Middle Managers: heads of various departments and organize human and other resources to achieve organizational goals.
+- Top managers: Set organizational goals, strategies to implement them and make decisions.
+** Basics of productivity
+- Productivity is a common measure of how well resources are being used or a measure of the efficient use of resources usually expressed as output to input. The amount of products or services produced compared to the amount of goods and labor used to produce.
+  productivity = _Outputs_
+                 inputs
+- 
+* Forecasting
+** Introduction
+- Forecasting is statement about the future value of a variable interest such as demand and a tool used for predicting future value(demand) based on past information.
+- Process of predicting a future event underlying basis of all business decisions:
+  + production
+  + Inventory
+  + Personnel
+  + Facilities
+** Importance of forecasting
+- Marketing Managers: to determine optimal sales force allocations, plan promotion and advertising
+- Planning for capital investment: predictions about future economic activities
+- Personnel department: planning for human resource.
+- Managers of nonprofit institutions: forecast for budgeting purpose
+- Universities, Banks, Manufacturers ...
+- Service providers: forecast population, demographic variables, weather....
+** Principles of forecasting
+- Forecasts rarely perfect because of randomness.
+- Forecasts more accurate for groups than individuals.
+- Forecast accuracy decreases as time horizon increases.
+** Forecasting Ranges
+- Short-range forecasts(usually less than 3 months)
+  + concerned with the daily operations of business firm.
+  + Daily demand or resource requirement, job scheduling and worker assignment
+- Medium-range forecast(from 3 month to 2 years)
+  + Yearly production and sales planning and reflect peaks and valleys in demand and the necessity to secure additional resource for the upcoming year.
+- Long-range forecast(longer than 1 or 2 years)
+  + these forecasts are related to management's attempt to:
+    * plan new products for changing markets
+    * build new facilities
+    * secure long-term financing
+** Steps of forecasting
+1) Decide what needs to be forecasted
+2) Evaluate and analyze appropriate data
+3) Select and test the forecast model
+4) Generate the forecast
+5) Monitor forecast accuracy over time.
+** Forecasting Techniques
+1) Qualitative methods: Used when situation is vague and little data exists(new product, new technology, innovative products)
+   Involves perception, experience.
+   + forecasts generated subjectively by the forecaster
+   + educated guess
+2) Quantitative Methods: used when situation is stable and historical data exists(existing products, current technology...)
+   Involves mathematical techniques or mathematical modeling.
+   + commodity products that are sold every day.
+
+
+
+Qualitative forecasting methods:
++ Individual expert
++ Executive opinions/Group consensus: the subjective view of executives or experts from sales, production, finance, purchasing, and administration are averaged to generate a forecast about future sales.
++ Delphi Method: based on sequential questionnaires.
++ Customer survey: Surveys may consist of telephone contacts, personal interviews, or questionnaires as a means of obtaining data.
+
+Quantitative forecasting methods
+Quantitative analysis typically involves two approaches:
+1) Casual models
+2) Time-series models
+Casual/Regression Methods: these methods establish a quantitative link between observable or known variable(like advertising expenditure) with demand for some product.
++ It establishes a cause-and-effect relationship between independent and dependent variables.
++ A common tool for casual modeling is linear regression:
+  additional related variables may require multiple regression modeling.
+  *Y = a+bX*; Y dependent variable, and X independent variable
+Correlation coefficient (r) measures the direction and strength of the linear relationship between two variables. The closer the /r/ to 1.0 the better the regression line fits the data points.

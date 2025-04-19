@@ -72,21 +72,28 @@
 - We can compute the height of a tree efficiently, in O(/n/) worst-case time, by considering a recursive definition. To do this, we will parameterize a function based on a position with the tree, and calculate the height of the subtree rooted at that position. Formally, we define the *height* of a position /p/ in a tree /T/ as follows:
   + If /p/ is a leaf, then the height of /p/ is 0.
   + Otherwise, the height of /p/ is one more than the maximum of the heights of /p/'s children.
- #+begin_src java
-   public int height(Position<E> p){
-      int h = 0;
-      for(Position<E> c: children(p)){
-          h = Math.max(h, 1 + height(children(c)));
-      }
-      return h;
-   }
- #+end_src
+- /The height of the root of non empty T, according to the recursive definition, equals the maximum depth among all leaves of tree T./
+- An implementation of a recursive algorithm to compute the height of a subtree rooted at a given position /p/ is presented as follow. The overall height of a nonempty tree can be computed by sending the root of the tree as parameter.
+#+begin_src java
+  public int height(Position<E> p){
+     int h = 0;
+     for(Position<E> c: children(p)){
+         h = Math.max(h, 1 + height(c));
+     }
+     return h;
+  }
+#+end_src
+- The running time of the above /height/  algorithm; when called on the root of /T/, is /O(n)/, where /n/ is the number of positions of /T/.
 ** Binary Tree
 - A binary tree is an ordered tree with the following properties:
   1) Every node has at most two children
   2) Each child node is labeled as either a *left child* or a *right child*.
   3) A left child precedes a right child in the order of children of node.
 - The subtree rooted at a left or right child of an internal node /v/ is called a *left subtree* or *right subtree*, respectively, of /v/. A binary tree is *proper* if each node has either zero or two children. Some people also refer to such trees as being *full* binary trees. Thus, in a proper binary tree, every internal node has exactly two children. A binary tree that is not proper is *improper*.
+- *Decision tree* - is a proper binary tree whose position /p/ represents a decision of what to do if the question associated with /p's/ ancestor are answered in a way that leads to /p/.
+- An arithmetic expression can be represented by a binary tree whose leaves are associated with variables or constants, and whose internal nodes are associated with one of the operators +, −, ∗, and /. Each node in such a tree has a value associated with it.
+  + If a node is leaf, then its value is that of its variable or constant.
+  + If a node is internal, then its value is defined by applying its operation to the values of its children.
 - A typical arithmetic expression tree is a proper binary tree, since each operator +, -, *, and / takes exactly two operands. Of course, if we were to allow unary operators, like negation(-), as in "-x", then we would have an improper binary tree.
 - A recursive binary tree definition:
   Incidentally, we can also define a binary tree, in a recursive way. In that case, a binary tree is either:
@@ -101,15 +108,33 @@
 *** Properties of Binary Trees
 - Binary trees have several interesting properties dealing with relationships between their heights and number of nodes. We denote the set of all nodes of a tree /T/ at the same depth /d/ as *level* /d/  of /T/.
 - In binary tree, level 0 has at most one node(the root), level 1 has at most two nodes(the children of the root), level 2 has at most four nodes, and so on. In general, level /d/, has at most 2^{n} nodes.
-- In nonempty proper binary tree /T/, with n_{E} external nodes and n_{I} internal nodes, we have n_{E} = n_{I} +1.
+- The maximum number of nodes on the levels of a binary tree grows exponentially as we go down the tree. We can derive the following properties relating the height of a binary tree /T/ with its number of nodes.
+  + Let /T/ be a nonempty binary tree, and let n, n_{E}, n_{I}, and h denote the number of nodes, number of external nodes, number of internal nodes, and the height of /T/ respectively. Then /T/ has the ff properties:
+    1) h + 1 ≤ n ≤ 2^{h+1} − 1
+    2) 1 ≤ n_{E} ≤ 2^{h}
+    3) h ≤ n_{I} ≤ 2^{h-1}
+    4) log(n + 1) − 1 ≤ h ≤ n − 1
+  + Also, if /T/ is proper, then /T/ has the following properties:
+    1) 2h + 1 ≤ n ≤ 2^{h+1} − 1
+    2) h + 1 ≤ n_{E} ≤ 2^{h}
+    3) h ≤ n_{I} ≤ 2^{h} − 1
+    4) log(n + 1) − 1 ≤ h ≤ (n − 1)/2
+- In addition to the earlier binary tree properties, the following relationship exists
+between the number of internal nodes and external nodes in a proper binary tree:
++ In nonempty proper binary tree /T/, with n_{E} external nodes and n_{I} internal nodes, we have n_{E} = n_{I} +1.
 ** Implementing Trees
+*** Linked Structure for Binary Tree
 - A natural way to realize a binary tree /T/ is to use a *linked structure*, with a node that maintain references to the element stored at a position /p/ and the nodes associated with the children and parent of /p/. If /p/ is the root of /T/, then the parent field of /p/ is /null/. Likewise, if /p/ doesn't have a left child(respectively, right child), the associated field is /null/. The tree itself maintains an instance variable storing a reference to the root node(if any), and a variable, called size, that represents the overall number of nodes of /T/.
 - In cases of a linked binary tree, we suggest that the following update methods be supported:
+  
   + addRoot(/e/): Creates a root for an empty tree, storing /e/, as the element, and returns the position of that root; an error occurs if the tree is non empty
   + addLeft(/p, e/): Creates a left child of position /p/, storing element /e/, and returns the position of the new node; an error occurs if /p/ already has a left node.
   + addRight(/p, e/): Creates a right child of position /p/, storing element /e/, and returns the position of the new node; an error occurs if /p/ already has a right child.
   + set(/p, e/): Replaces the element stored at position /p/ with element /e/, and returns the previously stored element.
   + attach(/p, T1, T2/): Attaches the internal structure of trees /T1/ and /T2/ as a respective left and right subtrees of leaf position /p/ and resets /T1/ and /T2/ to empty trees; an error condition occurs if /p/ is not a leaf.
   + remove(/p/): Removes the node at position /p/, replacing it with its child(if any), and returns the element that had been stored at /p/; an error occurs if /p/ has two children.
+    
 - We have specifically chosen this collection of operations because each can be implemented in /O(1)/ worst-case time with our linked representation. The most complex of those are /attach/ and /remove/, due to the case analyses involving the various parent-child relationships and boundary conditions, yet there remains only a constant number of operations to perform.(The implementation of both methods could be greatly simplified if we used a tree representation with a sentinel node)
+- 
+*** Array-Based Representation of a Binary Tree
 - 
