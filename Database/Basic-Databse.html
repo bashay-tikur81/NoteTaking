@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-06-06 Fri 01:50 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Database Design and Concept by Caleb Curry</title>
+<meta name="author" content="Ertale81" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Database Design and Concept by Caleb Curry</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgb79fcff">1. Database Intro</a></li>
+<li><a href="#org3547fd9">2. SQL</a></li>
+<li><a href="#org4d74389">3. Database Designs</a></li>
+<li><a href="#org5754bec">4. Data Integrity</a></li>
+<li><a href="#orgac97654">5. Relationships</a></li>
+<li><a href="#orgf6ba202">6. Keys</a>
+<ul>
+<li><a href="#orgca8fcac">6.1. Foreign Key constraints</a></li>
+</ul>
+</li>
+<li><a href="#org36643e3">7. Entity-Relationship</a></li>
+<li><a href="#org281fe98">8. Normalization</a></li>
+<li><a href="#org8cbd08c">9. Indexes</a></li>
+<li><a href="#org19f57e0">10. Join</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb79fcff" class="outline-2">
+<h2 id="orgb79fcff"><span class="section-number-2">1.</span> Database Intro</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Entity: An entity is a real-world object or concept that can be identified and stored in the database. Every single rows should be the entity type. An entity type is a collection of similar entities — it's like a blueprint or category for a group of entities that share the same attributes. Think of it like a class in programming.</li>
+<li>Table: file, or relation</li>
+<li>Row: record, tuple</li>
+<li>Attribute: column, fields</li>
+<li>Entity type: the table name</li>
+<li>View: view is a virtual table(behaves like a table) that is based the result of SQL query. It doesn't store the data itself(but it pulls data from the underlying table) but presents data stored in one or more tables in a specific format. You can think of it as a saved SELECT statement. It can be used to simplify complex queries, improve security, or present data in a specific way.</li>
+<li>Database types based on data model:
+<ol class="org-ol">
+<li>Relational Databases (RDBMS)
+<ul class="org-ul">
+<li>Organize data into tables (rows and columns)</li>
+<li>Use SQL for querying</li>
+<li>Examples: MySQL, PostgreSQL, Oracle, SQL Server</li>
+</ul></li>
+<li>NoSQL Databases
+<ul class="org-ul">
+<li>Non-tabular; used for unstructured or semi-structured data</li>
+<li>Categories include:
+Document-based (e.g., MongoDB, CouchDB)
+Key-value stores (e.g., Redis, DynamoDB)
+Column-family (e.g., Apache Cassandra, HBase)
+Graph-based (e.g., Neo4j, ArangoDB)</li>
+</ul></li>
+<li>Object-Oriented Databases
+<ul class="org-ul">
+<li>Store data as objects, like in object-oriented programming
+Examples: db4o, ObjectDB</li>
+</ul></li>
+<li>Hierarchical Databases
+<ul class="org-ul">
+<li>Data is organized in a tree-like structure
+Example: IBM Information Management System (IMS)</li>
+</ul></li>
+<li>Network Databases
+<ul class="org-ul">
+<li>Data is organized in a graph, allowing more complex relationships
+Example: Integrated Data Store (IDS)</li>
+</ul></li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-org3547fd9" class="outline-2">
+<h2 id="org3547fd9"><span class="section-number-2">2.</span> SQL</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>General language used for every RDBMS.</li>
+<li>SQL is used to defines the database then manipulates the data within. SQL is divided into several types, or categories, based on what the commands do. Here are the main types of SQL:
+<ol class="org-ol">
+<li>Data Definition Language(DDL):
+<ul class="org-ul">
+<li>Used to define or modify the database structure, such as tables and schema. Common DDL commands:
+CREATE, ALTER, DROP(deletes a table, view or object), TRUNCATE(removes all rows from the table quickly can't be rolled back)</li>
+</ul></li>
+<li>Data Definition Language(DDL):
+<ul class="org-ul">
+<li>Used to manipulate data inside the tables. Common DML commands: SELECT, INSERT, DELETE, UPDATE</li>
+</ul></li>
+<li>Data Control Languages(DCL):
+<ul class="org-ul">
+<li>Used to control access to database. Common commands: GRANT(gives user access privileges), REVOKE(remove user access privileges)</li>
+</ul></li>
+<li>Transaction Control Language(TCL):
+<ul class="org-ul">
+<li>Used to manage transactions in the database(especially useful with DML operations). Common TCL commands: COMMIT(save all changes made in a transaction), ROLLBACK(undo changes if error occurs), SAVEPOINT(set a point to which you can roll back), SET TRANSACTION(set properties for the transaction)</li>
+</ul></li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4d74389" class="outline-2">
+<h2 id="org4d74389"><span class="section-number-2">3.</span> Database Designs</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Database design involves organizing data efficiently and logically. This helps for our database not to have data integrity issues and anomalies. There are several types of database designs based on data organization models and how the design supports application needs. Here are the main types of database design that can be applied to SQL, NoSQL, or other systems.</li>
+<li>Normalization is the process of creating a best database design.
+<ol class="org-ol">
+<li>Conceptual database design
+<ul class="org-ul">
+<li>High level, abstract view of the data</li>
+<li>This is unlimited brainstorming stage. We don't think we can't do because we don't have this amount of space or whatever, we just think what data should be stored.</li>
+<li>Focuses on <b>what data</b> should be stored(what data the system will handle) and the relationship between them</li>
+<li>Usually represented by Entity-Relationship Diagram(ERD)</li>
+<li>Doesn't deal how the data is stored physically.</li>
+<li>Used by business analysts, business architects</li>
+<li>e.g: "Customers have orders" &#x2013; no tables or columns yet.</li>
+</ul></li>
+
+<li>Logical Database Design
+<ul class="org-ul">
+<li>Converts the conceptual design into <b>detailed blueprint</b> that reflects the structure of the data but is independent of any DBMS.</li>
+<li>Define <b>tables, columns, data types</b> and <b>relationships</b> &#x2013; but still not specific to a database engine</li>
+<li>Enforces normalization to reduce redundancy.</li>
+<li>Used by Database designers, system analysts</li>
+<li>e.g: Table "Customers" with fields like CustomerId, Name&#x2026;</li>
+</ul></li>
+<li>Physical Database Design
+<ul class="org-ul">
+<li>Implements the logical design on a specific database system.</li>
+<li>Focuses on indexing, partitions, storage optimization, and performance.</li>
+<li>Deals with <b>how</b> data is stored: indexing, partitioning, tablespaces, and storage formats.</li>
+<li>Used by DBAs, System engineers</li>
+<li>e.g: Creating indexes on CustomerId for faster queries.</li>
+</ul></li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5754bec" class="outline-2">
+<h2 id="org5754bec"><span class="section-number-2">4.</span> Data Integrity</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>It is having correct data in your database. Data integrity in database ensures that the data is accurate, consistent, and reliable throughout its life cycle. When we design our database we don't want repeated values, incorrect values, broken relationship between tables.The three main types of data integrity:
+<ol class="org-ol">
+<li>Entity Integrity: Entity is anything that we store data about. This ensures each table should have a unique and not null primary key. Prevents duplicates or missing records and enforces uniqueness within rows.
+e.g: A customer must have a unique CustomerId</li>
+<li>Referential Integrity: Maintains consistency between related tables using <b>foreign  keys</b>. It ensures that relationships between tables remain valid.
+e.g: An Orders table has a CustomerId that must exist in the customers table.</li>
+<li>Domain Integrity: Domain is the acceptable values for a column. Ensures all values in a column fall within a defined set of valid values. Controlled by <b>data types(e.g. Integer, Character, or String), constraints,</b> and <b>rules</b>.
+e.g: Gender Char(1) CHECK (Gender IN ('M', 'F'))</li>
+<li>User-Defined Integrity(Business rules): Enforces rules specific to the business logic that may not be covered by standard integrity types. They are implemented via <b>trigger, procedures,</b> or <b>application logic</b>
+e.g: A discount can't be applied unless the order total is above $100.
+	 A customer can't place more than 5 pending orders.</li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgac97654" class="outline-2">
+<h2 id="orgac97654"><span class="section-number-2">5.</span> Relationships</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>Relationship Types in a Relational Database</li>
+<li>One-to-Many (1:N)
+Definition: One record in Table A relates to many records in Table B.
+Example: One Customer can place many Orders.
+How to Detect:
+orders.customer<sub>id</sub> is a foreign key referencing customers.id (a primary key).
+orders.customer<sub>id</sub> is not unique (i.e., can appear multiple times).</li>
+<li>One-to-One (1:1)
+Definition: One record in Table A relates to exactly one record in Table B, and vice versa.
+How to Detect:
+Foreign key in Table B referencing Table A’s primary key.
+That foreign key is also UNIQUE in Table B.</li>
+<li>Many-to-Many (M:N)
+Definition: Many records in Table A relate to many records in Table B.
+Implementation: Through a junction table with two foreign keys.
+Example:
+students, courses, and a junction table student<sub>courses</sub>(student<sub>id</sub>, course<sub>id</sub>)</li>
+</ul>
+<p>
+<b>N.B</b> There is no Many-to-One relationship since it can be views One-to-Many from the other side of the relationship.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgf6ba202" class="outline-2">
+<h2 id="orgf6ba202"><span class="section-number-2">6.</span> Keys</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Keys are special fields (columns) used to identify rows uniquely and manage relationships between tables.</li>
+<li>A simple key  is a <b>single column</b> used as a key(like a primary key or foreign key)</li>
+<li>A composite key uses two or more columns together to form a key. The combination must be unique, even if the individual columns are not.</li>
+<li>Superkey is a set of one or more attributes that uniquely identifies each row. It includes candidate keys and other attributes. It may also contain extra attributes not necessary for uniqueness.
+e.g: If StudentID is unique, then StudentID + Name is a super key too &#x2013; but not minimal.
+superkey is any number of columns that forces every row to be unique. superkey are not usually defined within the database. Superkey is any number of columns that creates unique rows, a candidate key is the least number of columns. The candidate key is the least number of columns needed to force every row to be unique.</li>
+<li>Primary key is a candidate key that UNIQUE, NEVER CHANGING, and NEVER NULL.</li>
+<li>Alternate key could be the primary key. Basically it all the candidate key that were not selected as the primary key. You're not required to defined all your candidate keys in your databases. But in some cases you create an index on the alternate key.</li>
+<li>Surrogate key and Natural key are categories of primary key. We don't have to define these key in our database. These are for database design to know the difference between different keys. Natural key is something you naturally want to store on the table. When you have a "user", naturally you want to store the "username" and "email". As long as they fulfill the requirements of a primary key, you don't have to make up something(no need of column to add). Natural keys are real-world meaning.</li>
+<li>Surrogate key are columns that are added to a database. In every table will only have either a natural key or a surrogate, but can't have both types as a key.</li>
+<li>Foreign key:
+<ul class="org-ul">
+<li>references a primary key on the same table or an a separate table.</li>
+<li>are keys that keeps things connected.</li>
+<li>you can have multiple columns having foreign key relations to different tables.(in primary we have only one primary key, this primary can be composite or not)</li>
+<li><p>
+Primary keys are what sorts every individual tables and foreign keys are what connects tables and you will protect that integrity using foreign key constraint.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Key type</th>
+<th scope="col" class="org-left">Purpose</th>
+<th scope="col" class="org-left">Uniqueness</th>
+<th scope="col" class="org-left">Nullable</th>
+<th scope="col" class="org-left">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Primary Key</td>
+<td class="org-left">Main unique Identifier</td>
+<td class="org-left">Yes</td>
+<td class="org-left">No</td>
+<td class="org-left">Only one per table</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Foreign Key</td>
+<td class="org-left">links another table's primary key</td>
+<td class="org-left">No</td>
+<td class="org-left">Often</td>
+<td class="org-left">can multiple per table</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Candidate Key</td>
+<td class="org-left">all valid unique identifiers</td>
+<td class="org-left">Yes</td>
+<td class="org-left">No</td>
+<td class="org-left">one become the PK</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Alternate Key</td>
+<td class="org-left">candidate key not used as PK</td>
+<td class="org-left">Yes</td>
+<td class="org-left">No</td>
+<td class="org-left">still unique</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Composite Key</td>
+<td class="org-left">key made from multiple attribute</td>
+<td class="org-left">Yes</td>
+<td class="org-left">No</td>
+<td class="org-left">common in bridge table</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Surrogate Key</td>
+<td class="org-left">system generated ID</td>
+<td class="org-left">Yes</td>
+<td class="org-left">No</td>
+<td class="org-left">No business meaning</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Super Key</td>
+<td class="org-left">any set uniquely identify row</td>
+<td class="org-left">Yes</td>
+<td class="org-left">No</td>
+<td class="org-left">may be non-minimal</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="outline-container-orgca8fcac" class="outline-3">
+<h3 id="orgca8fcac"><span class="section-number-3">6.1.</span> Foreign Key constraints</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>These protects the integrity of our database. These are constraints that define what will happen to child table if something happens to the parent table. The most common are: ON UPDATE and ON DELETE options</li>
+</ul>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Option</b></th>
+<th scope="col" class="org-left"><b>Behavior</b></th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">-------------</th>
+<th scope="col" class="org-left">------------------------------------------------------------------------</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">CASCADE</th>
+<th scope="col" class="org-left">Automatically updates/deletes child records if parent is updated/deleted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">SET NULL</td>
+<td class="org-left">Sets the foreign key to NULL if the parent is deleted</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">SET DEFAULT</td>
+<td class="org-left">Sets the foreign key to its default value if the parent is deleted</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">RESTRICT</td>
+<td class="org-left">Prevents deletion or update if there are matching child records</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">NO ACTION</td>
+<td class="org-left">Same as RESTRICT (depends on DB system)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org36643e3" class="outline-2">
+<h2 id="org36643e3"><span class="section-number-2">7.</span> Entity-Relationship</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>An Entity-Relationship (ER) Diagram is a graphical representation of entities, attributes, and relationships in a database. It is widely used in database design to visualize how data is structured and interconnected.</li>
+<li>Detailed Break down:
+<ol class="org-ol">
+<li>Entities:
+<ul class="org-ul">
+<li>Entities are objects or concepts that exist independently in a database.</li>
+<li>Types of entities:
+<ul class="org-ul">
+<li>Strong entities: exist independently(e.g. "Customer", "Product")</li>
+<li>Weak entities: depend on another entity(e.g. "Order item" relies on "Order")</li>
+</ul></li>
+<li>Entities are shown as rectangles in an ER diagram.</li>
+</ul></li>
+<li>Attributes:
+<ul class="org-ul">
+<li>They define properties of entities</li>
+<li>Types of attributes:
+<ul class="org-ul">
+<li>Simple attributes: can not broken down further(e.g., "Customer Name")</li>
+<li>Composite attributes: can be divided into sub-parts(e.g., "Full Name" &rarr; "First Name" + "Last Name")</li>
+<li>Derived attributes: computed from other attributes(e.g., "Age" from "Date of Birth")</li>
+<li>Multivalued attributes: can have multiple values(e.g., "Phone Numbers")</li>
+</ul></li>
+<li>Attributes are represented as ovals.</li>
+</ul></li>
+<li>Relationships
+<ul class="org-ul">
+<li>Relationships describe associations between two or more entities.</li>
+<li>Types of relationships:
+<ul class="org-ul">
+<li>One-to-One(1:1): A person has one passport.</li>
+<li>One-to-Many(1:M): A customer places multiple orders.</li>
+<li>Many-to-Many(M:N): Student enroll in multiple courses.</li>
+</ul></li>
+<li>Relationships are shown as diamonds with lines connecting related entities.</li>
+</ul></li>
+<li>Keys:
+<ul class="org-ul">
+<li>Uniquely identifies entities within a database.</li>
+<li>Primary key: A unique identifier, Foreign key: connects one entity to  another, Candidate key: potential primary key options.</li>
+</ul></li>
+<li>Cardinality and Participation:
+<ul class="org-ul">
+<li>Defines constraints on relationships.</li>
+<li>Cardinality: specifies the number of instances that can relate</li>
+<li>The only two possibilities for cardinality are ONE or MANY(1:1, 1:M, M:N). For example, 1:M means one row can be connected to many rows.</li>
+<li>Participation: Determines if an entity's involvement in a relationship is mandatory or optional.
+<ul class="org-ul">
+<li>Mandatory participation(Modality = 1)</li>
+<li>Optional participation(Modality = 0)</li>
+</ul></li>
+<li>Modality is a subset of participation because modality focuses on individual entity instance, while participation considers the entire entity set. Modality defines whether an entity's involvement in a relationship is <b>mandatory(1)</b> or *optional(0). Example: If every student must enroll in at least one course, the "Student" entity has modality 1 in relation to "Course." If a student may or may not enroll, then modality is 0.</li>
+<li>Where as Participation specifies whether <b>all</b> instances of an entity <b>must</b> participate in a relationship or if some can exist without it. It can be <b>total participation</b> (every entity must participate in a relationship) or <b>partial participation</b> (some entities may not be involved). Example: In a hospital system, every "Patient" must have a "Medical Record" (total participation), but not every "Doctor" must have a "Surgical Case" (partial participation).</li>
+<li>Difference between modality and cardinality:
+<ul class="org-ul">
+<li>While modality defines the necessity of participation, cardinality describes how many instances of an entity can participate in a relationship.</li>
+</ul></li>
+</ul></li>
+</ol></li>
+<li>Uses of ER Diagrams
+<ul class="org-ul">
+<li>Designing and structuring databases efficiently.</li>
+<li>Understanding complex relationships between data.</li>
+<li>Communicating database design to stakeholders.</li>
+<li>Preventing redundancy and inconsistency in data modeling.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org281fe98" class="outline-2">
+<h2 id="org281fe98"><span class="section-number-2">8.</span> Normalization</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>Data normalization is the process of organizing a database to <b>reduce redundancy</b> and <b>improve data integrity (consistency and accuracy).</b> Think of it as cleaning up your database design so it’s efficient, consistent, and easy to maintain.</li>
+<li>Why Normalize Data?
+<ul class="org-ul">
+<li>Eliminates duplication (reduces unnecessary repetition of data).</li>
+<li>Improves consistency (avoids inconsistencies due to repeated data).</li>
+<li>Enhances efficiency (reduces storage needs and speeds up queries).</li>
+<li>Simplifies maintenance (changes are easier to apply without errors).</li>
+</ul></li>
+<li>Normalization in done in different stages, known as <b>normal forms(NF)</b>. Each form fixes a specific type of issue.
+<ol class="org-ol">
+<li>First Normal Form(1NF):
+<ul class="org-ul">
+<li>No repeating groups or arrays.</li>
+<li>Ensures each column has atomic values(no multiple values in one column)</li>
+<li>e.g., Instead of storing multiple phone numbers in one column, they should be placed in separate rows.</li>
+</ul></li>
+<li>Second Normal Form(2NF):
+<ul class="org-ul">
+<li>Must be 1NF</li>
+<li>All non-key columns must depend on the <b>entire primary key</b> (not just part of it).</li>
+<li>Removes <b>partial dependency</b>, ensuring non-key attributes depend on <b>entirely on the primary key</b>.</li>
+<li>e.g., If a table contains "Student<sub>ID</sub>" and "Course<sub>ID</sub>", attributes like "Course<sub>Name</sub>" should be moved to separate table, because "Course<sub>Name</sub>" only depends on the "Course<sub>ID</sub>" not "Student<sub>ID</sub>". So this partial dependency should be removed.</li>
+<li>Partial dependency is when a column only depends on part of the primary key. In order to depend only part of the primary key, you have to have a compound or composite key(the primary key  has to be multiple columns).</li>
+</ul></li>
+<li>Third Normal Form(3NF):
+<ul class="org-ul">
+<li>Must be 2NF</li>
+<li>No <b>transitive dependencies</b> (non-key &rarr; non-key)</li>
+<li>Non-key attribute 1 depends on another non-key attribute 2 in which the non-key attribute 2 depends on the primary key.</li>
+<li>Eliminates <b>transitive dependency</b>, ensuring attributes depend only on the primary key.</li>
+<li>e.g., If "Student<sub>ID</sub>" determines "Student<sub>Address</sub>," and "Student<sub>Address</sub>" determines "City<sub>Name</sub>", then "City<sub>Name</sub>" should be moved to another table.</li>
+</ul></li>
+
+<li>Boyce-Codd Normal Form (BCNF)
+<ul class="org-ul">
+<li>Ensures more stringent rules than 3NF, where every functional dependency is enforced properly.</li>
+</ul></li>
+<li>Fourth Normal Form (4NF)
+<ul class="org-ul">
+<li>Removes multi-valued dependencies, ensuring records do not have unnecessary duplication of grouped data.</li>
+</ul></li>
+</ol></li>
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Normal Form</th>
+<th scope="col" class="org-left">Fixes What</th>
+<th scope="col" class="org-left">Common Violation</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">-----------</th>
+<th scope="col" class="org-left">---------------------------------</th>
+<th scope="col" class="org-left">---------------------------------------</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">1NF</th>
+<th scope="col" class="org-left">Repeating columns or arrays</th>
+<th scope="col" class="org-left">Multiple values in a single column</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">2NF</td>
+<td class="org-left">Partial dependency on primary key</td>
+<td class="org-left">Info depends on part of a composite key</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">3NF</td>
+<td class="org-left">Transitive dependency</td>
+<td class="org-left">Info depends on something not a key</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+In some cases(especially <b>analytics</b> or <b>performance-focused</b> systems), you might denormalize:
+</p>
+<ul class="org-ul">
+<li>Add redundancy for speed</li>
+<li>Avoid joins in big data queries</li>
+</ul>
+<p>
+But for most <b>transactional systems (OLTP)</b>, normalization  is the best practice.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org8cbd08c" class="outline-2">
+<h2 id="org8cbd08c"><span class="section-number-2">9.</span> Indexes</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>In a database, indexes are special data structures that improve the speed of <b>data retrieval</b>. They work like a table of contents in a book, helping the system find specific records without scanning the entire table. Index is's a special data structure that improves <b>query speed</b>, especially for large tables.</li>
+
+<li>Types of Indexes in Databases:
+<ol class="org-ol">
+<li>Primary Index:
+<ul class="org-ul">
+<li>Automatically created on the primary key of a table.</li>
+<li>Ensures unique values and fast lookup</li>
+</ul></li>
+<li>Clustered Index:
+<ul class="org-ul">
+<li>A clustered index determines the <b>physical order of data storage in a table</b>. This means the rows are stored in the order of the indexed column, making retrieval faster when searching for sequential data.</li>
+<li>Key characteristics:
+<ul class="org-ul">
+<li>There can only be one clustered index per table since the data is stored physically in order.</li>
+<li>The actual table data and the index are stored together.</li>
+<li>Used in queries where sorting or range-based searching is important.</li>
+<li>A table can have only one clustered index.</li>
+</ul></li>
+<li>e.g., Sorting data by <b>Employee<sub>ID</sub></b></li>
+<li>Pros:
+<ul class="org-ul">
+<li>Faster retrieval for range-based queries, ideal for primary keys as it ensures data is sorted physically, reduces I/O operations, improving performance.</li>
+</ul></li>
+<li>Cons:
+<ul class="org-ul">
+<li>Slower INSERT, DELETE, UPDATE operations, as reordering may be required</li>
+<li>Can't have multiple clustered indexes in a table</li>
+</ul></li>
+</ul></li>
+<li>Non-Clustered Index:
+<ul class="org-ul">
+<li>It doesn't change the physical order of data storage. Instead, it creates a separate structure that maintains pointers to the actual data location.</li>
+<li>Key Characteristics:
+<ul class="org-ul">
+<li>A table can have multiple non-clustered indexes.</li>
+<li>Useful for fast searching on columns that are frequently queried but not necessary stored.</li>
+<li>The actual table data is stored separately from the index.</li>
+<li>Stores index separately from the data, improving lookup speed</li>
+</ul></li>
+<li>Pros:
+<ul class="org-ul">
+<li>Faster lookup for specific values(e.g., exact name searches)</li>
+<li>Can have multiple non-clustered indexes per table</li>
+<li>Improves performance for <b>search-heavy tables</b></li>
+</ul></li>
+<li>Cons:
+<ul class="org-ul">
+<li>Slower than clustered index for <b>rang queries</b> (e.g., between two values)</li>
+<li>Require extra storage to maintain separate index structures.</li>
+</ul></li>
+<li>e.g., Indexing <b>Last<sub>Name</sub></b> separately for quick searches.</li>
+</ul></li>
+<li>Unique Index:
+<ul class="org-ul">
+<li>Ensures <b>no duplicate values</b> in a column</li>
+<li>Used for enforcing <b>uniqueness constraints</b></li>
+</ul></li>
+</ol></li>
+
+<li>Why Use Indexes?
+<ul class="org-ul">
+<li>Faster Queries: Reduces search time for large datasets.</li>
+<li>Efficient Sorting: Improves sorting operations on columns.</li>
+<li>Enhances JOIN Performance: Helps link related tables efficiently.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org19f57e0" class="outline-2">
+<h2 id="org19f57e0"><span class="section-number-2">10.</span> Join</h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ertale81</p>
+<p class="date">Created: 2025-06-06 Fri 01:50</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

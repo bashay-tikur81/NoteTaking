@@ -1,0 +1,293 @@
+#+AUTHOR: Ertale81
+#+TITLE: Database Design and Concept by Caleb Curry
+#+STARTDATE: <2025-06-04 Wed>
+
+* Database Intro
+- Entity: An entity is a real-world object or concept that can be identified and stored in the database. Every single rows should be the entity type. An entity type is a collection of similar entities — it's like a blueprint or category for a group of entities that share the same attributes. Think of it like a class in programming.
+- Table: file, or relation
+- Row: record, tuple 
+- Attribute: column, fields
+- Entity type: the table name
+- View: view is a virtual table(behaves like a table) that is based the result of SQL query. It doesn't store the data itself(but it pulls data from the underlying table) but presents data stored in one or more tables in a specific format. You can think of it as a saved SELECT statement. It can be used to simplify complex queries, improve security, or present data in a specific way.
+- Database types based on data model:
+  1) Relational Databases (RDBMS)
+     + Organize data into tables (rows and columns)
+     + Use SQL for querying
+     + Examples: MySQL, PostgreSQL, Oracle, SQL Server
+  2) NoSQL Databases
+     + Non-tabular; used for unstructured or semi-structured data
+     + Categories include:
+       Document-based (e.g., MongoDB, CouchDB)
+       Key-value stores (e.g., Redis, DynamoDB)
+       Column-family (e.g., Apache Cassandra, HBase)
+       Graph-based (e.g., Neo4j, ArangoDB)
+  3) Object-Oriented Databases
+     + Store data as objects, like in object-oriented programming
+       Examples: db4o, ObjectDB
+  4) Hierarchical Databases
+     + Data is organized in a tree-like structure
+       Example: IBM Information Management System (IMS)
+  5) Network Databases
+     + Data is organized in a graph, allowing more complex relationships
+       Example: Integrated Data Store (IDS)
+
+
+
+* SQL
+- General language used for every RDBMS.
+- SQL is used to defines the database then manipulates the data within. SQL is divided into several types, or categories, based on what the commands do. Here are the main types of SQL:
+  1) Data Definition Language(DDL):
+     + Used to define or modify the database structure, such as tables and schema. Common DDL commands:
+       CREATE, ALTER, DROP(deletes a table, view or object), TRUNCATE(removes all rows from the table quickly can't be rolled back)
+  2) Data Definition Language(DDL):
+     + Used to manipulate data inside the tables. Common DML commands: SELECT, INSERT, DELETE, UPDATE
+  3) Data Control Languages(DCL):
+     + Used to control access to database. Common commands: GRANT(gives user access privileges), REVOKE(remove user access privileges)
+  4) Transaction Control Language(TCL):
+     + Used to manage transactions in the database(especially useful with DML operations). Common TCL commands: COMMIT(save all changes made in a transaction), ROLLBACK(undo changes if error occurs), SAVEPOINT(set a point to which you can roll back), SET TRANSACTION(set properties for the transaction)
+
+* Database Designs
+- Database design involves organizing data efficiently and logically. This helps for our database not to have data integrity issues and anomalies. There are several types of database designs based on data organization models and how the design supports application needs. Here are the main types of database design that can be applied to SQL, NoSQL, or other systems.
+- Normalization is the process of creating a best database design.
+  1) Conceptual database design
+     + High level, abstract view of the data
+     + This is unlimited brainstorming stage. We don't think we can't do because we don't have this amount of space or whatever, we just think what data should be stored.
+     + Focuses on *what data* should be stored(what data the system will handle) and the relationship between them
+     + Usually represented by Entity-Relationship Diagram(ERD)
+     + Doesn't deal how the data is stored physically.
+     + Used by business analysts, business architects
+     + e.g: "Customers have orders" -- no tables or columns yet.
+       
+  2) Logical Database Design
+     + Converts the conceptual design into *detailed blueprint* that reflects the structure of the data but is independent of any DBMS.
+     + Define *tables, columns, data types* and *relationships* -- but still not specific to a database engine
+     + Enforces normalization to reduce redundancy.
+     + Used by Database designers, system analysts
+     + e.g: Table "Customers" with fields like CustomerId, Name...
+  3) Physical Database Design
+     + Implements the logical design on a specific database system.
+     + Focuses on indexing, partitions, storage optimization, and performance.
+     + Deals with *how* data is stored: indexing, partitioning, tablespaces, and storage formats.
+     + Used by DBAs, System engineers
+     + e.g: Creating indexes on CustomerId for faster queries.
+
+* Data Integrity
+- It is having correct data in your database. Data integrity in database ensures that the data is accurate, consistent, and reliable throughout its life cycle. When we design our database we don't want repeated values, incorrect values, broken relationship between tables.The three main types of data integrity:
+  1) Entity Integrity: Entity is anything that we store data about. This ensures each table should have a unique and not null primary key. Prevents duplicates or missing records and enforces uniqueness within rows.
+     e.g: A customer must have a unique CustomerId
+  2) Referential Integrity: Maintains consistency between related tables using *foreign  keys*. It ensures that relationships between tables remain valid.
+     e.g: An Orders table has a CustomerId that must exist in the customers table.
+  3) Domain Integrity: Domain is the acceptable values for a column. Ensures all values in a column fall within a defined set of valid values. Controlled by *data types(e.g. Integer, Character, or String), constraints,* and *rules*.
+     e.g: Gender Char(1) CHECK (Gender IN ('M', 'F'))
+  4) User-Defined Integrity(Business rules): Enforces rules specific to the business logic that may not be covered by standard integrity types. They are implemented via *trigger, procedures,* or *application logic*
+     e.g: A discount can't be applied unless the order total is above $100.
+          A customer can't place more than 5 pending orders.
+
+* Relationships
+- Relationship Types in a Relational Database
+1. One-to-Many (1:N)
+   Definition: One record in Table A relates to many records in Table B.
+   Example: One Customer can place many Orders.
+   How to Detect:
+   orders.customer_id is a foreign key referencing customers.id (a primary key).
+   orders.customer_id is not unique (i.e., can appear multiple times).
+2. One-to-One (1:1)
+   Definition: One record in Table A relates to exactly one record in Table B, and vice versa.
+   How to Detect:
+   Foreign key in Table B referencing Table A’s primary key.
+   That foreign key is also UNIQUE in Table B.
+3. Many-to-Many (M:N)
+   Definition: Many records in Table A relate to many records in Table B.
+   Implementation: Through a junction table with two foreign keys.
+   Example:
+   students, courses, and a junction table student_courses(student_id, course_id)
+*N.B* There is no Many-to-One relationship since it can be views One-to-Many from the other side of the relationship.
+
+
+* Keys
+- Keys are special fields (columns) used to identify rows uniquely and manage relationships between tables.
+- A simple key  is a *single column* used as a key(like a primary key or foreign key)
+- A composite key uses two or more columns together to form a key. The combination must be unique, even if the individual columns are not.
+- Superkey is a set of one or more attributes that uniquely identifies each row. It includes candidate keys and other attributes. It may also contain extra attributes not necessary for uniqueness.
+  e.g: If StudentID is unique, then StudentID + Name is a super key too -- but not minimal.
+  superkey is any number of columns that forces every row to be unique. superkey are not usually defined within the database. Superkey is any number of columns that creates unique rows, a candidate key is the least number of columns. The candidate key is the least number of columns needed to force every row to be unique.
+- Primary key is a candidate key that UNIQUE, NEVER CHANGING, and NEVER NULL.
+- Alternate key could be the primary key. Basically it all the candidate key that were not selected as the primary key. You're not required to defined all your candidate keys in your databases. But in some cases you create an index on the alternate key.
+- Surrogate key and Natural key are categories of primary key. We don't have to define these key in our database. These are for database design to know the difference between different keys. Natural key is something you naturally want to store on the table. When you have a "user", naturally you want to store the "username" and "email". As long as they fulfill the requirements of a primary key, you don't have to make up something(no need of column to add). Natural keys are real-world meaning.
+- Surrogate key are columns that are added to a database. In every table will only have either a natural key or a surrogate, but can't have both types as a key.
+- Foreign key:
+  + references a primary key on the same table or an a separate table.
+  + are keys that keeps things connected.
+  + you can have multiple columns having foreign key relations to different tables.(in primary we have only one primary key, this primary can be composite or not)
+  + Primary keys are what sorts every individual tables and foreign keys are what connects tables and you will protect that integrity using foreign key constraint.
+    
+    |---------------+-----------------------------------+------------+----------+------------------------|
+    | Key type      | Purpose                           | Uniqueness | Nullable | Notes                  |
+    |---------------+-----------------------------------+------------+----------+------------------------|
+    | Primary Key   | Main unique Identifier            | Yes        | No       | Only one per table     |
+    |---------------+-----------------------------------+------------+----------+------------------------|
+    | Foreign Key   | links another table's primary key | No         | Often    | can multiple per table |
+    |---------------+-----------------------------------+------------+----------+------------------------|
+    | Candidate Key | all valid unique identifiers      | Yes        | No       | one become the PK      |
+    |---------------+-----------------------------------+------------+----------+------------------------|
+    | Alternate Key | candidate key not used as PK      | Yes        | No       | still unique           |
+    |---------------+-----------------------------------+------------+----------+------------------------|
+    | Composite Key | key made from multiple attribute  | Yes        | No       | common in bridge table |
+    |---------------+-----------------------------------+------------+----------+------------------------|
+    | Surrogate Key | system generated ID               | Yes        | No       | No business meaning    |
+    |---------------+-----------------------------------+------------+----------+------------------------|
+    | Super Key     | any set uniquely identify row     | Yes        | No       | may be non-minimal     |
+    |---------------+-----------------------------------+------------+----------+------------------------|
+
+** Foreign Key constraints
+- These protects the integrity of our database. These are constraints that define what will happen to child table if something happens to the parent table. The most common are: ON UPDATE and ON DELETE options
+
+|---------------+--------------------------------------------------------------------------|
+| *Option*        | *Behavior*                                                                 |
+| ------------- | ------------------------------------------------------------------------ |
+| CASCADE       | Automatically updates/deletes child records if parent is updated/deleted |
+|---------------+--------------------------------------------------------------------------|
+| SET NULL      | Sets the foreign key to NULL if the parent is deleted                    |
+|---------------+--------------------------------------------------------------------------|
+| SET DEFAULT   | Sets the foreign key to its default value if the parent is deleted       |
+|---------------+--------------------------------------------------------------------------|
+| RESTRICT      | Prevents deletion or update if there are matching child records          |
+|---------------+--------------------------------------------------------------------------|
+| NO ACTION     | Same as RESTRICT (depends on DB system)                                  |
+|---------------+--------------------------------------------------------------------------|
+
+
+* Entity-Relationship
+- An Entity-Relationship (ER) Diagram is a graphical representation of entities, attributes, and relationships in a database. It is widely used in database design to visualize how data is structured and interconnected.
+- Detailed Break down:
+  1) Entities:
+     + Entities are objects or concepts that exist independently in a database.
+     + Types of entities:
+       - Strong entities: exist independently(e.g. "Customer", "Product")
+       - Weak entities: depend on another entity(e.g. "Order item" relies on "Order")
+     + Entities are shown as rectangles in an ER diagram.
+  2) Attributes:
+     + They define properties of entities
+     + Types of attributes:
+       - Simple attributes: can not broken down further(e.g., "Customer Name")
+       - Composite attributes: can be divided into sub-parts(e.g., "Full Name" \to "First Name" + "Last Name")
+       - Derived attributes: computed from other attributes(e.g., "Age" from "Date of Birth")
+       - Multivalued attributes: can have multiple values(e.g., "Phone Numbers")
+     + Attributes are represented as ovals.
+  3) Relationships
+     + Relationships describe associations between two or more entities.
+     + Types of relationships:
+       - One-to-One(1:1): A person has one passport.
+       - One-to-Many(1:M): A customer places multiple orders.
+       - Many-to-Many(M:N): Student enroll in multiple courses.
+     + Relationships are shown as diamonds with lines connecting related entities.
+  4) Keys:
+     + Uniquely identifies entities within a database.
+     + Primary key: A unique identifier, Foreign key: connects one entity to  another, Candidate key: potential primary key options.
+  5) Cardinality and Participation:
+     + Defines constraints on relationships.
+     + Cardinality: specifies the number of instances that can relate
+     + The only two possibilities for cardinality are ONE or MANY(1:1, 1:M, M:N). For example, 1:M means one row can be connected to many rows.
+     + Participation: Determines if an entity's involvement in a relationship is mandatory or optional.
+       - Mandatory participation(Modality = 1)
+       - Optional participation(Modality = 0)
+     + Modality is a subset of participation because modality focuses on individual entity instance, while participation considers the entire entity set. Modality defines whether an entity's involvement in a relationship is *mandatory(1)* or *optional(0). Example: If every student must enroll in at least one course, the "Student" entity has modality 1 in relation to "Course." If a student may or may not enroll, then modality is 0.
+     + Where as Participation specifies whether *all* instances of an entity *must* participate in a relationship or if some can exist without it. It can be *total participation* (every entity must participate in a relationship) or *partial participation* (some entities may not be involved). Example: In a hospital system, every "Patient" must have a "Medical Record" (total participation), but not every "Doctor" must have a "Surgical Case" (partial participation).
+     + Difference between modality and cardinality:
+       - While modality defines the necessity of participation, cardinality describes how many instances of an entity can participate in a relationship.
+- Uses of ER Diagrams
+  + Designing and structuring databases efficiently.
+  + Understanding complex relationships between data.
+  + Communicating database design to stakeholders.
+  + Preventing redundancy and inconsistency in data modeling.
+  
+* Normalization
+- Data normalization is the process of organizing a database to *reduce redundancy* and *improve data integrity (consistency and accuracy).* Think of it as cleaning up your database design so it’s efficient, consistent, and easy to maintain.
+- Why Normalize Data?
+  + Eliminates duplication (reduces unnecessary repetition of data).
+  + Improves consistency (avoids inconsistencies due to repeated data).
+  + Enhances efficiency (reduces storage needs and speeds up queries).
+  + Simplifies maintenance (changes are easier to apply without errors).
+- Normalization in done in different stages, known as *normal forms(NF)*. Each form fixes a specific type of issue.
+  1) First Normal Form(1NF):
+     + No repeating groups or arrays.
+     + Ensures each column has atomic values(no multiple values in one column)
+     + e.g., Instead of storing multiple phone numbers in one column, they should be placed in separate rows. 
+  2) Second Normal Form(2NF):
+     + Must be 1NF
+     + All non-key columns must depend on the *entire primary key* (not just part of it).
+     + Removes *partial dependency*, ensuring non-key attributes depend on *entirely on the primary key*.
+     + e.g., If a table contains "Student_ID" and "Course_ID", attributes like "Course_Name" should be moved to separate table, because "Course_Name" only depends on the "Course_ID" not "Student_ID". So this partial dependency should be removed.
+     + Partial dependency is when a column only depends on part of the primary key. In order to depend only part of the primary key, you have to have a compound or composite key(the primary key  has to be multiple columns).
+  3) Third Normal Form(3NF):
+     + Must be 2NF
+     + No *transitive dependencies* (non-key \to non-key)
+     + Non-key attribute 1 depends on another non-key attribute 2 in which the non-key attribute 2 depends on the primary key.
+     + Eliminates *transitive dependency*, ensuring attributes depend only on the primary key.
+     + e.g., If "Student_ID" determines "Student_Address," and "Student_Address" determines "City_Name", then "City_Name" should be moved to another table.
+       
+  4) Boyce-Codd Normal Form (BCNF)
+     + Ensures more stringent rules than 3NF, where every functional dependency is enforced properly.
+  5) Fourth Normal Form (4NF)
+     + Removes multi-valued dependencies, ensuring records do not have unnecessary duplication of grouped data.
+|-------------+-----------------------------------+-----------------------------------------|
+| Normal Form | Fixes What                        | Common Violation                        |
+| ----------- | --------------------------------- | --------------------------------------- |
+| 1NF         | Repeating columns or arrays       | Multiple values in a single column      |
+|-------------+-----------------------------------+-----------------------------------------|
+| 2NF         | Partial dependency on primary key | Info depends on part of a composite key |
+|-------------+-----------------------------------+-----------------------------------------|
+| 3NF         | Transitive dependency             | Info depends on something not a key     |
+|-------------+-----------------------------------+-----------------------------------------|
+
+In some cases(especially *analytics* or *performance-focused* systems), you might denormalize:
++ Add redundancy for speed
++ Avoid joins in big data queries
+But for most *transactional systems (OLTP)*, normalization  is the best practice.
+
+
+* Indexes
+- In a database, indexes are special data structures that improve the speed of *data retrieval*. They work like a table of contents in a book, helping the system find specific records without scanning the entire table. Index is's a special data structure that improves *query speed*, especially for large tables.
+
+- Types of Indexes in Databases:
+  1) Primary Index:
+     + Automatically created on the primary key of a table.
+     + Ensures unique values and fast lookup
+  2) Clustered Index:
+     + A clustered index determines the *physical order of data storage in a table*. This means the rows are stored in the order of the indexed column, making retrieval faster when searching for sequential data.
+     + Key characteristics:
+       - There can only be one clustered index per table since the data is stored physically in order.
+       - The actual table data and the index are stored together.
+       - Used in queries where sorting or range-based searching is important.
+       - A table can have only one clustered index.
+     + e.g., Sorting data by *Employee_ID*
+     + Pros:
+       - Faster retrieval for range-based queries, ideal for primary keys as it ensures data is sorted physically, reduces I/O operations, improving performance.
+     + Cons:
+       - Slower INSERT, DELETE, UPDATE operations, as reordering may be required
+       - Can't have multiple clustered indexes in a table
+  3) Non-Clustered Index:
+     + It doesn't change the physical order of data storage. Instead, it creates a separate structure that maintains pointers to the actual data location.
+     + Key Characteristics:
+       - A table can have multiple non-clustered indexes.
+       - Useful for fast searching on columns that are frequently queried but not necessary stored.
+       - The actual table data is stored separately from the index.
+       - Stores index separately from the data, improving lookup speed
+     + Pros:
+       - Faster lookup for specific values(e.g., exact name searches)
+       - Can have multiple non-clustered indexes per table
+       - Improves performance for *search-heavy tables*
+     + Cons:
+       - Slower than clustered index for *rang queries* (e.g., between two values)
+       - Require extra storage to maintain separate index structures.
+     + e.g., Indexing *Last_Name* separately for quick searches.
+  4) Unique Index:
+     + Ensures *no duplicate values* in a column
+     + Used for enforcing *uniqueness constraints*
+       
+- Why Use Indexes?
+  + Faster Queries: Reduces search time for large datasets.
+  + Efficient Sorting: Improves sorting operations on columns.
+  + Enhances JOIN Performance: Helps link related tables efficiently.
+* Join
+

@@ -1,0 +1,122 @@
+#+TITLE: IT Project Management
+#+AUTHOR: Ertale81
+#+STARTDATE: <2025-06-11 Wed>
+
+* Introduction
+- IT project management is the process of planning, organizing and managing resources to bring about the successful completion of specific IT project goals and objectives.
+- IT project are often complex, involving software development, hardware deployment, network setup.
+- Project management ensures:
+  + Projects are completed *on time*
+  + Stay within *budget*
+  + Meet *scope and quality* requirements
+  + Satisfy stakeholders' need
+- Failure to manage IT project effectively can lead *delays, cost overruns, poor quality products*, and *project cancellation*.
+- *IT project life cycle*:
+  1) Initiation: define project purpose, objectives, feasibility study, and stakeholder identification.
+  2) Planning: develop detailed plans including scope, schedule, budget, quality, resource, and risk management.
+  3) Execution: perform tasks to complete project deliverables.
+  4) Monitoring & Controlling: Track progress, manage changes, control risks, and ensure quality.
+  5) Closure: finalize all activities, deliver the product, and perform project evaluation.
+- Challenges in IT project:
+  + Changing requirements and scope creep
+  + Technology complexity and rapid changes
+  + Communication gap among stakeholders
+  + Resource constraints(time, budge, skilled personnel)
+  + Risk of technical failure
+  + Managing distributed or virtual teams
+- Software quality:
+  + Refers to how well software meets specified requirements and user expectations.
+  + Key to user satisfaction and system reliability
+- Software quality attributes:
+  + Functionality: software performs all required functions correctly.
+  + Reliability: Software runs without failure under specified conditions.
+  + Usability: Ease of use and user-friendliness
+  + Efficiency: Optimal use of resources like memory and processing time
+  + Maintainability: Ease with which software can be modified or fixed.
+  + Portability: Ability to operate in different environment.
+- Roles of project Managers in ensuring quality:
+  + Define quality standards and metrics
+  + Plan and implement quality assurance(QA) and quality control(QC) activities
+  + Monitor adherence to coding standards, testing procedures, and documentation
+  + Facilitate communication among development teams and stake holders.
+  + Mange change control process to maintain quality scope
+
+* Standards, tools and techniques in IT project Management
+- *PMBOK(Project Management Body of Knowledge)*:
+  + Published by PMI(project management institute)
+  + Defines five process groups(Initiating, Planning, Executing, Monitoring and Controlling, Closing)
+  + Defines *ten* knowledge areas including scope, time, cost, quality, risk, communications, etc.
+  
+** Software Development Methodologies
+- Waterfall model: Linear and sequential phases(requirements \to design \to implementation \to testing \to maintenance)
+- Agile methodology: flexible, incremental delivery with frequent feedback. Agile emphasizes iterative development, customer collaboration, and responding to change.
+- Spiral Model: combines iterative development with *risk analysis*.
+
+** Project Management Techniques
+- Gantt Charts
+  + Visual timelines representing project tasks against time.
+  + Shows task duration and dependencies.
+- PERT Chart
+  + A network diagram showing tasks durations, and dependencies
+  + Helps estimate project completion time using optimistic, pessimistic, and most likely durations.
+- Critical Path Method(CPM)
+  + Identifies the longest path of dependent tasks.
+  + Determines the shortest project duration and critical tasks that can not be delayed.
+
+** Collaboration and Communication tools
+- Tools to support team collaboration, tracking, and communication: Jira, Trello, Slack, Microsoft Teams
+
+* Project Planning and Software Quality Planning
+- Project planning defines the roadmap for achieving project objectives.
+- *Developing an IT Project Plan*:
+  1) Scope Planning
+     + Define project scope clearly(what will and will not be included)
+     + Use *Scope Statement* to set boundaries and deliverables.
+     + Prevent *scope creep(the gradual and unmanaged addition of additional task)* by managing changes carefully.
+  2) Work Breakdown Structure(WBS)
+     + Break down the entire project into smaller, manageable tasks or work packages.
+     + Helps in organizing and assigning responsibilities
+     + WBS typically structured hierarchically
+  3) Schedule Planning
+     + Estimates task durations
+     + Identify task dependencies and sequencing
+     + Create project timelines using tools like Gantt charts or network diagram
+  4) Resource Planning
+     + Identify human, hardware, software, and financial resources.
+     + Allocate resources efficiently to avoid bottlenecks
+  5) Cost Estimation
+     + Techniques include expert judgment, analogy-based, parameteric estimation
+     + Develop budget considering all project costs.
+- *Software Quality Planning*
+  + Quality goals and metrics: define measurable quality objectives aligned with stakeholders need.
+  + Quality Assurance(QA):
+    - Process to ensure the project follows quality standards.
+    - Includes process audit, review, and compliance checks.
+  + Quality Control(QC):
+    - Activities to detect defects in deliverables.
+    - Testing, inspections, and code reviews are common QC practices.
+
+* Risk Management
+- *Risk* is any uncertain event or condition that may affect project objectives.
+- Risk management is the process of identifying, analyzing, and responding to project risks to minimize their impact.
+- Risk Management process:
+  1) Risk Identification: techniques like brainstorming sessions with team, checklists based on past projects, SWOT analysis, expert judgment. Document risks clearly.
+  2) Risk Analysis: Evaluate the likelihood impact of each identified risk.
+     + Qualitative analysis categorizes risks as high, medium, or low based on probability and impact
+     + Quantitative analysis uses numerical methods to estimate risk exposure
+  3) Risk prioritization
+     + Rank risks to focus on the most critical ones.
+     + Prioritization helps allocate resources effectively
+  4) Risk Response Planning: Develop strategies to address risks
+     + Avoidance: Change the project plan to eliminate the risk
+     + Mitigation: Reduce the probability or impact of the risk
+     + Transfer: Shift the risk to a third party(e.g., insurance, outsourcing)
+     + Acceptance: Acknowledge the risk and prepare contingency plans
+  5) Risk Monitoring and Control
+     + Continuously track identified risks
+     + Identify the new risk as the project progress
+     + Implement risk response plans as needed
+     + Update risk management documentation regularly.
+
+* Applying Project Management Concept to Software Development
+- Software development has unique challenges such as frequent changes, technical complexities, and the need for quality assurance.

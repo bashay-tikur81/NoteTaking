@@ -1,0 +1,1451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-06-07 Sat 22:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UML Distilled Brief Guide by Martin Fowler</title>
+<meta name="author" content="Ertale81" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">UML Distilled Brief Guide by Martin Fowler</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga95998b">1. What is UML?</a>
+<ul>
+<li><a href="#org529b6d8">1.1. Ways of using the UML</a></li>
+<li><a href="#org0ba5ea9">1.2. UML Diagrams</a></li>
+</ul>
+</li>
+<li><a href="#org1baa36e">2. Development Process</a>
+<ul>
+<li><a href="#org5d44546">2.1. Iterative and Waterfall process</a></li>
+<li><a href="#org765c480">2.2. Predictive and Adaptive planning</a></li>
+<li><a href="#org1722479">2.3. Agile Processes</a></li>
+<li><a href="#org97eb81c">2.4. Fitting a process into a project</a></li>
+<li><a href="#org4339a9e">2.5. Fitting UML into a process</a>
+<ul>
+<li><a href="#orgaa80715">2.5.1. Requirement Analysis</a></li>
+<li><a href="#org590377d">2.5.2. Design</a></li>
+<li><a href="#org5616312">2.5.3. Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org01a0441">3. Class Diagrams: The Essentials</a>
+<ul>
+<li><a href="#org2eb4b92">3.1. Property</a></li>
+<li><a href="#org0483a44">3.2. Operations</a></li>
+<li><a href="#org0232868">3.3. Notes and Comments</a></li>
+<li><a href="#orgc1f2c08">3.4. Dependency</a></li>
+<li><a href="#orge039b5b">3.5. Constraint Rules</a></li>
+<li><a href="#org0b9828b">3.6. When to use Class diagrams?</a></li>
+</ul>
+</li>
+<li><a href="#org3b28890">4. Sequence Diagrams</a>
+<ul>
+<li><a href="#org493db63">4.1. Creating and deleting Participants</a></li>
+<li><a href="#orgdf7bc11">4.2. Loops, Conditionals, and the Like</a></li>
+<li><a href="#org35defa8">4.3. Synchronous and Asynchronous Calls</a></li>
+<li><a href="#org2035ab5">4.4. When to use Sequence diagrams?</a></li>
+<li><a href="#orga5ed9dd">4.5. CRC Cards (Class-Responsibility-Collaboration Cards)</a></li>
+</ul>
+</li>
+<li><a href="#org0baf369">5. Class diagrams: Advanced concepts</a>
+<ul>
+<li><a href="#org103bebd">5.1. Keywords</a></li>
+<li><a href="#org4b09120">5.2. Static Operations and Attributes</a></li>
+<li><a href="#org754f219">5.3. Aggregation and Composition</a></li>
+<li><a href="#org78bfd4f">5.4. Derived Properties</a></li>
+<li><a href="#orgeff3d62">5.5. Interfaces and Abstract Classes</a></li>
+<li><a href="#orgeeda8ad">5.6. Read-Only and Frozen</a></li>
+<li><a href="#org06a7aff">5.7. Reference Objects and Value Objects</a></li>
+<li><a href="#org17980ef">5.8. Qualified Associations</a></li>
+<li><a href="#org1992fd5">5.9. Classification and Generalization</a></li>
+<li><a href="#org2c34499">5.10. Multiple and Dynamic Classification</a></li>
+<li><a href="#org7029309">5.11. Association class</a></li>
+<li><a href="#orgf277879">5.12. Template(Parameterized) class</a></li>
+<li><a href="#org2495e9f">5.13. Enumerations</a></li>
+<li><a href="#org54bf68a">5.14. Active class</a></li>
+<li><a href="#org614a24a">5.15. visibility</a></li>
+<li><a href="#org6205197">5.16. Messages</a></li>
+</ul>
+</li>
+<li><a href="#org89e2d24">6. Object Diagrams</a>
+<ul>
+<li><a href="#org50b0d75">6.1. When to use Object diagrams?</a></li>
+</ul>
+</li>
+<li><a href="#org8ff78f3">7. Package Diagrams</a>
+<ul>
+<li><a href="#org0f43ae0">7.1. Packages and Dependencies</a></li>
+<li><a href="#org1ab26ac">7.2. When to use Package diagrams?</a></li>
+</ul>
+</li>
+<li><a href="#org4932fb4">8. Deployment Diagram</a></li>
+<li><a href="#org9b01b74">9. Use cases</a>
+<ul>
+<li><a href="#orgeb37073">9.1. Levels of Use Cases</a></li>
+</ul>
+</li>
+<li><a href="#orgd6d218b">10. State Machine Diagram</a>
+<ul>
+<li><a href="#org85903d6">10.1. Internal Activities</a></li>
+<li><a href="#org9a21551">10.2. Superstates</a></li>
+<li><a href="#orgb96126e">10.3. Concurrent state</a></li>
+<li><a href="#org8b4c714">10.4. Implementing State diagrams</a></li>
+<li><a href="#org45baef2">10.5. When to use state diagrams?</a></li>
+</ul>
+</li>
+<li><a href="#org234afc1">11. Activity Diagrams</a>
+<ul>
+<li><a href="#orgb77a90c">11.1. Decomposing actions</a></li>
+<li><a href="#orgd4b464c">11.2. Partition</a></li>
+<li><a href="#orgb573623">11.3. Signals</a></li>
+<li><a href="#org0c244ae">11.4. Tokens</a></li>
+<li><a href="#orge2209a0">11.5. Flows and Edges</a></li>
+<li><a href="#orge4c4707">11.6. Pins and Transformations</a></li>
+<li><a href="#org467c0ef">11.7. Expansion regions</a></li>
+<li><a href="#org25368a1">11.8. Flow Final</a></li>
+<li><a href="#org35bf71e">11.9. Join Specifications</a></li>
+<li><a href="#orge09a493">11.10. When to use Activity diagram?</a></li>
+</ul>
+</li>
+<li><a href="#org737c97f">12. Communication Diagrams</a>
+<ul>
+<li><a href="#org9c9274a">12.1. When to use communication diagrams?</a></li>
+</ul>
+</li>
+<li><a href="#org11a13f9">13. Composite Structures</a>
+<ul>
+<li><a href="#org1c9df82">13.1. When to use composite structures?</a></li>
+</ul>
+</li>
+<li><a href="#orgb9f729b">14. Component Diagrams</a></li>
+<li><a href="#orgbdb6ffb">15. Timing Diagrams</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga95998b" class="outline-2">
+<h2 id="orga95998b"><span class="section-number-2">1.</span> What is UML?</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>The Unified Modeling Language(UML) is a family of graphical notations that helps describing and designing software system, particularly software built using the object oriented(OO) style.</li>
+</ul>
+</div>
+<div id="outline-container-org529b6d8" class="outline-3">
+<h3 id="org529b6d8"><span class="section-number-3">1.1.</span> Ways of using the UML</h3>
+<div class="outline-text-3" id="text-1-1">
+<ol class="org-ol">
+<li><b>UML as sketch:</b>
+<ul class="org-ul">
+<li><b>Forward engineering</b> draws a UML diagram before you wrote a code, while <b>reverse engineering</b> builds a UML diagram from existing code in order to help understand it.</li>
+<li>The essence of sketching is selectivity. With <b>forward</b> sketching, you rough out some issues in code you are about to write. Your aim is to use the sketches to help communicate ideas and alternatives about what you are about to do. You don't talk about all the code you are going to work on, only important issues that you want to run past your colleagues first or sections of the design that you want to visualize before you begin programming.</li>
+<li>With <b>reverse engineering</b>, you use sketches to explain how some parts of the system woks. You don't show every class, simply those that are interesting and worth talking about before you dig into the code.</li>
+<li>The tools used for sketching are lightweight drawing tools, and often people aren't too particular about keeping to every strict rule of the UML.</li>
+<li>In sketching the focus is communication rather than completeness.</li>
+</ul></li>
+<li><b>UML as blueprint:</b>
+<ul class="org-ul">
+<li>UML as blueprint is about completeness.</li>
+<li><b>In forward engineering</b>, the idea is that blueprints are developed by a designer whose )ob is to build a detailed design for a programmer to code up. That design should be sufficiently complete in that all design decisions are laid out, and the programmer should be able to follow it as a pretty straightforward activity that requires little thought. The designer may be the same person as the programmer, but usually the designer is a more senior developer who designs for a team of programmers. The inspiration for this approach is other forms of engineering in which Professional engineers create engineering drawings that are handed over to construction companies to build.</li>
+<li>A common approach is for a designer to develop blueprint-level models as far as interfaces of subsystems but then let developers work out the details of implementing those details.</li>
+<li><b>In reverse engineering</b>, blueprints aim to convey detailed information about the code either in paper documents or as an interactive graphical browser . The blueprints can show every detail about a class in a graphical form that's easier for developers to understand.</li>
+<li>Blueprints require much more sophisticated tools than sketches do in order to handle the details required for the task . Specialized CASE (computer-aided software engineering) tools fall into this category.</li>
+<li>Forward-engineering tools support diagram drawing and back it up with a repository to hold the information. Reverse-engineering tools read source code and interpret from it to the repository and generate diagrams. Tools that can do both forward and reverse engineering like this are referred to as a <b>round-trip</b> tools.</li>
+<li>The line between blueprints and Sketches is somewhat blurry, but the distinction, I think, rests an the fact that sketches are deliberately incomplete, highlighting important information, while blueprints intend to be comprehensive, often with the aim of reducing programming to a simple and fairly mechanical activity. In a sound bite, I'd say that sketches are explorative, while blueprints are definitive.</li>
+<li>As you do more and more in the UML and the programming gets increasingly mechanical, it becomes obvious that the programming should be automated. Indeed, many CASE tools do some form of code generation, which automates building a significant part of a system. Eventually, however, you reach the point at which all the System can be specified in the UML, and you reach UML as programming language.</li>
+</ul></li>
+<li><b>UML as programming language:</b>
+<ul class="org-ul">
+<li>In this environment, developers draw UML diagrams that are compiled directly into executable code, the UML becomes the source code.Obviously, this usage of UML demands particularly sophisticated tooling . (Also, the notions of forward and reverse engineering don't make any sense for this mode, as the UML and source code are the same thing.)</li>
+<li></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org0ba5ea9" class="outline-3">
+<h3 id="org0ba5ea9"><span class="section-number-3">1.2.</span> UML Diagrams</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li><p>
+UML 2 describes 13 official diagram types listed in the following table:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">No</th>
+<th scope="col" class="org-left">Diagram</th>
+<th scope="col" class="org-left">purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Activity</td>
+<td class="org-left">Procedural and parallel behavior</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Class</td>
+<td class="org-left">Class, features, and relationships</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">Communication</td>
+<td class="org-left">Interaction between objects; emphasis on links</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">Component</td>
+<td class="org-left">Structure and connections of components</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">Composite Structure</td>
+<td class="org-left">Runtime decomposition of a class</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">Deployment</td>
+<td class="org-left">Deployment of artifacts to nodes</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">7</td>
+<td class="org-left">Interaction overview</td>
+<td class="org-left">Mix of sequence and activity diagram</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">8</td>
+<td class="org-left">Object</td>
+<td class="org-left">Examples of configuration instances</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">9</td>
+<td class="org-left">Package</td>
+<td class="org-left">Compile-time hierarchic structure</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">Sequence</td>
+<td class="org-left">Interaction between objects; emphasis on sequence</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">11</td>
+<td class="org-left">State machine</td>
+<td class="org-left">How events change an object over its life</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">12</td>
+<td class="org-left">Timing</td>
+<td class="org-left">Interaction between objects; emphasis on timing</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">13</td>
+<td class="org-left">Use case</td>
+<td class="org-left">How users interact with a system</td>
+</tr>
+</tbody>
+</table></li>
+
+<li>Those above diagrams can be categorized into to main diagrams:
+<ol class="org-ol">
+<li><b>Structure Diagram:</b>
+<ul class="org-ul">
+<li>This category includes: class diagram, component diagram, composite structure diagram, deployment diagram, object diagram and package diagram.</li>
+</ul></li>
+<li><b>Behavior diagram:</b>
+<ul class="org-ul">
+<li>This category contains the following diagrams:
+<ul class="org-ul">
+<li>Activity diagram, use case diagram, state machine diagram</li>
+<li>Interaction diagram: this category includes sequence diagram, communication diagram, timing diagram, and interaction overview diagram.</li>
+</ul></li>
+</ul></li>
+</ol></li>
+<li>Where to start with UML? Concentrate first on the basic forms of class diagrams and sequence diagrams. These are the most common and most useful diagram types.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org1baa36e" class="outline-2">
+<h2 id="org1baa36e"><span class="section-number-2">2.</span> Development Process</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org5d44546" class="outline-3">
+<h3 id="org5d44546"><span class="section-number-3">2.1.</span> Iterative and Waterfall process</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>The essential difference between the two is how you break up a project into smaller chunks. For example, if  you have a project that you think will take a  year, few people are comfortable telling the team to go away for a year and come back when done. Some break down is needed so that people can approach the problem and track the progress.</li>
+<li>The <b>waterfall</b> style breaks down a project based on activity. To build a software, you have to do certain activities: requirement analysis, design, coding, and testing. A 1-year project might thus have a 2-month analysis phase, followed by a 4-month design phase, followed by a 3-month coding phase, followed by a 3-month testing phase.</li>
+<li>The <b>iterative</b> style breaks down a project by subset of functionality. You may take a year and break into 3-month iterations. In the first iteration, you would take quarter of the requirements and do the complete software life cycle for that quarter: analysis, design, code and test. At the end of the first iteration, you would have a system that does a quarter of the needed functionality. Then you would do a second iteration, so that at the end of 6 months,  you'd have a system that does half of the functionality.</li>
+<li>The above is a simplified description, but it is the essence of the difference.</li>
+<li>With waterfall development, there is usually some form of formal handoff between each phase, but there are often backflows. During coding, something may come up that causes you to revisit the analysis and design. You certainly should not assume that all design is finished when coding begins. It's inevitable that analysis and design decisions will have to be revisited in later phases. However, these backflows are exceptions and should be minimized as much as possible.</li>
+<li>With iteration, you usually see some form of exploration activity before the true iterations begin. You may well not put the system into production at the end of each iteration, but the system should be production quality.</li>
+<li>Iterative development has come under many names: incremental, spiral, evolutionary, and jacuzzi spring. various people make distinctions among them, but the distinctions are neither widely agreed an nor that important compared to the iterative/waterfall dichotomy.</li>
+<li>You can have hybrid approaches. In a <b>staged delivery,</b> analysis and high-level design are done first, a waterfall style, and then coding and testing are divided up into iterations.</li>
+<li>A common technique with iteration is to use <b>time boxing</b>. This forces an iteration to be a fixed length of time. If it appears that you can't build all you intended to build during an iteration, you must decide to slip some functionality from the iteration; you must not slip the date of the iteration.</li>
+<li>One of the most common concerns about iterative development is the issue of rework. Iterative development explicitly assumes that you will be reworking and deleting existing code during the later iterations of a project. In many domains, such as manufacturing, rework is seen as a waste. But software isn't like manufacturing; as a result, it often is more efficient to rework existing code than to patch around code that was poorly designed. A number of technical practices can greatly help make rework be more efficient.
+<ul class="org-ul">
+<li><b>Automated regression tests</b> help by allowing you to quickly detect any defects that may have been introduced when you are changing things. The xUnit family of testing frameworks is a particularly valuable tool for building automated unit tests. e.g., JUnit test. A good rule of thumb is that the size of your unit test code should be about the same size as your production code.</li>
+<li><b>Refactoring</b> is a disciplined technique for changing existing software. Refactoring works by using a series of small behavior-preserving transformations to the code base. Many of these transformations can be automated.</li>
+<li><b>Continuous integration</b> keeps a team in sync to avoid painful integration cycles. At the heart of this lies a fully automated build process that can be kicked off automatically whenever any member of the team checks code into the code base.</li>
+</ul></li>
+<li>All these technical practices have been popularized recently by Extreme Programming(XP).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org765c480" class="outline-3">
+<h3 id="org765c480"><span class="section-number-3">2.2.</span> Predictive and Adaptive planning</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>Nothing is more frustrating than not having a clear idea how much it will cost to build some software and how long it will take to build it.</li>
+<li>One of the unique sources of complexity in software projects is the difficulty in understanding the requirements for a software system. The majority of software projects experience significant <b>requirements churn:</b> changes in requirements in the later stages of the project. These changes shatter the foundation of a predictive plan. You can combat these changes by freezing the requirements early on and not permitting changes, but this runs the risk of delivering a system that no longer meets the needs of its user.</li>
+<li>This problem leads to two very different reactions:
+<ol class="org-ol">
+<li>Put more effort into the requirements process itself.</li>
+<li>requirement churn is unavoidable, that is too difficult for many projects to stabilize requirements sufficiently to use a predictive plan. This may be either owing to the sheer difficulty of envisioning what software can do or because market conditions force unpredictable changes. This thought advocates <b>adaptive planing</b>, whereby predictivity is seen as an illusion.</li>
+</ol></li>
+<li>Instead of fooling ourselves with illusory predictability, we should face the reality of constant change and use a planning approach that treats change as a constant in a software project. This change is controlled so that the project delivers the best software it can; but although the project is controllable, it is not predictable.</li>
+<li>When people talk about a project that's doing well because it is going according to plan, that is predictive form of thinking. You can't say "according to plan" in adaptive environment, because the plan is always changing. This doesn't mean that adaptive projects don't plan; they usually plan a lot, but the plan is treated as a baseline to assess the consequences of change rather than as a prediction of the future.</li>
+<li>With a predictive plan, you can develop a fixed-price/fixed-scope contract. Such a contract says exactly what should be built, how much it will cost, and when it will be delivered. Such fixing isn't possible with an adaptive plan. You can fix a budget and a time for delivery, but you can't fix what functionality will be delivered. An adaptive contract assumes that the users will collaborate with the development team to regularly reassess what functionality needs to be built and will cancel the project if progress ends up being too slow. As such, an adaptive planning process can be fixed price/variable scope.</li>
+<li>Naturally, the adaptive approach is less desirable, as anyone would prefer greater predictability in a software project. However, predictability depends an a precise, accurate, and stable set of requirements. If you cannot stabilize your requirements, the predictive plan is based an sand and the chances are high that the project goes off course. This leads to two important pieces of advice:
+<ol class="org-ol">
+<li>Don't make a predictive plan until you have precise and accurate requirements and are confident they won't significantly change.</li>
+<li>If you can't get precise, accurate, and stable requirements, use an adaptive planning styles.</li>
+</ol></li>
+<li>An adaptive plan absolutely requires an iterative process. Predictive planning can be done either way, although it easier to see how it works with waterfall or staged delivery approach.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1722479" class="outline-3">
+<h3 id="org1722479"><span class="section-number-3">2.3.</span> Agile Processes</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li><i>Agile</i> is an umbrella term that covers many processes that share a common set of values and principles as defined by the <b>Manifesto of Agile Software Development</b>. Examples of these processes are:
+<ul class="org-ul">
+<li>Extreme Programming(XP)</li>
+<li>Scrum</li>
+<li>Feature Driven Development(FDD)</li>
+<li>Crystal</li>
+<li>Dynamic Systems Development Method(DSDM)</li>
+</ul></li>
+<li>Agile processes are strongly adaptive in their nature. They are also very much people-oriented processes. Agile approaches assume that the most important factor in a project's success is the quality of the people on the project and how well they work together in human terms. which process they use and which tools they use are strictly second-order effects.</li>
+<li>Agile methods tend to use short, time-boxed iterations, most often of a month or less. Because they don't attach much weight to documents, agile approaches disdain using the UML in blueprint mode.</li>
+<li></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org97eb81c" class="outline-3">
+<h3 id="org97eb81c"><span class="section-number-3">2.4.</span> Fitting a process into a project</h3>
+</div>
+<div id="outline-container-org4339a9e" class="outline-3">
+<h3 id="org4339a9e"><span class="section-number-3">2.5.</span> Fitting UML into a process</h3>
+<div class="outline-text-3" id="text-2-5">
+</div>
+<div id="outline-container-orgaa80715" class="outline-4">
+<h4 id="orgaa80715"><span class="section-number-4">2.5.1.</span> Requirement Analysis</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<ul class="org-ul">
+<li>The activity of requirement analysis involves trying to figure out what the users and customers of a software effort want the system to do. A number of UML techniques can come in handy here:
+<ul class="org-ul">
+<li>Use cases, which describes how people interact with system</li>
+<li>A class diagram drawn from the conceptual perspective, which can be a good way of building up a rigorous vocabulary of the domain.</li>
+<li>An activity diagram, which can show the work flow of the organization, showing how software and human activities interact.</li>
+<li>A state diagram, which can be useful if a concept has an interesting life cycle, with various states and events that change that state.</li>
+</ul></li>
+<li>When working in requirements analysis, remember that the most important thing is communication with your users and customers.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org590377d" class="outline-4">
+<h4 id="org590377d"><span class="section-number-4">2.5.2.</span> Design</h4>
+<div class="outline-text-4" id="text-2-5-2">
+<ul class="org-ul">
+<li>When you are doing design, you can get more technical with your diagrams. You can use more notation and be more precise about your notation. Some useful techniques are:
+<ul class="org-ul">
+<li>Class diagrams from a software perspective. These show the classes in the software and how they interrelate.</li>
+<li>Sequence diagrams for common scenarios. A valuable approach is to pick the most important and interesting scenarios from the use cases and use CRC cards or sequence diagrams to figure out what happens in the software.</li>
+<li>Package diagrams to show the large-scale organization of the software.</li>
+<li>State diagrams for classes with complex life histories.</li>
+<li>Deployment diagrams to show the physical layout of the software.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5616312" class="outline-4">
+<h4 id="org5616312"><span class="section-number-4">2.5.3.</span> Documentation</h4>
+<div class="outline-text-4" id="text-2-5-3">
+<ul class="org-ul">
+<li>Once you have built the software,  you can use the UML to help document what you have done.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org01a0441" class="outline-2">
+<h2 id="org01a0441"><span class="section-number-2">3.</span> Class Diagrams: The Essentials</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>The majority of UML diagrams we see are class diagrams.</li>
+<li>A <b>class diagram</b> describes the types of objects in the system and the various kinds of static relationship that exist among them. Class diagrams also show the properties and operations of a class and the constraints that apply to the way objects are connected. The UML uses the term <b>feature</b> as a general term that covers properties and operations of a class.</li>
+</ul>
+</div>
+<div id="outline-container-org2eb4b92" class="outline-3">
+<h3 id="org2eb4b92"><span class="section-number-3">3.1.</span> Property</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>Properties represent structural features of a class. You can think of properties as corresponding to fields in a class. Properties are a single concept, but they appear in two quite distinct notations: <b>attributes</b> and <b>associations</b>.</li>
+<li><b>Attributes</b>: the attribute notation describes a property as a line of text within the class box itself. The full form of an attribute is:
+<i>visibility name: type multiplicity = default {property-string}</i>.</li>
+<li>An example of this is: <b>- name: String [1] = "Untitled" {readOnly}</b>
+Only the name is necessary.
+<ul class="org-ul">
+<li>The visibility marker indicates whether the attribute is public(+) or private(-)</li>
+<li>The <i>name</i> of the attribute &#x2013; how the class refers to the attribute &#x2013; roughly corresponds to the name of the field in programming language.</li>
+<li>The <i>type</i> of the attribute indicates a restriction on what kind of object may be placed in the attribute. You can think of this as the type of a field in programming language.</li>
+<li><i>Multiplicity</i> of a property is an indication of how many objects may fill the property.</li>
+<li>The <i>default value</i> is the value for a newly created object if the attribute isn't specified during creation.</li>
+<li>The {property-string} allows you to indicate additional properties for the attribute. In the example I used {readOnly} to indicate that clients may not modify the property. If this is missing, you can usually assume that the attribute is modifiable.</li>
+</ul></li>
+<li><b>Associations</b>: this is another way to notate a property is an association. Much of the same information that you can show on an attribute appears on an association. An association is a solid line between two classes, directed from directed from the source class to the target class. The name of the property goes at the target end of the association, together with its multiplicity. The target end of the association links to the class that is the type of the property.</li>
+<li><b>Multiplicity</b>: The multiplicity of a property is an indication of how many objects may fill the property. The most common multiplicities you will see are:
+<ul class="org-ul">
+<li><b>1</b> (An order must have exactly one customer)</li>
+<li><b>0..1</b> (A corporate customer may or may not have a single sales rep.)</li>
+<li><b>*</b> (A customer need not place a Order and there is no upper limit to the number of Orders a customer may place&#x2013; zero or more Orders)</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0483a44" class="outline-3">
+<h3 id="org0483a44"><span class="section-number-3">3.2.</span> Operations</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>Operations are the actions that a class knows to carry out. Operations most obviously correspond to the methods on a class. Normally, you don't show those operations that simply manipulate properties, because they can usually be inferred.</li>
+<li>The full UML syntax for operation is:
+<i>visibility name (parameter-list) : return-type {property-string}</i>
+<ul class="org-ul">
+<li>The <i>visibility</i> marker is public(+) and private(-);</li>
+<li>The <i>name</i> is a string</li>
+<li>The <i>parameter-list</i> is the list of parameters for the operations</li>
+<li>The <i>return-type</i> is the type of the returned value, if there is one.</li>
+<li>The <i>property-string</i> indicates property values that apply to the given operation</li>
+</ul></li>
+<li>The parameters in the parameter list are notated in a similar way to attributes. The form is:
+<i>direction name: type = default value</i>
+<ul class="org-ul">
+<li>The <i>name, type,</i> and <i>default value</i> are the same as for attributes.</li>
+<li>The <i>direction</i> indicates whether the parameter is input(<i>in</i>), output(<i>out</i>) or both(<i>inout</i>). If no direction is shown, it's assumed to be <i>in</i>.
+An example operation on account might be:
+<i>+ balanceOn (date: Date) : Money</i></li>
+</ul></li>
+<li>With conceptual models, you shouldn't use operations to specify the interface of a class. Instead use them to indicate the principal responsibility of that class, perhaps a couple of words summarizing a CRC responsibility.</li>
+<li>I often find it useful to distinguish between operations that change the state of the system and those that don't. UML defines a <b>query</b> as an operation that gets a value from a class without changing the system state &#x2013; in other words without side effects. You can mark such an operation with the property string {query}. I refer to operations that do change state as <b>modifiers</b>, also called <b>commands.</b>
+Strictly, the difference between query and modifiers is whether they change the observable state. The observable state is what can be perceived from the outside. An operation that updates a cache would alter the internal state but would have no effect that is observable from the outside.</li>
+<li>A common convention is to try to write operations so that modifiers don't return a value; that way, you can rely on the fact that operations that return a value are queries.</li>
+<li>Another distinction between operation and method. An <b>operation</b> is something that is invoked on an object &#x2013; the procedure declaration &#x2013; where as a <b>method</b> is the body of a procedure. The two are different when  you have polymorphism. If you have a supertype with three subtypes, each of which overrides the supertype's getPrice operation, you have one operation and four methods that implement it.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0232868" class="outline-3">
+<h3 id="org0232868"><span class="section-number-3">3.3.</span> Notes and Comments</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>Notes are comments in the diagram. Notes can be stand on their own, or they can be linked with a dashed line to the elements they are commenting.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc1f2c08" class="outline-3">
+<h3 id="orgc1f2c08"><span class="section-number-3">3.4.</span> Dependency</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>A dependency exists between two elements if changes to the definition of one element(the <b>supplier</b>) may cause changes to the other (the <b>client</b>). With classes, dependency exists for various reasons: One class send message to another; one class has another as part of its data; one class mentions another as a parameter to an operation. If a class changes its interface, any message sent to that class may no longer be valid.</li>
+<li>As computer systems grow, you have to worry more and more about controlling dependencies. If dependencies get out of control, each change to a System has a wide ripple effect as more and more things have to change. The bigger the ripple, the harder it is to change anything.</li>
+<li>The UML allows you to depict dependencies between all sorts of elements. You use dependencies whenever you want to show how changes in one element might alter other elements.</li>
+<li>The basic dependency is not a transitive relationship. An example of <b>transitive</b> relationship is the "larger beard" relationship. If Jim has a larger beard than Grady, and Grady has a larger beard than Ivar, we can deduce that Jim has a larger beard than Ivar. Some kind of dependencies, such as substitute, are transitive, but in most cases there is a significant difference between direct and indirect dependencies.</li>
+<li><p>
+Many UML relationships imply a dependency. Selected dependency keywords:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Keyword</th>
+<th scope="col" class="org-left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><a id="org081efd3"></a></td>
+<td class="org-left">The source calls an operation in the target</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a id="orgc5e7e21"></a></td>
+<td class="org-left">The source creates an instance of the target</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a id="org7703165"></a></td>
+<td class="org-left">The source is derived from the target</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a id="org1500e3c"></a></td>
+<td class="org-left">The source is an instance of the target(Note that if the source is a class)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">the class itself is the instance of the class class; that is the target class</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">is a metaclass).</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a id="org9a437c0"></a></td>
+<td class="org-left">The target allows the source to access the target's private features</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a id="org6cb72d5"></a></td>
+<td class="org-left">The source is an implementation of a specification or interface defined by the</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">the target</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a id="orgb0e8bbc"></a></td>
+<td class="org-left">Refinement indicates a relationship between different semantic levels;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">for example: the source might be a design class and the target the</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">corresponding analysis class</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a id="orgfdf3bfc"></a></td>
+<td class="org-left">The source is substitutable for the target</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a id="orgecc95b9"></a></td>
+<td class="org-left">Used to track such things as requirements to classes or how changes in one</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">model link to change elsewhere</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a id="org7b8ee87"></a></td>
+<td class="org-left">The source requires the target for its implementation.</td>
+</tr>
+</tbody>
+</table></li>
+
+<li>Your general rule should be to minimize dependencies, particularly when they cross large areas of a system. In particular, you should be wary of cycles, as they can lead to a cycle of changes.</li>
+<li>Be selective and Show dependencies only when they are directly relevant to the particular topic that you want to communicate. To understand and control dependencies, you are best off using them with package diagrams.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge039b5b" class="outline-3">
+<h3 id="orge039b5b"><span class="section-number-3">3.5.</span> Constraint Rules</h3>
+<div class="outline-text-3" id="text-3-5">
+<ul class="org-ul">
+<li>Much of what you doing in drawing a class diagram is indicating constraints. The UML allows you to use anything to describe constraints. The only rule is that you put them inside braces ({}). You can use natural language, programming language, or the UML's formal Object Constraint Language(OCL) which is based on predicate calculus.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0b9828b" class="outline-3">
+<h3 id="org0b9828b"><span class="section-number-3">3.6.</span> When to use Class diagrams?</h3>
+<div class="outline-text-3" id="text-3-6">
+<ul class="org-ul">
+<li>Class diagrams are the backbone of UML, so you will find yourself using them all the time.</li>
+<li>The biggest danger with class diagrams is that you can focus exclusively an structure and ignore behavior. Therefore, when drawing class diagrams to understand software, always do them in conjunction with some form of behavioral technique.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org3b28890" class="outline-2">
+<h2 id="org3b28890"><span class="section-number-2">4.</span> Sequence Diagrams</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li><b>Interaction diagrams</b> describe how groups of objects collaborate in some behavior. The UML defines several forms of interaction diagram, of which the  most common is the sequence diagram.</li>
+<li>Typically, a sequence diagram captures the behavior of single scenario. The diagram shows a number of example objects and the messages that are passed between those objects within the use case.</li>
+<li>Each lifeline has an activation bar that shows when the participant is active in the interaction. This corresponds to one of the participant's methods being on the stack. Naming often is useful to correlate participants on the diagram.</li>
+<li>A fuller syntax for participant is <i>name: Class</i>, where both the name and class are optional, but you must keep the colon(:) if you use the class.</li>
+</ul>
+</div>
+<div id="outline-container-org493db63" class="outline-3">
+<h3 id="org493db63"><span class="section-number-3">4.1.</span> Creating and deleting Participants</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>Sequence diagram show some extra notation for creating and deleting participants. To create a participant, you draw the message arrow directly into the participant box. Deletion of a participant is indicated by big X. A message arrow going into the X indicates one participant explicitly deleting another; an X at the end of lineline shows a participant deleting itself.</li>
+<li>In a garbage-collected environment, you don't delete objects directly, but it's still worth using the X to indicate when an object is no longer needed and is ready to be collected. It's also appropriate for close operations, indicating that the object isn't usable any more.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgdf7bc11" class="outline-3">
+<h3 id="orgdf7bc11"><span class="section-number-3">4.2.</span> Loops, Conditionals, and the Like</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>A common issue with sequence diagrams is how to show looping and conditional behavior. The first thing to point out is that this isn't what sequence diagrams are good at. If you want to show control structures like this, you are better off with an activity diagram or indeed with code itself. Treat sequence diagrams as a visualization of how objects interact rather than as a way of modeling control logic.</li>
+<li>Both loops and conditionals use <b>interaction frame</b>, which are a way of marking of a piece of a sequence diagram.</li>
+<li>In general, frames consist of some region of a sequence diagram that is divided into one or more fragments. Each frame has an operator and each fragment may have a guard.</li>
+<li><p>
+Here are list of common operators for interaction frames.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operator</th>
+<th scope="col" class="org-left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><i>alt</i></td>
+<td class="org-left">Alternative multiple fragments; only the one whose condition is true</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">will execute</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><i>opt</i></td>
+<td class="org-left">Optional; the fragment executes only if the supplied condition is true</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Equivalent to <i>alt</i> with only one trace.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><i>par</i></td>
+<td class="org-left">Parallel; each fragment is run in parallel</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><i>loop</i></td>
+<td class="org-left">Loop; the fragment may execute multiple times, and the guard indicates</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">the basis of iteration</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><i>region</i></td>
+<td class="org-left">Critical region; the fragment can have only one thread executing it at once</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><i>neg</i></td>
+<td class="org-left">Negative; the fragment shows an invalid interaction</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><i>ref</i></td>
+<td class="org-left">Reference; reference to an interaction defined on another diagram. The frame is</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">drawn to cover the lifelines involved in the interaction. You can define parameters</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">and return value</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><i>sd</i></td>
+<td class="org-left">Sequence diagram; used to surround an entire sequence diagram, if you wish.</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org35defa8" class="outline-3">
+<h3 id="org35defa8"><span class="section-number-3">4.3.</span> Synchronous and Asynchronous Calls</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>In UML 2, <b>filled arrowheads</b> show a synchronous message, while <b>stick arrowheads</b> show an asynchronous message.</li>
+<li>If a caller sends a <b>synchronous message</b>, it must wait until the message is done, such as invoking a subroutine. If a caller sends an <b>asynchronous message</b>, it can continue processing and doesn't have to wait for a response. You see asynchronous calls in multithreaded applications and in message-oriented middle-ware. Asynchrony gives better responsiveness and reduces the temporal coupling but is harder to debug.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2035ab5" class="outline-3">
+<h3 id="org2035ab5"><span class="section-number-3">4.4.</span> When to use Sequence diagrams?</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>You should use sequence diagrams when you want to look at the behavior of several objects within a single use case. Sequence diagrams are good at showing collaborations among the objects; they are not so good at precise definition of the behavior.</li>
+<li>If you want to look at the behavior of a single object across many use cases, use a <b>state diagram</b>. If you want to look at behavior across many use cases or many threads, consider an <b>activity diagram.</b></li>
+<li>Other useful forms of interaction diagrams are communication diagrams, for show connection; and timing diagrams, for showing timing constraints.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga5ed9dd" class="outline-3">
+<h3 id="orga5ed9dd"><span class="section-number-3">4.5.</span> CRC Cards (Class-Responsibility-Collaboration Cards)</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>A <b>responsibility</b> is a short sentence that summarizes something that an object should do: an action the object performs, some knowledge the object maintains, or some important decisions the object makes. The idea is that you should be able to take any class and summarize it with a handful of responsibilities. Doing that can help you think more clearly about the design of your classes.</li>
+<li>The second <b>C</b> refer to <b>collaborators</b>: the other classes that this class needs to work with. This gives you some idea of the links between classes &#x2013; still at a high level.</li>
+<li>One of the chief benefits of CRC cards is that thev encourage animated, discussion among the developers.</li>
+<li>A comnion mistake 1 see people make is generating long lists of low-level responsibilities. But doing so misses the point. The responsibilities should easily fit an one card.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org0baf369" class="outline-2">
+<h2 id="org0baf369"><span class="section-number-2">5.</span> Class diagrams: Advanced concepts</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org103bebd" class="outline-3">
+<h3 id="org103bebd"><span class="section-number-3">5.1.</span> Keywords</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li>One of the challenges of graphical language is that you have to remember what the symbols mean. With too many, users find it very difficult to remember what all the symbols mean. So the UML often tries to reduce the number of symbols and use keywords instead. If you find that you need a modeling construct that isn't in the UML but is similar to something that is, use the Symbol of the existing UML construct but mark it with a keyword to show that you have something different. An example of this is the <b>interface</b>. A UML interface is a class that has only public operations, with no method bodies. Because it's a special kind of class, it's show using a class icon with the keyword <i>«interface»</i></li>
+<li>Some keywords, such as <i>{abstract}</i>, show up in curly brackets . It's never really clear what should technically be in guillemets and what should be in curlies.</li>
+<li>Some keywords are so common that they often get abbreviated : <i>«interface»</i> often gets abbreviated to
+<i>«I»</i> and <i>{abstract}</i> to <i>{A}</i></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4b09120" class="outline-3">
+<h3 id="org4b09120"><span class="section-number-3">5.2.</span> Static Operations and Attributes</h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li>The UML refers to an operation or an attribute that applies to a class rather than to an instance <b>static</b>. This is equivalent to static members in C-based languages. Static features are <span class="underline">underlined</span> on a class diagram.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org754f219" class="outline-3">
+<h3 id="org754f219"><span class="section-number-3">5.3.</span> Aggregation and Composition</h3>
+<div class="outline-text-3" id="text-5-3">
+<ul class="org-ul">
+<li>One of the most frequent sources of confusion in the UML is aggregation and composition. <b>Aggregation</b> is the part-of relationship. It's like saying that a car has an engine and wheels as its parts. But the difficult thing is considering what the difference is between aggregation and association.</li>
+<li>The "no sharing" rule is key to composition. Composition is a good way of showing properties that own by value, properties to value objects, or properties that have a strong and somewhat exclusive ownership of particular other components.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org78bfd4f" class="outline-3">
+<h3 id="org78bfd4f"><span class="section-number-3">5.4.</span> Derived Properties</h3>
+<div class="outline-text-3" id="text-5-4">
+<ul class="org-ul">
+<li><b>Derived properties</b> can be calculated based on other values. When we think about a date range, we can think of three properties: the start date, the end date, and the number of days in the period. These values are linked, so we can think of the length(end date - start date) as being derived from the other two values.</li>
+<li>Derivation in software perspectives can be interpreted in a couple of different ways. You can use derivation to indicate the difference between a calculated value and a stored value.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgeff3d62" class="outline-3">
+<h3 id="orgeff3d62"><span class="section-number-3">5.5.</span> Interfaces and Abstract Classes</h3>
+<div class="outline-text-3" id="text-5-5">
+<ul class="org-ul">
+<li>An <b>abstract class</b> is a class that cannot be directly instantiated. Instead, you instantiate an instance of a subclass. Typically, an abstract class has one or more operations that are <b>abstract</b>. An abstract operation has no implementation; it is pure declaration so that clients can bind to the abstract class.</li>
+<li>The most common way to indicate an abstract class or operation in UML is to <i>italicize</i> the name. You can also make properties abstract, indicating an abstract property or accessor methods. Italics are tricky to do an a white-boards, so you can use the label: {abstract}.</li>
+<li>An interface is a class that has no implementation; that is, all its features are abstract. You mark an interface with the keyword «interface».</li>
+<li>Classes have two kinds of relationships with interfaces: <b>providing</b> and <b>requiring</b>.</li>
+<li>A class <b>provides</b> an interface if it is substitutable for the interface. In Java and .NET, a class can do that by implementing the interface or implementing a subtype of the interface.</li>
+<li>A class requires an interface if it needs an instance of that interface in order to work. Essentially, this is having a dependency an the interface.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgeeda8ad" class="outline-3">
+<h3 id="orgeeda8ad"><span class="section-number-3">5.6.</span> Read-Only and Frozen</h3>
+<div class="outline-text-3" id="text-5-6">
+<ul class="org-ul">
+<li>The {readOnly} keywords mark a property that can only be read by clients and that can't be updated. Similar yet different is the {frozen} keyword from UML 1. A property is <b>frozen</b> if it can't change during the life time of an object; such properties are often called <b>immutable</b>. Although it was dropped from UML 2, {frozen} is a very useful concept, so continue to use it. As well as marking individual properties as frozen, you can apply the keyword to a class to indicate that all properties of all instances are frozen.</li>
+<li>If you need to represent immutability or a similar concept in latest UML diagrams,
+you might need to use custom stereotypes or notes to convey that information.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org06a7aff" class="outline-3">
+<h3 id="org06a7aff"><span class="section-number-3">5.7.</span> Reference Objects and Value Objects</h3>
+<div class="outline-text-3" id="text-5-7">
+<ul class="org-ul">
+<li>One of the common things said about objects is that they have identity. This is true, but it is not quite as simple as that. In practice, you find that identity is important for reference objects but not so important for value objects.</li>
+<li><b>Reference objects</b> are such things as Customer. Here, identity is very important because you usually want only one software object to designate a customer in the real world. Any object that references a Customer object will do so through a reference, or a pointer; all objects that reference this Customer will reference the same software object. That way, changes to a Customer available to all users of the Customer. If you have two references to a Customer and with to see whether they are the same, you usually compare their identities.</li>
+<li><b>Value Objects</b> are such things as Date. You often have multiple value objects representing the same object in the real world. For example, it is normal to have hundreds of objects that designate 1-Jan-04. These are all interchangeable copies. New dates are created and destroyed frequently.</li>
+<li>If you have two dates and wish to see whether they are the same, you don't look at their identities but rather at the values they represent. This usually means that you have to write an equality test Operator, which for dates would make a test an year, month, and day-or whatever the internal representation is. Each object that references 1-Jan-04 usually has its own dedicated object, but you can also share dates.</li>
+<li>Value objects should be immutable; in other words, you should not be able to take a date object of 1-Jan-04 and change the same date object to be 2-Jan-04. Instead, you should create a new 2-Jan-04 object and use that instead. The reason is that if the date were shared, you would update another object's date in an unpredictable way, a problem referred to as <b>aliasing.</b></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org17980ef" class="outline-3">
+<h3 id="org17980ef"><span class="section-number-3">5.8.</span> Qualified Associations</h3>
+<div class="outline-text-3" id="text-5-8">
+<ul class="org-ul">
+<li>A <b>qualified association</b> is the UML equivalent of a programming concept variously know as associative arrays, maps, hashes, and dictionaries.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1992fd5" class="outline-3">
+<h3 id="org1992fd5"><span class="section-number-3">5.9.</span> Classification and Generalization</h3>
+<div class="outline-text-3" id="text-5-9">
+<ul class="org-ul">
+<li>Many people consider subtyping as <i>is a</i> relationship. But be aware the phrase <i>is a</i> can have different meanings.</li>
+<li>Generalization is transitive; classification is not. I can combine a classification followed by a generalization but not vice versa.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2c34499" class="outline-3">
+<h3 id="org2c34499"><span class="section-number-3">5.10.</span> Multiple and Dynamic Classification</h3>
+<div class="outline-text-3" id="text-5-10">
+<ul class="org-ul">
+<li><b>Classification</b> refers to the relationship between an object and its type. Mainstream programming languages assume that an object belongs to a single class. But there are more options to classification than that.</li>
+<li>In <b>single classification</b>, an object belongs to a single type, which may inherit from supertypes. In <b>multiple classification</b>, an object may be described by several types that are not necessarily connected by inheritance.</li>
+<li>Multiple classification is different from multiple inheritance. Multiple inheritance says that a type may have many supertypes but that a single type must be defined for each object. Multiple classification allows multiple types for an object without defining a specific type for the purpose.
+For example, consider a person subtyped as either man or woman, doctor or nurse, patient or not. Multiple classification allows an object to have any of these types assigned to it in any allowable condition, without the need for types to be defined for all the legal combinations.</li>
+<li>If you use multiple classification, you need to be sure that you make it dear which combinations are legal. UML 2 does this by placing each generalization relationship into a generalization Set. On the class diagram, you Label the generalization arrowhead with the name of the generalization Set, which in UML 1 was called the discriminator. Single classification corresponds to a single generalization set with no name.</li>
+<li>Generalization sets are by default disjoint: Any instance of the supertype may be an instance of only one of the sub types within that set.</li>
+<li>To illustrate, note the following legal combinations of subtypes in the diagram: (Female, Patient, Nurse); (Male, Physiotherapist); (Female, Patient); and (Female, Doctor, Surgeon). The combination (Patient, Doctor, Nurse) is illegal because it contains two types from the role generalization set.</li>
+<li>Another question is whether an object may change its class. <b>Dynamic classification</b> allows objects to change class within the sub typing structure; <b>static classification</b> does not. With static classification, a separation is made between types and states; dynamic classification combines these notions.</li>
+<li>Should you use multiple, dynamic classification? In the vast majority of UML diagrams, you will see only single static classification, so that should be your default.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7029309" class="outline-3">
+<h3 id="org7029309"><span class="section-number-3">5.11.</span> Association class</h3>
+<div class="outline-text-3" id="text-5-11">
+<ul class="org-ul">
+<li>Association classes allow you to add attributes, operations, and other features to associations.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf277879" class="outline-3">
+<h3 id="orgf277879"><span class="section-number-3">5.12.</span> Template(Parameterized) class</h3>
+<div class="outline-text-3" id="text-5-12">
+<ul class="org-ul">
+<li>his concept is most obviously useful for working with collections in a strongly typed language. This way, you can define behavior for sets in general by defining a template class Set.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2495e9f" class="outline-3">
+<h3 id="org2495e9f"><span class="section-number-3">5.13.</span> Enumerations</h3>
+<div class="outline-text-3" id="text-5-13">
+<ul class="org-ul">
+<li>Enumerations are used to show a fixed set of values that don't have any properties other than their symbolic values. They are shown as the class with the «enumeration» keyword.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org54bf68a" class="outline-3">
+<h3 id="org54bf68a"><span class="section-number-3">5.14.</span> Active class</h3>
+<div class="outline-text-3" id="text-5-14">
+<ul class="org-ul">
+<li>An active class has instances, each of which executes and controls its own thread of control . Method invocations may execute in a client's thread or in the active object's thread. A good example of this is a command processor that accepts command objects from the outside and then executes the commands within its own thread of control.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org614a24a" class="outline-3">
+<h3 id="org614a24a"><span class="section-number-3">5.15.</span> visibility</h3>
+<div class="outline-text-3" id="text-5-15">
+<ul class="org-ul">
+<li>Any class has public and private elements. Public elements can be used by any other class; private elements can be used only by the owning class. UML provides four(4) abbreviations for visibility: + (public), - (private), ~(package), and # (protected).</li>
+<li>When you are using visibility, use the rules of the language in which you are working. When you are looking at a UML model from elsewhere, be wary of the meanings of the visibility markers, and be aware of how Chose meanings can change from language to language.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org6205197" class="outline-3">
+<h3 id="org6205197"><span class="section-number-3">5.16.</span> Messages</h3>
+<div class="outline-text-3" id="text-5-16">
+<ul class="org-ul">
+<li>Standard UML does not Show any Information about message calls an class diagrams. However, I've sometimes seen conventional diagrams like, arrows to the side of association. The arrows are labeled with the message that one object sends to another.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org89e2d24" class="outline-2">
+<h2 id="org89e2d24"><span class="section-number-2">6.</span> Object Diagrams</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>An object diagram is a snapshot of the objects in the system at a point in time. Because it shows instances rather than classes, an object diagram is often called an <b>instance diagram</b>.</li>
+<li>You can use an object diagram to show an example configuration of objects.</li>
+<li>Each name takes <i>instance name: class name</i>. Both parts of the name are optional, so, John, :Person, and aPerson are legal names. If you use only the class name, you must include the colon(:).</li>
+<li>Strictly, the elements of an object diagram are instance specifications rather than true instances. The reason is that it's legal to leave mandatory attributes empty or to Show instance specifications of abstract classes. You can think of an instance specification as a partly defined instance.</li>
+</ul>
+</div>
+<div id="outline-container-org50b0d75" class="outline-3">
+<h3 id="org50b0d75"><span class="section-number-3">6.1.</span> When to use Object diagrams?</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>Object diagrams are useful for showing examples of objects connected together. In many situations, you can define a structure precisely with a class diagram, but the structure is still difficult to understand. In these situations, a couple of object diagram examples can make all the difference.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org8ff78f3" class="outline-2">
+<h2 id="org8ff78f3"><span class="section-number-2">7.</span> Package Diagrams</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>Classes represent the basic form of structuring an object-oriented System. Although they are wonderfully useful, you need something more to structure large Systems, which may have hundreds of classes.</li>
+<li>A <b>package</b> is a grouping construct that allows you to take any construct in the UML and group its elements together into higher-level units. Its  most common use is to group classes.</li>
+<li>In a UML model, each class is a member of a single package. Packages can also be members of other packages. A package can contain both subpackages and classes.</li>
+<li>Each package represents a <b>namespace</b>, which means that every class must have a unique name within its owning package.</li>
+<li>In diagrams, packages are shown with a tabbed folder. You can simply show the package name or show the contents too. At any point, you can use fully qualified names or simply regular names.</li>
+<li>The UML allows classes in a package to be public or private. A public class is part of the interface of the package and can be used by classes in other packages; a private class is hidden.</li>
+<li>A useful technique here is to reduce the interface of the package by exporting only a small subset of the operations associated with the package's public classes. You can do this by giving all classes private visibility, so that they can be seen only by other classes in the same package, and by adding extra public classes for the public behavior. These extra classes, called <i>facades</i>, then delegate public operations to their shyler companions in the package.</li>
+<li>How do you choose which classes to put in which packages? Two useful principles for this are the Common Closure Principle and Common Reuse principle. The Common closure principle says that the classes in the package should need changing for similar reasons. The Common Reuse Principle says that classes in a package should all be reused together. Many of the reasons for grouping classes in a packages have to do with the dependencies between the packages.</li>
+</ul>
+</div>
+<div id="outline-container-org0f43ae0" class="outline-3">
+<h3 id="org0f43ae0"><span class="section-number-3">7.1.</span> Packages and Dependencies</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li>A <b>package</b> diagrams shows packages and their dependencies. A good package structure has a clear flow to the dependencies, a concept that is difficult to define but often easier to recognize.</li>
+<li>Many authors say that there there should be no cycles in the dependencies(the Acyclic Dependency Principle).</li>
+<li>The more dependencies coming into a package, the more stable the package's interface needs to be, as any change in its interface will ripple into all the packages that are dependent on it (the Stable Dependencies Principle).</li>
+<li>Often, you'll find that the more stable packages tend to have a higher proportion of Interfaces and abstract classes (the Stable Abstractions Principle).</li>
+<li>The dependency relationships are not transitive.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1ab26ac" class="outline-3">
+<h3 id="org1ab26ac"><span class="section-number-3">7.2.</span> When to use Package diagrams?</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>They are useful in large-scale systems to get a picture of the dependencies between major elements of the system.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org4932fb4" class="outline-2">
+<h2 id="org4932fb4"><span class="section-number-2">8.</span> Deployment Diagram</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>Deployment diagrams show a system's physical layout, revealing which pieces of software runs on what piece of hardware. The main items on the diagram are nodes connected communication paths. A <b>node</b> is something that can host software. Nodes come in two forms: A <b>device</b> is hardware, it may be a computer or a simpler piece of hardware connected to a system. An <b>execution environment</b> is software that itself hosts or contains other software, examples are an operating system or a container process.</li>
+<li>The nodes contains <b>artifacts</b>, which are the physical manifestations of software: usually, files. These files might be executables (such as .exe files, binary files, DLLs, JAR files, assemblies, or scripts), or data files, configuration files, HTML documents, and so on. Listing an artifact within a node shows that the artifact is deployed to that node in the running system.</li>
+<li>You can show artifacts either as class boxes or by listing the name within a node.</li>
+<li>Artifacts are often the implementation of a component. To show this, you can use a tagged value in the artifact box.</li>
+<li>Communication paths between nodes indicate how things communicate. You can label these paths with information about the communication protocols that are used.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9b01b74" class="outline-2">
+<h2 id="org9b01b74"><span class="section-number-2">9.</span> Use cases</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>Use cases are a technique for capturing the functional requirements of a system. Use cases work by describing the typical interactions between the users a system and the system itself, providing a narrative of how the system is used.</li>
+<li>A <b>scenario</b> is a sequence of steps describing an interaction between an user and a system. So, if we a Web-based online store, we might have a Buy a Product scenario.</li>
+<li>A use case is a set of scenarios tied together by a common user goal. In use-case speak, the users are referred to as actors. An <b>actor</b> is a role that a user plays with respect to the system. Actors might include customer, customer service rep, sales manager, and product analyst. Actors carry out use cases.
+A single actor may perform many use cases; conversely, a use case may have several actors performing it. Usually, you have many customers, so many people can be the customer actor. Also, one person may act as more than one actor. An actor doesn't have to be human. If the system performs a service for another computer system, that other system is an actor.</li>
+<li>Each use case has a primary actor, which calls on the system to deliver a service. The primary actor is the actor with the goal the use case is trying to satisfy and is usually, but not always, the initiator of the use case. There may be other actors as well with which the system communicates while carrying out the use case. These are known as secondary actors.</li>
+<li>Each step in a use case is an element of the interaction between an actor and the system. Each step should be a simple Statement and should clearly show who is carrying out the step. The step should show the intent of the actor, not the mechanics of what the actor does. Consequently, you don't describe the user interface in the use case. Indeed, writing the use case usually precedes designing the user interface.</li>
+<li>An extension within the use case names a condition that results in different interactions from those described in the main success scenario (MSS) and states what chose differences are.</li>
+<li>The use case structure is a great way to brainstorm alternatives to the main success scenario. For each step, ask, how could this go differently? and in particular, what could go wrong? It's usually best to brainstorm all the extension conditions first, before you get bogged down working out the consequences.</li>
+<li>A complicated step in a use case can be another use case. In UML terms we say that the first use case <b>includes</b> the second. There's no standard way to show an included use case in the text, but I find that underlining, which suggests a hyperlink, works very nicely and in many tools really will be a hyperlink.</li>
+<li>Included use cases can be useful for a complex step that would clutter the main scenario or for steps that are repeated in several use cases. However, don't try to break down use cases into sub-use cases and subsub-use cases using functional decomposition. Such a decomposition is a good way to waste a lot of time.</li>
+<li>As well as the steps in the scenarios, you can add some other common information to a use case:
+<ul class="org-ul">
+<li>A <b>pre-condition</b> describes what the system should ensure is true before the system allows the use case to begin.</li>
+<li>A <b>guarantee</b> describes what the system will ensure at the end of the use case. Success guarantees hold after a successful scenario; minimal guarantee hold after any scenario.</li>
+<li>A <b>trigger</b> specifies the event that gets the use case started.</li>
+</ul></li>
+<li>Although the diagram is sometimes useful, it isn't mandatory. In your use case work, don't put too much effort into the diagram. Instead, concentrate an the textual content of the use cases.</li>
+<li>The use case diagram shows the actors, the use cases,  and the relationship between them:
+<ul class="org-ul">
+<li>which actor carry out which use cases</li>
+<li>which use cases include other use cases</li>
+</ul></li>
+</ul>
+</div>
+<div id="outline-container-orgeb37073" class="outline-3">
+<h3 id="orgeb37073"><span class="section-number-3">9.1.</span> Levels of Use Cases</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>A common problem with use cases is that by focusing an the interaction between a user and the System, you can neglect situations in which a change to a business process may be the best way to deal with the problem.</li>
+<li>There are often two general terms. <b>System use cases</b> and <b>business use cases</b>. A system use case is an interaction with the <b>software</b>, where as a business use case discuss how a business respond to an event.</li>
+<li>Some people suggests a scheme of levels of use cases. The core use cases are at "sea level." <b>Sea-level</b> use cases typically represent a discrete interaction between a primary actor and the system. Use cases that are there only because they are included by sea-level use cases are <b>fish level</b>. Higher, <b>kite-level</b> use cases show how the sea-level use cases fit into wider business interactions. Kite-level use cases are usually business use cases, where as sea and fish levels are system use cases. You should have most of your use cases at the sea level. It's preferred to indicate the level at the top of the use case.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd6d218b" class="outline-2">
+<h2 id="orgd6d218b"><span class="section-number-2">10.</span> State Machine Diagram</h2>
+<div class="outline-text-2" id="text-10">
+<ul class="org-ul">
+<li>State machine diagrams are techniques to describe the behavior of a system. In object-oriented approaches, you draw a state machine diagram for a single class to show the lifetime behavior of a single object.</li>
+<li>The <b>transition</b> indicates a movement from one state to another. Each transition has a label that comes in three parts: trigger-signature [guard]/activity. All the parts are optional. The <b>trigger-signature</b> is usually a single event that triggers a potential change of state. The <b>guard</b> , if present, is a Boolean condition that must be true for the transition to be taken. The <b>activity</b> is some behavior that's executed during the transition. It may be any behavioral expression.</li>
+<li>A missing activity indicates that you don't do anything during the transition. A missing guard indicates that you always take the transition if the event occurs. A missing trigger-signature is rare but does occur. It indicates that you take the transition immediately, which you see mostly with activity states.</li>
+<li>When an event occurs in a state, you can take only one transition out of it. So if you use multiple transitions with the same event, the <b>guards</b> must be mutually exclusive.</li>
+<li>Remember that state machines can show only what the object directly observes or activates.</li>
+</ul>
+</div>
+<div id="outline-container-org85903d6" class="outline-3">
+<h3 id="org85903d6"><span class="section-number-3">10.1.</span> Internal Activities</h3>
+<div class="outline-text-3" id="text-10-1">
+<ul class="org-ul">
+<li>States can react to events without transition, using <b>internal activities:</b> putting the event, guard, and activity inside the state box itself.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9a21551" class="outline-3">
+<h3 id="org9a21551"><span class="section-number-3">10.2.</span> Superstates</h3>
+<div class="outline-text-3" id="text-10-2">
+<ul class="org-ul">
+<li>Often, you will find several states share common transitions and the internal activities. In these cases, you can make them substates and move the shared behavior into a superstate.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb96126e" class="outline-3">
+<h3 id="orgb96126e"><span class="section-number-3">10.3.</span> Concurrent state</h3>
+<div class="outline-text-3" id="text-10-3">
+<ul class="org-ul">
+<li>States can broken into several orthogonal state diagrams that run concurrently.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8b4c714" class="outline-3">
+<h3 id="org8b4c714"><span class="section-number-3">10.4.</span> Implementing State diagrams</h3>
+<div class="outline-text-3" id="text-10-4">
+<ul class="org-ul">
+<li>A state diagram can be implemented in three main ways: nested switch, the state pattern, and state tables. The most direct approach to handling a state diagram is a nested switch statement.</li>
+<li>The <b>State pattern [Gang of Four]</b> creates a hierarchy of state classes to handle behavior of the states. Each state in the diagram has one state subclass. The controller has methods for each event, which simply forwards to the state class. The top of the hierarchy is an abstract class that implements all the event handling methods to do nothing. For each concrete state, you simply override the specific event methods for which that state has transitions.</li>
+<li>The <b>state table</b> approach captures the state diagram information as data. We then build either an interpreter that uses the state table at runtime or a code generator that generates classes based on the state table.</li>
+<li>These implementations are pretty minimal, but they should give you an idea of how to go about implementing state diagrams. In each case, implementing state models leads to very boilerplate code, so it's usually best to use some form of code generation to do it.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org45baef2" class="outline-3">
+<h3 id="org45baef2"><span class="section-number-3">10.5.</span> When to use state diagrams?</h3>
+<div class="outline-text-3" id="text-10-5">
+<ul class="org-ul">
+<li>State diagrams are good at describing the behavior of an object across several use cases. State diagrams are not very good at describing behavior that involves a number of objects collaborating. As such, it is useful to combine state diagrams with other techniques. You should remember to use the mix of techniques that works for you.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org234afc1" class="outline-2">
+<h2 id="org234afc1"><span class="section-number-2">11.</span> Activity Diagrams</h2>
+<div class="outline-text-2" id="text-11">
+<ul class="org-ul">
+<li>Activity diagrams are a technique to describe procedural logic, business process, and work flow. In many ways, they play a role similar to flowcharts, but the principal difference between them and flowchart notation is that they support parallel behavior.</li>
+<li>The activity diagram allows whoever is doing the process to choose the order in which to do things. In other words, the diagram merely states the essential sequencing rules I have to follow. This is important for business modeling because process often occur in parallel. It's also useful for concurrent algorithm, in which independent threads can do things in parallel.</li>
+<li>When you do have parallelism, you need to synchronize. And you can do this using <b>join</b> before closing the processes.</li>
+<li>The nodes on activity diagrams are called <b>actions</b> not activities. Strictly, an activity refers to a sequence of actions, so the diagram shows an activity that is made up of actions.</li>
+<li>Conditional behavior is delineated by decisions and merges. A <b>decision</b> has a single incoming flow and several guarded outbound flows. Each outbound flow has a guard: a Boolean condition placed inside square brackets. Each time you reach a decision, you can take only one of the outbound flows, so the guards should be mutually exclusive.</li>
+<li>A <b>merge</b> has multiple input flows and a single output. A merge marks the end of conditional behavior started by a decision.</li>
+</ul>
+</div>
+<div id="outline-container-orgb77a90c" class="outline-3">
+<h3 id="orgb77a90c"><span class="section-number-3">11.1.</span> Decomposing actions</h3>
+<div class="outline-text-3" id="text-11-1">
+<ul class="org-ul">
+<li>Actions can be decomposed into sub activities. Actions can be implemented either as subactivities or as methods on classes. You can show a subactivity by using the rake symbol. You can show a call on a method with syntax <b>class-name::method-name</b></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd4b464c" class="outline-3">
+<h3 id="orgd4b464c"><span class="section-number-3">11.2.</span> Partition</h3>
+<div class="outline-text-3" id="text-11-2">
+<ul class="org-ul">
+<li>Activity diagrams tell you what happens, but they do not tell you who does what. In programming, this means that the diagram does not convey which class is responsible for each action. In business process modeling, this does not convey which part of an organization carries out which action. This isn't necessarily a problem; often, it makes sense to concentrate an what gets done rather than an who does what parts of the behavior.</li>
+<li>If you want to show who does what, you can divide an activity diagram into <b>partitions</b>, which shows which actions one class or organization unit carries out.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb573623" class="outline-3">
+<h3 id="orgb573623"><span class="section-number-3">11.3.</span> Signals</h3>
+<div class="outline-text-3" id="text-11-3">
+<ul class="org-ul">
+<li>Actions can respond to signals. A <b>time signal</b> occurs because of the passage of time. Such signals may indicate the end of a month in financial period or each micro second in a real-time controller.</li>
+<li>A <b>signal</b> indicates that the activity receives an event from an outside process. This indicates that the activity constantly listens for those signals, and the diagram defines how the activity reacts.</li>
+<li>As well as accepting signals, we can send them. This useful when we have to send a message and then wait for a reply before we can continue.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0c244ae" class="outline-3">
+<h3 id="org0c244ae"><span class="section-number-3">11.4.</span> Tokens</h3>
+<div class="outline-text-3" id="text-11-4">
+<ul class="org-ul">
+<li>If you're sufficiently brave to venture into the demonic depths of the UML specification, you'll find that the activity section of the specification talks a lot about tokens and their production and consumption. The initial node creates a token, which then passes to the next action, which executes and then passes the token to the next. At a fork, one token comes in, and the fork produces a token on each of its outward flows. Conversely, on a join, as each inbound token arrives, nothing happens until all the tokens appear at the join; then a token is produced on the outward flow.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge2209a0" class="outline-3">
+<h3 id="orge2209a0"><span class="section-number-3">11.5.</span> Flows and Edges</h3>
+<div class="outline-text-3" id="text-11-5">
+<ul class="org-ul">
+<li>UML 2 uses the term <b>flow</b> and <b>edge</b> synonymously to describe the connections between the two actions. The simplest kind of edge is the simple arrow between two actions. You can give a name to an edge if you like, but most of the time, a simple arrow will suffice.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge4c4707" class="outline-3">
+<h3 id="orge4c4707"><span class="section-number-3">11.6.</span> Pins and Transformations</h3>
+<div class="outline-text-3" id="text-11-6">
+<ul class="org-ul">
+<li>Actions can have parameters, just as methods do. You don't need to show information about parameters on activity diagram, but if you wish you can show them with <b>pins</b>. If you're decomposing an action, pins correspond to the parameter boxes on the decomposed diagram.</li>
+<li>When you are drawing an activity diagram strictly, you have to ensure that the output parameters of an outbound action match the input parameter of another. If they don't match, you can indicate a <b>transformation</b> to get from one to another. The transformation must be an expression that's free of side effects: essentially, a query an the output pin quary that supplies an object of the right type for the input pin.</li>
+<li>You don't have to show pins an an activity diagram. Pins are best when you want to look at the data needed and produced by the various actions. In business process modeling, you can use pins to show the resources produced and consumed by actions.</li>
+<li>If you use pins, it's safe to show multiple flows coming into the same action. The pin notation reinforces the implicit join.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org467c0ef" class="outline-3">
+<h3 id="org467c0ef"><span class="section-number-3">11.7.</span> Expansion regions</h3>
+<div class="outline-text-3" id="text-11-7">
+<ul class="org-ul">
+<li>With activity diagrams, you often run into situations in which one action's output triggers multiple invocations of another action. There are several ways to show this, but the best way is to use an expansion region. An <b>expansion region</b> marks an activity diagram area where actions occur once for each item in a collection.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org25368a1" class="outline-3">
+<h3 id="org25368a1"><span class="section-number-3">11.8.</span> Flow Final</h3>
+<div class="outline-text-3" id="text-11-8">
+<ul class="org-ul">
+<li>Once you get multiple tokens, as in an expansion region, you often get flows that stop even when the activity as a whole doesn't end. A <b>flow final</b> indicates the end of one particular flow, without terminating the whole activity. This approach allows expansion regions to act as filters, whereby the output collection is smaller than the input collection.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org35bf71e" class="outline-3">
+<h3 id="org35bf71e"><span class="section-number-3">11.9.</span> Join Specifications</h3>
+<div class="outline-text-3" id="text-11-9">
+<ul class="org-ul">
+<li>By default, a join lets execution pass on its outward flow when all its input flows have arrived at the join.(Or in a more formal speak, it emits a token on its output flow when a token has arrived on each input flow). In some cases, particularly when you have a flow with multiple tokens, it's useful to have a more involved rule.</li>
+<li>A <b>join specification</b> is a Boolean expression attached to a join. Each time a token arrives at the join, the join specification is evaluated and if true, an output token is emitted.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge09a493" class="outline-3">
+<h3 id="orge09a493"><span class="section-number-3">11.10.</span> When to use Activity diagram?</h3>
+<div class="outline-text-3" id="text-11-10">
+<ul class="org-ul">
+<li>The great strength of activity diagrams lies in the fact that they support and encourage parallel behavior. This makes them a great tool for work flow and process modeling.</li>
+<li>The main strength of doing this may come with people using UML as a programming language. In this case, activity diagrams represent an important technique to represent behavioral logic.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org737c97f" class="outline-2">
+<h2 id="org737c97f"><span class="section-number-2">12.</span> Communication Diagrams</h2>
+<div class="outline-text-2" id="text-12">
+<ul class="org-ul">
+<li>Communication diagrams, a kind of interaction diagram, emphasize the data links between the various participants in the interaction. Instead of drawing each participant as a lifeline and showing the sequence of messages by vertical direction as the sequence diagrams does, the communication diagram allows free placement of participants, allows you to draw links to show how the participants connect, and use numbering to show the sequence of messages.</li>
+<li>With communication diagram, we can show how the participants are linked together.</li>
+<li>We can symbolize them using ball-and-socket notation.</li>
+</ul>
+</div>
+<div id="outline-container-org9c9274a" class="outline-3">
+<h3 id="org9c9274a"><span class="section-number-3">12.1.</span> When to use communication diagrams?</h3>
+<div class="outline-text-3" id="text-12-1">
+<ul class="org-ul">
+<li>A more rational approach says that sequence diagrams are better when you want to emphasize the sequence of calls and that communication diagram are better when you want to emphasize the links.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org11a13f9" class="outline-2">
+<h2 id="org11a13f9"><span class="section-number-2">13.</span> Composite Structures</h2>
+<div class="outline-text-2" id="text-13">
+<ul class="org-ul">
+<li>One of the most significant new features in UML 2 is the ability to hierarchically decompose a class into an internal structure. This allows you to take a complex object and break it down into parts.</li>
+</ul>
+</div>
+<div id="outline-container-org1c9df82" class="outline-3">
+<h3 id="org1c9df82"><span class="section-number-3">13.1.</span> When to use composite structures?</h3>
+<div class="outline-text-3" id="text-13-1">
+<ul class="org-ul">
+<li>A good way of thinking about the difference between packages and composite structures is that packages are compile-time grouping, while composite structure show runtime grouping. As such, there are natural fit for showing components and how they are broken into parts; hence, much of this notation is used in component diagrams.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb9f729b" class="outline-2">
+<h2 id="orgb9f729b"><span class="section-number-2">14.</span> Component Diagrams</h2>
+</div>
+<div id="outline-container-orgbdb6ffb" class="outline-2">
+<h2 id="orgbdb6ffb"><span class="section-number-2">15.</span> Timing Diagrams</h2>
+<div class="outline-text-2" id="text-15">
+<ul class="org-ul">
+<li>Timing diagrams are another form of interaction diagrams, where the focus is on timing constraints: either for a single object or, more usefully a bunch of objects. Timing diagrams are useful for showing timing constraints between state changes an different objects.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ertale81</p>
+<p class="date">Created: 2025-06-07 Sat 22:21</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

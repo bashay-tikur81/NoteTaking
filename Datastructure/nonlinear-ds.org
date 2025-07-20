@@ -1,6 +1,6 @@
 #+TITLE: Tree and Graph data structure
 #+AUTHOR: Ertale81
-#+option:toc
+#+OPTION: toc
 #+STARTDATE: <2025-03-08 Sat>
 
 * Tree
@@ -137,4 +137,19 @@ between the number of internal nodes and external nodes in a proper binary tree:
 - We have specifically chosen this collection of operations because each can be implemented in /O(1)/ worst-case time with our linked representation. The most complex of those are /attach/ and /remove/, due to the case analyses involving the various parent-child relationships and boundary conditions, yet there remains only a constant number of operations to perform.(The implementation of both methods could be greatly simplified if we used a tree representation with a sentinel node)
 - 
 *** Array-Based Representation of a Binary Tree
-- 
+- An alternative representation of binary tree /T/ is based on a way of numbering the positions of /T/. For every position /p/ of /T/, let /f(p)/ be the integer defined as follows.
+  + If /p/ is the root of /T/, then /f(p)/ = 0
+  + If /p/ is the left child of position /q/, then /f(p)/ = /2f(q)/ + 1
+  + If /p/ is the right child of position /q/, then /f(p)/ = /2f(q)/ + 2
+- The numbering function /f/ is known as a *level numbering* of the positions in a binary tree /T/, for it numbers of the position on each level of /T/ in increasing order from left to right. Note well that the level ordering is based on /potential/ positions within a tree, not the actual shape of a specific tree, so they are not necessarily consecutive.
+- The level numbering function /f/ suggests a representation of a binary tree /T/ by means of an array based structure A, with the elements at position /p/ of /T/ stored at index of /f(p)/ of the array.
+** Tree Traversal Algorithms
+- A *traversal* of a tree /T/ is a systemic way of accessing, or "visiting," all the positions of /T/. The specific action associated with "visit" of a position /p/ depends on the application of this traversal, and could involve anything from incrementing a counter to performing some complex computation for /p/.
+*** Preorder and Postorder Traversals of General Tree
+- In *preorder traversal* of a tree /T/, the root of /T/ is visited first and then the sub-trees rooted at its children are traversed recursively. If the tree is ordered, then the subtrees are traversed according to the order of the children.
+- *Algorithm*
+  prorder(/p/):
+    perform the "visit" action for position /p/ {this happens before any recursion}
+    *for* each child *c* in children(/p/) *do*
+      preorder(c)           {recursively traverse the subtree rooted at c}
+    

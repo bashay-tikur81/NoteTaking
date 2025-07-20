@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-06-07 Sat 21:54 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PHP Programming Cookbook</title>
+<meta name="author" content="Ertale81" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">PHP Programming Cookbook</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgfc8b9c1">1. Introduction</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfc8b9c1" class="outline-2">
+<h2 id="orgfc8b9c1"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>PHP(PHP Hypertext Preprocessor) is a scripting language that is especially suited for web development and can be embedded to HTML.</li>
+<li>PHP allows to create dynamic content that interacts with databases.</li>
+<li>PHP can collect form data, generate dynamic page content, send or receive cookies.</li>
+<li>There are three main areas where PHP scripts are use:
+<ol class="org-ol">
+<li>Server-side scripting
+<ul class="org-ul">
+<li>The most used and main target of PHP</li>
+</ul></li>
+<li>Command-line scripting
+<ul class="org-ul">
+<li>You can make a PHP script to run it without any server or browser. You only need the PHP parser.</li>
+<li>This type of usage is ideal for scripts regularly executed using cron(Linux) or Task scheduler on windows.</li>
+</ul></li>
+<li>Writing Desktop Applications
+<ul class="org-ul">
+<li>PHP may not the very best language to create a desktop application with a graphical user interface, but if you know PHP very well, and would like to use some advanced PHP features in your client-side applications you can also use PHP-GTK to write such programs. You also have the ability to write cross-platform applications this way.</li>
+</ul></li>
+</ol></li>
+<li><b>Why PHP?</b>
+<ul class="org-ul">
+<li>Compatible with almost all servers used nowadays.</li>
+<li>Will run on most platforms.</li>
+<li>Supports(compatible with) wide range of databases.</li>
+<li>Free and Open source.</li>
+<li>Easy to learn and large community</li>
+</ul></li>
+<li><b>PHP Language Basics</b>
+<ul class="org-ul">
+<li>There are four ways the PHP parser engine can differentiate PHP code in a webpage:
+<ol class="org-ol">
+<li>Canonical PHP tags
+<ul class="org-ul">
+<li>This is the most popular and effective PHP tag style and looks like this:
+&lt;?php&#x2026;?&gt;</li>
+</ul></li>
+<li>Short open tags
+<ul class="org-ul">
+<li>These are the shortest option, but they might need a bit of configuration, and you might either choose the <i>&#x2013;enable-short-tags</i> configuration option when building PHP, or set the <i>short<sub>open</sub><sub>tag</sub></i> setting in your php.ini file.
+&lt;?&#x2026;?&gt;</li>
+</ul></li>
+<li>ASP-like Tags
+<ul class="org-ul">
+<li>In order to use ASP-like tags, you will need to set the configuration option in the php.ini file:
+&lt;%&#x2026;%&gt;</li>
+</ul></li>
+<li>HTML script tags
+<ul class="org-ul">
+<li>You can define a new script with an attribute language like so:
+&lt;script langauge="PHP"&gt;&#x2026;&lt;/script&gt;</li>
+</ul></li>
+</ol></li>
+</ul></li>
+<li><b>Commenting PHP</b>
+<ul class="org-ul">
+<li># or <i>//</i> to write single line comment and <i><i>* *</i></i> to write multi line comment</li>
+</ul></li>
+<li>Three different ways to output:
+<ol class="org-ol">
+<li>print("Hello, World!"); It always returns 1</li>
+<li>echo "Hello, World!"; can take comma delimited list of arguments to output.</li>
+<li>printf("Hello, World!"); is direct analogy of C's <i>printf()</i></li>
+</ol></li>
+<li>Variables
+<ul class="org-ul">
+<li>Any type of variable in PHP starts with a leading dollar sign($) and variables don't need to be declared before assignment.</li>
+<li>The main data types used to construct variables are:
+<ul class="org-ul">
+<li>Integers, Doubles, Booleans, Strings, Arrays, Objects</li>
+<li>Example:
+$intNum = 47;
+$doubleNum = 88.9;
+$boolean = true;
+$string = "Learning PHP";
+$array = array("apple", "Mango", "Orange");
+$object = new person; // assuming there is a class called person</li>
+</ul></li>
+</ul></li>
+<li>Functions
+<ul class="org-ul">
+<li>Basic syntax for creating a function
+&lt;?php
+function functionName($arg1, $arg2&#x2026;){
+<i>/ code
+}
+functionName($arg1, $arg2&#x2026;); /</i> function call
+&gt;</li>
+<li>PHP uses the dot (.) operator to concatenate strings.</li>
+<li>We can tell the function to return a value upon execution. e.g.. return $value;</li>
+</ul></li>
+<li>Database connectivity
+<ul class="org-ul">
+<li>There are four ways you can generally consider when you want to connect to a previously created database.
+<ol class="org-ol">
+<li><p>
+Connecting to MySQL Databases(mysql extension is deprecated and will be removed in the future)
+</p>
+<div class="org-src-container">
+<pre class="src src-php">&lt;?php
+$username = "your_name";
+$password = "your_password";
+$hostname = "localhost";
+// connection to the database
+$dbconnect = mysql_connect($hostname, $username, $password)
+or die("unable to connect to MySQL")
+// select a specific database
+$dbselect = mysql_select_db("dbName", $dbconnect)
+or die("could not select dbName")
+
+?&gt;
+</pre>
+</div></li>
+
+<li><p>
+Connecting to MySQLi database(Procedurial)
+The MySQLi stands for MySQL improved
+</p>
+<div class="org-src-container">
+<pre class="src src-php">&lt;?
+$username = "your_name";
+$password = "your_password";
+$hostname = "localhost";
+// connecting to database
+$dbconnect = mysqli_connect($hostname, $username, $password)
+// another way of checking if the connection was succesfull
+if (!$dbconnect){
+    die("Connection failed: ".mysqli_connect_error());
+}
+// select a specific database
+mysqli_select_db($dbconnect, "dbName");
+?&gt;
+</pre>
+</div></li>
+
+<li><p>
+Connecting to MySQLi databases(Object Oriented)
+Although the functionality is basically the same, this is another way, the object-oriented way of connecting to a database using the MySQLi extension.
+</p>
+<div class="org-src-container">
+<pre class="src src-php">$username = "your_name";
+$password = "your_password";
+$hostname = "localhost";
+// create a connection
+$dbconnect  = new mysqli($hostname, $username, $password);
+// check connection
+if($dbconnect -&gt;connect_error){
+   die("Connection faile: ". $dbConnect-&gt;connect_error);
+}
+// select a specific database
+$mysqli-&gt;select_db("dbName");
+</pre>
+</div></li>
+
+<li><p>
+Connecting to PDO Databases
+PDO stands for PHP Data Objects and is a consistent way to access database, which promises much easier portable code. PDO is more like a data access layer which is unified API rather than an abstraction layer.  The syntax for connecting to a database using PDO is:
+</p>
+<div class="org-src-container">
+<pre class="src src-php">       $username = "your_name";
+       $password = "your_password";
+       $hostname = "localhost";
+       // try to create connection
+       try {
+           $dbConnect = new PDO("mysql:host=$hostname;dbname=myDB", $username, $password);
+           // set the PDO error mode to exception
+           $conn-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+           echo "Connected successfully";
+       }
+       // show an error if the connection was unsuccessful
+       catch(PDOException $e) {
+       echo "Connection failed: " . $e-&gt;getMessage();
+}
+</pre>
+</div>
+<p>
+PDO is widely used today for a bunch of advantages it offers. Among them, we can mention that PDO allows for prepared statements and rollback functionality which makes it really consistent, it throws catchable exceptions which means better error handling and uses blind parameters in statements which increases security
+</p></li>
+</ol></li>
+</ul></li>
+
+<li>PHP form handling
+<ul class="org-ul">
+<li>Both isset() and empty() are built-in PHP functions used to check variables</li>
+<li>isset(): checks if a variable is set(i.e., declared and not null). It returns <i>true</i> if the variable exists and is not <i>null</i> and <i>false</i> if it's not set set or is explicitly set to <i>null</i>.</li>
+<li>empty(): checks if the variable is empty. Returns <i>true</i> if the variable is: <b>"", 0, "0", null, false, array() or if the variable is not set at all</b>. it returns <i>false</i> if the variable contains non-empty value.</li>
+<li>We use $<sub>POST</sub>["name"] to get information the user posted
+e.g., $name = $<sub>POST</sub>["name"];</li>
+</ul></li>
+<li>PHP Include &amp; Require Statements
+<ul class="org-ul">
+<li>Include and require statements are two almost identical statements that help in an important aspect of coding, the organization of code, and making it more readable and flexible. The include/require statement copies all text, code or any other markup from one existing file to the file using the statement.</li>
+<li>The include and require statements are the same, except upon failure of code execution where:
+• require will produce a fatal error (E<sub>COMPILE</sub><sub>ERROR</sub>) and stop the script from executing
+• include will only produce a warning (E<sub>WARNING</sub>) and the script will continue</li>
+<li>The syntax of these two statements is:
+&lt;?php
+include 'file.php'; <i>//</i> in the case of include
+require 'file.php'; // in the case of require
+?&gt;</li>
+</ul></li>
+<li>PHP Classes
+<ul class="org-ul">
+<li><p>
+use 'class' followed by the class name.
+</p>
+<pre class="example">
+&lt;?php
+class Vehicle {
+  var $brand; // just a declared undefined variable
+  var $speed = 80; // a declared and defined variable
+  function setSpeed($speedValue) { // a function to change speed
+    $this-&gt;speed = $speedValue; // this will replace speed with our value
+  }
+  function setBrand($brandName) { // a function to change brand
+    $this-&gt;brand = $brandName; // this will set a brand name
+}
+  function printDetails(){ // a function to print details
+    echo "Vehicle brand is: ".$this-&gt;brand;
+    echo "";
+      echo "Vehicle speed is: ".$this-&gt;speed;
+  }
+}
+$myCar = new Vehicle; // an instance of our Vehicle class (an object)
+$myCar-&gt;setBrand("Audi"); // calling the function setBrand to define a brand
+$myCar-&gt;setSpeed(120); // calling the function setSpeed to change speed
+$myCar-&gt;printDetails(); // calling the printDetails function to see details
+?&gt;
+</pre></li>
+</ul></li>
+
+<li>PHP Constructor Function
+<ul class="org-ul">
+<li><p>
+PHP provides a special function called <i>_<sub>construct</sub>()</i> to define a constructor, which can take as many arguments as we want. constructors are called automatically whenever an object is created.
+</p>
+<div class="org-src-container">
+<pre class="src src-php">&lt;?
+  class Vehicle{
+  $brand;
+  $speed;
+  function __constructor($brandName, $speedValue){
+    this-&gt;brand = $brandName;
+    this-&gt;speed = $speedValue;
+  }
+      function printDetails(){
+        echo "Vehicle brand is: ".$this-&gt;brand;
+        echo "Vehicle speed is: ".$this-&gt;speed;
+      }
+}
+$car1 = new Vehicle("Totyat", 130);
+$car1-&gt;printDetails();
+?&gt;
+</pre>
+</div></li>
+</ul></li>
+
+<li>PHP Session
+<ul class="org-ul">
+<li>A session is a way to store information, which can be accessed across multiple webpages.</li>
+<li>To use session in php we call the <i>session<sub>start</sub>()</i> function before anything else is output to the browser. All session variable values are stored in the global $<sub>SESSION</sub> associative array. Assigning a session variable is as simple as writing $<sub>SESSION</sub>[`num`] = 1 and we can read from it the same way we would read from a normal variable. We use the $<sub>SESSION</sub>[`num`] variable as a counter to store the number of times the script has received a record.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ertale81</p>
+<p class="date">Created: 2025-06-07 Sat 21:54</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
